@@ -39,8 +39,7 @@ export function InsideAuthRouters() {
 
   return (
     <Tab.Navigator
-      lazy={true}
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: false, lazy: true }}
     >
       <Tab.Screen
         name='home'
@@ -51,7 +50,7 @@ export function InsideAuthRouters() {
           ),
         }}
         component={TabComponent} />
-    </Tab.Navigator>
+    </Tab.Navigator >
   );
 }
 
