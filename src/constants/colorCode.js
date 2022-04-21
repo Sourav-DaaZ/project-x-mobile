@@ -1,9 +1,10 @@
 export const defaultColor = {
     blue: {
-        mainColor: '#F1803A',
+        mainColor: '#5447B6',
         backgroundColor: '#ffffff', 
-        textColor: '#212121',
-        btnUnicColor: 'gray',
+        backgroundDeepColor: '#F9F9F9', 
+        textDeep: '#05375a',
+        textLight: '#70757a',
         borderColor: 'rgba(0,0,0,.1)'
     }
 }

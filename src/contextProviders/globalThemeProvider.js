@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { ThemeProvider } from "styled-components";
 import { defaultColor } from '../constants/colorCode';
 
 const theme = {
@@ -19,7 +20,7 @@ const theme = {
 
 
 const GlobalThemeProvider = (props) => {
-  return (<PaperProvider theme={theme}>{props.children}</PaperProvider>)
+  return (<ThemeProvider theme={theme}>{props.children}</ThemeProvider>)
 };
 
 export default GlobalThemeProvider;

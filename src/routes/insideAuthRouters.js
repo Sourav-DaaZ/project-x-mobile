@@ -7,7 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Login from '../views/auth/login'
+import SplashScreen from '../views/auth/splashScreen'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,7 +19,7 @@ export function InsideAuthRouters() {
       <Stack.Navigator >
         <Stack.Screen
           name="login"
-          component={Login}
+          component={SplashScreen}
           options={() => ({
             headerTitle: () => (
               <Text>Login Page</Text>
