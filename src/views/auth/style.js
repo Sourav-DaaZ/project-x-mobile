@@ -47,26 +47,27 @@ export const SplashBannerLogo = styled(Image)`
 `;
 
 export const SplashTitle = styled(Text)`
-    font-size: ${height * .045}px;
+    font-size: ${width * .1}px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: ${height * .03}px;
     color: ${(props)=> props.theme.colors[props.theme.baseColor].textDeep}
 `;
 
 export const SplashDescription = styled(Text)`
-    font-size: ${height * .02}px;
+    font-size: ${width * .05}px;
     font-weight: 600;
     text-align: center;
     margin-bottom: ${height * .1}px;
+    margin-top: ${height * .03}px;
     color: ${(props)=> props.theme.colors[props.theme.baseColor].textLight};
 `;
 
 export const LoginDescription = styled(Text)`
-    font-size: ${height * .02}px;
+    font-size: ${width * .04}px;
     font-weight: 600;
     text-align: center;
-    margin-bottom: ${height * .05}px;
+    margin-bottom: ${height * .06}px;
+    margin-top: ${height * .01}px;
     color: ${(props)=> props.theme.colors[props.theme.baseColor].textLight};
 `;
 
@@ -83,7 +84,6 @@ export const InputView = styled(View)`
     margin-bottom: ${height * .04}px;
     height: ${height * .2}px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     width: 100%;
 `;

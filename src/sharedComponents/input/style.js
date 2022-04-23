@@ -1,51 +1,28 @@
-import { StyleSheet, Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
+import styled from 'styled-components/native';
+import { View, TextInput, Text } from 'react-native';
+const { width, height } = Dimensions.get('screen');
 
-export const styles = StyleSheet.create({
-    title: {
-        color: '#05375a',
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-    text: {
-        color: 'gray',
-        marginTop: 5,
-    },
-    text_header: {
-        color: 'white',
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-    text_footer: {
-        color: '#05375a',
-        fontSize: 18,
-    },
-    button: {
-        alignItems: 'center',
-        marginTop: 30,
-    },
-    action: {
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        backgroundColor: '#FEFEFE',
-        borderBottomColor: '#EFEFEF',
-        paddingBottom: Platform.OS === 'ios' ? 10 : 0,
-    },
-    textInput: {
-        flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -15,
-        paddingLeft: 10,
-        color: '#05375a',
+export const StyledInputView = styled(View)`
+    flex-direction: row;
+    border-bottom-width: 1.5px;
+    background-color: ${(props)=> props.theme.colors[props.theme.baseColor].backgroundColor};
+    border-bottomColor: ${(props)=> props.theme.colors[props.theme.baseColor].borderColor};
+    padding-bottom: ${Platform.OS === 'ios' ? '10px' : 0};
+    margin-bottom: ${height * .03}px
+`;
 
-    },
-    signIn: {
-        width: '100%',
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-    },
-    textSign: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-});
+export const StyledInputElement = styled(TextInput)`
+    flex: 1;
+    margin-top: ${Platform.OS === 'ios' ? 0 : '-15px'};
+    font-size: ${height * .02}px;
+    padding-left: 10px;
+    color: ${(props)=> props.theme.colors[props.theme.baseColor].textDeep};
+`;
+
+export const StyledTitle = styled(Text)`
+    color: ${(props)=> props.theme.colors[props.theme.baseColor].textLight};
+    font-weight: 500;
+    font-size: ${height * .02}px;
+    margin-bottom: 10px
+`;
