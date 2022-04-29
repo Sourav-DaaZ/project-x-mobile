@@ -11,7 +11,8 @@ function Routs(props) {
       <Text>Loading</Text>
       }>
         <NavigationContainer>
-            <OutsideAuthenticationRoutes {...props}/>
+            {/* <OutsideAuthenticationRoutes {...props}/> */}
+            <InsideAuthenticationRoutes {...props}/>
         </NavigationContainer>
     </React.Suspense>
   );

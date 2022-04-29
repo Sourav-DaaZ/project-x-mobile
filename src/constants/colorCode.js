@@ -1,8 +1,9 @@
 export const defaultColor = {
     blue: {
-        mainColor: '#5447B6',
-        backgroundColor: '#ffffff', 
-        backgroundDeepColor: '#F9F9F9', 
+        mainColor: '#191B49',
+        mainByColor: '#F07B3A',
+        backgroundColor: '#ffffff',
+        backgroundDeepColor: '#EFEFEF',
         textDeep: '#05375a',
         textLight: '#70757a',
         borderColor: 'rgba(0,0,0,.1)'

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { StatusBar } from 'react-native';
 import LoginLayout from '../../sharedComponents/layout/loginLayout';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
@@ -16,13 +15,15 @@ import {
   SplashTitle,
   LoginDescription,
   LoginSubmitButton,
-  InputView
+  InputView,
+  StyledInputOtp
 } from './style';
 
 const Login = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
   const formElementsArray = []
+  const [modalShow, setModalShow] = React.useState(false);
   const [data, setData] = React.useState({
     controls: {
       email: {
@@ -66,7 +67,7 @@ const Login = (props) => {
         ],
       },
       otp: {
-        elementType: 'otp',
+        elementType: 'input',
         value: '',
         elementConfig: {
           type: 'otp',
@@ -155,12 +156,11 @@ const Login = (props) => {
   return (
     <LoginLayout {...props}>
       <LoginOuterView>
-        <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
         <SplashTitle>Login!</SplashTitle>
-        <LoginDescription>Best Solution to Connect people.</LoginDescription>
+        <LoginDescription>Please Login with details.</LoginDescription>
         <InputView>
           {formElementsArray?.map((x, index) => (
-            <Input
+            x.id !== 'otp' && <Input
               key={index}
               title={x.config?.elementConfig?.text}
               placeholder={x.config?.elementConfig?.placeholder}
@@ -175,12 +175,35 @@ const Login = (props) => {
             />
           ))}
         </InputView>
-        <LoginSubmitButton mode='contained' onPress={() => console.log('Pressed')}>
+        <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
           Login
         </LoginSubmitButton>
         <LoginDescription>Don't have any account? <LoginDescription style={{ fontWeight: 'bold' }}>Sign-up</LoginDescription></LoginDescription>
       </LoginOuterView>
-      <Modal show={false} />
+      <Modal show={modalShow} onClose={() => setModalShow(false)}>
+        <SplashTitle>Otp!</SplashTitle>
+        <LoginDescription style={{ marginBottom: 20 }}>Please enter otp details.</LoginDescription>
+        <StyledInputOtp>
+          {formElementsArray?.map((x, index) => (
+            x.id === 'otp' && <Input
+              key={index}
+              title={x.config?.elementConfig?.text}
+              placeholder={x.config?.elementConfig?.placeholder}
+              onInputChange={onInputChange}
+              onSubmit={() => Keyboard.dismiss()}
+              value={x.config?.value}
+              autoFocus={true}
+              type={x.config?.elementConfig?.type}
+              isValid={x.config?.valid}
+              validation={x.config?.validation}
+              icons={x.config?.icons}
+              ele={x.config?.elementType}
+            />))}
+        </StyledInputOtp>
+        <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
+          Login
+        </LoginSubmitButton>
+      </Modal>
     </LoginLayout>
   );
 };

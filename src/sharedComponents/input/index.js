@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, TextInput, Text } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { StyledInputElement, StyledInputView, StyledTitle } from './style';
 
@@ -18,6 +17,7 @@ const Input = (props) => {
             <StyledInputElement
               placeholder={props.placeholder}
               style={props.style}
+              autoFocus={props.autoFocus}
               keyboardType={props.keyNum ? "numeric" : null}
               onChangeText={(val) => props.onInputChange(val, props.type)}
               value={props.value}
@@ -42,6 +42,7 @@ const Input = (props) => {
               style={props.inputStyle}
               onChangeText={(val) => props.onInputChange(val, props.type)}
               value={props.value}
+              autoFocus={props.autoFocus}
               onSubmitEditing={() => props.onSubmit()}
               autoCapitalize="none"
               secureTextEntry={dot}

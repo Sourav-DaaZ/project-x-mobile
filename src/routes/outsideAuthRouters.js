@@ -5,7 +5,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import SplashScreen from '../views/auth/splashScreen';
 import Login from '../views/auth/login';
-import Header from '../sharedComponents/header';
 
 const Stack = createNativeStackNavigator();
 
