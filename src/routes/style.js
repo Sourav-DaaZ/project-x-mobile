@@ -33,3 +33,16 @@ export const StyledCercularBorder = styled(View)`
     border-radius: 50px;
     margin-top: -${height * .045}px
 `;
+
+export const StyledCercularByBorder = styled(View)`
+    padding: ${height * .015}px;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+    border-radius: 50px;
+    margin-top: -${height * .06}px
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
+`;
+
+export const StyledOption = styled(View)`
+    padding: ${height * .015}px;
+    margin-top: -${height * .045}px
+`;

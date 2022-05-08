@@ -30,7 +30,7 @@ const App = () => {
     <Provider store={store}>
       <GlobalThemeProvider>
         <PaperProvider>
-          <Routs />
+            <Routs />
         </PaperProvider>
       </GlobalThemeProvider>
     </Provider>

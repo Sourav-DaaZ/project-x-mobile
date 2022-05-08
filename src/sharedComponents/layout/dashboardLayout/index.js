@@ -14,31 +14,32 @@ const DashboardLayout = (props) => {
     return (
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
+            {props.outsideScroll}
             <StyledScrollView
                 showsVerticalScrollIndicator={false}
                 scrollEnabled={props.outerScrollViewScrollEnabled}>
-                <StyledFullImg
+                {props.banner ? <StyledFullImg
                     resizeMode='cover'
                     source={{
                         uri: props.banner,
-                    }} />
+                    }} /> : null}
                 <View>
                     {props.children}
                 </View>
             </StyledScrollView>
-            <FAB
+            {props.fab ? <FAB
                 style={{
                     position: 'absolute',
                     margin: 16,
                     right: 0,
-                    bottom: 0,
+                    bottom: 30,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"
                 label='Post'
                 onPress={() => console.log('Pressed')}
-            />
-        </DashboardOuterView >
+            /> : null}
+        </DashboardOuterView>
     );
 };
 

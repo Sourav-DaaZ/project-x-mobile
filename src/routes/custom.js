@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Colors } from 'react-native-paper';
-import { StyledTabView, StyledCercularBorder, StyledHeaderView, StyledEachHeaderView } from './style'
+import { StyledTabView, StyledCercularBorder, StyledHeaderView, StyledEachHeaderView, StyledOption, StyledCercularByBorder } from './style'
 
 export const CustomTab = ({ state, descriptors, navigation, colors }) => {
     return (
@@ -9,7 +9,8 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const isFocused = state.index === index;
-                const icon = options.tabBarIcon(isFocused ? colors.backgroundColor : colors.textDeep, isFocused ? 25 : 30)
+                const midEle = Math.floor(state.routes.length / 2) !== index;
+                const icon = options.tabBarIcon(isFocused && midEle || !midEle ? colors.backgroundColor : colors.textDeep, (isFocused && midEle) || (!midEle && !isFocused) ? 25 : 30)
                 const label =
                     options.tabBarLabel !== undefined
                         ? options.tabBarLabel
@@ -48,7 +49,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
                         onPress={onPress}
                         onLongPress={onLongPress}
                     >
-                        {isFocused ? <StyledCercularBorder>{icon}</StyledCercularBorder> : icon}
+                        {isFocused && midEle ? <StyledCercularBorder>{icon}</StyledCercularBorder> : !midEle ? <StyledCercularByBorder>{icon}</StyledCercularByBorder> : <StyledOption>{icon}</StyledOption>}
                         {/* <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
                             {label}
                         </Text> */}
@@ -62,10 +63,10 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
 export const CustomHeader = (props) => {
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
-            <StyledEachHeaderView>
+            <StyledEachHeaderView style={{ minWidth: '20%' }}>
                 {props.left}
             </StyledEachHeaderView>
-            <StyledEachHeaderView style={{marginTop: -5}}>
+            <StyledEachHeaderView style={{ marginTop: -5 }}>
                 {props.logo}
             </StyledEachHeaderView>
             <StyledEachHeaderView>
