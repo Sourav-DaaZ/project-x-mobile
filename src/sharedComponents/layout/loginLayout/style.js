@@ -1,8 +1,9 @@
-import { View, ScrollView, Image, SafeAreaView } from 'react-native';
-import { Text } from 'react-native-paper';
+import { View, Image, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import * as Animatable from 'react-native-animatable';
 
 export const LoginContainer = styled(View)`
   flex: 1;
@@ -35,36 +36,38 @@ export const LoginNetworkLogo = styled(FontAwesome)`
   margin: 20px;
 `;
 
-export const LoginDevider = styled(View)`
+export const LoginDevider = styled(Animatable.View)`
   flex-direction: row; 
   align-items: center;
   margin-left: 20px;
   margin-right: 20px;
 `;
 
-export const LoginDeviderLine = styled(View)`
+export const LoginDeviderLine = styled(Animatable.View)`
   flex: 1;
   height: 1px; 
   background-color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
 `;
 
-export const LoginDeviderText = styled(Text)`
+export const LoginDeviderText = styled(Animatable.Text)`
   width: 150px; 
   text-align: center;
   color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
   font-weight: bold
 `;
 
-export const LoginScrollView = styled(ScrollView)`
+export const LoginScrollView = styled(Animatable.View)`
   flex: 1;
-  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 20px;
   margin: 20px;
   margin-top: -60px;
   background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor}
 `;
 
-export const LoginNetworkView = styled(View)`
+export const LoginNetworkView = styled(Animatable.View)`
   flex: .2;
   background-color: white;
   border-radius: 20px;

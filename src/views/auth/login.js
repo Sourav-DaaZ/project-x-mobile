@@ -199,10 +199,10 @@ const Login = (props) => {
               icons={x.config?.icons}
               ele={x.config?.elementType}
             />))}
-        </StyledInputOtp>
-        <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
+            <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
           Login
         </LoginSubmitButton>
+        </StyledInputOtp>
       </Modal>
     </LoginLayout>
   );

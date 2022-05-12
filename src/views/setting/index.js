@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import {
   Avatar
@@ -7,11 +7,42 @@ import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer, StyledModalView } from './style';
 
 import QRCode from 'react-native-qrcode-svg';
+import ViewShot from "react-native-view-shot";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from '../../sharedComponents/modal';
+import Share from 'react-native-share'
 
 const Setting = (props) => {
   const [qrPopup, setQrPopup] = useState(false);
+  const [image, setImage] = useState('');
+  const viewRef = useRef();
+
+  const url = "https://awesome.contents.com/";
+  const title = "Awesome Contents";
+  const message = "Please check this out.";
+
+  const options = {
+    title,
+    url,
+    message,
+  };
+
+  const onCapture = (data) => {
+    setImage(data);
+  }
+
+  const ShareFnc = async (customOptions = options) => {
+    try {
+      await Share.open(customOptions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+
+  }, [])
+
   return (
     <DashboardLayout>
       <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
@@ -40,10 +71,12 @@ const Setting = (props) => {
         </StyledCenter>
       </StyledProfileView>
       <StyledProfile>
-        <StyledLeftContainer>
-          <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
-          <StyledSemiTitle>Setting</StyledSemiTitle>
-        </StyledLeftContainer>
+        <TouchableOpacity>
+          <StyledLeftContainer>
+            <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
+            <StyledSemiTitle>Setting</StyledSemiTitle>
+          </StyledLeftContainer>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => setQrPopup(true)}>
           <StyledLeftContainer>
             <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
@@ -52,21 +85,31 @@ const Setting = (props) => {
         </TouchableOpacity>
       </StyledProfile>
       <StyledProfile>
-        <StyledLeftContainer>
-          <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
-          <StyledSemiTitle>Settings</StyledSemiTitle>
-        </StyledLeftContainer>
+        <TouchableOpacity onPress={async () => {
+          await ShareFnc({
+            title: "Sharing image file from awesome share app",
+            message: "Please take a look at this image",
+            url: image,
+          });
+        }}>
+          <StyledLeftContainer>
+            <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
+            <StyledSemiTitle>Settings</StyledSemiTitle>
+          </StyledLeftContainer>
+        </TouchableOpacity>
       </StyledProfile>
       <Modal show={qrPopup} onClose={() => setQrPopup(false)} title='hi'>
         <StyledModalView>
-          <QRCode
-            size={200}
-            value="Sourav Das"
-            logo={require('../../assets/images/logo.png')}
-            logoSize={30}
-            logoBackgroundColor={'white'}
-            logoMargin={5}
-          />
+          <ViewShot options={{ result: "base64" }} onCapture={onCapture} captureMode="mount">
+            <QRCode
+              size={200}
+              value={JSON.stringify({ test: 'Sourav Das' })}
+              logo={require('../../assets/images/logo.png')}
+              logoSize={30}
+              logoBackgroundColor={'white'}
+              logoMargin={5}
+            />
+          </ViewShot>
         </StyledModalView>
       </Modal>
     </DashboardLayout>

@@ -22,7 +22,7 @@ const LoginLayout = (props) => {
     return (
         <LoginContainer>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="light-content" />
-            <LoginSafeView>
+            <LoginSafeView animation='lightSpeedIn'>
                 <LoginLogo
                     source={logoImg}
                 />
@@ -32,20 +32,17 @@ const LoginLayout = (props) => {
                     onPress={() => props.navigation.goBack()}
                 />
             </LoginSafeView>
-            <LoginScrollView
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-            >
+            <LoginScrollView animation='flipInX'>
                 {props.children}
             </LoginScrollView>
-            <LoginDevider>
+            <LoginDevider animation='bounceIn'>
                 <LoginDeviderLine />
                 <View>
-                    <LoginDeviderText>Or Connect Using</LoginDeviderText>
+                    <LoginDeviderText animation='bounceIn'>Or Connect Using</LoginDeviderText>
                 </View>
                 <LoginDeviderLine />
             </LoginDevider>
-            <LoginNetworkView>
+            <LoginNetworkView animation='flipInY'>
                 <LoginNetworkLogo
                     name="facebook-square"
                     style={{ color: '#4267B2' }}

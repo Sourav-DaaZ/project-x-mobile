@@ -26,6 +26,8 @@ export const LoginOuterView = styled(View)`
     justify-content: center;
     align-items: center;
     padding: 30px;
+    border-radius: 20px;
+    width: 100%;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
@@ -92,5 +94,7 @@ export const StyledInputOtp = styled(View)`
     margin-bottom: ${height * .01}px;
     margin-top: ${height * .01}px;
     width: 100%;
+    padding: 20px;
+    padding-top: 0px;
 `;
 
