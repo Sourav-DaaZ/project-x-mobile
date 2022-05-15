@@ -47,6 +47,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
                         accessibilityLabel={options.tabBarAccessibilityLabel}
                         testID={options.tabBarTestID}
                         onPress={onPress}
+                        // style={{minWidth: 50, minHeight: 30}}
                         onLongPress={onLongPress}
                     >
                         {isFocused && midEle ? <StyledCercularBorder>{icon}</StyledCercularBorder> : !midEle ? <StyledCercularByBorder>{icon}</StyledCercularByBorder> : <StyledOption>{icon}</StyledOption>}
@@ -63,7 +64,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
 export const CustomHeader = (props) => {
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
-            <StyledEachHeaderView style={{ minWidth: '20%' }}>
+            <StyledEachHeaderView style={{ width: 40 }}>
                 {props.left}
             </StyledEachHeaderView>
             <StyledEachHeaderView style={{ marginTop: -5 }}>

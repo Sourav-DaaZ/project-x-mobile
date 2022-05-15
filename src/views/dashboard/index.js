@@ -41,7 +41,7 @@ const Dashboard = (props) => {
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'lightgray' }}>Cancel</Button>
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'gray' }}>Ok</Button>
                 </View> */}
-                <TouchableOpacity onPress={() => props.navigation.navigate('SinglePost')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Camera')}>
                     <Card />
                 </TouchableOpacity>
             </View>

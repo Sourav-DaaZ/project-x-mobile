@@ -11,6 +11,7 @@ export const DashboardOuterView = styled(View)`
     flex-direction: column;
     padding-bottom: 40px;
     margin-bottom: 35px;
+    z-index: -1;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     height: 100%;
     border-bottom-left-radius: 40px;
@@ -24,5 +25,5 @@ export const StyledFullImg = styled(Image)`
 `;
 
 export const StyledScrollView = styled(ScrollView)`
-    background: white;
+    background: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;

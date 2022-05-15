@@ -18,6 +18,7 @@ import ProfileScreen from '../views/profileScreen';
 import DetailsScreen from '../views/detailsScreen';
 import ChatScreen from '../views/chatScreen';
 import Setting from '../views/setting';
+import Camera from '../views/camera';
 import { CustomTab, CustomHeader } from './custom';
 
 const Stack = createNativeStackNavigator();
@@ -127,6 +128,18 @@ export function InsideAuthRouters() {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <Text>Profile</Text>
+          ),
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} />
+      <Stack.Screen
+        name="Camera"
+        component={Camera}
         options={({ navigation }) => ({
           headerTitle: () => (
             <Text>Profile</Text>
