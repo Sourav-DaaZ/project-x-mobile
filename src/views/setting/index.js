@@ -89,7 +89,7 @@ const Setting = (props) => {
           await ShareFnc({
             title: "Sharing image file from awesome share app",
             message: "Please take a look at this image",
-            url: image,
+            url: "data:image/png;base64,"+image,
           });
         }}>
           <StyledLeftContainer>
