@@ -1,16 +1,13 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import {
-  Text, Image, TouchableOpacity
-} from 'react-native';
-import logoImg from '../assets/images/logo.png';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Setting from '../views/setting';
+import Home from '../views/home';
 import Camera from '../views/camera';
-import { CustomHeader } from './custom';
+import { CustomTab, CustomHeader } from './custom';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,31 +16,47 @@ export function InsideAuthRouters() {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
 
+
+  const TabComponent = () => {
+    return (
+      <Tab.Navigator
+        tabBar={props => <CustomTab {...props} colors={colors} />}
+        screenOptions={{
+          headerShown: false,
+          lazy: true,
+        }}
+      >
+        <Tab.Screen
+          name='Home'
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: (color, size) => (
+              <Fontisto name="player-settings" color={color} size={size} />
+            ),
+          }}
+          component={Home} />
+        <Tab.Screen
+          name='Camera'
+          options={{
+            tabBarLabel: 'Camera',
+            tabBarIcon: (color, size) => (
+              <Fontisto name="player-settings" color={color} size={size} />
+            ),
+          }}
+          component={Camera} />
+      </Tab.Navigator >
+    )
+  }
+
+
   return (
     <Stack.Navigator >
       <Stack.Screen
-        name="Setting"
-        component={Setting}
-        options={({ navigation }) => ({
-          headerTitle: () => (
-            <Text>Login Page</Text>
-          ),
-          header: () => <CustomHeader
-            logo={<Image source={logoImg} />}
-          />
-        })} />
-      <Stack.Screen
-        name="Camera"
-        component={Camera}
-        options={({ navigation }) => ({
-          headerTitle: () => (
-            <Text>Profile</Text>
-          ),
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
-        })} />
+        name="tab"
+        options={{headerShown: false}}
+        component={TabComponent}
+     />
+    
     </Stack.Navigator>
   );
 }
