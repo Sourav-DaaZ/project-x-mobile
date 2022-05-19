@@ -35,10 +35,10 @@ export const StyledCercularBorder = styled(View)`
 `;
 
 export const StyledCercularByBorder = styled(View)`
-    padding: ${height * .02}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     border-radius: 50px;
-    margin-top: -${height * .07}px;
+    padding: ${height * .015}px;
+    margin-top: -${height * .045}px
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
 `;
 
