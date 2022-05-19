@@ -3,7 +3,6 @@ import { View, TouchableOpacity } from 'react-native';
 import {
   Avatar
 } from 'react-native-paper';
-import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer, StyledModalView } from './style';
 
 import QRCode from 'react-native-qrcode-svg';
@@ -44,7 +43,7 @@ const Setting = (props) => {
   }, [])
 
   return (
-    <DashboardLayout>
+    <React.Fragment>
       <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
         <StyledProfileView>
           <View>
@@ -89,7 +88,7 @@ const Setting = (props) => {
           await ShareFnc({
             title: "Sharing image file from awesome share app",
             message: "Please take a look at this image",
-            url: "data:image/png;base64,"+image,
+            url: "data:image/png;base64," + image,
           });
         }}>
           <StyledLeftContainer>
@@ -112,7 +111,7 @@ const Setting = (props) => {
           </ViewShot>
         </StyledModalView>
       </Modal>
-    </DashboardLayout>
+    </React.Fragment>
   )
 }
 
