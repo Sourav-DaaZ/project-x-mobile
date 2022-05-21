@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 
-import Fontisto from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -17,7 +17,7 @@ export function InsideAuthRouters() {
   const colors = themeContext.colors[themeContext.baseColor];
 
 
-  const TabComponent = () => {
+  const TabComponent = (props) => {
     return (
       <Tab.Navigator
         tabBar={props => <CustomTab {...props} colors={colors} />}
@@ -27,20 +27,22 @@ export function InsideAuthRouters() {
         }}
       >
         <Tab.Screen
-          name='Home'
+          name='HomeScreen'
+          {...props}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'HomeScreen',
             tabBarIcon: (color, size) => (
-              <Fontisto name="player-settings" color={color} size={size} />
+              <Ionicons name="home" color={color} size={size} />
             ),
           }}
           component={Home} />
         <Tab.Screen
           name='Camera'
+          {...props}
           options={{
             tabBarLabel: 'Camera',
             tabBarIcon: (color, size) => (
-              <Fontisto name="player-settings" color={color} size={size} />
+              <Ionicons name="camera" color={color} size={size} />
             ),
           }}
           component={Camera} />
@@ -56,7 +58,6 @@ export function InsideAuthRouters() {
         options={{headerShown: false}}
         component={TabComponent}
      />
-    
     </Stack.Navigator>
   );
 }

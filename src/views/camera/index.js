@@ -4,11 +4,14 @@ import { Dimensions } from 'react-native';
 import Permissions from 'react-native-permissions';
 import { RNCamera } from 'react-native-camera';
 
+import Layout from '../../sharedComponents/layout';
+
 const { width, height } = Dimensions.get('screen');
 
 import { StyledPreview, StyledTouchableOpacity, StyledHeadline, StyledQrBox } from './style'
+import { View } from 'react-native-animatable';
 
-const CameraComponent = () => {
+const CameraComponent = (props) => {
   let cameraRef = useRef(null);
   let [permission, setPermission] = useState('undetermined')
 
@@ -40,36 +43,44 @@ const CameraComponent = () => {
   };
 
   const barcodeRecognized = ({ barcodes }) => {
-    console.log(barcodes);
+    if (barcodes[0]?.dataRaw) {
+      props.navigation.navigate(
+        'HomeScreen', {
+          data: barcodes[0]?.dataRaw
+        }
+      )
+    }
   };
 
   return (
-    <StyledPreview
-      ref={cameraRef}
-      type={RNCamera.Constants.Type.back}
-      flashMode={RNCamera.Constants.FlashMode.off}
-      captureAudio={false}
-      autoFocus={true}
-      androidCameraPermissionOptions={{
-        title: 'Permission to use camera',
-        message: 'We need your permission to use your camera',
-        buttonPositive: 'Ok',
-        buttonNegative: 'Cancel',
-      }}
-      onGoogleVisionBarcodesDetected={barcodeRecognized}
-    >
-      <StyledQrBox>
-        <StyledHeadline
-          animation={slide}
-          iterationCount="infinite"
-        />
-      </StyledQrBox>
-      {/* <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+    <Layout>
+      <StyledPreview
+        ref={cameraRef}
+        type={RNCamera.Constants.Type.back}
+        flashMode={RNCamera.Constants.FlashMode.off}
+        captureAudio={false}
+        autoFocus={true}
+        androidCameraPermissionOptions={{
+          title: 'Permission to use camera',
+          message: 'We need your permission to use your camera',
+          buttonPositive: 'Ok',
+          buttonNegative: 'Cancel',
+        }}
+        onGoogleVisionBarcodesDetected={barcodeRecognized}
+      >
+        <StyledQrBox>
+          <StyledHeadline
+            animation={slide}
+            iterationCount="infinite"
+          />
+        </StyledQrBox>
+        {/* <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
         <StyledTouchableOpacity onPress={takePicture}>
             <Text style={{ fontSize: 14 }}> snap </Text>
           </StyledTouchableOpacity>
       </View> */}
-    </StyledPreview>
+      </StyledPreview>
+    </Layout>
   );
 }
 

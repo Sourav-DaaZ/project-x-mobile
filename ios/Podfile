@@ -35,6 +35,8 @@ target 'projectXmobile' do
 
 
 
+  pod 'RNGoogleMobileAds', :path => '../node_modules/react-native-google-mobile-ads'
+
   target 'projectXmobileTests' do
     inherit! :complete
     # Pods for testing

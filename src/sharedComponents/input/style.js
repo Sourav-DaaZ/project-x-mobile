@@ -16,7 +16,7 @@ export const StyledInputElement = styled(TextInput)`
     flex: 1;
     margin-top: ${Platform.OS === 'ios' ? 0 : '-15px'};
     font-size: ${height * .02}px;
-    padding-left: 10px;
+    padding-left: 0px;
     color: ${(props)=> props.theme.colors[props.theme.baseColor].textDeep};
 `;
 

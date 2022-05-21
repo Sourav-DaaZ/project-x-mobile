@@ -10,7 +10,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
                 const { options } = descriptors[route.key];
                 const isFocused = state.index === index;
                 const midEle = Math.floor(state.routes.length / 2) !== index;
-                const icon = options.tabBarIcon(isFocused && midEle || !midEle ? colors.backgroundColor : colors.textDeep, (isFocused && midEle) || (!midEle && !isFocused) ? 25 : 30)
+                const icon = options.tabBarIcon(isFocused  ? colors.backgroundColor : colors.textDeep, (isFocused && midEle) || (!midEle && !isFocused) ? 25 : 30)
                 const label =
                     options.tabBarLabel !== undefined
                         ? options.tabBarLabel
@@ -50,7 +50,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
                         // style={{minWidth: 50, minHeight: 30}}
                         onLongPress={onLongPress}
                     >
-                        {isFocused && midEle ? <StyledCercularBorder>{icon}</StyledCercularBorder> : !midEle ? <StyledCercularByBorder>{icon}</StyledCercularByBorder> : <StyledOption>{icon}</StyledOption>}
+                        {isFocused ? <StyledCercularByBorder>{icon}</StyledCercularByBorder> : <StyledOption>{icon}</StyledOption>}
                         {/* <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
                             {label}
                         </Text> */}
