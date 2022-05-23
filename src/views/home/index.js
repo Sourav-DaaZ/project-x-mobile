@@ -3,7 +3,6 @@ import { TouchableOpacity, Text, View, Keyboard } from 'react-native';
 import { StyledProfileButton, StyledViewShot, StyledRevProfileButton, StyledSemiTitle, StyledProfile, StyledTitle, StyledModalView } from './style';
 
 import QRCode from 'react-native-qrcode-svg';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import Modal from '../../sharedComponents/modal';
 import Share from 'react-native-share';
 import { updateObject } from '../../utils';
@@ -189,7 +188,7 @@ const Home = (props) => {
         }}>Get result</StyledProfileButton>
           <StyledRevProfileButton mode='text' color='#F07B3A' onPress={() => {
             setScanData('')
-          }}>Reset</StyledRevProfileButton></View> : <StyledProfileButton mode="contained" onPress={() => {
+          }}>Reset</StyledRevProfileButton></View> : data.controls.msg.value !== ''?<StyledProfileButton mode="contained" onPress={() => {
             try {
               interstitialGen.show();
             } catch (e) {
@@ -197,7 +196,7 @@ const Home = (props) => {
             }
             Keyboard.dismiss()
             setQrPopup(true)
-          }}>Generate QR</StyledProfileButton>}
+          }}>Generate QR</StyledProfileButton>:null}
       </StyledProfile>
       <View style={{ marginBottom: 20 }}>
         {/* <GAMBannerAd unitId={'ca-app-pub-3940256099942544/6300978111'} sizes={[BannerAdSize.FULL_BANNER]} /> */}
@@ -226,12 +225,12 @@ const Home = (props) => {
           }}>Share</StyledProfileButton>
         </StyledModalView>
       </Modal>
-      <Modal show={resultPopup} onClose={() => setResultPopup(false)}>
+      {props.route.params && props.route.params.data? <Modal show={resultPopup} onClose={() => setResultPopup(false)}>
         <StyledModalView>
           <StyledTitle>Your Message is: </StyledTitle>
           <StyledSemiTitle>{CryptoJS.AES.decrypt(props.route.params.data, data.controls.ans.value.toLowerCase().trim()).toString(CryptoJS.enc.Utf8).length > 0 ? CryptoJS.AES.decrypt(props.route.params.data, data.controls.ans.value.toLowerCase().trim()).toString(CryptoJS.enc.Utf8) : scanData}</StyledSemiTitle>
         </StyledModalView>
-      </Modal>
+      </Modal> : null}
     </Layout>
   )
 }

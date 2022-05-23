@@ -2,11 +2,13 @@ import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Foundation from 'react-native-vector-icons/Foundation';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../views/home';
 import Camera from '../views/camera';
+import FileDecoder from '../views/fileDecoder';
 import { CustomTab, CustomHeader } from './custom';
 
 const Stack = createNativeStackNavigator();
@@ -46,20 +48,30 @@ export function InsideAuthRouters() {
             ),
           }}
           component={Camera} />
+        <Tab.Screen
+          name='FileDecoder'
+          {...props}
+          options={{
+            tabBarLabel: 'FileDecoder',
+            tabBarIcon: (color, size) => (
+              <Foundation name="upload" color={color} size={size} />
+            ),
+          }}
+          component={FileDecoder} />
       </Tab.Navigator >
     )
-  }
+}
 
 
-  return (
-    <Stack.Navigator >
-      <Stack.Screen
-        name="tab"
-        options={{headerShown: false}}
-        component={TabComponent}
-     />
-    </Stack.Navigator>
-  );
+return (
+  <Stack.Navigator >
+    <Stack.Screen
+      name="tab"
+      options={{ headerShown: false }}
+      component={TabComponent}
+    />
+  </Stack.Navigator>
+);
 }
 
 
