@@ -15,7 +15,9 @@ export const LoginSafeView = styled(SafeAreaView)`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-  border-radius: 40px;
+  border-radius: 0px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
   position: relative;
 `;
 
@@ -27,8 +29,7 @@ export const LoginLogo = styled(Image)`
 export const LoginBack = styled(MaterialIcon)`
   position: absolute;
   left: 30px;
-  top: 50%;
-  margin-top: -20px;
+  top: 20%;
   color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 

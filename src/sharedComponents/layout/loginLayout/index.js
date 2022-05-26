@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, View, TouchableOpacity } from 'react-native';
 import logoImg from '../../../assets/images/logo.png';
 import { ThemeContext } from 'styled-components';
 import {
@@ -15,21 +15,51 @@ import {
     LoginDeviderText
 } from './style';
 
+import {
+    GoogleSignin,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+
+import { Profile } from 'react-native-fbsdk-next';
 
 const LoginLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+
+    const fbPress = () => {
+        GoogleSignin.configure({
+            androidClientId: '1009154975780-lqus6fegc5ogv16ddrgk5fharjdkievn.apps.googleusercontent.com',
+            // iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
+        });
+        GoogleSignin.hasPlayServices().then((hasPlayService) => {
+            if (hasPlayService) {
+                GoogleSignin.signIn().then((userInfo) => {
+                    console.warn(JSON.stringify(userInfo))
+                }).catch((e) => {
+                    console.log("ERROR IS: " + JSON.stringify(e));
+                })
+            }
+        }).catch((e) => {
+            console.log("ERROR IS: " + JSON.stringify(e));
+        })
+    }
+
+    const onPressFb = () => {
+        Profile.getCurrentProfile().then(
+            function (currentProfile) {
+                if (currentProfile) {
+                    console.warn(currentProfile);
+                }
+            }
+        )
+    }
+
     return (
         <LoginContainer>
-            <StatusBar backgroundColor={colors.backgroundColor} barStyle="light-content" />
+            <StatusBar backgroundColor={colors.mainColor} barStyle="light-content" />
             <LoginSafeView animation='lightSpeedIn'>
                 <LoginLogo
                     source={logoImg}
-                />
-                <LoginBack
-                    name="arrow-back-ios"
-                    size={25}
-                    onPress={() => props.navigation.goBack()}
                 />
             </LoginSafeView>
             <LoginScrollView animation='flipInX'>
@@ -43,14 +73,17 @@ const LoginLayout = (props) => {
                 <LoginDeviderLine />
             </LoginDevider>
             <LoginNetworkView animation='flipInY'>
-                <LoginNetworkLogo
-                    name="facebook-square"
-                    style={{ color: '#4267B2' }}
-                    size={40} />
-                <LoginNetworkLogo
-                    name="google-plus-square"
-                    style={{ color: '#db3236' }}
-                    size={40} />
+                <TouchableOpacity onPress={onPressFb}>
+                    <LoginNetworkLogo
+                        name="facebook-square"
+                        style={{ color: '#4267B2' }}
+                        size={40} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={fbPress}>
+                    <LoginNetworkLogo
+                        name="google-plus-square"
+                        style={{ color: '#db3236' }}
+                        size={40} /></TouchableOpacity>
             </LoginNetworkView>
         </LoginContainer>
     )

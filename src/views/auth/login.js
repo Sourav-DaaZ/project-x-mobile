@@ -5,7 +5,7 @@ import Input from '../../sharedComponents/input';
 import defaultValue from '../../constants/defaultValue';
 import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
-import Modal from '../../sharedComponents/modal'
+import Modal from '../../sharedComponents/modal';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -155,9 +155,9 @@ const Login = (props) => {
 
   return (
     <LoginLayout {...props}>
+      {/* <SplashTitle>Login!</SplashTitle> */}
       <LoginOuterView>
-        <SplashTitle>Login!</SplashTitle>
-        <LoginDescription>Please Login with details.</LoginDescription>
+        {/* <LoginDescription>Please Login with details.</LoginDescription> */}
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input

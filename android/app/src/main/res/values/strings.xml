@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">projectXmobile</string>
+    <string name="facebook_app_id">321876586771991</string>
+    <string name="facebook_client_token">7836df6e9d9b4b1ca83e308c6f99050d</string>
 </resources>

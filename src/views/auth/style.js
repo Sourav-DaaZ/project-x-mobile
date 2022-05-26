@@ -20,11 +20,11 @@ export const SplashOuterView = styled(View)`
 `;
 
 export const LoginOuterView = styled(View)`
-    display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 20px;
     padding: 30px;
     border-radius: 20px;
     width: 100%;
@@ -52,6 +52,7 @@ export const SplashTitle = styled(Text)`
     font-size: ${width * .1}px;
     font-weight: bold;
     text-align: center;
+    margin-top: 20px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}
 `;
 
@@ -83,7 +84,6 @@ export const LoginButton = styled(Button)`
 export const InputView = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     margin-bottom: ${height * .01}px;
-    margin-top: ${height * .02}px;
     min-height: ${height * .25}px;
     justify-content: center;
     width: 100%;
