@@ -24,7 +24,7 @@ const ModalComponent = (props) => {
                     style={{ position: 'absolute', right: 15, top: 15 }}
                     onPress={props.onClose}
                 />
-                <Text style={{position: 'absolute', top: -50, left: 30, color: 'white', fontSize: 30}}>title</Text>
+                <Text style={{position: 'absolute', top: -50, left: 30, color: 'white', fontSize: 30}}>{props.title}</Text>
                 {props.children}
             </Modal>
         </Portal>

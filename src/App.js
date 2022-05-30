@@ -18,6 +18,10 @@ import GlobalThemeProvider from './contextProviders/globalThemeProvider'
 
 import authReducer from './store/reducers/auth';
 
+if(__DEV__) {
+  import('./reactotronConfig').then(() => console.log('Reactotron Configured'))
+}
+
 const rootReducer = combineReducers({
   auth: authReducer,
 });

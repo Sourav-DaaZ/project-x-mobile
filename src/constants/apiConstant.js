@@ -1,16 +1,14 @@
 export const API = {
+  currentEnv: 'dev',
   baseUrls: {
-    dev: 'https://project-xx-client.herokuapp.com/api',
+    dev: 'http://192.168.0.105:5000/api',
     qa: '',
     uat: '',
     prod: '',
   },
   noAuthUrls: {
     login: '/login',
-    otp: '/user_varification',
-    register: 'register_user',
-    userIdCheck: 'user_id_check',
-    requestToChangePassword: 'request_for_change_password',
+    otpVerify: '/user_varification',
   },
   authUrls: {
     // add the new api urls here which are inside the authentication

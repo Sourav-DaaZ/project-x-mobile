@@ -1,9 +1,7 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-import { Platform } from 'react-native';
+import { Dimensions,TouchableOpacity, View, Image, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button'
-import { View, Image } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
@@ -19,13 +17,11 @@ export const SplashOuterView = styled(View)`
     height: 100%
 `;
 
-export const LoginOuterView = styled(View)`
+export const LoginOuterView = styled(ScrollView)`
     flex: 1;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 20px;
-    padding: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
     border-radius: 20px;
     width: 100%;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
@@ -46,6 +42,20 @@ export const SplashBannerLogo = styled(Image)`
     width: ${width_logo}px;
     height: ${width_logo}px;
     margin-bottom: ${height * .08}px;
+`;
+
+export const StyledViewButton = styled(View)`
+    display: flex;
+    flex-direction: row;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}; 
+`;
+
+export const StyledForgot = styled(View)`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: ${height * .02}px;
 `;
 
 export const SplashTitle = styled(Text)`
@@ -69,7 +79,6 @@ export const LoginDescription = styled(Text)`
     font-size: ${width * .04}px;
     font-weight: 600;
     text-align: center;
-    margin-top: ${height * .02}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
 `;
 
@@ -91,10 +100,31 @@ export const InputView = styled(View)`
 
 export const StyledInputOtp = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-bottom: ${height * .01}px;
-    margin-top: ${height * .01}px;
+    margin-bottom: ${height * .02}px;
     width: 100%;
     padding: 20px;
     padding-top: 0px;
 `;
 
+export const StyledTouchableOpacity = styled(TouchableOpacity)`
+    width: 50%;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+`;
+export const StyledButtonActive = styled(Button)`
+    width: 50%;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}; 
+    border-radius: 0px;
+`;
+
+export const StyledButtonView = styled(Text)`
+    width: 100%;
+    text-align: center;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}; 
+    fontWeight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+`;

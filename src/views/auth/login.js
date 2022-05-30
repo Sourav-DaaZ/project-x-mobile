@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import LoginLayout from '../../sharedComponents/layout/loginLayout';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
@@ -6,6 +6,9 @@ import defaultValue from '../../constants/defaultValue';
 import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
 import Modal from '../../sharedComponents/modal';
+import Button from '../../sharedComponents/button';
+import OutsideAuthApi from '../../services/outSideAuth';
+import { TouchableOpacity } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -16,15 +19,20 @@ import {
   LoginDescription,
   LoginSubmitButton,
   InputView,
-  StyledInputOtp
+  StyledInputOtp,
+  StyledViewButton,
+  StyledTouchableOpacity,
+  StyledButtonActive,
+  StyledButtonView,
+  StyledForgot
 } from './style';
 
 const Login = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
-  const formElementsArray = []
-  const [modalShow, setModalShow] = React.useState(false);
-  const [data, setData] = React.useState({
+  const [modalShow, setModalShow] = useState(false);
+  const [globalPost, setGlobalPost] = useState(true);
+  const [data, setData] = useState({
     controls: {
       email: {
         elementType: 'input',
@@ -67,7 +75,7 @@ const Login = (props) => {
         ],
       },
       otp: {
-        elementType: 'input',
+        elementType: 'password',
         value: '',
         elementConfig: {
           type: 'otp',
@@ -82,9 +90,13 @@ const Login = (props) => {
         errors: '',
         success: '',
         className: [],
+        icons: [
+          <FontAwesome name="lock" color="#05375a" size={20} />,
+        ],
       },
     },
   });
+  const formElementsArray = []
 
   const onInputChange = (val, type) => {
     let varVal = {};
@@ -146,6 +158,17 @@ const Login = (props) => {
     setData(varVal);
   };
 
+  const loginFnc = () => {
+    OutsideAuthApi()
+      .loginApi()
+      .then((res) => {
+        console.warn(res)
+      })
+      .catch((err) => {
+        // console.warn(err)
+      })
+  }
+
   for (let key in data.controls) {
     formElementsArray.push({
       id: key,
@@ -153,10 +176,17 @@ const Login = (props) => {
     });
   }
 
+  const GlobalButton = (select, text, onPress) => (
+    select ? <StyledButtonActive mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+  )
+
   return (
     <LoginLayout {...props}>
-      {/* <SplashTitle>Login!</SplashTitle> */}
-      <LoginOuterView>
+      <StyledViewButton>
+        {GlobalButton(globalPost, 'Log In', () => setGlobalPost(true))}
+        {GlobalButton(!globalPost, 'Register', () => setGlobalPost(false))}
+      </StyledViewButton>
+      <LoginOuterView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         {/* <LoginDescription>Please Login with details.</LoginDescription> */}
         <InputView>
           {formElementsArray?.map((x, index) => (
@@ -174,11 +204,13 @@ const Login = (props) => {
               ele={x.config?.elementType}
             />
           ))}
+          <StyledForgot>
+            <TouchableOpacity><LoginDescription>Forgot Password?</LoginDescription></TouchableOpacity><TouchableOpacity onPress={() => setModalShow(true)}><LoginDescription>Login with OTP?</LoginDescription></TouchableOpacity>
+          </StyledForgot>
         </InputView>
-        <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
+        <LoginSubmitButton mode='contained' onPress={loginFnc}>
           Login
         </LoginSubmitButton>
-        <LoginDescription>Don't have any account? <LoginDescription style={{ fontWeight: 'bold' }}>Sign-up</LoginDescription></LoginDescription>
       </LoginOuterView>
       <Modal show={modalShow} onClose={() => setModalShow(false)}>
         <SplashTitle>Otp!</SplashTitle>
@@ -199,9 +231,9 @@ const Login = (props) => {
               icons={x.config?.icons}
               ele={x.config?.elementType}
             />))}
-            <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
-          Login
-        </LoginSubmitButton>
+          <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
+            Login
+          </LoginSubmitButton>
         </StyledInputOtp>
       </Modal>
     </LoginLayout>
