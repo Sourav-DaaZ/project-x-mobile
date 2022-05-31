@@ -31,12 +31,11 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 
 const App = () => {
-  const [visible,setVisible] = React.useState(true);
   return (
     <Provider store={store}>
       <GlobalThemeProvider>
         <PaperProvider>
-          <SnackBar show={visible} hide={() =>setVisible(false)} text="hiiii"/>
+          <SnackBar show={true} text="hiiii"/>
           <Loader show={false}/>
             <Routs />
         </PaperProvider>
