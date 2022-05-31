@@ -13,8 +13,9 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider as PaperProvider } from 'react-native-paper';
-
-import GlobalThemeProvider from './contextProviders/globalThemeProvider'
+import SnackBar from './sharedComponents/snackbar';
+import Loader from './sharedComponents/loader';
+import GlobalThemeProvider from './contextProviders/globalThemeProvider';
 
 import authReducer from './store/reducers/auth';
 
@@ -28,12 +29,15 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-const App = () => {
 
+const App = () => {
+  const [visible,setVisible] = React.useState(true);
   return (
     <Provider store={store}>
       <GlobalThemeProvider>
         <PaperProvider>
+          <SnackBar show={visible} hide={() =>setVisible(false)} text="hiiii"/>
+          <Loader show={false}/>
             <Routs />
         </PaperProvider>
       </GlobalThemeProvider>

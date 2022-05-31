@@ -6,7 +6,6 @@ import defaultValue from '../../constants/defaultValue';
 import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
 import Modal from '../../sharedComponents/modal';
-import Button from '../../sharedComponents/button';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { TouchableOpacity } from 'react-native';
 

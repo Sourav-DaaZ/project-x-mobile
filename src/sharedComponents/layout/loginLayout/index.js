@@ -14,7 +14,6 @@ import {
     LoginDeviderLine,
     LoginDeviderText
 } from './style';
-
 import {
     GoogleSignin,
     statusCodes,
@@ -24,9 +23,10 @@ import { Profile } from 'react-native-fbsdk-next';
 
 const LoginLayout = (props) => {
     const themeContext = useContext(ThemeContext);
+    const [visible, setVisible] = React.useState(true);
     const colors = themeContext.colors[themeContext.baseColor];
 
-    const fbPress = () => {
+    const onPressGoogle = () => {
         GoogleSignin.configure({
             androidClientId: '1009154975780-lqus6fegc5ogv16ddrgk5fharjdkievn.apps.googleusercontent.com',
             // iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
@@ -36,11 +36,11 @@ const LoginLayout = (props) => {
                 GoogleSignin.signIn().then((userInfo) => {
                     console.warn(JSON.stringify(userInfo))
                 }).catch((e) => {
-                    console.log("ERROR IS: " + JSON.stringify(e));
+                    console.warn("ERROR IS: " + JSON.stringify(e));
                 })
             }
         }).catch((e) => {
-            console.log("ERROR IS: " + JSON.stringify(e));
+            console.warn("ERROR IS: " + JSON.stringify(e));
         })
     }
 
@@ -51,7 +51,7 @@ const LoginLayout = (props) => {
                     console.warn(currentProfile);
                 }
             }
-        )
+        );
     }
 
     return (
@@ -79,7 +79,7 @@ const LoginLayout = (props) => {
                         style={{ color: '#4267B2' }}
                         size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={fbPress}>
+                <TouchableOpacity onPress={onPressGoogle}>
                     <LoginNetworkLogo
                         name="google-plus-square"
                         style={{ color: '#db3236' }}

@@ -1,20 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import {
   Avatar
 } from 'react-native-paper';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer, StyledModalView } from './style';
 
-import QRCode from 'react-native-qrcode-svg';
 import ViewShot from "react-native-view-shot";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from '../../sharedComponents/modal';
-import Share from 'react-native-share'
+import Share from 'react-native-share';
+import RNQRGenerator from 'rn-qr-generator';
 
 const Setting = (props) => {
   const [qrPopup, setQrPopup] = useState(false);
   const [image, setImage] = useState('');
+  const [qrImage, setQrImage] = useState('');
   const viewRef = useRef();
 
   const url = "https://awesome.contents.com/";
@@ -40,9 +41,19 @@ const Setting = (props) => {
   };
 
   useEffect(() => {
-
+    RNQRGenerator.generate({
+      value: 'hii',
+      height: 200,
+      width: 200,
+      base64: true
+    })
+      .then(response => {
+        const { uri, width, height, base64 } = response;
+        setQrImage(base64);
+      })
+      .catch(error => console.log('Cannot create QR code', error));
   }, [])
-
+  
   return (
     <DashboardLayout>
       <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
@@ -89,7 +100,7 @@ const Setting = (props) => {
           await ShareFnc({
             title: "Sharing image file from awesome share app",
             message: "Please take a look at this image",
-            url: "data:image/png;base64,"+image,
+            url: "data:image/png;base64," + image,
           });
         }}>
           <StyledLeftContainer>
@@ -98,16 +109,17 @@ const Setting = (props) => {
           </StyledLeftContainer>
         </TouchableOpacity>
       </StyledProfile>
-      <Modal show={qrPopup} onClose={() => setQrPopup(false)} title='hi'>
+      <Modal show={qrPopup} onClose={() => setQrPopup(false)}>
         <StyledModalView>
           <ViewShot options={{ result: "base64" }} onCapture={onCapture} captureMode="mount">
-            <QRCode
-              size={200}
-              value={JSON.stringify({ test: 'Sourav Das' })}
-              logo={require('../../assets/images/logo.png')}
-              logoSize={30}
-              logoBackgroundColor={'white'}
-              logoMargin={5}
+            <Image
+            style={{
+              width: 200,
+              height: 200,
+            }}
+              source={{
+                uri: "data:image/png;base64," + qrImage
+              }}
             />
           </ViewShot>
         </StyledModalView>

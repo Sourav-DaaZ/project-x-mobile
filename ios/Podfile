@@ -35,6 +35,8 @@ target 'projectXmobile' do
 
 
 
+  pod 'RNQrGenerator', :path => '../node_modules/rn-qr-generator'
+
   target 'projectXmobileTests' do
     inherit! :complete
     # Pods for testing
