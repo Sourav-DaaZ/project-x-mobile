@@ -1,6 +1,6 @@
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import { StyledInputElement, StyledInputView, StyledTitle } from './style';
+import { StyledInputElement, StyledInputView, StyledTitle, StyledError } from './style';
 
 const Input = (props) => {
   const [dot, setDot] = React.useState(true);
@@ -27,6 +27,7 @@ const Input = (props) => {
             />
             {props.isValid ? (props.icons ? props.icons[1] : null) : null}
           </StyledInputView>
+          {props.errorMsg !== '' ? <StyledError>{props.errorMsg}</StyledError> : null}
         </React.Fragment>
       );
       break;
@@ -54,6 +55,7 @@ const Input = (props) => {
               onPress={() => setDot(!dot)}
             />
           </StyledInputView>
+          {props.errorMsg !== '' ? <StyledError>{props.errorMsg}</StyledError> : null}
         </React.Fragment>
       );
       break;

@@ -24,7 +24,15 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders },
                 data: data,
             })
-        }
+        },
+        requestForChangePassword(data) {
+            return axiosObj({
+                url: API.noAuthUrls.requestForChangePassword,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data,
+            })
+        },
     }
 }
 

@@ -9,6 +9,7 @@ export const API = {
   noAuthUrls: {
     login: '/login',
     otpVerify: '/user_varification',
+    requestForChangePassword: '/request_for_change_password',
   },
   authUrls: {
     // add the new api urls here which are inside the authentication

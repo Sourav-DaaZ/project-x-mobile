@@ -30,6 +30,7 @@ const Login = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
   const [modalShow, setModalShow] = useState(false);
+  const [isOtpLogin, setIsOtpLogin] = React.useState(false);
   const [globalPost, setGlobalPost] = useState(true);
   const [data, setData] = useState({
     controls: {
@@ -37,8 +38,8 @@ const Login = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'email',
-          text: 'Email',
-          placeholder: 'Enter your email',
+          text: 'User ID / Email',
+          placeholder: 'Enter your User ID / email',
         },
         value: '',
         validation: {
@@ -63,7 +64,7 @@ const Login = (props) => {
         value: '',
         validation: {
           required: true,
-          isEmail: true,
+          password: true,
         },
         errors: '',
         valid: false,
@@ -109,16 +110,6 @@ const Login = (props) => {
           }),
         }),
       });
-    } else if (type === 'email' && !validate(val, { isEmail: true })) {
-      varVal = updateObject(data, {
-        controls: updateObject(data.controls, {
-          [type]: updateObject(data.controls[type], {
-            value: val,
-            errors: validation.validateField('email'),
-            valid: false,
-          }),
-        }),
-      });
     } else if (type === 'password' && !validate(val, { password: true })) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
@@ -158,14 +149,94 @@ const Login = (props) => {
   };
 
   const loginFnc = () => {
-    OutsideAuthApi()
-      .loginApi()
-      .then((res) => {
-        console.warn(res)
-      })
-      .catch((err) => {
-        // console.warn(err)
-      })
+    let isValid = [];
+    let val = {};
+    formElementsArray.map(
+      (x) => (
+        x.id == 'email' ||
+          (!isOtpLogin && x.id == 'password') ||
+          (isOtpLogin && modalShow && x.id == 'otp')
+          ? (val[x.id] = x.config.value)
+          : null,
+        (!isOtpLogin && x.id == 'password') ||
+          (isOtpLogin && modalShow && x.id == 'otp')
+          ? isValid.push(x.config.valid)
+          : null
+      ),
+    );
+    if (isValid.includes(false)) {
+      console.warn(validation.validateField());
+    } else {
+      if (isOtpLogin && !modalShow) {
+        const requestData = {
+          ...(validate(data.controls.email.value, { email: true }) && { "email": data.controls.email.value }),
+          ...(!validate(data.controls.email.value, { email: true }) && { "userId": data.controls.email.value })
+        }
+        let varVl;
+        varVl = updateObject(data, {
+          controls: updateObject(data.controls, {
+            otp: updateObject(data.controls.otp, {
+              errors: '',
+              value: '',
+            }),
+          }),
+        });
+        setData(varVl);
+        OutsideAuthApi()
+          .verifyOtp(requestData)
+          .then((res) => {
+            setModalShow(true);
+          })
+          .catch((err) => {
+            props.loader(false);
+            console.warn(err.message);
+          });
+      } else {
+        const requestData = {
+          ...(validate(data.controls.email.value, { email: true }) && { "email": data.controls.email.value }),
+          ...(!validate(data.controls.email.value, { email: true }) && { "userId": data.controls.email.value }),
+          ...(modalShow && { otp: data.controls.otp.value }),
+          ...(!modalShow && { password: data.controls.password.value }),
+        }
+        let varVl;
+        varVl = updateObject(data, {
+          controls: updateObject(data.controls, {
+            otp: updateObject(data.controls.otp, {
+              errors: '',
+              value: '',
+            }),
+          }),
+        });
+        setData(varVl);
+        OutsideAuthApi()
+          .loginApi(requestData)
+          .then((res) => {
+            props.navigation.navigate('splashScreen');
+          })
+          .catch((err) => {
+            console.warn(err.message);
+          });
+      }
+    }
+  }
+
+  const resetPassword = () => {
+    const requestData = {
+      ...(validate(data.controls.email.value, { email: true }) && { "email": data.controls.email.value }),
+      ...(!validate(data.controls.email.value, { email: true }) && { "userId": data.controls.email.value })
+    }
+    if (!data.controls.email.valid) {
+      console.warn(validation.validateField());
+    } else {
+      OutsideAuthApi()
+        .requestForChangePassword(requestData)
+        .then((res) => {
+          console.warn(res.message);
+        })
+        .catch((err) => {
+          console.warn(err.message);
+        });
+    }
   }
 
   for (let key in data.controls) {
@@ -186,10 +257,9 @@ const Login = (props) => {
         {GlobalButton(!globalPost, 'Register', () => setGlobalPost(false))}
       </StyledViewButton>
       <LoginOuterView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
-        {/* <LoginDescription>Please Login with details.</LoginDescription> */}
         <InputView>
           {formElementsArray?.map((x, index) => (
-            x.id !== 'otp' && <Input
+            (x.id !== 'otp' && !(x.id === 'password' && isOtpLogin)) && <Input
               key={index}
               title={x.config?.elementConfig?.text}
               placeholder={x.config?.elementConfig?.placeholder}
@@ -199,12 +269,13 @@ const Login = (props) => {
               type={x.config?.elementConfig?.type}
               isValid={x.config?.valid}
               validation={x.config?.validation}
+              errorMsg={x.config?.errors}
               icons={x.config?.icons}
               ele={x.config?.elementType}
             />
           ))}
           <StyledForgot>
-            <TouchableOpacity><LoginDescription>Forgot Password?</LoginDescription></TouchableOpacity><TouchableOpacity onPress={() => setModalShow(true)}><LoginDescription>Login with OTP?</LoginDescription></TouchableOpacity>
+            <TouchableOpacity onPress={resetPassword}><LoginDescription>Forgot Password?</LoginDescription></TouchableOpacity><TouchableOpacity onPress={() => setIsOtpLogin(!isOtpLogin)}><LoginDescription>Login with {!isOtpLogin ? 'OTP' : 'Password'}?</LoginDescription></TouchableOpacity>
           </StyledForgot>
         </InputView>
         <LoginSubmitButton mode='contained' onPress={loginFnc}>
@@ -227,10 +298,13 @@ const Login = (props) => {
               type={x.config?.elementConfig?.type}
               isValid={x.config?.valid}
               validation={x.config?.validation}
+              errorMsg={x.config?.errors}
               icons={x.config?.icons}
               ele={x.config?.elementType}
             />))}
-          <LoginSubmitButton mode='contained' onPress={() => setModalShow(true)}>
+          <StyledForgot>
+          </StyledForgot>
+          <LoginSubmitButton mode='contained' onPress={loginFnc}>
             Login
           </LoginSubmitButton>
         </StyledInputOtp>

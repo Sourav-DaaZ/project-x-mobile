@@ -56,6 +56,7 @@ export const StyledForgot = styled(View)`
     width: 100%;
     justify-content: space-between;
     margin-bottom: ${height * .02}px;
+    margin-top: ${height * .02}px;
 `;
 
 export const SplashTitle = styled(Text)`
@@ -76,7 +77,7 @@ export const SplashDescription = styled(Text)`
 `;
 
 export const LoginDescription = styled(Text)`
-    font-size: ${width * .04}px;
+    font-size: ${width * .038}px;
     font-weight: 600;
     text-align: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};

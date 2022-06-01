@@ -9,7 +9,6 @@ export const StyledInputView = styled(View)`
     background-color: ${(props)=> props.theme.colors[props.theme.baseColor].backgroundColor};
     border-bottomColor: ${(props)=> props.theme.colors[props.theme.baseColor].borderColor};
     padding-bottom: ${Platform.OS === 'ios' ? '10px' : 0};
-    margin-bottom: ${height * .03}px
 `;
 
 export const StyledInputElement = styled(TextInput)`
@@ -24,5 +23,11 @@ export const StyledTitle = styled(Text)`
     color: ${(props)=> props.theme.colors[props.theme.baseColor].textLight};
     font-weight: 500;
     font-size: ${height * .02}px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    margin-top: ${height * .02}px
+`;
+
+export const StyledError = styled(Text)`
+    color: ${(props)=> props.theme.colors[props.theme.baseColor].errorColor};
+    font-weight: 400;
 `;

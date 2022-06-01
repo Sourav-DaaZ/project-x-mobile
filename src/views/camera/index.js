@@ -1,7 +1,6 @@
 'use strict';
 import React, { useRef, useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
-import Permissions from 'react-native-permissions';
 import { RNCamera } from 'react-native-camera';
 
 const { width, height } = Dimensions.get('screen');
@@ -10,7 +9,6 @@ import { StyledPreview, StyledTouchableOpacity, StyledHeadline, StyledQrBox } fr
 
 const CameraComponent = () => {
   let cameraRef = useRef(null);
-  let [permission, setPermission] = useState('undetermined')
 
   const takePicture = async function () {
     if (cameraRef) {
@@ -21,10 +19,7 @@ const CameraComponent = () => {
   };
 
   useEffect(() => {
-    Permissions.check('camera').then(response => {
-      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-      setPermission(response);
-    });
+    
   }, []);
 
   const slide = {
