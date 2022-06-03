@@ -1,9 +1,10 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
-  access_token: '',
-  refresh_token: '',
+  access_token: AsyncStorage.getItem('token') ? AsyncStorage.getItem('token').access_token : '',
+  refresh_token: AsyncStorage.getItem('token') ? AsyncStorage.getItem('token').refresh_token : '',
   loading: false,
   message: {
     type: 'error',

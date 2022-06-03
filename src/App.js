@@ -9,17 +9,15 @@
 import React from 'react';
 import Routs from './routes';
 
-import { Provider } from 'react-redux';
+import { Provider, useStore } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider as PaperProvider } from 'react-native-paper';
-import SnackBar from './sharedComponents/snackbar';
-import Loader from './sharedComponents/loader';
 import GlobalThemeProvider from './contextProviders/globalThemeProvider';
 
 import authReducer from './store/reducers/auth';
 
-if(__DEV__) {
+if (__DEV__) {
   import('./reactotronConfig').then(() => console.log('Reactotron Configured'));
 }
 
@@ -35,9 +33,7 @@ const App = () => {
     <Provider store={store}>
       <GlobalThemeProvider>
         <PaperProvider>
-          <SnackBar show={true} text="hiiii"/>
-          <Loader show={false}/>
-            <Routs />
+          <Routs />
         </PaperProvider>
       </GlobalThemeProvider>
     </Provider>

@@ -7,9 +7,8 @@ import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
 import Modal from '../../sharedComponents/modal';
 import OutsideAuthApi from '../../services/outSideAuth';
-import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, tokenUpdate } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -28,19 +27,39 @@ import {
   StyledForgot
 } from './style';
 
-const Login = (props) => {
+const Register = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
   const [modalShow, setModalShow] = useState(false);
-  const [isOtpLogin, setIsOtpLogin] = React.useState(false);
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     controls: {
+      userId: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'userId',
+          text: 'User Id',
+          placeholder: 'Enter your User ID',
+        },
+        value: '',
+        validation: {
+          required: true,
+          isEmail: true,
+        },
+        valid: false,
+        errors: '',
+        className: [],
+        icons: [
+          <FontAwesome name="user-o" color="#05375a" size={20} />,
+          <Feather name="check-circle" color="green" size={20} />,
+        ],
+      },
       email: {
         elementType: 'input',
         elementConfig: {
           type: 'email',
-          text: 'User ID / Email',
-          placeholder: 'Enter your User ID / email',
+          text: 'Email',
+          placeholder: 'Enter your email',
         },
         value: '',
         validation: {
@@ -97,8 +116,7 @@ const Login = (props) => {
       },
     },
   });
-  const formElementsArray = [];
-  const dispatch = useDispatch();
+  const formElementsArray = []
 
   const onInputChange = (val, type) => {
     let varVal = {};
@@ -112,6 +130,18 @@ const Login = (props) => {
           }),
         }),
       });
+      setData(varVal);
+    } else if (type === 'email' && !validate(val, { email: true })) {
+      varVal = updateObject(data, {
+        controls: updateObject(data.controls, {
+          [type]: updateObject(data.controls[type], {
+            value: val,
+            errors: validation.validateField('email'),
+            valid: false,
+          }),
+        }),
+      });
+      setData(varVal);
     } else if (type === 'password' && !validate(val, { password: true })) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
@@ -122,6 +152,7 @@ const Login = (props) => {
           }),
         }),
       });
+      setData(varVal);
     } else if (
       type === 'otp' &&
       !validate(val, { minLength: defaultValue.otpLength })
@@ -136,6 +167,46 @@ const Login = (props) => {
           }),
         }),
       });
+      setData(varVal);
+    } else if (type === 'userId') {
+      const requestData = {
+        "userId": val
+      }
+      varVal = updateObject(data, {
+        controls: updateObject(data.controls, {
+          userId: updateObject(data.controls.userId, {
+            value: val,
+            valid: false,
+          }),
+        }),
+      });
+      setData(varVal);
+      OutsideAuthApi()
+        .userIdCheckApi(requestData)
+        .then((res) => {
+          varVal = updateObject(data, {
+            controls: updateObject(data.controls, {
+              userId: updateObject(data.controls.userId, {
+                errors: '',
+                value: val,
+                valid: true,
+              }),
+            }),
+          });
+          setData(varVal);
+        })
+        .catch((err) => {
+          varVal = updateObject(data, {
+            controls: updateObject(data.controls, {
+              userId: updateObject(data.controls.userId, {
+                errors: err.message,
+                value: val,
+                valid: false,
+              }),
+            }),
+          });
+          setData(varVal);
+        });
     } else {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
@@ -146,24 +217,20 @@ const Login = (props) => {
           }),
         }),
       });
+      setData(varVal);
     }
-    setData(varVal);
   };
 
-
-  const loginFnc = () => {
+  const registerFnc = () => {
     let isValid = [];
     let val = {};
     formElementsArray.map(
       (x) => (
-        x.id == 'email' ||
-          (!isOtpLogin && x.id == 'password') ||
-          (isOtpLogin && modalShow && x.id == 'otp')
+        x.id == 'userId' ||
+          x.id == 'email' ||
+          x.id == 'password' ||
+          (modalShow && x.id == 'otp')
           ? (val[x.id] = x.config.value)
-          : null,
-        (!isOtpLogin && x.id == 'password') ||
-          (isOtpLogin && modalShow && x.id == 'otp')
-          ? isValid.push(x.config.valid)
           : null
       ),
     );
@@ -173,13 +240,12 @@ const Login = (props) => {
         msg: validation.validateField()
       }))
     } else {
-      if (isOtpLogin && !modalShow) {
+      if (!modalShow) {
         const requestData = {
-          ...(validate(data.controls.email.value, { email: true }) && { "email": data.controls.email.value }),
-          ...(!validate(data.controls.email.value, { email: true }) && { "userId": data.controls.email.value })
+          "email": data.controls.email.value
         }
-        let varVl;
-        varVl = updateObject(data, {
+        let varVal;
+        varVal = updateObject(data, {
           controls: updateObject(data.controls, {
             otp: updateObject(data.controls.otp, {
               errors: '',
@@ -188,7 +254,7 @@ const Login = (props) => {
             }),
           }),
         });
-        setData(varVl);
+        setData(varVal);
         OutsideAuthApi()
           .verifyOtp(requestData)
           .then((res) => {
@@ -202,13 +268,14 @@ const Login = (props) => {
           });
       } else {
         const requestData = {
-          "userId": data.controls.email.value,
-          ...(modalShow && { otp: data.controls.otp.value }),
-          ...(!modalShow && { password: data.controls.password.value }),
+          "userId": data.controls.userId.value,
+          "otp": data.controls.otp.value,
+          "email": data.controls.email.value,
+          "password": data.controls.password.value
         }
-        let varVl;
+        let varVal;
         OutsideAuthApi()
-          .loginApi(requestData)
+          .registerUserApi(requestData)
           .then((res) => {
             dispatch(tokenUpdate({
               access_token: res.data.access_token,
@@ -216,7 +283,7 @@ const Login = (props) => {
             }))
           })
           .catch((err) => {
-            varVl = updateObject(data, {
+            varVal = updateObject(data, {
               controls: updateObject(data.controls, {
                 otp: updateObject(data.controls.otp, {
                   errors: err.message,
@@ -225,39 +292,12 @@ const Login = (props) => {
                 }),
               }),
             });
-            setData(varVl);
+            setData(varVal);
           });
       }
     }
   }
 
-  const resetPassword = () => {
-    const requestData = {
-      ...(validate(data.controls.email.value, { email: true }) && { "email": data.controls.email.value }),
-      ...(!validate(data.controls.email.value, { email: true }) && { "userId": data.controls.email.value })
-    }
-    if (!data.controls.email.valid) {
-      dispatch(SnackbarUpdate({
-        type: 'error',
-        msg: validation.validateField()
-      }))
-    } else {
-      OutsideAuthApi()
-        .requestForChangePassword(requestData)
-        .then((res) => {
-          dispatch(SnackbarUpdate({
-            type: 'success',
-            msg: res.message
-          }))
-        })
-        .catch((err) => {
-          dispatch(SnackbarUpdate({
-            type: 'error',
-            msg: err.message
-          }))
-        });
-    }
-  }
 
   for (let key in data.controls) {
     formElementsArray.push({
@@ -273,18 +313,17 @@ const Login = (props) => {
   return (
     <LoginLayout {...props}>
       <StyledViewButton>
-        {GlobalButton(true, 'Log In', () => {
-          setGlobalPost(true);
+        {GlobalButton(false, 'Log In', () => {
           props.navigation.navigate('login');
         })}
-        {GlobalButton(false, 'Register', () => {
+        {GlobalButton(true, 'Register', () => {
           props.navigation.navigate('register');
         })}
       </StyledViewButton>
       <LoginOuterView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         <InputView>
           {formElementsArray?.map((x, index) => (
-            (x.id !== 'otp' && !(x.id === 'password' && isOtpLogin)) && <Input
+            x.id !== 'otp' && <Input
               key={index}
               title={x.config?.elementConfig?.text}
               placeholder={x.config?.elementConfig?.placeholder}
@@ -299,12 +338,10 @@ const Login = (props) => {
               ele={x.config?.elementType}
             />
           ))}
-          <StyledForgot>
-            <TouchableOpacity onPress={resetPassword}><LoginDescription>Forgot Password?</LoginDescription></TouchableOpacity><TouchableOpacity onPress={() => setIsOtpLogin(!isOtpLogin)}><LoginDescription>Login with {!isOtpLogin ? 'OTP' : 'Password'}?</LoginDescription></TouchableOpacity>
-          </StyledForgot>
         </InputView>
-        <LoginSubmitButton mode='contained' onPress={loginFnc}>
-          Login
+        <StyledForgot></StyledForgot>
+        <LoginSubmitButton mode='contained' onPress={registerFnc}>
+          Register
         </LoginSubmitButton>
       </LoginOuterView>
       <Modal show={modalShow} onClose={() => setModalShow(false)}>
@@ -329,7 +366,7 @@ const Login = (props) => {
             />))}
           <StyledForgot>
           </StyledForgot>
-          <LoginSubmitButton mode='contained' onPress={loginFnc}>
+          <LoginSubmitButton mode='contained' onPress={registerFnc}>
             Login
           </LoginSubmitButton>
         </StyledInputOtp>
@@ -338,4 +375,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default Register;

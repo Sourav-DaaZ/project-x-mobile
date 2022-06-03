@@ -33,6 +33,22 @@ const OutsideAuthApi = () => {
                 data: data,
             })
         },
+        registerUserApi(data) {
+            return axiosObj({
+                url: API.noAuthUrls.registerUser,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data,
+            })
+        },
+        userIdCheckApi(data) {
+            return axiosObj({
+                url: API.noAuthUrls.userIdCheck,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data,
+            })
+        },
     }
 }
 

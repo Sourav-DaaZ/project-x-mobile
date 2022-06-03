@@ -10,6 +10,8 @@ export const API = {
     login: '/login',
     otpVerify: '/user_varification',
     requestForChangePassword: '/request_for_change_password',
+    userIdCheck: '/user_id_check',
+    registerUser: '/register_user',
   },
   authUrls: {
     // add the new api urls here which are inside the authentication

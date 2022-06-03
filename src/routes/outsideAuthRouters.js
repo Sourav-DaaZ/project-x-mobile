@@ -5,6 +5,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import SplashScreen from '../views/auth/splashScreen';
 import Login from '../views/auth/login';
+import Register from '../views/auth/register';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,23 @@ export function OutsideAuthRouters() {
       <Stack.Screen
         name="login"
         component={Login}
+        options={() => ({
+          headerShown: false,
+          // navigationOptions: ({ navigation }) => ({
+          //   headerLeft: (
+          //     <MaterialIcon
+          //       name="arrow-back"
+          //       color={colors.backgroundColor}
+          //       style={{ marginLeft: 15 }}
+          //       size={30}
+          //       onPress={() => navigation.goBack()}
+          //     />
+          //   )
+          // })
+        })} />
+      <Stack.Screen
+        name="register"
+        component={Register}
         options={() => ({
           headerShown: false,
           // navigationOptions: ({ navigation }) => ({

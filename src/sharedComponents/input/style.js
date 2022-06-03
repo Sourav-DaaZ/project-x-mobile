@@ -24,7 +24,7 @@ export const StyledTitle = styled(Text)`
     font-weight: 500;
     font-size: ${height * .02}px;
     margin-bottom: 10px;
-    margin-top: ${height * .02}px
+    margin-top: ${height * .03}px
 `;
 
 export const StyledError = styled(Text)`

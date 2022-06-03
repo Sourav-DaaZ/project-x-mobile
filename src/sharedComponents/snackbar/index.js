@@ -5,21 +5,21 @@ import { ThemeContext } from 'styled-components';
 const SnackBar = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
-    const [visible,setVisible] = React.useState(true);
-    useEffect(()=>{
+    const [visible, setVisible] = React.useState(true);
+    useEffect(() => {
         setVisible(props.show);
-    },[props.show])
+    }, [props.show])
 
     return (
         <Snackbar
-            visible={visible}
-            onDismiss={() => setVisible(false)}
+            visible={props.show}
+            onDismiss={props.onDismiss}
             duration={7000}
             action={{
                 label: 'Ok',
-                onPress: ()=> setVisible(false)
+                onPress: props.onDismiss
             }}
-            theme={{ colors: { surface: colors.backgroundColor, accent: colors.backgroundColor } }}
+            theme={{ colors: { surface: colors.backgroundColor, onSurface: props.type === 'error'?colors.errorColor:colors.textDeep, accent: colors.backgroundColor } }}
             wrapperStyle={{
                 zIndex: 999,
             }}>

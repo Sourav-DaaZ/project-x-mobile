@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const authStart = () => {
     return {
@@ -13,7 +14,8 @@ export const loading = (load) => {
     };
 };
 
-export const tokenUpdate = (data) => {
+export const tokenUpdate = async (data) => {
+    await AsyncStorage.setItem('token', data);
     return {
         type: actionTypes.TOKEN_UPDATE,
         data: data
