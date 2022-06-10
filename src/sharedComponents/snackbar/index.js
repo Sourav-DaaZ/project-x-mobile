@@ -22,6 +22,7 @@ const SnackBar = (props) => {
             theme={{ colors: { surface: colors.backgroundColor, onSurface: props.type === 'error'?colors.errorColor:colors.textDeep, accent: colors.backgroundColor } }}
             wrapperStyle={{
                 zIndex: 999,
+                top: 0
             }}>
             {props.text}
         </Snackbar>

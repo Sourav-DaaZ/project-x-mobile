@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import SnackBar from '../sharedComponents/snackbar';
 import Loader from '../sharedComponents/loader';
 
@@ -9,8 +9,8 @@ const InsideAuthenticationRoutes = React.lazy(() => import('./insideAuthRouters'
 const OutsideAuthenticationRoutes = React.lazy(() => import('./outsideAuthRouters').then(module => ({ default: module.OutsideAuthRouters })));
 
 function Routs(props) {
-  const [show, setShow] = useState(false)
-  const authStore = useSelector((state) => state.auth);
+  const [show, setShow] = useState(false);
+  const authStore = useSelector((state) => state.auth, shallowEqual);
 
   useEffect(() => {
     if (authStore.message.msg !== '') {

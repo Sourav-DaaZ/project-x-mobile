@@ -37,6 +37,10 @@ export const validate = (value, rules) => {
     const pattern = /^\d+$/;
     isValid = pattern.test(value) && isValid;
   }
+  if (rules.isAlphaNumeric) {
+    const pattern = /^\w+$/;
+    isValid = pattern.test(value) && isValid;
+  }
 
   return isValid;
 };

@@ -7,9 +7,9 @@ const CategoryList = (props) => {
 
     return (
         <StyledCard>
-            <StyledCard.Cover style={{ height: 100 }} source={{ uri: 'https://picsum.photos/700' }} />
+            <StyledCard.Cover style={{ height: 100 }} source={props.img ? { uri: props.img } : null} />
             <StyledCard.Content>
-                <StyledHeadline style={{ textAlign: 'center', marginTop: 15 }}>Card</StyledHeadline>
+                <StyledHeadline style={{ textAlign: 'center', marginTop: 15 }}>{props.name}</StyledHeadline>
             </StyledCard.Content>
         </StyledCard>
     )

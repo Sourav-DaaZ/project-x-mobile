@@ -1,6 +1,7 @@
 import React from 'react';
+import { Picker } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import { StyledInputElement, StyledInputView, StyledTitle, StyledError } from './style';
+import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker } from './style';
 
 const Input = (props) => {
   const [dot, setDot] = React.useState(true);
@@ -59,9 +60,30 @@ const Input = (props) => {
         </React.Fragment>
       );
       break;
-    // case 'multi-select':
-    // inputElement = <Multiselect options={props.options} displayValue="name"/>
-    // break;
+    case 'select':
+      inputElement = (
+        <React.Fragment>
+          <StyledTitle>{props.title}</StyledTitle>
+          <StyledPicker
+            key={props.placeholder}
+            value={props.value}
+            open={props.open}
+            items={props.items}
+            multiple={props.multiple}
+            min={props.min}
+            max={props.max}
+            autoScroll={true}
+            style={props.style}
+            listItemContainerStyle={props.listStyle}
+            dropDownContainerStyle={props.containerStyle}
+            itemSeparator={true}
+            setOpen={props.setOpen}
+            setValue={props.setValue}
+            setItems={props.setItems}
+            placeholder={props.placeholder}
+          />
+        </React.Fragment>)
+      break;
   }
   return inputElement;
 };

@@ -16,16 +16,16 @@ const CardComponent = (props) => {
 
     return (
         <React.Fragment>
-            <StyledCardCover source={{ uri: 'https://picsum.photos/700' }} />
-            <StyledCard>
+            {props.images ? <StyledCardCover source={{ uri: props.images }} /> : null}
+            <StyledCard style={{ marginTop: !props.images ? 20 : -20 }}>
                 <StyledCardContent>
-                    <StyledCardTitle>Card</StyledCardTitle>
-                    <StyledCardParagraph>Card content</StyledCardParagraph>
+                    {props.title ? <StyledCardTitle>{props.title}</StyledCardTitle> : null}
+                    {props.message ? <StyledCardParagraph>{props.message}</StyledCardParagraph> : null}
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton mode='contained'>Apply</StyledCardButton>
-                    <StyledCardsecondButton mode='text'><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton>
-                    <StyledCardsecondButton mode='text'><StyledCardIcon name='share-outline' /></StyledCardsecondButton>
+                    <StyledCardButton mode='contained' onPress={props.onViewPress}>View</StyledCardButton>
+                    <StyledCardsecondButton mode='text' onPress={props.onChatPress}><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton>
+                    <StyledCardsecondButton mode='text' onPress={props.onSherePress}><StyledCardIcon name='share-outline' /></StyledCardsecondButton>
                 </StyledCardAction>
             </StyledCard>
         </React.Fragment>

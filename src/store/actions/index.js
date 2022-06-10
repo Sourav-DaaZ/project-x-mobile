@@ -1,5 +1,5 @@
 export {
-   loading,
+   loader,
    tokenUpdate,
    SnackbarUpdate
 } from './auth';

@@ -24,7 +24,6 @@ const axiosObj = (info) => {
       return response.data;
     },
     (error) => {
-    //   console.warn(error);
       if (error.response && error.response.data) {
         return Promise.reject(error.response.data);
       }

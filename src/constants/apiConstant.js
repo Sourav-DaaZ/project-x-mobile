@@ -12,8 +12,11 @@ export const API = {
     requestForChangePassword: '/request_for_change_password',
     userIdCheck: '/user_id_check',
     registerUser: '/register_user',
+    categoryList: '/category_list',
+    searchPost: '/search_post',
+    getPosts: '/get_posts',
   },
   authUrls: {
-    // add the new api urls here which are inside the authentication
+    createPost: '/create_post',
   },
 };

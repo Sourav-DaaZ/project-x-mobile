@@ -49,6 +49,28 @@ const OutsideAuthApi = () => {
                 data: data,
             })
         },
+        categoryListApi() {
+            return axiosObj({
+                url: API.noAuthUrls.categoryList,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        searchPostApi(data) {
+            return axiosObj({
+                url: API.noAuthUrls.searchPost + '?search=' + data,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        getPostsApi(data) {
+            return axiosObj({
+                url: API.noAuthUrls.getPosts,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data,
+            })
+        }
     }
 }
 

@@ -7,15 +7,15 @@ export const authStart = () => {
     };
 };
 
-export const loading = (load) => {
+export const loader = (loading) => {
     return {
         type: actionTypes.LOADING,
-        loading: load
+        loading: loading
     };
 };
 
-export const tokenUpdate = async (data) => {
-    await AsyncStorage.setItem('token', data);
+export const tokenUpdate = (data) => {
+    AsyncStorage.setItem('token', JSON.stringify(data));
     return {
         type: actionTypes.TOKEN_UPDATE,
         data: data

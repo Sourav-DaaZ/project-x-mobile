@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
@@ -8,18 +8,39 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
     StyledHorizontalScrollView
 } from './style';
-
-import CategoryList from '../categoryList/singleCat';
+import OutsideAuthApi from '../../services/outSideAuth';
+import SingleCategory from '../categoryList/singleCat';
 import Card from '../../sharedComponents/card';
 
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const [outerScrollViewScrollEnabled, setOuterScrollViewScrollEnabled] = useState(true);
+    const [showLoader, setShowLoader] = useState(false);
+    const [showMsg, setShowMsg] = useState('');
+    const [category, setCategory] = useState([]);
     const handleInnerPressIn = () => setOuterScrollViewScrollEnabled(false);
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener("focus", () => {
+        setShowLoader(true)
+        OutsideAuthApi()
+            .categoryListApi()
+            .then((res) => {
+                setShowLoader(false);
+                setCategory(res.data);
+            })
+            .catch((err) => {
+                setShowLoader(false);
+                setShowMsg(err.message)
+            });
+        })
+        return unsubscribe;
+    }, [])
+
     return (
-        <DashboardLayout fab={true} banner='https://rukminim2.flixcart.com/flap/844/140/image/d7acd8642443dd1c.jpg?q=50'>
+        <DashboardLayout fab={true} {...props} showLoader={showLoader} showMsg={showMsg} category={category}>
             <View>
                 <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} onPress={() => props.navigation.navigate('Category')} /></Button>} />
                 <View style={{ flexDirection: "row" }}>
@@ -29,7 +50,7 @@ const Dashboard = (props) => {
                             onPressOut={handleInnerPressOut}
                         >
                             <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                                <CategoryList />
+                                {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('SingleCategory', { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
                             </View>
                         </TouchableWithoutFeedback>
                     </StyledHorizontalScrollView>
@@ -41,7 +62,7 @@ const Dashboard = (props) => {
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'lightgray' }}>Cancel</Button>
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'gray' }}>Ok</Button>
                 </View> */}
-                <TouchableOpacity onPress={() => props.navigation.navigate('Camera')}>
+                <TouchableOpacity onPress={() => console.log('hii')}>
                     <Card />
                 </TouchableOpacity>
             </View>
