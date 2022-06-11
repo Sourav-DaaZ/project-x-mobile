@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
-import { TouchableOpacity, Text, View } from 'react-native';
-
+import { FAB } from 'react-native-paper';
 import {
     StyledHorizontalScrollView,
     StyledViewButton,
@@ -10,18 +9,18 @@ import {
     StyledTouchableOpacity
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
+import InsideAuthApi from '../../services/inSideAuth';
 import Card from '../../sharedComponents/card';
-import Modal from '../../sharedComponents/modal';
-import Chat from '../chatScreen';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../store/actions';
+import { SnackbarUpdate, loader } from '../../store/actions';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const authStore = useSelector((state) => state.auth, shallowEqual);
     const dispatch = useDispatch();
     const [globalPost, setGlobalPost] = useState(true);
-    const [cmdPopup, setCmdPopup] = useState(false);
     const [data, setData] = useState([]);
 
 
@@ -30,27 +29,48 @@ const SingleCategory = (props) => {
     )
 
     useEffect(() => {
-        let requestData = {
-            category_id: props.route.params.data._id,
-            location: {
-                lat: 102,
-                long: 21
-            },
-            distance: 500000,
-            // gender: "male"
+        setData([]);
+        dispatch(loader(true));
+        if (globalPost) {
+            let requestData = {
+                category_id: props.route.params?.data._id,
+                location: {
+                    lat: 102,
+                    long: 21
+                },
+                // distance: 500000,
+                // gender: "male"
+            }
+            OutsideAuthApi()
+                .getPostsApi(requestData)
+                .then((res) => {
+                    setData(res.data);
+                    dispatch(loader(false));
+                })
+                .catch((err) => {
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err.message
+                    }));
+                    dispatch(loader(false));
+                });
+        } else {
+            InsideAuthApi(authStore)
+                .getMyPostApi(props.route.params.data._id)
+                .then((res) => {
+                    setData(res.data);
+                    dispatch(loader(false));
+                })
+                .catch((err) => {
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err.message
+                    }));
+                    dispatch(loader(false));
+                });
         }
-        OutsideAuthApi()
-            .getPostsApi(requestData)
-            .then((res) => {
-                setData(res.data);
-            })
-            .catch((err) => {
-                dispatch(SnackbarUpdate({
-                    type: 'error',
-                    msg: err.message
-                }))
-            });
-    }, [])
+    }, [globalPost])
+
     return (
         <React.Fragment>
             <StyledViewButton>
@@ -62,9 +82,18 @@ const SingleCategory = (props) => {
                     <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate('Posts', { data: x })} />
                 )}
             </StyledHorizontalScrollView>
-            <Modal show={cmdPopup} onClose={() => setCmdPopup(false)} title='hi'>
-                <Chat />
-            </Modal>
+            {authStore.access_token && authStore.access_token !== '' ? <FAB
+                style={{
+                    position: 'absolute',
+                    margin: 16,
+                    right: 0,
+                    bottom: 30,
+                    backgroundColor: colors.mainColor
+                }}
+                icon="plus"
+                label='Post'
+                onPress={() => props.navigation.navigate('CreatePost', { category: { name: props.route.params.data.category_name, id: props.route.params.data._id } })}
+            /> : null}
         </React.Fragment>
     )
 };

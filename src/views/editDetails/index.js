@@ -22,7 +22,7 @@ import {
   StyledInlineInputContainer
 } from './style';
 
-const CreatePost = (props) => {
+const EditDetails = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -323,4 +323,4 @@ const CreatePost = (props) => {
   );
 };
 
-export default CreatePost;
+export default EditDetails;

@@ -13,13 +13,11 @@ export const StyledCard = styled(Card)`
     display: flex;
     flex: 1;
     width: ${width}px;
-    margin-bottom: 15px;
-    border-radius: 10px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledCardCover = styled(Card.Cover)`
-    height: ${height * .25}px; 
+    height: ${height * .40}px; 
     width: ${width}px;
 `;
 
@@ -47,6 +45,7 @@ export const StyledCardTitle = styled(Title)`
 
 export const StyledCardParagraph = styled(Paragraph)`
     font-size: ${width * .04}px;
+    margin-top: 10px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
 `;
 

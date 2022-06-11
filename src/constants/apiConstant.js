@@ -17,6 +17,9 @@ export const API = {
     getPosts: '/get_posts',
   },
   authUrls: {
+    details: '/details',
     createPost: '/create_post',
+    getMyPost: '/get_my_post',
+    logout: '/logout',
   },
 };

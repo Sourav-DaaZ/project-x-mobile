@@ -1,17 +1,16 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../utils';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const initialState = {
-  access_token: JSON.stringify(AsyncStorage.getItem('token')).access_token !== undefined ? JSON.stringify(AsyncStorage.getItem('token')).access_token : '',
-  refresh_token: JSON.stringify(AsyncStorage.getItem('token')).refresh_token !== undefined ? JSON.stringify(AsyncStorage.getItem('token')).refresh_token : '',
+  access_token: '',
+  refresh_token: '',
   loading: false,
   message: {
     type: 'error',
     msg: ''
   }
 };
-console.warn(JSON.stringify(AsyncStorage.getItem('token')).access_token)
+
 const loader = (state, action) => {
   return updateObject(state, {
     loading: action.loading

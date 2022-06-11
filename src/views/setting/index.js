@@ -8,69 +8,86 @@ import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSe
 
 import ViewShot from "react-native-view-shot";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Modal from '../../sharedComponents/modal';
 import Share from 'react-native-share';
 import RNQRGenerator from 'rn-qr-generator';
+import InsideAuthApi from '../../services/inSideAuth';
+import { SnackbarUpdate, loader, tokenUpdate } from '../../store/actions';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Setting = (props) => {
-  const [qrPopup, setQrPopup] = useState(false);
-  const [image, setImage] = useState('');
-  const [qrImage, setQrImage] = useState('');
-  const viewRef = useRef();
-
-  const url = "https://awesome.contents.com/";
-  const title = "Awesome Contents";
-  const message = "Please check this out.";
-
-  const options = {
-    title,
-    url,
-    message,
-  };
-
-  const onCapture = (data) => {
-    setImage(data);
-  }
-
-  const ShareFnc = async (customOptions = options) => {
-    try {
-      await Share.open(customOptions);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch();
+  const authStore = useSelector((state) => state.auth, shallowEqual);
+  const [details, setDetails] = useState({})
 
   useEffect(() => {
-    RNQRGenerator.generate({
-      value: 'hii',
-      height: 200,
-      width: 200,
-      base64: true
-    })
-      .then(response => {
-        const { uri, width, height, base64 } = response;
-        setQrImage(base64);
+    InsideAuthApi(authStore)
+      .detailsApi()
+      .then((res) => {
+        setDetails(res.data);
       })
-      .catch(error => console.log('Cannot create QR code', error));
+      .catch((err) => {
+        dispatch(SnackbarUpdate({
+          type: 'error',
+          msg: err.message
+        }))
+      });
+
   }, [])
-  
+
+  const onLoginOut = () => {
+    InsideAuthApi(authStore)
+      .logout()
+      .then(async(res) => {
+        await AsyncStorage.removeItem('token');
+        dispatch(tokenUpdate({
+          access_token: '',
+          refresh_token: ''
+        }));
+        props.navigation.navigate('login');
+      })
+      .catch((err) => {
+        dispatch(SnackbarUpdate({
+          type: 'error',
+          msg: err.message
+        }))
+      });
+  }
+
   return (
     <DashboardLayout>
-      <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
+      {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
         <StyledProfileView>
           <View>
-            <StyledTitle>Sourav Das</StyledTitle>
-            <StyledParagraph>Tap to view your profile.</StyledParagraph>
+            <StyledTitle>{details.name}</StyledTitle>
+            <StyledParagraph>{details.category}</StyledParagraph>
           </View>
           <Avatar.Image
             source={{
               uri:
-                'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                details.images ? details.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
             }}
             size={70}
           />
         </StyledProfileView>
-      </TouchableOpacity>
+      </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate('login')}>
+        <StyledProfileView>
+          <View>
+            <StyledTitle>Login</StyledTitle>
+            <StyledParagraph>Please login for see the details</StyledParagraph>
+          </View>
+          <Avatar.Image
+            source={{
+              uri:
+                details.images ? details.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+            }}
+            size={70}
+          />
+        </StyledProfileView>
+      </TouchableOpacity>}
       <StyledProfileView style={{ justifyContent: 'space-around' }}>
         <StyledCenter>
           <Ionicons name='settings-outline' size={30} />
@@ -88,42 +105,15 @@ const Setting = (props) => {
             <StyledSemiTitle>Setting</StyledSemiTitle>
           </StyledLeftContainer>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setQrPopup(true)}>
+      </StyledProfile>
+      {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
+        <TouchableOpacity onPress={onLoginOut}>
           <StyledLeftContainer>
-            <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
-            <StyledSemiTitle>Qr Code Scan</StyledSemiTitle>
+            <MaterialIcons style={{ marginRight: 20 }} name='logout' size={25} />
+            <StyledSemiTitle>Logout</StyledSemiTitle>
           </StyledLeftContainer>
         </TouchableOpacity>
-      </StyledProfile>
-      <StyledProfile>
-        <TouchableOpacity onPress={async () => {
-          await ShareFnc({
-            title: "Sharing image file from awesome share app",
-            message: "Please take a look at this image",
-            url: "data:image/png;base64," + image,
-          });
-        }}>
-          <StyledLeftContainer>
-            <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
-            <StyledSemiTitle>Settings</StyledSemiTitle>
-          </StyledLeftContainer>
-        </TouchableOpacity>
-      </StyledProfile>
-      <Modal show={qrPopup} onClose={() => setQrPopup(false)}>
-        <StyledModalView>
-          <ViewShot options={{ result: "base64" }} onCapture={onCapture} captureMode="mount">
-            <Image
-            style={{
-              width: 200,
-              height: 200,
-            }}
-              source={{
-                uri: "data:image/png;base64," + qrImage
-              }}
-            />
-          </ViewShot>
-        </StyledModalView>
-      </Modal>
+      </StyledProfile> : null}
     </DashboardLayout>
   )
 }

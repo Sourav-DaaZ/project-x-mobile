@@ -18,6 +18,7 @@ import ProfileScreen from '../views/profileScreen';
 import DetailsScreen from '../views/detailsScreen';
 import ChatScreen from '../views/chatScreen';
 import CreatePost from '../views/createPost';
+import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
 import Camera from '../views/camera';
 import { CustomTab, CustomHeader } from './custom';
@@ -67,14 +68,14 @@ export function InsideAuthRouters() {
           }}
           component={SearchScreen} />
         <Tab.Screen
-          name='Posts'
+          name='Camera'
           options={{
-            tabBarLabel: 'Posts',
+            tabBarLabel: 'Camera',
             tabBarIcon: (color, size) => (
               <AntDesign name="home" color={color} size={size} />
             ),
           }}
-          component={DetailsScreen} />
+          component={Camera} />
         <Tab.Screen
           name='Setting'
           options={{
@@ -127,8 +128,8 @@ export function InsideAuthRouters() {
           />
         })} />
       <Stack.Screen
-        name="Camera"
-        component={Camera}
+        name="CreatePost"
+        component={CreatePost}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
@@ -136,8 +137,17 @@ export function InsideAuthRouters() {
           />
         })} />
       <Stack.Screen
-        name="CreatePost"
-        component={CreatePost}
+        name="EditDetails"
+        component={EditDetails}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} />
+      <Stack.Screen
+        name="Posts"
+        component={DetailsScreen}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}

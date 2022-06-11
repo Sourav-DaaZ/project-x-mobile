@@ -35,7 +35,7 @@ const DashboardLayout = (props) => {
                     {props.children}
                 </View>
             </StyledScrollView>
-            {props.fab && authStore.access_token !== '' ? <FAB
+            {props.fab && authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',
                     margin: 16,

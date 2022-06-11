@@ -1,23 +1,43 @@
 import axiosObj from './axiosConfig';
 import { API } from '../constants/apiConstant';
-import { useSelector, shallowEqual } from 'react-redux';
 
-const InsideAuthApi = (auth) => {
+const InsideAuthApi = (authStore) => {
     const defaultHeaders = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + auth.access_token
+        "Authorization": "Bearer " + authStore.access_token
     };
     const formDataHeaders = {
         "Content-Type": "multipart/form-data",
-        "Authorization": "Bearer " + auth.access_token
+        "Authorization": "Bearer " + authStore.access_token
     };
     return {
+        detailsApi() {
+            return axiosObj({
+                url: API.authUrls.details,
+                method: 'GET',
+                headers: { ...defaultHeaders },
+            })
+        },
         createPost(data) {
             return axiosObj({
                 url: API.authUrls.createPost,
                 method: 'POST',
                 headers: { ...defaultHeaders },
                 data: data,
+            })
+        },
+        getMyPostApi(param) {
+            return axiosObj({
+                url: API.authUrls.getMyPost + "?category_id:" + param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        logout() {
+            return axiosObj({
+                url: API.authUrls.logout,
+                method: 'POST',
+                headers: { ...defaultHeaders },
             })
         },
     }

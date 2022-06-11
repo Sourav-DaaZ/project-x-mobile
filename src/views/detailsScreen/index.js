@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
     StyledCard,
@@ -13,13 +13,20 @@ import {
 } from './style'
 
 const DetailsScreen = (props) => {
+    const [data, setData] = useState({});
+    useEffect(() => {
+        setData(props.route.params.data);
+    }, [])
 
     return (
         <StyledCard>
-            <StyledCardCover source={{ uri: 'https://picsum.photos/700' }} />
+            {data.images && data.images[0] ? <StyledCardCover source={{ uri: data.images[0] }} resizeMode='contain' /> : null}
             <StyledCardContent>
-                <StyledCardTitle>Card</StyledCardTitle>
-                <StyledCardParagraph>Card content</StyledCardParagraph>
+                <StyledCardTitle>{data?.title}</StyledCardTitle>
+                <StyledCardParagraph>{data?.message}</StyledCardParagraph>
+                <StyledCardParagraph>Expected Cost: <StyledCardTitle style={{
+                    fontSize: 18,
+                }}>{data?.expected_price} Rs.</StyledCardTitle></StyledCardParagraph>
             </StyledCardContent>
             <StyledCardAction>
                 <StyledCardButton mode='contained'>Apply</StyledCardButton>

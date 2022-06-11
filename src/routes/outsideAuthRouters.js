@@ -28,35 +28,13 @@ export function OutsideAuthRouters() {
         name="login"
         component={Login}
         options={() => ({
-          headerShown: false,
-          // navigationOptions: ({ navigation }) => ({
-          //   headerLeft: (
-          //     <MaterialIcon
-          //       name="arrow-back"
-          //       color={colors.backgroundColor}
-          //       style={{ marginLeft: 15 }}
-          //       size={30}
-          //       onPress={() => navigation.goBack()}
-          //     />
-          //   )
-          // })
+          headerShown: false
         })} />
       <Stack.Screen
         name="register"
         component={Register}
         options={() => ({
-          headerShown: false,
-          // navigationOptions: ({ navigation }) => ({
-          //   headerLeft: (
-          //     <MaterialIcon
-          //       name="arrow-back"
-          //       color={colors.backgroundColor}
-          //       style={{ marginLeft: 15 }}
-          //       size={30}
-          //       onPress={() => navigation.goBack()}
-          //     />
-          //   )
-          // })
+          headerShown: false
         })} />
     </Stack.Navigator>
   );
