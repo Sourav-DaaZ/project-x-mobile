@@ -34,7 +34,7 @@ const SnackbarUpdate = (state, action) => {
   });
 };
 
-const reducer = (state = initialState, action = { type: '' }) => {
+const AuthReducer = (state = initialState, action = { type: '' }) => {
   switch (action.type) {
     case actionTypes.LOADING:
       return loader(state, action);
@@ -47,4 +47,4 @@ const reducer = (state = initialState, action = { type: '' }) => {
   }
 };
 
-export default reducer;
+export default AuthReducer;

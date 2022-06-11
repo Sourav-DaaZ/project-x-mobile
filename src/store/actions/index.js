@@ -3,3 +3,7 @@ export {
    tokenUpdate,
    SnackbarUpdate
 } from './auth';
+
+export {
+   location,
+} from './userDetails';

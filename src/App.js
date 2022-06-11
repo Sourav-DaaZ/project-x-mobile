@@ -15,14 +15,16 @@ import thunk from 'redux-thunk';
 import { Provider as PaperProvider } from 'react-native-paper';
 import GlobalThemeProvider from './contextProviders/globalThemeProvider';
 
-import authReducer from './store/reducers/auth';
+import AuthReducer from './store/reducers/auth';
+import DetailsReducer from './store/reducers/userDetails';
 
 if (__DEV__) {
   import('./reactotronConfig').then(() => console.log('Reactotron Configured'));
 }
 
 const rootReducer = combineReducers({
-  auth: authReducer,
+  auth: AuthReducer,
+  details: DetailsReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

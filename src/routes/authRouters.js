@@ -21,12 +21,16 @@ import CreatePost from '../views/createPost';
 import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
 import Camera from '../views/camera';
+import Login from '../views/auth/login';
+import Register from '../views/auth/register';
+import AccessScreen from '../views/access';
+
 import { CustomTab, CustomHeader } from './custom';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export function InsideAuthRouters() {
+export function AuthRouters(props) {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
 
@@ -101,6 +105,42 @@ export function InsideAuthRouters() {
           />
         })} />
       <Stack.Screen
+        name="Access"
+        component={AccessScreen}
+        options={() => ({
+          headerShown: false
+        })} />
+      {!props.islogin ? <Stack.Screen
+        name="login"
+        component={Login}
+        options={() => ({
+          headerShown: false
+        })} /> : null}
+      {!props.islogin ? <Stack.Screen
+        name="register"
+        component={Register}
+        options={() => ({
+          headerShown: false
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="EditDetails"
+        component={EditDetails}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      <Stack.Screen
         name="SingleCategory"
         component={SingleCategory}
         options={({ navigation }) => ({
@@ -121,24 +161,6 @@ export function InsideAuthRouters() {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
-        options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
-        })} />
-      <Stack.Screen
-        name="CreatePost"
-        component={CreatePost}
-        options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
-        })} />
-      <Stack.Screen
-        name="EditDetails"
-        component={EditDetails}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}

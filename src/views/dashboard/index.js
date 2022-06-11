@@ -27,17 +27,17 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener("focus", () => {
-        setShowLoader(true)
-        OutsideAuthApi()
-            .categoryListApi()
-            .then((res) => {
-                setShowLoader(false);
-                setCategory(res.data);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                setShowMsg(err.message)
-            });
+            setShowLoader(true)
+            OutsideAuthApi()
+                .categoryListApi()
+                .then((res) => {
+                    setShowLoader(false);
+                    setCategory(res.data);
+                })
+                .catch((err) => {
+                    setShowLoader(false);
+                    setShowMsg(err.message)
+                });
         })
         return unsubscribe;
     }, [])
@@ -45,7 +45,7 @@ const Dashboard = (props) => {
     return (
         <DashboardLayout fab={true} {...props} showLoader={showLoader} showMsg={showMsg} category={category}>
             <View>
-                <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} onPress={() => props.navigation.navigate('Category')} /></Button>} />
+                <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate('Category')} goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} /></Button>} />
                 <View style={{ flexDirection: "row" }}>
                     <StyledHorizontalScrollView style={{ height: "100%", paddingBottom: 20, paddingLeft: 20, }} horizontal showsHorizontalScrollIndicator={false}>
                         <TouchableWithoutFeedback

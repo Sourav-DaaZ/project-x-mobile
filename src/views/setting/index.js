@@ -6,12 +6,8 @@ import {
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer, StyledModalView } from './style';
 
-import ViewShot from "react-native-view-shot";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Modal from '../../sharedComponents/modal';
-import Share from 'react-native-share';
-import RNQRGenerator from 'rn-qr-generator';
 import InsideAuthApi from '../../services/inSideAuth';
 import { SnackbarUpdate, loader, tokenUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -24,30 +20,30 @@ const Setting = (props) => {
   const [details, setDetails] = useState({})
 
   useEffect(() => {
-    InsideAuthApi(authStore)
-      .detailsApi()
-      .then((res) => {
-        setDetails(res.data);
-      })
-      .catch((err) => {
-        dispatch(SnackbarUpdate({
-          type: 'error',
-          msg: err.message
-        }))
-      });
-
+    if (authStore.access_token) {
+      InsideAuthApi(authStore)
+        .detailsApi()
+        .then((res) => {
+          setDetails(res.data);
+        })
+        .catch((err) => {
+          dispatch(SnackbarUpdate({
+            type: 'error',
+            msg: err.message
+          }))
+        });
+    }
   }, [])
 
   const onLoginOut = () => {
     InsideAuthApi(authStore)
       .logout()
-      .then(async(res) => {
+      .then(async (res) => {
         await AsyncStorage.removeItem('token');
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''
         }));
-        props.navigation.navigate('login');
       })
       .catch((err) => {
         dispatch(SnackbarUpdate({

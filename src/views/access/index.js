@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeContext } from 'styled-components';
-import saveMoneyImg from '../../assets/images/save_money.png';
 import logoImg from '../../assets/images/logo.png';
 import {
   SplashOuterView,
@@ -12,25 +11,22 @@ import {
   SplashButton
 } from './style';
 
-const SplashScreen = (props) => {
+const AccessScreen = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
   return (
     <SplashOuterView>
-      <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
+      <StatusBar backgroundColor={colors.backgroundDeepColor} barStyle="dark-content" />
       <SplashLogo
         source={logoImg}
       />
-      <SplashBannerLogo
-        source={saveMoneyImg}
-      />
-      <SplashTitle>Stay connected!</SplashTitle>
-      <SplashDescription>Best Solution to Connect people.</SplashDescription>
-      <SplashButton mode='contained' circular onPress={() => props.navigation.navigate('login')}>
-        Get Started
+      <SplashTitle>{props.route.params.type} Access ERROR!</SplashTitle>
+      <SplashDescription>Please give your {props.route.params.type} access for better performance.</SplashDescription>
+      <SplashButton mode='contained' circular onPress={() => props.navigation.goBack()}>
+        Try Again
       </SplashButton>
     </SplashOuterView>
   );
 };
 
-export default SplashScreen;
+export default AccessScreen;

@@ -1,8 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StatusBar, View } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual } from 'react-redux';
+import Geolocation from '@react-native-community/geolocation';
+import { location } from '../../../store/actions';
+import { useDispatch } from 'react-redux';
 import {
     DashboardOuterView,
     StyledFullImg,
@@ -15,7 +18,27 @@ import BannerComponent from '../../banner';
 const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const dispatch = useDispatch();
     const authStore = useSelector((state) => state.auth, shallowEqual);
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener("focus", () => {
+            if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
+                Geolocation.getCurrentPosition(({ coords }) => {
+                    dispatch(location({
+                        lat: coords.latitude,
+                        long: coords.longitude
+                    }))
+                },
+                    (error) => props.navigation.navigate('Access', { type: 'Camera' }),
+                    { enableHighAccuracy: true, timeout: 20000 }
+                );
+            }
+        })
+        return unsubscribe
+    }, [detailsStore])
+
     return (
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />

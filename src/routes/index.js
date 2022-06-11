@@ -8,8 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { tokenUpdate } from '../store/actions';
 
-const InsideAuthenticationRoutes = React.lazy(() => import('./insideAuthRouters').then(module => ({ default: module.InsideAuthRouters })));
-const OutsideAuthenticationRoutes = React.lazy(() => import('./outsideAuthRouters').then(module => ({ default: module.OutsideAuthRouters })));
+const AuthenticationRoutes = React.lazy(() => import('./authRouters').then(module => ({ default: module.AuthRouters })));
 
 function Routs(props) {
   const [show, setShow] = useState(false);
@@ -19,7 +18,6 @@ function Routs(props) {
 
   const fetchCredentials = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('token') || "{}");
-    console.warn(data)
     dispatch(tokenUpdate({
       access_token: data.access_token,
       refresh_token: data.refresh_token
@@ -42,7 +40,7 @@ function Routs(props) {
       <SnackBar show={show} text={authStore.message.msg} type={authStore.message.type} onDismiss={() => setShow(false)} />
       <Loader show={authStore.loading} />
       <NavigationContainer>
-        {authStore.access_token && authStore.access_token !== '' ? <InsideAuthenticationRoutes {...props} /> : <OutsideAuthenticationRoutes {...props} />}
+        <AuthenticationRoutes {...props} islogin={authStore.access_token && authStore.access_token !== ''} />
       </NavigationContainer>
     </React.Suspense>
   );

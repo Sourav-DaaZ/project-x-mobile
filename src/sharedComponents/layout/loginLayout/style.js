@@ -1,13 +1,16 @@
-import { View, Image, SafeAreaView } from 'react-native';
+import { View, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import * as Animatable from 'react-native-animatable';
 
 export const LoginContainer = styled(View)`
   flex: 1;
   backgroundColor: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}
+`;
+export const StyledIonicons = styled(Ionicons)`
+  color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}
 `;
 
 export const LoginSafeView = styled(SafeAreaView)`
@@ -26,10 +29,10 @@ export const LoginLogo = styled(Image)`
   width: 120px;
 `;
 
-export const LoginBack = styled(MaterialIcon)`
+export const LoginBack = styled(TouchableOpacity)`
   position: absolute;
   left: 30px;
-  top: 20%;
+  top: 25%;
   color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 

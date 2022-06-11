@@ -12,7 +12,8 @@ import {
     LoginNetworkLogo,
     LoginDevider,
     LoginDeviderLine,
-    LoginDeviderText
+    LoginDeviderText,
+    StyledIonicons
 } from './style';
 import {
     GoogleSignin,
@@ -58,6 +59,7 @@ const LoginLayout = (props) => {
         <LoginContainer>
             <StatusBar backgroundColor={colors.mainColor} barStyle="light-content" />
             <LoginSafeView animation='lightSpeedIn'>
+                <LoginBack onPress={() => props.navigation.goBack()}><StyledIonicons name='chevron-back' size={30} /></LoginBack>
                 <LoginLogo
                     source={logoImg}
                 />
