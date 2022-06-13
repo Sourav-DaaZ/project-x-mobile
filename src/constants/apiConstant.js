@@ -15,6 +15,7 @@ export const API = {
     categoryList: '/category_list',
     searchPost: '/search_post',
     getPosts: '/get_posts',
+    postSocket: '/post',
   },
   authUrls: {
     details: '/details',

@@ -72,14 +72,14 @@ export function AuthRouters(props) {
           }}
           component={SearchScreen} />
         <Tab.Screen
-          name='Camera'
+          name='ChatScreen'
           options={{
-            tabBarLabel: 'Camera',
+            tabBarLabel: 'ChatScreen',
             tabBarIcon: (color, size) => (
               <AntDesign name="home" color={color} size={size} />
             ),
           }}
-          component={Camera} />
+          component={ChatScreen} />
         <Tab.Screen
           name='Setting'
           options={{

@@ -92,3 +92,11 @@ export const StyledButtonView = styled(Text)`
     font-size: 15px;
     text-transform: uppercase;
 `;
+
+export const SplashTitle = styled(Text)`
+    font-size: ${width * .1}px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}
+`;

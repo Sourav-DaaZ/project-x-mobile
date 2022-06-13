@@ -23,20 +23,17 @@ const DashboardLayout = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
-                Geolocation.getCurrentPosition(({ coords }) => {
-                    dispatch(location({
-                        lat: coords.latitude,
-                        long: coords.longitude
-                    }))
-                },
-                    (error) => props.navigation.navigate('Access', { type: 'Camera' }),
-                    { enableHighAccuracy: true, timeout: 20000 }
-                );
-            }
-        })
-        return unsubscribe
+        if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
+            Geolocation.getCurrentPosition(({ coords }) => {
+                dispatch(location({
+                    lat: coords.latitude,
+                    long: coords.longitude
+                }))
+            },
+                (error) => props.navigation.navigate('Access', { type: 'Camera' }),
+                { enableHighAccuracy: true, timeout: 20000 }
+            );
+        }
     }, [detailsStore])
 
     return (
