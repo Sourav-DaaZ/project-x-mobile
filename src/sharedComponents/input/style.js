@@ -1,6 +1,7 @@
 import { Platform, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { View, TextInput, Text } from 'react-native';
+import { Switch } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 const { width, height } = Dimensions.get('screen');
 
@@ -35,4 +36,8 @@ export const StyledError = styled(Text)`
 
 export const StyledPicker = styled(DropDownPicker)`
     
+`;
+
+export const StyledSwitch = styled(Switch)`
+
 `;

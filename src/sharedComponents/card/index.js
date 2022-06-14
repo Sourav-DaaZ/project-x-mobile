@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { TouchableOpacity } from 'react-native';
 import {
     StyledCard,
     StyledCardContent,
@@ -23,7 +23,7 @@ const CardComponent = (props) => {
                     {props.message ? <StyledCardParagraph>{props.message}</StyledCardParagraph> : null}
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton mode='contained' onPress={props.onViewPress}>View</StyledCardButton>
+                    <StyledCardButton mode='contained' contentStyle={{ padding: 3 }} onPress={props.onViewPress}>View</StyledCardButton>
                     <StyledCardsecondButton mode='text' onPress={props.onChatPress}><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton>
                     <StyledCardsecondButton mode='text' onPress={props.onSherePress}><StyledCardIcon name='share-outline' /></StyledCardsecondButton>
                 </StyledCardAction>

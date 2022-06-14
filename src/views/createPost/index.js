@@ -2,12 +2,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Keyboard } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
-import defaultValue from '../../constants/defaultValue';
 import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
 import InsideAuthApi from '../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -19,7 +18,8 @@ import {
   StyledScrollView,
   StyledInlineInput,
   StyledText,
-  StyledInlineInputContainer
+  StyledInlineInputContainer,
+  StyledInput
 } from './style';
 
 const CreatePost = (props) => {
@@ -33,17 +33,14 @@ const CreatePost = (props) => {
     { label: 'Male', value: 'male' },
     { label: 'Female', value: 'female' }
   ]);
-  const [isPublicArr, setisPublicArr] = useState([
-    { label: 'Public', value: true },
-    { label: 'Private', value: false }
-  ]);
   const [categoryArr, setCategoryArr] = useState([]);
+  const [isPublic, setIsPublic] = useState(true);
+  const [userVisible, setUserVisible] = useState(true);
   const [gender, setGender] = useState(genderArr[0].value);
-  const [isPublic, setIsPublic] = useState(isPublicArr[0].value);
   const [category, setCategory] = useState('');
+  const [loader, setLoader] = useState(false);
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
-  const [openIsPublic, setOpenIsPublic] = useState(false);
   const [data, setData] = useState({
     controls: {
       title: {
@@ -167,7 +164,7 @@ const CreatePost = (props) => {
     }
   };
 
-  const registerFnc = () => {
+  const createPostFnc = () => {
     let isValid = [];
     formElementsArray.map(
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
@@ -179,7 +176,7 @@ const CreatePost = (props) => {
         msg: validation.validateField()
       }))
     } else {
-      dispatch(loader(true));
+      setLoader(true);
       const requestData = {
         category_id: props.route.params.category ? props.route.params.category.id : category,
         title: data.controls.title.value,
@@ -187,6 +184,7 @@ const CreatePost = (props) => {
         expected_price: data.controls.price.value,
         isPublic: isPublic,
         genderSpecific: gender,
+        userVisible: userVisible,
         location: {
           lat: 104,
           long: 20
@@ -195,7 +193,7 @@ const CreatePost = (props) => {
       InsideAuthApi(authStore)
         .createPost(requestData)
         .then((res) => {
-          dispatch(loader(false));
+          setLoader(false);
           dispatch(SnackbarUpdate({
             type: 'success',
             msg: res.message
@@ -203,7 +201,7 @@ const CreatePost = (props) => {
           props.navigation.goBack();
         })
         .catch((err) => {
-          dispatch(loader(false));
+          setLoader(false);
           dispatch(SnackbarUpdate({
             type: 'error',
             msg: err.message
@@ -245,7 +243,7 @@ const CreatePost = (props) => {
         ))}
       </InputView>
       {props.route.params.category ? <StyledText>Categoty Name: {props.route.params.category.name}</StyledText> : <StyledInlineInputContainer style={{ zIndex: 1000 }}>
-        <StyledInlineInput>
+        <StyledInput>
           <Input
             ele='select'
             open={openCategory}
@@ -267,10 +265,8 @@ const CreatePost = (props) => {
             setValue={setCategory}
             setItems={setCategoryArr}
           />
-        </StyledInlineInput>
-      </StyledInlineInputContainer>}
-      <StyledInlineInputContainer>
-        <StyledInlineInput>
+        </StyledInput>
+        <StyledInput>
           <Input
             ele='select'
             open={openGender}
@@ -292,31 +288,56 @@ const CreatePost = (props) => {
             setValue={setGender}
             setItems={setGenderArr}
           />
-        </StyledInlineInput>
-        <StyledInlineInput>
+        </StyledInput>
+      </StyledInlineInputContainer>}
+      <StyledInlineInputContainer>
+        {props.route.params.category ? <StyledInput>
           <Input
             ele='select'
-            open={openIsPublic}
-            title={'Privacy'}
-            value={isPublic}
-            items={isPublicArr}
-            placeholder={'Select Privacy'}
+            open={openGender}
+            title={'Terget Gender'}
+            value={gender}
+            items={genderArr}
+            placeholder={'Select Gender'}
             style={{
               borderWidth: 0,
               borderBottomWidth: 1,
-              borderColor: colors.borderColor
+              borderColor: colors.borderColor,
+              marginLeft: -5
             }}
             containerStyle={{
               borderWidth: 1,
               borderColor: colors.borderColor,
             }}
-            setOpen={setOpenIsPublic}
-            setValue={setIsPublic}
-            setItems={setisPublicArr}
+            setOpen={setOpenGender}
+            setValue={setGender}
+            setItems={setGenderArr}
+          />
+        </StyledInput> : null}
+      </StyledInlineInputContainer>
+      <StyledInlineInputContainer>
+        <StyledInlineInput>
+          <StyledText>Public Post</StyledText>
+          <Input
+            ele={'switch'}
+            color={colors.mainByColor}
+            value={isPublic}
+            onChange={() => setIsPublic(!isPublic)}
           />
         </StyledInlineInput>
       </StyledInlineInputContainer>
-      <SubmitButton mode='contained' onPress={registerFnc}>
+      <StyledInlineInputContainer>
+        <StyledInlineInput>
+          <StyledText>User Visibility</StyledText>
+          <Input
+            ele={'switch'}
+            color={colors.mainByColor}
+            value={userVisible}
+            onChange={() => setUserVisible(!userVisible)}
+          />
+        </StyledInlineInput>
+      </StyledInlineInputContainer>
+      <SubmitButton mode='contained' loading={loader} onPress={!loader ? createPostFnc : null}>
         Create Post
       </SubmitButton>
     </StyledScrollView>

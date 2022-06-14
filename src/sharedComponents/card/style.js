@@ -50,7 +50,7 @@ export const StyledCardParagraph = styled(Paragraph)`
 
 export const StyledCardButton = styled(Button)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    width: 50%;
+    width: 45%;
     margin-right: 2%;
 `;
 

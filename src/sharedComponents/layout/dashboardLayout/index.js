@@ -6,6 +6,8 @@ import { useSelector, shallowEqual } from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import { location } from '../../../store/actions';
 import { useDispatch } from 'react-redux';
+import { SnackbarUpdate, loader, detailsUpdate } from '../../../store/actions';
+import InsideAuthApi from '../../../services/inSideAuth';
 import {
     DashboardOuterView,
     StyledFullImg,
@@ -34,7 +36,27 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-    }, [detailsStore])
+        if (authStore.access_token) {
+            InsideAuthApi(authStore)
+                .detailsApi()
+                .then((res) => {
+                    dispatch(detailsUpdate({
+                        id: res.data.user,
+                        name: res.data.name,
+                        gender: res.data.gender,
+                        userCat: res.data.category,
+                        expectedCat: res.data.category_preference,
+                        profileImg: res.data.images
+                    }))
+                })
+                .catch((err) => {
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err.message
+                    }))
+                });
+        }
+    }, []);
 
     return (
         <DashboardOuterView>

@@ -29,16 +29,11 @@ export const StyledScrollView = styled(ScrollView)`
     padding-top: 0px;
 `;
 
-export const StyledInput = styled(View)`
-    flex: 1;
-    flex-direction: column;
-`
 export const StyledInlineInput = styled(View)`
     flex: 1;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px
 `
 
 export const StyledText = styled(Text)`
@@ -53,5 +48,5 @@ export const StyledInlineInputContainer = styled(View)`
     align-items: center;
     position: relative;
     z-index: 999;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 `

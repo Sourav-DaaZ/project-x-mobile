@@ -18,6 +18,7 @@ import ProfileScreen from '../views/profileScreen';
 import DetailsScreen from '../views/detailsScreen';
 import ChatScreen from '../views/chatScreen';
 import CreatePost from '../views/createPost';
+import ApplyPost from '../views/applyPost';
 import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
 import Camera from '../views/camera';
@@ -143,6 +144,15 @@ export function AuthRouters(props) {
       <Stack.Screen
         name="SingleCategory"
         component={SingleCategory}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} />
+      <Stack.Screen
+        name="ApplyPost"
+        component={ApplyPost}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}

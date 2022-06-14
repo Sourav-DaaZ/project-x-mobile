@@ -8,8 +8,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
     StyledHorizontalScrollView
 } from './style';
-import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../store/actions';
 import OutsideAuthApi from '../../services/outSideAuth';
 import SingleCategory from '../categoryList/singleCat';
 import Card from '../../sharedComponents/card';
@@ -17,7 +15,6 @@ import Card from '../../sharedComponents/card';
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
-    const dispatch = useDispatch();
     const [outerScrollViewScrollEnabled, setOuterScrollViewScrollEnabled] = useState(true);
     const [showLoader, setShowLoader] = useState(false);
     const [showMsg, setShowMsg] = useState('');
@@ -26,20 +23,26 @@ const Dashboard = (props) => {
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
 
     useEffect(() => {
+        let isMounted = true;
         const unsubscribe = props.navigation.addListener("focus", () => {
             setShowLoader(true)
             OutsideAuthApi()
                 .categoryListApi()
                 .then((res) => {
-                    setShowLoader(false);
-                    setCategory(res.data);
+                    if (isMounted) {
+                        setShowLoader(false);
+                        setCategory(res.data);
+                    }
                 })
                 .catch((err) => {
                     setShowLoader(false);
                     setShowMsg(err.message)
                 });
         })
-        return unsubscribe;
+        return () => {
+            isMounted = false;
+            unsubscribe
+        };
     }, [])
 
     return (

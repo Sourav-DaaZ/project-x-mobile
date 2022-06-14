@@ -24,12 +24,15 @@ const DetailsScreen = (props) => {
             <StyledCardContent>
                 <StyledCardTitle>{data?.title}</StyledCardTitle>
                 <StyledCardParagraph>{data?.message}</StyledCardParagraph>
-                <StyledCardParagraph>Expected Cost: <StyledCardTitle style={{
+                {data?.expected_price ? <StyledCardParagraph>Expected Cost: <StyledCardTitle style={{
                     fontSize: 18,
-                }}>{data?.expected_price} Rs.</StyledCardTitle></StyledCardParagraph>
+                }}>{data.expected_price} Rs.</StyledCardTitle></StyledCardParagraph> : null}
+                {data?.genderSpecific ? <StyledCardParagraph>gender Specific: <StyledCardTitle style={{
+                    fontSize: 18,
+                }}>{data.genderSpecific}</StyledCardTitle></StyledCardParagraph> : null}
             </StyledCardContent>
             <StyledCardAction>
-                <StyledCardButton mode='contained'>Apply</StyledCardButton>
+                <StyledCardButton mode='contained' onPress={() => props.navigation.navigate('ApplyPost', {data: data})}>Apply</StyledCardButton>
                 <StyledCardsecondButton mode='text' onPress={() => props.navigation.navigate('Chat')}><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton>
                 <StyledCardsecondButton mode='text'><StyledCardIcon name='share-outline' /></StyledCardsecondButton>
             </StyledCardAction>

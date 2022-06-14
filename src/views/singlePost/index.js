@@ -19,6 +19,7 @@ const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
     const [globalPost, setGlobalPost] = useState(true);
     const [data, setData] = useState([]);
@@ -73,10 +74,10 @@ const SingleCategory = (props) => {
 
     return (
         <React.Fragment>
-            <StyledViewButton>
+            {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
                 {GlobalButton(globalPost, 'Global Post', () => setGlobalPost(true))}
                 {GlobalButton(!globalPost, 'Post Status', () => setGlobalPost(false))}
-            </StyledViewButton>
+            </StyledViewButton> : null}
             <StyledHorizontalScrollView>
                 {data.map((x, i) =>
                     <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate('Posts', { data: x })} />

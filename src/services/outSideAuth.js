@@ -70,6 +70,14 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders },
                 data: data,
             })
+        },
+        createApplicationApi(data) {
+            return axiosObj({
+                url: API.noAuthUrls.createApplication,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data,
+            })
         }
     }
 }

@@ -16,24 +16,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Setting = (props) => {
   const dispatch = useDispatch();
+  const detailsStore = useSelector((state) => state.details, shallowEqual);
   const authStore = useSelector((state) => state.auth, shallowEqual);
-  const [details, setDetails] = useState({})
 
-  useEffect(() => {
-    if (authStore.access_token) {
-      InsideAuthApi(authStore)
-        .detailsApi()
-        .then((res) => {
-          setDetails(res.data);
-        })
-        .catch((err) => {
-          dispatch(SnackbarUpdate({
-            type: 'error',
-            msg: err.message
-          }))
-        });
-    }
-  }, [])
 
   const onLoginOut = () => {
     InsideAuthApi(authStore)
@@ -58,13 +43,13 @@ const Setting = (props) => {
       {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
         <StyledProfileView>
           <View>
-            <StyledTitle>{details.name}</StyledTitle>
-            <StyledParagraph>{details.category}</StyledParagraph>
+            <StyledTitle>{detailsStore.name}</StyledTitle>
+            <StyledParagraph>{detailsStore.userCat}</StyledParagraph>
           </View>
           <Avatar.Image
             source={{
               uri:
-                details.images ? details.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                detailsStore.images ? detailsStore.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
             }}
             size={70}
           />
@@ -78,7 +63,7 @@ const Setting = (props) => {
           <Avatar.Image
             source={{
               uri:
-                details.images ? details.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                detailsStore.images ? detailsStore.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
             }}
             size={70}
           />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Picker } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker } from './style';
+import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker, StyledSwitch } from './style';
 
 const Input = (props) => {
   const [dot, setDot] = React.useState(true);
@@ -83,6 +83,11 @@ const Input = (props) => {
             placeholder={props.placeholder}
           />
         </React.Fragment>)
+      break;
+    case 'switch':
+      inputElement = (
+        <StyledSwitch color={props.color} value={props.value} onValueChange={props.onChange} />
+      )
       break;
   }
   return inputElement;

@@ -8,3 +8,4 @@ export const SNACK_BAR = 'SNACK_BAR';
 
 export const TOKEN_UPDATE = 'REFRESH_TOKEN_UPDATE';
 export const LOCATION = 'LOCATION';
+export const DETAILS = 'DETAILS';

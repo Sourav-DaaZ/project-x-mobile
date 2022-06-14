@@ -6,4 +6,5 @@ export {
 
 export {
    location,
+   detailsUpdate
 } from './userDetails';
