@@ -22,6 +22,7 @@ import ApplyPost from '../views/applyPost';
 import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
 import Camera from '../views/camera';
+import TagList from '../views/tagList';
 import Login from '../views/auth/login';
 import Register from '../views/auth/register';
 import AccessScreen from '../views/access';
@@ -73,14 +74,14 @@ export function AuthRouters(props) {
           }}
           component={SearchScreen} />
         <Tab.Screen
-          name='ChatScreen'
+          name='TagList'
           options={{
-            tabBarLabel: 'ChatScreen',
+            tabBarLabel: 'TagList',
             tabBarIcon: (color, size) => (
               <AntDesign name="home" color={color} size={size} />
             ),
           }}
-          component={ChatScreen} />
+          component={TagList} />
         <Tab.Screen
           name='Setting'
           options={{

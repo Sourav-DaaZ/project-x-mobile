@@ -8,12 +8,16 @@ import {
     StyledCardParagraph,
     StyledCardCover,
     StyledCardButton,
-    StyledCardsecondButton,
-    StyledCardIcon
-} from './style'
+    StyledCardIcon,
+    StyledDotIcon
+} from './style';
+import { TouchableOpacity } from 'react-native';
+
+import { Menu, Divider } from 'react-native-paper';
 
 const DetailsScreen = (props) => {
     const [data, setData] = useState({});
+    const [showMenu, setShowMenu] = useState(false);
     useEffect(() => {
         setData(props.route.params.data);
     }, [])
@@ -32,9 +36,20 @@ const DetailsScreen = (props) => {
                 }}>{data.genderSpecific}</StyledCardTitle></StyledCardParagraph> : null}
             </StyledCardContent>
             <StyledCardAction>
-                <StyledCardButton mode='contained' onPress={() => props.navigation.navigate('ApplyPost', {data: data})}>Apply</StyledCardButton>
-                <StyledCardsecondButton mode='text' onPress={() => props.navigation.navigate('Chat')}><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton>
-                <StyledCardsecondButton mode='text'><StyledCardIcon name='share-outline' /></StyledCardsecondButton>
+                <StyledCardButton mode='contained' onPress={() => props.navigation.navigate('ApplyPost', { data: data })}>Apply</StyledCardButton>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Chat')}><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowMenu(true)}>
+                    <Menu
+                        visible={showMenu}
+                        onDismiss={() => setShowMenu(false)}
+                        anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
+                    >
+                        <Menu.Item onPress={() => { }} title="Item 1" />
+                        <Menu.Item onPress={() => { }} title="Item 2" />
+                        <Divider />
+                        <Menu.Item onPress={() => { }} title="Item 3" />
+                    </Menu>
+                </TouchableOpacity>
             </StyledCardAction>
         </StyledCard>
     )

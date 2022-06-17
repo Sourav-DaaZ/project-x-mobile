@@ -5,6 +5,7 @@ import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import Button from '../../sharedComponents/button';
 import DashboardHeader from './header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useIsFocused } from '@react-navigation/native';
 import {
     StyledHorizontalScrollView
 } from './style';
@@ -15,17 +16,20 @@ import Card from '../../sharedComponents/card';
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const isFocused = useIsFocused();
     const [outerScrollViewScrollEnabled, setOuterScrollViewScrollEnabled] = useState(true);
     const [showLoader, setShowLoader] = useState(false);
     const [showMsg, setShowMsg] = useState('');
     const [category, setCategory] = useState([]);
+    const [refreshing, setRefreshing] = useState(true);
     const handleInnerPressIn = () => setOuterScrollViewScrollEnabled(false);
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
 
     useEffect(() => {
         let isMounted = true;
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            setShowLoader(true)
+        // const unsubscribe = props.navigation.addListener("focus", () => {
+        if (isFocused) {
+            setShowLoader(true);
             OutsideAuthApi()
                 .categoryListApi()
                 .then((res) => {
@@ -35,18 +39,20 @@ const Dashboard = (props) => {
                     }
                 })
                 .catch((err) => {
-                    setShowLoader(false);
-                    setShowMsg(err.message)
-                });
-        })
+                    if (isMounted) {
+                        setShowLoader(false);
+                        setShowMsg(err.message);
+                    }
+                })
+            // });
+        }
         return () => {
             isMounted = false;
-            unsubscribe
         };
-    }, [])
+    }, [isFocused, refreshing])
 
     return (
-        <DashboardLayout fab={true} {...props} showLoader={showLoader} showMsg={showMsg} category={category}>
+        <DashboardLayout fab={true} {...props} showLoader={showLoader} showMsg={showMsg} category={category} refreshFnc={() => setRefreshing(!refreshing)}>
             <View>
                 <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate('Category')} goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} /></Button>} />
                 <View style={{ flexDirection: "row" }}>

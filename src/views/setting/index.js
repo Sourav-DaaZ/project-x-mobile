@@ -30,11 +30,12 @@ const Setting = (props) => {
           refresh_token: ''
         }));
       })
-      .catch((err) => {
-        dispatch(SnackbarUpdate({
-          type: 'error',
-          msg: err.message
-        }))
+      .catch(async (err) => {
+        await AsyncStorage.removeItem('token');
+        dispatch(tokenUpdate({
+          access_token: '',
+          refresh_token: ''
+        }));
       });
   }
 

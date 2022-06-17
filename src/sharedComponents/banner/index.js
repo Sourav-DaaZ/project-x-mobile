@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
-import { Banner} from 'react-native-paper';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Banner } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
-import Feather from 'react-native-vector-icons/Feather'
-import { StyledClose } from './style';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { StyledClose, StyledView } from './style';
 
 const upDown = {
     0: {
-        bottom: -30
+        top: -5
     },
     1: {
-        bottom: -20
+        top: -10
     },
 
 };
@@ -18,31 +18,15 @@ const upDown = {
 const BannerComponent = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
-
+    const [show, setShow] = React.useState(false);
 
     return (
-        <View>
-            <Banner
-                visible={props.showBanner}
-                contentStyle={{ backgroundColor: colors.backgroundDeepColor, padding: 0 }}
-                style={{ marginBottom: 35 }}
-                actions={[
-                ]}
-                icon={({ size }) => (
-                    props.image ? <Image
-                        source={{
-                            uri: props.image,
-                        }}
-                        style={{
-                            width: size,
-                            height: size,
-                        }}
-                    /> : null
-                )}>
+        <React.Fragment>
+            {show && <StyledView animation={show ? 'fadeInDown' : 'fadeOutUp'}>
                 {props.children}
-            </Banner>
-            <TouchableOpacity onPress={props.setShowBanner}><StyledClose animation={upDown} iterationCount='infinite' direction="alternate"><Feather name={props.showBanner ? 'chevrons-up' : 'chevrons-down'} size={40} /></StyledClose></TouchableOpacity>
-        </View>
+            </StyledView>}
+            <TouchableOpacity style={{ zIndex: 99 }} onPress={() => setShow(!show)}><StyledClose animation={upDown} iterationCount='infinite' direction="alternate"><MaterialIcons name={show ? 'keyboard-arrow-up' : 'keyboard-arrow-down'} size={40} /></StyledClose></TouchableOpacity>
+        </React.Fragment>
     );
 };
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, View, RefreshControl } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -21,6 +21,7 @@ const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
+    const [refreshing, setRefreshing] = useState(false);
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
@@ -36,37 +37,55 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-        if (authStore.access_token) {
-            InsideAuthApi(authStore)
-                .detailsApi()
-                .then((res) => {
-                    dispatch(detailsUpdate({
-                        id: res.data.user,
-                        name: res.data.name,
-                        gender: res.data.gender,
-                        userCat: res.data.category,
-                        expectedCat: res.data.category_preference,
-                        profileImg: res.data.images
-                    }))
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }))
-                });
-        }
     }, []);
+
+    const apiCall = (authStore) => {
+        InsideAuthApi(authStore)
+            .detailsApi()
+            .then((res) => {
+                dispatch(detailsUpdate({
+                    id: res.data.user,
+                    name: res.data.name,
+                    gender: res.data.gender,
+                    userCat: res.data.category,
+                    expectedCat: res.data.category_preference,
+                    profileImg: res.data.images
+                }))
+                setRefreshing(false);
+            })
+            .catch((err) => {
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err.message
+                }))
+                setRefreshing(false);
+            });
+    };
+    useEffect(() => {
+        if (authStore.access_token && detailsStore.id === '') {
+            apiCall(authStore);
+        }
+    }, [authStore.access_token]);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        props.refreshFnc();
+        apiCall(authStore);
+    };
 
     return (
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
             <Loader show={props.showLoader ? props.showLoader : false} />
             <SnackBar show={props.showMsg ? props.showMsg !== '' : false} text={props.showMsg ? props.showMsg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={props.setShowMsg} />
-            <BannerComponent showBanner={false} setShowBanner={() => console.log('hi')}></BannerComponent>
+            <BannerComponent />
             {props.outsideScroll}
             <StyledScrollView
                 showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
                 scrollEnabled={props.outerScrollViewScrollEnabled}>
                 {props.banner ? <StyledFullImg
                     resizeMode='cover'

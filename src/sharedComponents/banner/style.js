@@ -8,6 +8,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 
+export const StyledView = styled(Animatable.View)`
+    z-index: 98
+`
+
 export const StyledClose = styled(Animatable.Text)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
     font-weight: 500;

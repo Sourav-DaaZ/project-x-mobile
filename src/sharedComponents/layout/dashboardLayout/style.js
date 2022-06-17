@@ -26,4 +26,5 @@ export const StyledFullImg = styled(Image)`
 
 export const StyledScrollView = styled(ScrollView)`
     background: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+    margin-top: -25px;
 `;

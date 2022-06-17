@@ -17,6 +17,7 @@ export const API = {
     getPosts: '/get_posts',
     postSocket: '/post',
     createApplication: '/create_application',
+    tagList: '/tag_list',
   },
   authUrls: {
     details: '/details',
