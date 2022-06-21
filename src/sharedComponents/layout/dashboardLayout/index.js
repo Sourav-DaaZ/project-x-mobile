@@ -16,12 +16,15 @@ import {
 import Loader from '../../loader';
 import SnackBar from '../../snackbar'
 import BannerComponent from '../../banner';
+import { useIsFocused } from '@react-navigation/native';
 
 const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
+    const isFocused = useIsFocused();
     const [refreshing, setRefreshing] = useState(false);
+    const [msg, setMsg] = useState(false);
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
@@ -37,7 +40,14 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-    }, []);
+        if (isFocused && authStore.access_token && detailsStore.id === '') {
+            apiCall(authStore);
+        }
+    }, [refreshing]);
+
+    useEffect(() => {
+        setMsg(props.showMsg);
+    }, [props.showMsg])
 
     const apiCall = (authStore) => {
         InsideAuthApi(authStore)
@@ -54,18 +64,9 @@ const DashboardLayout = (props) => {
                 setRefreshing(false);
             })
             .catch((err) => {
-                dispatch(SnackbarUpdate({
-                    type: 'error',
-                    msg: err.message
-                }))
                 setRefreshing(false);
             });
     };
-    useEffect(() => {
-        if (authStore.access_token && detailsStore.id === '') {
-            apiCall(authStore);
-        }
-    }, [authStore.access_token]);
 
     const onRefresh = () => {
         setRefreshing(true);
@@ -77,7 +78,7 @@ const DashboardLayout = (props) => {
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
             <Loader show={props.showLoader ? props.showLoader : false} />
-            <SnackBar show={props.showMsg ? props.showMsg !== '' : false} text={props.showMsg ? props.showMsg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={props.setShowMsg} />
+            <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={props.setShowMsg} />
             <BannerComponent />
             {props.outsideScroll}
             <StyledScrollView

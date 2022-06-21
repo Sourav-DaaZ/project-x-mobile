@@ -16,13 +16,17 @@ export const API = {
     searchPost: '/search_post',
     getPosts: '/get_posts',
     postSocket: '/post',
-    createApplication: '/create_application',
     tagList: '/tag_list',
+    getPostDetails: '/get_post_details'
   },
   authUrls: {
     details: '/details',
     createPost: '/create_post',
+    updatePost: '/update_post',
     getMyPost: '/get_my_post',
     logout: '/logout',
+    createApplication: '/create_application',
+    getAllApplications: '/get_all_applications',
+    getApplicationDetails: '/get_application_details',
   },
 };

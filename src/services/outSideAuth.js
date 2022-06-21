@@ -71,17 +71,16 @@ const OutsideAuthApi = () => {
                 data: data,
             })
         },
-        createApplicationApi(data) {
-            return axiosObj({
-                url: API.noAuthUrls.createApplication,
-                method: 'POST',
-                headers: { ...defaultHeaders },
-                data: data,
-            })
-        },
         tagListApi(lat, long, distance) {
             return axiosObj({
                 url: API.noAuthUrls.tagList + `?lat=${lat}&&long=${long}${distance ? "&&distance=" + distance : ''}`,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        getPostDetailsApi(id) {
+            return axiosObj({
+                url: API.noAuthUrls.getPostDetails + `?post_id=${id}`,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })

@@ -5,7 +5,7 @@ import Input from '../../sharedComponents/input';
 import defaultValue from '../../constants/defaultValue';
 import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
-import OutsideAuthApi from '../../services/outSideAuth';
+import InsideAuthApi from '../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -22,7 +22,7 @@ import {
   StyledInlineInputContainer
 } from './style';
 
-const ApplyPost = (props) => {
+const CreateApplication = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -125,14 +125,14 @@ const ApplyPost = (props) => {
       }))
     } else {
       const requestData = {
-        post_id: props.route.params.data._id,
+        post_id: props.route.params.id,
         details: data.controls.description.value,
         expectedPrice: data.controls.price.value,
         userVisible: userVisible,
         images: []
       }
       setLoader(true);
-      OutsideAuthApi(authStore)
+      InsideAuthApi(authStore)
         .createApplicationApi(requestData)
         .then((res) => {
           setLoader(false);
@@ -203,4 +203,4 @@ const ApplyPost = (props) => {
   );
 };
 
-export default ApplyPost;
+export default CreateApplication;

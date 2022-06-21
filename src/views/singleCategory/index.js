@@ -30,46 +30,49 @@ const SingleCategory = (props) => {
     )
 
     useEffect(() => {
-        setData([]);
-        dispatch(loader(true));
-        if (globalPost) {
-            let requestData = {
-                category_id: props.route.params?.data._id,
-                location: {
-                    lat: 102,
-                    long: 21
-                },
-                // distance: 500000,
-                // gender: "male"
+        const unsubscribe = props.navigation.addListener("focus", () => {
+            setData([]);
+            dispatch(loader(true));
+            if (globalPost) {
+                let requestData = {
+                    category_id: props.route.params?.data._id,
+                    location: {
+                        lat: 102,
+                        long: 21
+                    },
+                    // distance: 500000,
+                    // gender: "male"
+                }
+                OutsideAuthApi()
+                    .getPostsApi(requestData)
+                    .then((res) => {
+                        setData(res.data);
+                        dispatch(loader(false));
+                    })
+                    .catch((err) => {
+                        dispatch(SnackbarUpdate({
+                            type: 'error',
+                            msg: err.message
+                        }));
+                        dispatch(loader(false));
+                    });
+            } else {
+                InsideAuthApi(authStore)
+                    .getMyPostApi(props.route.params.data._id)
+                    .then((res) => {
+                        setData(res.data);
+                        dispatch(loader(false));
+                    })
+                    .catch((err) => {
+                        dispatch(SnackbarUpdate({
+                            type: 'error',
+                            msg: err.message
+                        }));
+                        dispatch(loader(false));
+                    });
             }
-            OutsideAuthApi()
-                .getPostsApi(requestData)
-                .then((res) => {
-                    setData(res.data);
-                    dispatch(loader(false));
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                    dispatch(loader(false));
-                });
-        } else {
-            InsideAuthApi(authStore)
-                .getMyPostApi(props.route.params.data._id)
-                .then((res) => {
-                    setData(res.data);
-                    dispatch(loader(false));
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                    dispatch(loader(false));
-                });
-        }
+        })
+        return () => unsubscribe
     }, [globalPost])
 
     return (
@@ -80,7 +83,7 @@ const SingleCategory = (props) => {
             </StyledViewButton> : null}
             <StyledHorizontalScrollView>
                 {data.map((x, i) =>
-                    <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate('Posts', { data: x })} />
+                    <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate('Posts', { id: x._id })} />
                 )}
             </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB

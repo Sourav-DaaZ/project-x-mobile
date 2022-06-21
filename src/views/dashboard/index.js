@@ -21,7 +21,7 @@ const Dashboard = (props) => {
     const [showLoader, setShowLoader] = useState(false);
     const [showMsg, setShowMsg] = useState('');
     const [category, setCategory] = useState([]);
-    const [refreshing, setRefreshing] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const handleInnerPressIn = () => setOuterScrollViewScrollEnabled(false);
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
 
@@ -48,6 +48,7 @@ const Dashboard = (props) => {
         }
         return () => {
             isMounted = false;
+            setRefreshing(false)
         };
     }, [isFocused, refreshing])
 

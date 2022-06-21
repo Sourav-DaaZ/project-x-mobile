@@ -11,14 +11,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Dashboard from '../views/dashboard';
-import SingleCategory from '../views/singlePost';
+import SingleCategory from '../views/singleCategory';
 import CategoryList from '../views/categoryList';
 import SearchScreen from '../views/searchScreen';
 import ProfileScreen from '../views/profileScreen';
-import DetailsScreen from '../views/detailsScreen';
+import PostDetails from '../views/postDetails';
 import ChatScreen from '../views/chatScreen';
 import CreatePost from '../views/createPost';
-import ApplyPost from '../views/applyPost';
+import EditPost from '../views/editPost';
+import EditApplication from '../views/editApplication';
+import ApplicationDetails from '../views/applicationDetails';
+import CreateApplication from '../views/createApplication';
+import ApplicationList from '../views/applicationList';
 import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
 import Camera from '../views/camera';
@@ -134,6 +138,51 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
+        name="EditPost"
+        component={EditPost}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="CreateApplication"
+        component={CreateApplication}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="ApplicationDetails"
+        component={ApplicationDetails}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="EditApplication"
+        component={EditApplication}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="ApplicationList"
+        component={ApplicationList}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
         name="EditDetails"
         component={EditDetails}
         options={({ navigation }) => ({
@@ -145,15 +194,6 @@ export function AuthRouters(props) {
       <Stack.Screen
         name="SingleCategory"
         component={SingleCategory}
-        options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
-        })} />
-      <Stack.Screen
-        name="ApplyPost"
-        component={ApplyPost}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
@@ -180,7 +220,7 @@ export function AuthRouters(props) {
         })} />
       <Stack.Screen
         name="Posts"
-        component={DetailsScreen}
+        component={PostDetails}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}

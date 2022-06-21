@@ -26,6 +26,36 @@ const InsideAuthApi = (authStore) => {
                 data: data,
             })
         },
+        updatePost(data) {
+            return axiosObj({
+                url: API.authUrls.updatePost,
+                method: 'PATCH',
+                headers: { ...defaultHeaders },
+                data: data,
+            })
+        },
+        createApplicationApi(data) {
+            return axiosObj({
+                url: API.authUrls.createApplication,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data,
+            })
+        },
+        getAllApplicationsApi(id) {
+            return axiosObj({
+                url: API.authUrls.getAllApplications + "?post_id=" + id,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        getApplicationDetailsApi(id) {
+            return axiosObj({
+                url: API.authUrls.getApplicationDetails + "?application_id=" + id,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
         getMyPostApi(param) {
             return axiosObj({
                 url: API.authUrls.getMyPost + "?category_id:" + param,
