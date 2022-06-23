@@ -40,12 +40,12 @@ const Setting = (props) => {
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout {...props}>
       {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
         <StyledProfileView>
           <View>
             <StyledTitle>{detailsStore.name}</StyledTitle>
-            <StyledParagraph>{detailsStore.userCat}</StyledParagraph>
+            <StyledParagraph>{detailsStore.userCat.category_name}</StyledParagraph>
           </View>
           <Avatar.Image
             source={{
@@ -73,7 +73,7 @@ const Setting = (props) => {
       <StyledProfileView style={{ justifyContent: 'space-around' }}>
         <StyledCenter>
           <Ionicons name='settings-outline' size={30} />
-          <StyledParagraph>Settings</StyledParagraph>
+          <StyledParagraph>Setting</StyledParagraph>
         </StyledCenter>
         <StyledCenter>
           <Ionicons name='settings-outline' size={30} />
@@ -81,10 +81,22 @@ const Setting = (props) => {
         </StyledCenter>
       </StyledProfileView>
       <StyledProfile>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate('ApplicationList')}>
           <StyledLeftContainer>
             <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
-            <StyledSemiTitle>Setting</StyledSemiTitle>
+            <StyledSemiTitle>My Applications</StyledSemiTitle>
+          </StyledLeftContainer>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate('MyPost')}>
+          <StyledLeftContainer>
+            <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
+            <StyledSemiTitle>My Posts</StyledSemiTitle>
+          </StyledLeftContainer>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate('UpdateDetails', { logedin: false })}>
+          <StyledLeftContainer>
+            <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
+            <StyledSemiTitle>Details Update</StyledSemiTitle>
           </StyledLeftContainer>
         </TouchableOpacity>
       </StyledProfile>

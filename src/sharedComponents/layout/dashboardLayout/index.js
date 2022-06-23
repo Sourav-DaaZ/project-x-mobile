@@ -29,21 +29,24 @@ const DashboardLayout = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
     useEffect(() => {
-        if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
-            Geolocation.getCurrentPosition(({ coords }) => {
-                dispatch(location({
-                    lat: coords.latitude,
-                    long: coords.longitude
-                }))
-            },
-                (error) => props.navigation.navigate('Access', { type: 'Camera' }),
-                { enableHighAccuracy: true, timeout: 20000 }
-            );
-        }
-        if (isFocused && authStore.access_token && detailsStore.id === '') {
-            apiCall(authStore);
-        }
-    }, [refreshing]);
+        const unsubscribe = props.navigation.addListener("focus", () => {
+            if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
+                Geolocation.getCurrentPosition(({ coords }) => {
+                    dispatch(location({
+                        lat: coords.latitude,
+                        long: coords.longitude
+                    }))
+                },
+                    (error) => props.navigation.navigate('Access', { type: 'Camera' }),
+                    { enableHighAccuracy: true, timeout: 20000 }
+                );
+            }
+            if (authStore.access_token) {
+                apiCall(authStore);
+            }
+        })
+        return () => unsubscribe
+    }, [authStore.access_token, refreshing]);
 
     useEffect(() => {
         setMsg(props.showMsg);
@@ -53,14 +56,18 @@ const DashboardLayout = (props) => {
         InsideAuthApi(authStore)
             .detailsApi()
             .then((res) => {
-                dispatch(detailsUpdate({
-                    id: res.data.user,
-                    name: res.data.name,
-                    gender: res.data.gender,
-                    userCat: res.data.category,
-                    expectedCat: res.data.category_preference,
-                    profileImg: res.data.images
-                }))
+                if (res.data.name && res.data.category && res.data.category !== '' && res.data.category_preference && res.data.category_preference.length > 0) {
+                    dispatch(detailsUpdate({
+                        id: res.data.user,
+                        name: res.data.name,
+                        gender: res.data.gender,
+                        userCat: res.data.category,
+                        expectedCat: res.data.category_preference,
+                        profileImg: res.data.images
+                    }))
+                } else {
+                    props.navigation.navigate('UpdateDetails')
+                }
                 setRefreshing(false);
             })
             .catch((err) => {

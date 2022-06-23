@@ -36,7 +36,7 @@ const TagList = (props) => {
 
     return (
         <React.Fragment>
-            <DashboardLayout fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
+            <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
                 <StyledScrollView>
                     <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>{tag.map((x, i) =>
                         <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate('Posts', { data: x })}>

@@ -70,8 +70,11 @@ const Input = (props) => {
             open={props.open}
             items={props.items}
             multiple={props.multiple}
+            zIndex={props.zIndex}
+            zIndexInverse={props.zIndexInverse}
             min={props.min}
             max={props.max}
+            maxHeight={100}
             autoScroll={true}
             style={props.style}
             listItemContainerStyle={props.listStyle}

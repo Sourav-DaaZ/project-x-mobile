@@ -25,8 +25,10 @@ export const API = {
     updatePost: '/update_post',
     getMyPost: '/get_my_post',
     logout: '/logout',
+    updateDetails: '/update_details',
     createApplication: '/create_application',
     getAllApplications: '/get_all_applications',
     getApplicationDetails: '/get_application_details',
+    updateApplication: '/update_application',
   },
 };

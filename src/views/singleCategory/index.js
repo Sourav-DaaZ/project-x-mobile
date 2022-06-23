@@ -58,7 +58,7 @@ const SingleCategory = (props) => {
                     });
             } else {
                 InsideAuthApi(authStore)
-                    .getMyPostApi(props.route.params.data._id)
+                    .getMyPostApi("?category_id:" + props.route.params.data._id)
                     .then((res) => {
                         setData(res.data);
                         dispatch(loader(false));

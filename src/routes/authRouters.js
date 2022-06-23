@@ -13,12 +13,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from '../views/dashboard';
 import SingleCategory from '../views/singleCategory';
 import CategoryList from '../views/categoryList';
+import UpdateDetails from '../views/updateDetails';
 import SearchScreen from '../views/searchScreen';
 import ProfileScreen from '../views/profileScreen';
 import PostDetails from '../views/postDetails';
 import ChatScreen from '../views/chatScreen';
 import CreatePost from '../views/createPost';
 import EditPost from '../views/editPost';
+import MyPost from '../views/myPost';
 import EditApplication from '../views/editApplication';
 import ApplicationDetails from '../views/applicationDetails';
 import CreateApplication from '../views/createApplication';
@@ -129,6 +131,15 @@ export function AuthRouters(props) {
           headerShown: false
         })} /> : null}
       {props.islogin ? <Stack.Screen
+        name="UpdateDetails"
+        component={UpdateDetails}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            // left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
         name="CreatePost"
         component={CreatePost}
         options={({ navigation }) => ({
@@ -176,6 +187,15 @@ export function AuthRouters(props) {
       {props.islogin ? <Stack.Screen
         name="ApplicationList"
         component={ApplicationList}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="MyPost"
+        component={MyPost}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}

@@ -47,7 +47,7 @@ const CategoryList = (props) => {
 
     return (
         <React.Fragment>
-            <DashboardLayout fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
+            <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
                 <StyledScrollView>
                     {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('SingleCategory', { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
                 </StyledScrollView>

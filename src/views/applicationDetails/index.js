@@ -47,11 +47,11 @@ const ApplicationDetails = (props) => {
 
     const deletePost = () => {
         const requestData = {
-            post_id: data._id,
-            delete_post: true
+            application_id: data._id,
+            delete_application: true
         }
         InsideAuthApi(authStore)
-            .updatePost(requestData)
+            .updateApplicationApi(requestData)
             .then((res) => {
                 dispatch(loader(false));
                 dispatch(SnackbarUpdate({
@@ -83,8 +83,8 @@ const ApplicationDetails = (props) => {
                 }}>{data.created_by.userId}</StyledCardTitle></StyledCardParagraph> : null}
             </StyledCardContent>
             <StyledCardAction>
-                <StyledCardButton mode='contained'>Apply</StyledCardButton>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Chat')}><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
+                <StyledCardButton mode='contained' onPress={() => props.navigation.navigate('Chat')}>Comment</StyledCardButton>
+                <TouchableOpacity><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowMenu(true)}>
                     <Menu
                         visible={showMenu}
@@ -92,11 +92,11 @@ const ApplicationDetails = (props) => {
                         anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
                     >
                         <Menu.Item onPress={() => {
-                            props.navigation.navigate('EditPost', { data: data })
+                            props.navigation.navigate('EditApplication', { data: data })
                             setShowMenu(false);
-                        }} title="Edit Post" />
+                        }} title="Edit Application" />
                         <Divider />
-                        <Menu.Item onPress={deletePost} title="Delete Post" />
+                        <Menu.Item onPress={deletePost} title="Delete Application" />
                     </Menu>
                 </TouchableOpacity>
             </StyledCardAction>

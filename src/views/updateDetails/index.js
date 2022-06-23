@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
 import { updateObject, validate } from '../../utils';
@@ -19,43 +19,44 @@ import {
   StyledScrollView,
   StyledInlineInput,
   StyledText,
+  StyledLgout,
   StyledInlineInputContainer,
   StyledInput
 } from './style';
 
-const CreatePost = (props) => {
+const UpdateDetails = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
+  const detailsStore = useSelector((state) => state.details, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
   const formElementsArray = [];
   const [genderArr, setGenderArr] = useState([
-    { label: 'All', value: 'all' },
     { label: 'Male', value: 'male' },
     { label: 'Female', value: 'female' }
   ]);
   const [categoryArr, setCategoryArr] = useState([]);
-  const [isPublic, setIsPublic] = useState(true);
-  const [userVisible, setUserVisible] = useState(true);
-  const [gender, setGender] = useState(genderArr[0].value);
-  const [category, setCategory] = useState('');
+  const [gender, setGender] = useState(detailsStore.gender !== '' ? detailsStore.gender : '');
+  const [category, setCategory] = useState(detailsStore.userCat !== '' ? detailsStore.userCat._id : '');
+  const [tergetCategory, setTergetCategory] = useState(detailsStore.expectedCat !== '' ? detailsStore.expectedCat : '');
+  const [openTergetCategory, setOpenTergetCategory] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [data, setData] = useState({
     controls: {
-      title: {
+      name: {
         elementType: 'input',
         elementConfig: {
-          type: 'title',
-          text: 'Title',
+          type: 'name',
+          text: 'Name',
           placeholder: 'Enter your title',
         },
-        value: '',
+        value: detailsStore.name,
         validation: {
           required: true
         },
-        valid: false,
+        valid: detailsStore.name !== '',
         errors: '',
         className: [],
         icons: [
@@ -63,45 +64,6 @@ const CreatePost = (props) => {
           <Feather name="check-circle" color="green" size={20} />,
         ],
       },
-      description: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'description',
-          text: 'Description',
-          placeholder: 'Enter your description',
-        },
-        value: '',
-        validation: {
-          required: true,
-        },
-        valid: false,
-        errors: '',
-        className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
-      },
-      price: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'price',
-          text: 'Expected Price',
-          placeholder: 'Enter Expected Price',
-        },
-        value: '',
-        validation: {
-          required: true,
-          isNumeric: true
-        },
-        valid: false,
-        errors: '',
-        className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
-      }
     },
   });
 
@@ -178,12 +140,14 @@ const CreatePost = (props) => {
     }
   };
 
-  const createPostFnc = () => {
+  const editDetailsFnc = () => {
     let isValid = [];
     formElementsArray.map(
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
     );
     isValid.push(category.length > 0);
+    isValid.push(tergetCategory.length > 0);
+    isValid.push(gender.length > 0);
     if (isValid.includes(false)) {
       dispatch(SnackbarUpdate({
         type: 'error',
@@ -192,27 +156,20 @@ const CreatePost = (props) => {
     } else {
       setLoading(true);
       const requestData = {
-        category_id: props.route.params.category ? props.route.params.category.id : category,
-        title: data.controls.title.value,
-        message: data.controls.description.value,
-        expected_price: data.controls.price.value,
-        isPublic: isPublic,
-        genderSpecific: gender,
-        userVisible: userVisible,
-        location: {
-          lat: 104,
-          long: 20
-        }
+        name: data.controls.name.value,
+        category: category,
+        category_preference: tergetCategory,
+        gender: gender,
       }
       InsideAuthApi(authStore)
-        .createPost(requestData)
+        .updateDetailsApi(requestData)
         .then((res) => {
           setLoading(false);
           dispatch(SnackbarUpdate({
             type: 'success',
             msg: res.message
           }));
-          props.navigation.goBack();
+          props.navigation.navigate('Home');
         })
         .catch((err) => {
           setLoading(false);
@@ -222,6 +179,25 @@ const CreatePost = (props) => {
           }))
         });
     }
+  }
+
+  const onLoginOut = () => {
+    InsideAuthApi(authStore)
+      .logout()
+      .then(async (res) => {
+        await AsyncStorage.removeItem('token');
+        dispatch(tokenUpdate({
+          access_token: '',
+          refresh_token: ''
+        }));
+      })
+      .catch(async (err) => {
+        await AsyncStorage.removeItem('token');
+        dispatch(tokenUpdate({
+          access_token: '',
+          refresh_token: ''
+        }));
+      });
   }
 
 
@@ -238,7 +214,7 @@ const CreatePost = (props) => {
     <StyledScrollView style={{ flex: 1 }}>
       <InputView>
         {formElementsArray?.map((x, index) => (
-          x.id !== 'otp' && <Input
+          <Input
             key={index}
             title={x.config?.elementConfig?.text}
             placeholder={x.config?.elementConfig?.placeholder}
@@ -256,12 +232,12 @@ const CreatePost = (props) => {
           />
         ))}
       </InputView>
-      {props.route.params.category ? <StyledText>Categoty Name: {props.route.params.category.name}</StyledText> : <StyledInlineInputContainer style={{ zIndex: 1000 }}>
+      <StyledInlineInputContainer style={{ zIndex: 1000 }}>
         <StyledInput>
           <Input
             ele='select'
             open={openCategory}
-            title={'Select Category'}
+            title={'My Category'}
             value={category}
             items={categoryArr}
             placeholder={'Select Category'}
@@ -284,7 +260,7 @@ const CreatePost = (props) => {
           <Input
             ele='select'
             open={openGender}
-            title={'Terget Gender'}
+            title={'Gender'}
             value={gender}
             items={genderArr}
             placeholder={'Select Gender'}
@@ -303,16 +279,18 @@ const CreatePost = (props) => {
             setItems={setGenderArr}
           />
         </StyledInput>
-      </StyledInlineInputContainer>}
+      </StyledInlineInputContainer>
       <StyledInlineInputContainer>
-        {props.route.params.category ? <StyledInput>
+        <StyledInput>
           <Input
             ele='select'
-            open={openGender}
-            title={'Terget Gender'}
-            value={gender}
-            items={genderArr}
-            placeholder={'Select Gender'}
+            open={openTergetCategory}
+            title={'Interested Category'}
+            value={tergetCategory}
+            items={categoryArr}
+            multiple={true}
+            max={5}
+            placeholder={'Select Category'}
             style={{
               borderWidth: 0,
               borderBottomWidth: 1,
@@ -323,39 +301,22 @@ const CreatePost = (props) => {
               borderWidth: 1,
               borderColor: colors.borderColor,
             }}
-            setOpen={setOpenGender}
-            setValue={setGender}
-            setItems={setGenderArr}
+            setOpen={setOpenTergetCategory}
+            setValue={setTergetCategory}
+            setItems={setCategoryArr}
           />
-        </StyledInput> : null}
+        </StyledInput>
       </StyledInlineInputContainer>
-      <StyledInlineInputContainer>
-        <StyledInlineInput>
-          <StyledText>Public Post</StyledText>
-          <Input
-            ele={'switch'}
-            color={colors.mainByColor}
-            value={isPublic}
-            onChange={() => setIsPublic(!isPublic)}
-          />
-        </StyledInlineInput>
-      </StyledInlineInputContainer>
-      <StyledInlineInputContainer>
-        <StyledInlineInput>
-          <StyledText>User Visibility</StyledText>
-          <Input
-            ele={'switch'}
-            color={colors.mainByColor}
-            value={userVisible}
-            onChange={() => setUserVisible(!userVisible)}
-          />
-        </StyledInlineInput>
-      </StyledInlineInputContainer>
-      <SubmitButton mode='contained' loading={loading} onPress={!loading ? createPostFnc : null}>
-        Create Post
+      <SubmitButton mode='contained' loading={loading} onPress={!loading ? editDetailsFnc : null}>
+        Save
       </SubmitButton>
+      <TouchableOpacity style={{
+        marginTop: 20
+      }} onPress={props.route.params?.logedin ? onLoginOut : () => props.navigation.goBack()}>
+        <StyledLgout>{props.route.params?.logedin ? "Logout" : "Back"}</StyledLgout>
+      </TouchableOpacity>
     </StyledScrollView>
   );
 };
 
-export default CreatePost;
+export default UpdateDetails;

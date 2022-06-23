@@ -43,7 +43,7 @@ const SearchScreen = (props) => {
     }
 
     return (
-        <DashboardLayout fab={false} outsideScroll={
+        <DashboardLayout {...props} fab={false} outsideScroll={
             <StyledSearchbar focus clear onChangeText={onTypeFnc} value={searchQuery} />
         }>
             <StyledScrollView>
