@@ -23,9 +23,9 @@ const CardComponent = (props) => {
                     {props.message ? <StyledCardParagraph>{props.message}</StyledCardParagraph> : null}
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton mode='contained' contentStyle={{ padding: 3 }} onPress={props.onViewPress}>View</StyledCardButton>
-                    <StyledCardsecondButton mode='text' onPress={props.onChatPress}><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton>
-                    <StyledCardsecondButton mode='text' onPress={props.onSherePress}><StyledCardIcon name='share-outline' /></StyledCardsecondButton>
+                    {props.onViewPress ? <StyledCardButton mode='contained' contentStyle={{ padding: 3 }} onPress={props.onViewPress}>View</StyledCardButton> : null}
+                    {props.onChatPress ? <StyledCardsecondButton mode='text' onPress={props.onChatPress}><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton> : null}
+                    {props.onSherePress ? <StyledCardsecondButton mode='text' onPress={props.onSherePress}><StyledCardIcon name='share-outline' /></StyledCardsecondButton> : null}
                 </StyledCardAction>
             </StyledCard>
         </React.Fragment>

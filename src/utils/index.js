@@ -44,3 +44,12 @@ export const validate = (value, rules) => {
 
   return isValid;
 };
+
+export const timeFormat = (time) => {
+  var dt = new Date(time);
+  if(dt.getDate() === new Date().getDate()){
+    return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`  
+  }
+  return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')} ${(dt.getMonth() + 1).toString().padStart(2, '0')}/${dt.getDate().toString().padStart(2, '0')}/${dt.getFullYear().toString().padStart(2, '0').slice(-2)}`
+
+}

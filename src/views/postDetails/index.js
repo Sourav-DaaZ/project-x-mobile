@@ -86,7 +86,7 @@ const PostDetails = (props) => {
                 }}>{data.genderSpecific}</StyledCardTitle></StyledCardParagraph> : null}
             </StyledCardContent>
             <StyledCardAction>
-                <StyledCardButton mode='contained' onPress={() => detailsStore.id === data.owner?.user? props.navigation.navigate('ApplicationList', { id: data._id }) : props.navigation.navigate('CreateApplication', { id: data._id })}>{detailsStore.id === data.owner?.user? 'View' : 'Apply'}</StyledCardButton>
+                <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user? props.navigation.navigate('ApplicationList', { id: data._id }) : props.navigation.navigate('CreateApplication', { id: data._id })}>{detailsStore.id === data.owner?.user? 'View' : 'Apply'}</StyledCardButton>
                 <TouchableOpacity onPress={() => props.navigation.navigate('Chat')}><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowMenu(true)}>
                     <Menu

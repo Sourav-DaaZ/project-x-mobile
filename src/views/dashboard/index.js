@@ -75,7 +75,7 @@ const Dashboard = (props) => {
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'lightgray' }}>Cancel</Button>
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'gray' }}>Ok</Button>
                 </View> */}
-                <TouchableOpacity onPress={() => console.log('hii')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Chat', { id: '6249a9caf8189e221c63ec8f' })}>
                     <Card />
                 </TouchableOpacity>
             </View>

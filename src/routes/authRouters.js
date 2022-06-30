@@ -24,6 +24,7 @@ import MyPost from '../views/myPost';
 import EditApplication from '../views/editApplication';
 import ApplicationDetails from '../views/applicationDetails';
 import CreateApplication from '../views/createApplication';
+import CreateReview from '../views/createReview';
 import ApplicationList from '../views/applicationList';
 import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
@@ -205,6 +206,15 @@ export function AuthRouters(props) {
       {props.islogin ? <Stack.Screen
         name="EditDetails"
         component={EditDetails}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name="CreateReview"
+        component={CreateReview}
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}

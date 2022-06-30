@@ -85,6 +85,27 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
+        allUserApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.allUser + param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        allUserApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.allUser + param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        searchUserApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.searchUser + "?search="+param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
     }
 }
 

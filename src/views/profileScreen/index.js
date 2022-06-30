@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import {
-    Avatar
+    Avatar,
+    FAB
 } from 'react-native-paper';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledReviewProfile, StyledScrollView, StyledContainer } from './style';
-
+import { ThemeContext } from 'styled-components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CardComponent from '../../sharedComponents/card'
+import Review from './review';
 
 const ProfileScreen = (props) => {
-
+    const themeContext = useContext(ThemeContext);
+    const colors = themeContext.colors[themeContext.baseColor];
     return (
-        <StyledScrollView>
+        <StyledScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
             <StyledProfileView>
                 <Avatar.Image
                     source={{
@@ -40,8 +42,20 @@ const ProfileScreen = (props) => {
 
             </StyledReviewProfile>
             <StyledContainer>
-                <CardComponent />
+                <Review {...props} />
             </StyledContainer>
+            <FAB
+                style={{
+                    position: 'absolute',
+                    margin: 16,
+                    right: 0,
+                    bottom: 30,
+                    backgroundColor: colors.mainColor
+                }}
+                icon="plus"
+                label='Review'
+                onPress={() => props.navigation.navigate('CreateReview')}
+            />
         </StyledScrollView>
     )
 }

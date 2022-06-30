@@ -7,8 +7,9 @@ import validation from '../../constants/validationMsg';
 import InsideAuthApi from '../../services/inSideAuth';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../store/actions';
+import { SnackbarUpdate, loader, tokenUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -38,7 +39,7 @@ const UpdateDetails = (props) => {
   const [categoryArr, setCategoryArr] = useState([]);
   const [gender, setGender] = useState(detailsStore.gender !== '' ? detailsStore.gender : '');
   const [category, setCategory] = useState(detailsStore.userCat !== '' ? detailsStore.userCat._id : '');
-  const [tergetCategory, setTergetCategory] = useState(detailsStore.expectedCat !== '' ? detailsStore.expectedCat : '');
+  const [tergetCategory, setTergetCategory] = useState(detailsStore.expectedCat !== [] ? detailsStore.expectedCat : []);
   const [openTergetCategory, setOpenTergetCategory] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openGender, setOpenGender] = useState(false);
@@ -66,7 +67,7 @@ const UpdateDetails = (props) => {
       },
     },
   });
-
+  
   useEffect(() => {
     let data = []
     dispatch(loader(true));
@@ -312,8 +313,8 @@ const UpdateDetails = (props) => {
       </SubmitButton>
       <TouchableOpacity style={{
         marginTop: 20
-      }} onPress={props.route.params?.logedin ? onLoginOut : () => props.navigation.goBack()}>
-        <StyledLgout>{props.route.params?.logedin ? "Logout" : "Back"}</StyledLgout>
+      }} onPress={!props.route.params?.logedin ? onLoginOut : () => props.navigation.goBack()}>
+        <StyledLgout>{!props.route.params?.logedin ? "Logout" : "Back"}</StyledLgout>
       </TouchableOpacity>
     </StyledScrollView>
   );

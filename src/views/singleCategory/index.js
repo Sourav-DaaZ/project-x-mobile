@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
-import { FAB } from 'react-native-paper';
+import { List, Avatar, FAB } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
 import {
     StyledHorizontalScrollView,
     StyledViewButton,
@@ -30,61 +31,62 @@ const SingleCategory = (props) => {
     )
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            setData([]);
-            dispatch(loader(true));
-            if (globalPost) {
-                let requestData = {
-                    category_id: props.route.params?.data._id,
-                    location: {
-                        lat: 102,
-                        long: 21
-                    },
-                    // distance: 500000,
-                    // gender: "male"
-                }
-                OutsideAuthApi()
-                    .getPostsApi(requestData)
-                    .then((res) => {
-                        setData(res.data);
-                        dispatch(loader(false));
-                    })
-                    .catch((err) => {
-                        dispatch(SnackbarUpdate({
-                            type: 'error',
-                            msg: err.message
-                        }));
-                        dispatch(loader(false));
-                    });
-            } else {
-                InsideAuthApi(authStore)
-                    .getMyPostApi("?category_id:" + props.route.params.data._id)
-                    .then((res) => {
-                        setData(res.data);
-                        dispatch(loader(false));
-                    })
-                    .catch((err) => {
-                        dispatch(SnackbarUpdate({
-                            type: 'error',
-                            msg: err.message
-                        }));
-                        dispatch(loader(false));
-                    });
+        setData([]);
+        dispatch(loader(true));
+        if (globalPost) {
+            let requestData = {
+                category_id: props.route.params?.data._id,
+                location: {
+                    lat: 102,
+                    long: 21
+                },
+                // distance: 500000,
+                // gender: "male"
             }
-        })
-        return () => unsubscribe
+            OutsideAuthApi()
+                .getPostsApi(requestData)
+                .then((res) => {
+                    setData(res.data);
+                    dispatch(loader(false));
+                })
+                .catch((err) => {
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err.message
+                    }));
+                    dispatch(loader(false));
+                });
+        } else {
+            OutsideAuthApi()
+                .allUserApi("?lat=" + detailsStore.location.lat + "&long=" + detailsStore.location.long + "&category=" + props.route.params.data._id)
+                .then((res) => {
+                    setData(res.data);
+                    dispatch(loader(false));
+                })
+                .catch((err) => {
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err.message
+                    }));
+                    dispatch(loader(false));
+                });
+        }
     }, [globalPost])
 
     return (
         <React.Fragment>
             {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
                 {GlobalButton(globalPost, 'Global Post', () => setGlobalPost(true))}
-                {GlobalButton(!globalPost, 'Post Status', () => setGlobalPost(false))}
+                {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
             </StyledViewButton> : null}
             <StyledHorizontalScrollView>
-                {data.map((x, i) =>
+                {globalPost && data.map((x, i) =>
                     <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate('Posts', { id: x._id })} />
                 )}
+                {!globalPost && data.map((x, i) => <TouchableOpacity key={i}><List.Item
+                    title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
+                    description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
+                    left={props => x.user.images && x.userInfo.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo.images[0] }} /> : null} /></TouchableOpacity>)}
             </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{

@@ -79,6 +79,29 @@ const InsideAuthApi = (authStore) => {
                 headers: { ...defaultHeaders }
             })
         },
+        getReviewApi(param) {
+            return axiosObj({
+                url: API.authUrls.getReview + param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        createReviewApi(data) {
+            return axiosObj({
+                url: API.authUrls.createReview,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
+        updateLocationApi(data) {
+            return axiosObj({
+                url: API.authUrls.updateLocation,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
         logout() {
             return axiosObj({
                 url: API.authUrls.logout,

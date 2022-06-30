@@ -32,10 +32,11 @@ const DashboardLayout = (props) => {
         const unsubscribe = props.navigation.addListener("focus", () => {
             if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
                 Geolocation.getCurrentPosition(({ coords }) => {
-                    dispatch(location({
+                    const varData = {
                         lat: coords.latitude,
                         long: coords.longitude
-                    }))
+                    }
+                    dispatch(location(varData));
                 },
                     (error) => props.navigation.navigate('Access', { type: 'Camera' }),
                     { enableHighAccuracy: true, timeout: 20000 }
@@ -53,10 +54,22 @@ const DashboardLayout = (props) => {
     }, [props.showMsg])
 
     const apiCall = (authStore) => {
+        const varData = {
+            lat: detailsStore.location.lat,
+            long: detailsStore.location.long
+        }
+        InsideAuthApi(authStore)
+            .updateLocationApi(varData)
+            .then((res) => {
+
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         InsideAuthApi(authStore)
             .detailsApi()
             .then((res) => {
-                if (res.data.name && res.data.category && res.data.category !== '' && res.data.category_preference && res.data.category_preference.length > 0) {
+                if (res.data.name && res.data.category && res.data.category_preference) {
                     dispatch(detailsUpdate({
                         id: res.data.user,
                         name: res.data.name,
@@ -71,6 +84,9 @@ const DashboardLayout = (props) => {
                 setRefreshing(false);
             })
             .catch((err) => {
+                if (err.error_code === "E-520") {
+                    props.navigation.navigate('UpdateDetails')
+                }
                 setRefreshing(false);
             });
     };

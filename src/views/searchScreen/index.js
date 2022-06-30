@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 import { List, Avatar } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import {
     StyledScrollView,
     StyledSearchbar,
-    StyledDivider
+    StyledDivider,
+    StyledChip
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
@@ -20,25 +21,33 @@ const SearchScreen = (props) => {
     const colors = themeContext.colors[themeContext.baseColor];
     const [searchQuery, setSearchQuery] = useState('');
     const [data, setData] = useState([]);
+    const [flag, setFlag] = useState(true);
 
     const onTypeFnc = (text) => {
         if (text.length === 0 || (text.length <= 1 && validate(text, { isAlphaNumeric: true }))) {
             setSearchQuery(text);
-            console.log(text)
+            setData([])
         } else if (text.length > 1 && validate(text, { isAlphaNumeric: true })) {
             setSearchQuery(text);
-            console.log(text)
-            OutsideAuthApi()
-                .searchPostApi(text)
-                .then((res) => {
-                    setData(res.data)
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }))
-                });
+            if (flag) {
+                OutsideAuthApi()
+                    .searchPostApi(text)
+                    .then((res) => {
+                        setData(res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
+            } else {
+                OutsideAuthApi()
+                    .searchUserApi(text)
+                    .then((res) => {
+                        setData(res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
+            }
         }
     }
 
@@ -46,11 +55,23 @@ const SearchScreen = (props) => {
         <DashboardLayout {...props} fab={false} outsideScroll={
             <StyledSearchbar focus clear onChangeText={onTypeFnc} value={searchQuery} />
         }>
+            <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                <StyledChip selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery) }}>
+                    POST DATA
+                </StyledChip>
+                <StyledChip selected={!flag} onPress={() => { setFlag(false);; onTypeFnc(searchQuery) }}>
+                    USER DATA
+                </StyledChip>
+            </View>
             <StyledScrollView>
-                {data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('Posts', { data: x })}><List.Item
+                {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('Posts', { id: x._id })}><List.Item
                     title={x.message ? x.message : ''}
-                    description={(x.owner.name ? x.owner.name : '')}
-                    left={props => x.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images[0] }} /> : null} /></TouchableOpacity>)}
+                    description={(x.owner && x.owner.userInfo ? x.owner.userInfo.name : '')}
+                    left={props => x.images && x.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images[0] }} /> : null} /></TouchableOpacity>)}
+                {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('Posts', { data: x })}><List.Item
+                    title={x.userInfo?.name ? x.userInfo.name : ''}
+                    description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
+                    left={props => x.userInfo.images && x.userInfo.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo.images[0] }} /> : null} /></TouchableOpacity>)}
                 <StyledDivider />
 
             </StyledScrollView>

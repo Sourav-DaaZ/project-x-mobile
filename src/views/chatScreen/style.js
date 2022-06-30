@@ -12,12 +12,12 @@ export const StyledCard = styled(Card)`
 
 export const StyledSafeAreaView = styled(SafeAreaView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    height: ${height - 250}px
+    flex: 1
 `;
 
 export const StyledScrollView = styled(ScrollView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    height: 90%;
+    height: 100%;
     padding-left: 30px;
     padding-right: 30px;
     margin-bottom: 10px;
@@ -25,21 +25,22 @@ export const StyledScrollView = styled(ScrollView)`
 
 export const StyledInputView = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
-    height: 15%;
     padding-left: 30px;
     padding-right: 30px;
-    border-radius: 30px;
     box-shadow: 0px -5px 5px #00000020;
     display: flex;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
     flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
 `;
 
 export const StyledInput = styled(Input)`
-    padding: 15px;
     padding-left: 20px;
     padding-right: 20px;
+    margin-top: -30px;
     border-radius: 30px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;

@@ -17,7 +17,9 @@ export const API = {
     getPosts: '/get_posts',
     postSocket: '/post',
     tagList: '/tag_list',
-    getPostDetails: '/get_post_details'
+    getPostDetails: '/get_post_details',
+    allUser: '/all_user',
+    searchUser: '/search_user',
   },
   authUrls: {
     details: '/details',
@@ -30,5 +32,8 @@ export const API = {
     getAllApplications: '/get_all_applications',
     getApplicationDetails: '/get_application_details',
     updateApplication: '/update_application',
+    getReview: '/get_review',
+    createReview: '/create_review',
+    updateLocation: '/update_location',
   },
 };

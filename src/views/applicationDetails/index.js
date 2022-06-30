@@ -23,6 +23,7 @@ const ApplicationDetails = (props) => {
     const [data, setData] = useState({});
     const [showMenu, setShowMenu] = useState(false);
     const authStore = useSelector((state) => state.auth, shallowEqual);
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -83,7 +84,7 @@ const ApplicationDetails = (props) => {
                 }}>{data.created_by.userId}</StyledCardTitle></StyledCardParagraph> : null}
             </StyledCardContent>
             <StyledCardAction>
-                <StyledCardButton mode='contained' onPress={() => props.navigation.navigate('Chat')}>Comment</StyledCardButton>
+                <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => props.navigation.navigate('Chat', { id: data._id })}>Comment</StyledCardButton>
                 <TouchableOpacity><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowMenu(true)}>
                     <Menu
