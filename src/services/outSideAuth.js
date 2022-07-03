@@ -101,7 +101,7 @@ const OutsideAuthApi = () => {
         },
         searchUserApi(param) {
             return axiosObj({
-                url: API.noAuthUrls.searchUser + "?search="+param,
+                url: API.noAuthUrls.searchUser + "?search=" + param,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
@@ -112,6 +112,13 @@ const OutsideAuthApi = () => {
                 method: 'POST',
                 headers: { ...defaultHeaders },
                 data: data
+            })
+        },
+        appConfigApi() {
+            return axiosObj({
+                url: API.noAuthUrls.appConfig,
+                method: 'GET',
+                headers: { ...defaultHeaders }
             })
         },
     }

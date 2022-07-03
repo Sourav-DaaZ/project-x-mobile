@@ -21,6 +21,7 @@ export const API = {
     allUser: '/all_user',
     searchUser: '/search_user',
     socialLogin: '/social_login',
+    appConfig: '/app_config',
   },
   authUrls: {
     details: '/details',

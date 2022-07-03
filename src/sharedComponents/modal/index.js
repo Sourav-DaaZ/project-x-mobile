@@ -18,13 +18,13 @@ const ModalComponent = (props) => {
     return (
         <Portal>
             <Modal visible={props.show} onDismiss={props.onClose} contentContainerStyle={containerStyle}>
-                <Entypo
+                {props.onClose ? <Entypo
                     name="cross"
                     size={25}
                     style={{ position: 'absolute', right: 15, top: 15 }}
                     onPress={props.onClose}
-                />
-                <Text style={{position: 'absolute', top: -50, left: 30, color: 'white', fontSize: 30}}>{props.title}</Text>
+                /> : null}
+                <Text style={{ position: 'absolute', top: -50, left: 30, color: 'white', fontSize: 30 }}>{props.title}</Text>
                 {props.children}
             </Modal>
         </Portal>
