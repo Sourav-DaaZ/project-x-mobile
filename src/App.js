@@ -18,21 +18,29 @@ import GlobalThemeProvider from './contextProviders/globalThemeProvider';
 import AuthReducer from './store/reducers/auth';
 import DetailsReducer from './store/reducers/userDetails';
 
-if (__DEV__) {
-  import('./reactotronConfig').then(() => console.log('Reactotron Configured'));
+import messaging from '@react-native-firebase/messaging';
+
+if ( __DEV__ )
+{
+  import( './reactotronConfig' ).then( () => console.log( 'Reactotron Configured' ) );
 }
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers( {
   auth: AuthReducer,
   details: DetailsReducer,
-});
+} );
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore( rootReducer, applyMiddleware( thunk ) );
 
+messaging().setBackgroundMessageHandler( async remoteMessage =>
+{
+  console.log( 'Message handled in the background!', remoteMessage );
+} );
 
-const App = () => {
+const App = () =>
+{
   return (
-    <Provider store={store}>
+    <Provider store={ store }>
       <GlobalThemeProvider>
         <PaperProvider>
           <Routs />
