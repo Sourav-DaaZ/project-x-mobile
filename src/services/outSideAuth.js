@@ -106,6 +106,14 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
+        socialLoginApi(data) {
+            return axiosObj({
+                url: API.noAuthUrls.socialLogin,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
     }
 }
 

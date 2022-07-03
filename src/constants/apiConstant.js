@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.105:5000/api',
+    dev: 'http://192.168.0.111:5000/api',
     qa: '',
     uat: '',
     prod: '',
@@ -20,6 +20,7 @@ export const API = {
     getPostDetails: '/get_post_details',
     allUser: '/all_user',
     searchUser: '/search_user',
+    socialLogin: '/social_login',
   },
   authUrls: {
     details: '/details',

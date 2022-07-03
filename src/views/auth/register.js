@@ -8,7 +8,7 @@ import validation from '../../constants/validationMsg';
 import Modal from '../../sharedComponents/modal';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../store/actions';
+import { SnackbarUpdate, tokenUpdate } from '../../store/actions';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -368,7 +368,7 @@ const Register = (props) => {
           <StyledForgot>
           </StyledForgot>
           <LoginSubmitButton mode='contained' onPress={registerFnc}>
-            Login
+            Register
           </LoginSubmitButton>
         </StyledInputOtp>
       </Modal>

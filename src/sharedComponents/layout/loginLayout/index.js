@@ -2,6 +2,9 @@ import React, { useContext } from 'react';
 import { StatusBar, View, TouchableOpacity } from 'react-native';
 import logoImg from '../../../assets/images/logo.png';
 import { ThemeContext } from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { SnackbarUpdate, tokenUpdate, detailsUpdate } from '../../../store/actions';
+import OutsideAuthApi from '../../../services/outSideAuth';
 import {
     LoginContainer,
     LoginSafeView,
@@ -20,11 +23,12 @@ import {
     statusCodes,
 } from '@react-native-google-signin/google-signin';
 
-import { Profile } from 'react-native-fbsdk-next';
+import { Profile, LoginManager } from 'react-native-fbsdk-next';
 
 const LoginLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const [visible, setVisible] = React.useState(true);
+    const dispatch = useDispatch();
     const colors = themeContext.colors[themeContext.baseColor];
 
     const onPressGoogle = () => {
@@ -35,7 +39,27 @@ const LoginLayout = (props) => {
         GoogleSignin.hasPlayServices().then((hasPlayService) => {
             if (hasPlayService) {
                 GoogleSignin.signIn().then((userInfo) => {
-                    console.warn(JSON.stringify(userInfo))
+                    const dataVal = {
+                        "googleId": userInfo.user.id,
+                        "name": userInfo.user.givenName + " " + userInfo.user.familyName,
+                        "email": userInfo.user.email,
+                        "img": userInfo.user.photo
+                    }
+                    OutsideAuthApi()
+                        .socialLoginApi(dataVal)
+                        .then((res) => {
+                            dispatch(tokenUpdate({
+                                access_token: res.data.access_token,
+                                refresh_token: res.data.refresh_token
+                            }))
+                            // props.navigation.navigate('UpdateDetails');
+                        })
+                        .catch((err) => {
+                            dispatch(SnackbarUpdate({
+                                type: 'error',
+                                msg: err.message
+                            }))
+                        });
                 }).catch((e) => {
                     console.warn("ERROR IS: " + JSON.stringify(e));
                 })
@@ -46,11 +70,39 @@ const LoginLayout = (props) => {
     }
 
     const onPressFb = () => {
-        Profile.getCurrentProfile().then(
-            function (currentProfile) {
-                if (currentProfile) {
-                    console.warn(currentProfile);
+        LoginManager.logInWithPermissions(["public_profile"]).then(
+            function (result) {
+                if (result.isCancelled) {
+                    console.log("Login cancelled");
+                } else {
+                    Profile.getCurrentProfile().then(
+                        function (currentProfile) {
+                            if (currentProfile) {
+                                const dataVal = {
+                                    "fbId": currentProfile.userID,
+                                    "name": currentProfile.name,
+                                    "img": currentProfile.imageURL
+                                }
+                                OutsideAuthApi()
+                                    .socialLoginApi(dataVal)
+                                    .then((res) => {
+                                        dispatch(tokenUpdate({
+                                            access_token: res.data.access_token,
+                                            refresh_token: res.data.refresh_token
+                                        }))
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                    });
+                            }
+                        }
+                    ).catch(e => {
+                        console.warn(e)
+                    })
                 }
+            },
+            function (error) {
+                console.log("Login fail with error: " + error);
             }
         );
     }

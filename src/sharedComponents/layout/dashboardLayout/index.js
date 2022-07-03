@@ -69,7 +69,7 @@ const DashboardLayout = (props) => {
         InsideAuthApi(authStore)
             .detailsApi()
             .then((res) => {
-                if (res.data.name && res.data.category && res.data.category_preference) {
+                if (res.data && res.data.name && res.data.category && res.data.category_preference) {
                     dispatch(detailsUpdate({
                         id: res.data.user,
                         name: res.data.name,
@@ -101,7 +101,7 @@ const DashboardLayout = (props) => {
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
             <Loader show={props.showLoader ? props.showLoader : false} />
-            <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={props.setShowMsg} />
+            <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={(props.setShowMsg)} />
             <BannerComponent />
             {props.outsideScroll}
             <StyledScrollView

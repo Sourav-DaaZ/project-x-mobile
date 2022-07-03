@@ -19,10 +19,10 @@ const SnackBar = (props) => {
                 label: 'Ok',
                 onPress: props.onDismiss
             }}
-            theme={{ colors: { surface: colors.backgroundColor, onSurface: props.type === 'error'?colors.errorColor:colors.textDeep, accent: colors.backgroundColor } }}
+            theme={{ colors: { surface: colors.backgroundColor, onSurface: props.type === 'error' ? colors.errorColor : colors.textDeep, accent: colors.backgroundColor } }}
             wrapperStyle={{
-                zIndex: 999,
-                top: 0
+                zIndex: 99999,
+                bottom: 0
             }}>
             {props.text}
         </Snackbar>
