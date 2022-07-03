@@ -10,6 +10,7 @@ buildscript {
         googlePlayServicesAuthVersion = "19.2.0"
     }
     repositories {
+        jcenter()
         google()
         mavenCentral()
     }
@@ -19,6 +20,9 @@ buildscript {
         classpath("de.undercouch:gradle-download-task:4.1.2")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        //extra packages
+        classpath 'com.google.gms:google-services:4.3.12'
     }
 }
 
@@ -40,6 +44,7 @@ allprojects {
             }
         }
         google()
+        jcenter()
         maven { url 'https://www.jitpack.io' }
     }
 }
