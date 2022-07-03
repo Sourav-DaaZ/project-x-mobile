@@ -17,6 +17,8 @@
     "@react-navigation/material-bottom-tabs": "^6.2.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
+    "@react-native-firebase/app": "^15.1.1",
+    "@react-native-firebase/messaging": "^15.1.1",
     "axios": "^0.26.1",
     "npm": "^8.7.0",
     "react": "17.0.2",
