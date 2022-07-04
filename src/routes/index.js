@@ -57,7 +57,7 @@ function Routs ( props )
     //FCM handle
     FCMNotificationHandler.requestUserPermission();
     FCMNotificationHandler.NotifinationListener();
-  } );
+  }, [] );
   return (
     <React.Suspense fallback={
       <Text>Loading</Text>
