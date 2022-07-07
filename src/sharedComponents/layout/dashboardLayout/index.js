@@ -101,7 +101,7 @@ const DashboardLayout = (props) => {
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
             <Loader show={props.showLoader ? props.showLoader : false} />
-            <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={(props.setShowMsg)} />
+            <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={()=>setMsg('')} />
             <BannerComponent />
             {props.outsideScroll}
             <StyledScrollView

@@ -11,7 +11,6 @@ import Modal from '../sharedComponents/modal';
 import OutsideAuthApi from '../services/outSideAuth';
 import { UpdateButton, UpdateTitle, UpdateDescription, UpdateWrapper, ButtonWrapper, CancelText } from './style';
 import defaultValue from '../constants/defaultValue';
-import * as FCMNotificationHandler from "../services/Google/Firebase/FCMNotificationHandler";
 
 const AuthenticationRoutes = React.lazy(() => import('./authRouters').then(module => ({ default: module.AuthRouters })));
 
@@ -45,11 +44,7 @@ function Routs(props) {
       setShow(true);
     }
   }, [authStore.message])
-  useEffect(() => {
-    //FCM handle
-    FCMNotificationHandler.requestUserPermission();
-    FCMNotificationHandler.NotifinationListener();
-  }, [FCMNotificationHandler]);
+
   
   return (
     <React.Suspense fallback={
