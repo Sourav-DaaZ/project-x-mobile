@@ -12,6 +12,7 @@ import Routs from './routes';
 import { Provider, useStore } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
+import { Platform } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import GlobalThemeProvider from './contextProviders/globalThemeProvider';
 import * as FCMNotificationHandler from "./services/Google/Firebase/FCMNotificationHandler";
@@ -32,17 +33,15 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Message handled in the background!', remoteMessage);
-});
+if (Platform.OS === "android") {
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Message handled in the background!', remoteMessage);
+  });
 
+  FCMNotificationHandler.requestUserPermission();
+  FCMNotificationHandler.NotifinationListener();
+}
 const App = () => {
-
-  useEffect(() => {
-    //FCM handle
-    FCMNotificationHandler.requestUserPermission();
-    FCMNotificationHandler.NotifinationListener();
-  }, [FCMNotificationHandler]);
 
   return (
     <Provider store={store}>
