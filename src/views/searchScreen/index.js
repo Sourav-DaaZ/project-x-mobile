@@ -11,8 +11,8 @@ import {
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
-import { validate } from '../../utils'
-
+import { validate } from '../../utils';
+import Routes from '../../constants/routeConst';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 
 const SearchScreen = (props) => {
@@ -57,21 +57,21 @@ const SearchScreen = (props) => {
         }>
             <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 <StyledChip selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery) }}>
-                    POST DATA
+                    Post
                 </StyledChip>
                 <StyledChip selected={!flag} onPress={() => { setFlag(false);; onTypeFnc(searchQuery) }}>
-                    USER DATA
+                    User
                 </StyledChip>
             </View>
             <StyledScrollView>
-                {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('Posts', { id: x._id })}><List.Item
+                {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })}><List.Item
                     title={x.message ? x.message : ''}
-                    description={(x.owner && x.owner.userInfo ? x.owner.userInfo.name : '')}
-                    left={props => x.images && x.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images[0] }} /> : null} /></TouchableOpacity>)}
-                {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('Posts', { data: x })}><List.Item
+                    description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
+                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images && x.images[0] && x.visible? x.images[0] : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
+                {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { data: x })}><List.Item
                     title={x.userInfo?.name ? x.userInfo.name : ''}
                     description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
-                    left={props => x.userInfo.images && x.userInfo.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo.images[0] }} /> : null} /></TouchableOpacity>)}
+                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images? x.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
                 <StyledDivider />
 
             </StyledScrollView>

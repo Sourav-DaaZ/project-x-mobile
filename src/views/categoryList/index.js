@@ -11,6 +11,8 @@ import OutsideAuthApi from '../../services/outSideAuth';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import { useIsFocused } from '@react-navigation/native';
 
+import Routes from '../../constants/routeConst';
+
 const CategoryList = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
@@ -49,7 +51,7 @@ const CategoryList = (props) => {
         <React.Fragment>
             <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
                 <StyledScrollView>
-                    {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('SingleCategory', { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
+                    {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
                 </StyledScrollView>
             </DashboardLayout>
         </React.Fragment>

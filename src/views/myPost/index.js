@@ -14,6 +14,7 @@ import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
+import Routes from '../../constants/routeConst';
 
 const MyPost = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -49,7 +50,7 @@ const MyPost = (props) => {
         <React.Fragment>
             <StyledHorizontalScrollView>
                 {data.map((x, i) =>
-                    <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate('Posts', { id: x._id })} />
+                    <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
             </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
@@ -62,7 +63,7 @@ const MyPost = (props) => {
                 }}
                 icon="plus"
                 label='Post'
-                onPress={() => props.navigation.navigate('CreatePost', { category: { name: props.route.params.data.category_name, id: props.route.params.data._id } })}
+                onPress={() => props.navigation.navigate(Routes.createPost, { category: { name: props.route.params.data.category_name, id: props.route.params.data._id } })}
             /> : null}
         </React.Fragment>
     )

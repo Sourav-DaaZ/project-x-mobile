@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import {
-  Text, Image, TouchableOpacity
+  Image
 } from 'react-native';
 import logoImg from '../assets/images/logo.png';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -33,6 +33,9 @@ import TagList from '../views/tagList';
 import Login from '../views/auth/login';
 import Register from '../views/auth/register';
 import AccessScreen from '../views/access';
+import NotificationScreen from '../views/notification';
+
+import Routes from '../constants/routeConst';
 
 import { CustomTab, CustomHeader } from './custom';
 
@@ -54,7 +57,7 @@ export function AuthRouters(props) {
         }}
       >
         <Tab.Screen
-          name='Dashboard'
+          name={Routes.dashboard}
           options={{
             tabBarLabel: 'Dashboard',
             tabBarIcon: (color, size) => (
@@ -63,7 +66,7 @@ export function AuthRouters(props) {
           }}
           component={Dashboard} />
         <Tab.Screen
-          name='Category'
+          name={Routes.category}
           options={{
             tabBarLabel: 'Category',
             tabBarIcon: (color, size) => (
@@ -72,7 +75,7 @@ export function AuthRouters(props) {
           }}
           component={CategoryList} />
         <Tab.Screen
-          name='Search'
+          name={Routes.search}
           options={{
             tabBarLabel: 'Search',
             tabBarIcon: (color, size) => (
@@ -81,16 +84,16 @@ export function AuthRouters(props) {
           }}
           component={SearchScreen} />
         <Tab.Screen
-          name='TagList'
+          name={Routes.notification}
           options={{
-            tabBarLabel: 'TagList',
+            tabBarLabel: 'Notifications',
             tabBarIcon: (color, size) => (
-              <AntDesign name="home" color={color} size={size} />
+              <Ionicons name="notifications-outline" color={color} size={size} />
             ),
           }}
-          component={TagList} />
+          component={NotificationScreen} />
         <Tab.Screen
-          name='Setting'
+          name={Routes.setting}
           options={{
             tabBarLabel: 'Setting',
             tabBarIcon: (color, size) => (
@@ -106,7 +109,7 @@ export function AuthRouters(props) {
   return (
     <Stack.Navigator >
       <Stack.Screen
-        name="Home"
+        name={Routes.home}
         component={TabComponent}
         options={() => ({
           header: () => <CustomHeader
@@ -114,25 +117,25 @@ export function AuthRouters(props) {
           />
         })} />
       <Stack.Screen
-        name="Access"
+        name={Routes.access}
         component={AccessScreen}
         options={() => ({
           headerShown: false
         })} />
       {!props.islogin ? <Stack.Screen
-        name="login"
+        name={Routes.login}
         component={Login}
         options={() => ({
           headerShown: false
         })} /> : null}
       {!props.islogin ? <Stack.Screen
-        name="register"
+        name={Routes.register}
         component={Register}
         options={() => ({
           headerShown: false
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="UpdateDetails"
+        name={Routes.updateDetails}
         component={UpdateDetails}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -141,7 +144,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="CreatePost"
+        name={Routes.createPost}
         component={CreatePost}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -150,7 +153,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="EditPost"
+        name={Routes.editPost}
         component={EditPost}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -159,7 +162,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="CreateApplication"
+        name={Routes.createApplication}
         component={CreateApplication}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -168,7 +171,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="ApplicationDetails"
+        name={Routes.applicationDetails}
         component={ApplicationDetails}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -177,7 +180,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="EditApplication"
+        name={Routes.editApplication}
         component={EditApplication}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -186,7 +189,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="ApplicationList"
+        name={Routes.applicationList}
         component={ApplicationList}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -195,7 +198,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="MyPost"
+        name={Routes.myPost}
         component={MyPost}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -204,7 +207,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="EditDetails"
+        name={Routes.editDetails}
         component={EditDetails}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -213,7 +216,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
-        name="CreateReview"
+        name={Routes.createReview}
         component={CreateReview}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -222,7 +225,7 @@ export function AuthRouters(props) {
           />
         })} /> : null}
       <Stack.Screen
-        name="SingleCategory"
+        name={Routes.singleCategory}
         component={SingleCategory}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -231,7 +234,7 @@ export function AuthRouters(props) {
           />
         })} />
       <Stack.Screen
-        name="Profile"
+        name={Routes.profile}
         component={ProfileScreen}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -240,7 +243,7 @@ export function AuthRouters(props) {
           />
         })} />
       <Stack.Screen
-        name="Chat"
+        name={Routes.appChat}
         component={ChatScreen}
         options={({ navigation }) => ({
           header: () => <CustomHeader
@@ -249,7 +252,7 @@ export function AuthRouters(props) {
           />
         })} />
       <Stack.Screen
-        name="Posts"
+        name={Routes.postDetails}
         component={PostDetails}
         options={({ navigation }) => ({
           header: () => <CustomHeader

@@ -28,6 +28,8 @@ import {
   StyledForgot
 } from './style';
 
+import Routes from '../../constants/routeConst';
+
 const Login = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
@@ -214,7 +216,7 @@ const Login = (props) => {
               access_token: res.data.access_token,
               refresh_token: res.data.refresh_token
             }))
-            props.navigation.navigate('Home');
+            props.navigation.navigate(Routes.home);
           })
           .catch((err) => {
             varVl = updateObject(data, {
@@ -276,10 +278,10 @@ const Login = (props) => {
       <StyledViewButton>
         {GlobalButton(true, 'Log In', () => {
           setGlobalPost(true);
-          props.navigation.navigate('login');
+          props.navigation.navigate(Routes.login);
         })}
         {GlobalButton(false, 'Register', () => {
-          props.navigation.navigate('register');
+          props.navigation.navigate(Routes.register);
         })}
       </StyledViewButton>
       <LoginOuterView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>

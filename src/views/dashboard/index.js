@@ -12,6 +12,8 @@ import {
 import OutsideAuthApi from '../../services/outSideAuth';
 import SingleCategory from '../categoryList/singleCat';
 import Card from '../../sharedComponents/card';
+import * as Animatable from 'react-native-animatable';
+import Routes from '../../constants/routeConst';
 
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -54,8 +56,8 @@ const Dashboard = (props) => {
 
     return (
         <DashboardLayout fab={true} {...props} showLoader={showLoader} showMsg={showMsg} category={category} refreshFnc={() => setRefreshing(!refreshing)}>
-            <View>
-                <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate('Category')} goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} /></Button>} />
+            <Animatable.View animation='slideInDown'>
+                <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} /></Button>} />
                 <View style={{ flexDirection: "row" }}>
                     <StyledHorizontalScrollView style={{ height: "100%", paddingBottom: 20, paddingLeft: 20, }} horizontal showsHorizontalScrollIndicator={false}>
                         <TouchableWithoutFeedback
@@ -63,22 +65,22 @@ const Dashboard = (props) => {
                             onPressOut={handleInnerPressOut}
                         >
                             <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                                {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate('SingleCategory', { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
+                                {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
                             </View>
                         </TouchableWithoutFeedback>
                     </StyledHorizontalScrollView>
                 </View>
-            </View>
-            <View>
+            </Animatable.View>
+            <Animatable.View animation='slideInUp'>
                 <DashboardHeader text='Premium Post' goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} /></Button>} />
                 {/* <View style={{ display: 'flex', flexDirection: 'row', backgroundColor: 'lightgray' }}>
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'lightgray' }}>Cancel</Button>
                     <Button mode='contained' style={{ width: '50%', backgroundColor: 'gray' }}>Ok</Button>
                 </View> */}
-                <TouchableOpacity onPress={() => props.navigation.navigate('Chat', { id: '6249a9caf8189e221c63ec8f' })}>
+                {/* <TouchableOpacity onPress={() => props.navigation.navigate(Routes.appChat, { id: '6249a9caf8189e221c63ec8f' })}>
                     <Card />
-                </TouchableOpacity>
-            </View>
+                </TouchableOpacity> */}
+            </Animatable.View>
         </DashboardLayout>
     )
 };

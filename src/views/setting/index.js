@@ -13,6 +13,7 @@ import { SnackbarUpdate, loader, tokenUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Routes from '../../constants/routeConst';
 
 const Setting = (props) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Setting = (props) => {
 
   return (
     <DashboardLayout {...props}>
-      {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
+      {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile)}>
         <StyledProfileView>
           <View>
             <StyledTitle>{detailsStore.name}</StyledTitle>
@@ -55,7 +56,7 @@ const Setting = (props) => {
             size={70}
           />
         </StyledProfileView>
-      </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate('login')}>
+      </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(Routes.login)}>
         <StyledProfileView>
           <View>
             <StyledTitle>Login</StyledTitle>
@@ -81,19 +82,19 @@ const Setting = (props) => {
         </StyledCenter>
       </StyledProfileView>
       <StyledProfile>
-        <TouchableOpacity onPress={() => props.navigation.navigate('ApplicationList')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
           <StyledLeftContainer>
             <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
             <StyledSemiTitle>My Applications</StyledSemiTitle>
           </StyledLeftContainer>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.navigation.navigate('MyPost')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myPost)}>
           <StyledLeftContainer>
             <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
             <StyledSemiTitle>My Posts</StyledSemiTitle>
           </StyledLeftContainer>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.navigation.navigate('UpdateDetails', { logedin: false })}>
+        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: false })}>
           <StyledLeftContainer>
             <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
             <StyledSemiTitle>Details Update</StyledSemiTitle>

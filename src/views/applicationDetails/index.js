@@ -18,6 +18,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import InsideAuthApi from '../../services/inSideAuth';
+import Routes from '../../constants/routeConst';
 
 const ApplicationDetails = (props) => {
     const [data, setData] = useState({});
@@ -84,7 +85,7 @@ const ApplicationDetails = (props) => {
                 }}>{data.created_by.userId}</StyledCardTitle></StyledCardParagraph> : null}
             </StyledCardContent>
             <StyledCardAction>
-                <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => props.navigation.navigate('Chat', { id: data._id })}>Comment</StyledCardButton>
+                <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => props.navigation.navigate(Routes.appChat, { id: data._id })}>Comment</StyledCardButton>
                 <TouchableOpacity><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowMenu(true)}>
                     <Menu
@@ -93,7 +94,7 @@ const ApplicationDetails = (props) => {
                         anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
                     >
                         <Menu.Item onPress={() => {
-                            props.navigation.navigate('EditApplication', { data: data })
+                            props.navigation.navigate(Routes.editApplication, { data: data })
                             setShowMenu(false);
                         }} title="Edit Application" />
                         <Divider />

@@ -13,6 +13,8 @@ import { SnackbarUpdate, tokenUpdate } from '../../store/actions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
+import Routes from '../../constants/routeConst';
+
 import {
   LoginOuterView,
   SplashTitle,
@@ -281,7 +283,7 @@ const Register = (props) => {
               access_token: res.data.access_token,
               refresh_token: res.data.refresh_token
             }))
-            props.navigation.navigate('UpdateDetails');
+            props.navigation.navigate(Routes.updateDetails);
           })
           .catch((err) => {
             varVal = updateObject(data, {
@@ -315,10 +317,10 @@ const Register = (props) => {
     <LoginLayout {...props}>
       <StyledViewButton>
         {GlobalButton(false, 'Log In', () => {
-          props.navigation.navigate('login');
+          props.navigation.navigate(Routes.login);
         })}
         {GlobalButton(true, 'Register', () => {
-          props.navigation.navigate('register');
+          props.navigation.navigate(Routes.register);
         })}
       </StyledViewButton>
       <LoginOuterView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>

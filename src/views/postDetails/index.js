@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import OutsideAuthApi from '../../services/outSideAuth';
 import InsideAuthApi from '../../services/inSideAuth';
+import Routes from '../../constants/routeConst';
 
 const PostDetails = (props) => {
     const [data, setData] = useState({});
@@ -86,8 +87,8 @@ const PostDetails = (props) => {
                 }}>{data.genderSpecific}</StyledCardTitle></StyledCardParagraph> : null}
             </StyledCardContent>
             <StyledCardAction>
-                <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user? props.navigation.navigate('ApplicationList', { id: data._id }) : props.navigation.navigate('CreateApplication', { id: data._id })}>{detailsStore.id === data.owner?.user? 'View' : 'Apply'}</StyledCardButton>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Chat')}><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
+                <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user? 'View' : 'Apply'}</StyledCardButton>
+                <TouchableOpacity onPress={() => props.navigation.navigate(Routes.appChat)}><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowMenu(true)}>
                     <Menu
                         visible={showMenu}
@@ -95,7 +96,7 @@ const PostDetails = (props) => {
                         anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
                     >
                         <Menu.Item onPress={() => {
-                            props.navigation.navigate('EditPost', { data: data })
+                            props.navigation.navigate(Routes.editPost, { data: data })
                             setShowMenu(false);
                         }} title="Edit Post" />
                         <Divider />

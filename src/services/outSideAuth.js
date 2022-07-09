@@ -121,6 +121,13 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
+        myNotificationApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.myNotification+param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
     }
 }
 

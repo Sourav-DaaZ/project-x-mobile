@@ -16,7 +16,6 @@ export const StyledHeaderView = styled(View)`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    margin-top: 15px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
 `;

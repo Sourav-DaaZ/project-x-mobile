@@ -10,6 +10,7 @@ import {
 
 import OutsideAuthApi from '../../services/outSideAuth';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
+import Routes from '../../constants/routeConst';
 
 const TagList = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -39,7 +40,7 @@ const TagList = (props) => {
             <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
                 <StyledScrollView>
                     <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>{tag.map((x, i) =>
-                        <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate('Posts', { data: x })}>
+                        <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.postDetails, { data: x })}>
                             {x.tag_name}
                         </StyledChip>
                     )}</View>

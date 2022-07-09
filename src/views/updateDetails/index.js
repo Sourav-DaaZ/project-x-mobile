@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import Routes from '../../constants/routeConst';
 
 import {
   SubmitButton,
@@ -170,7 +171,7 @@ const UpdateDetails = (props) => {
             type: 'success',
             msg: res.message
           }));
-          props.navigation.navigate('Home');
+          props.navigation.navigate(Routes.home);
         })
         .catch((err) => {
           setLoading(false);

@@ -52,7 +52,6 @@ const LoginLayout = (props) => {
                                 access_token: res.data.access_token,
                                 refresh_token: res.data.refresh_token
                             }))
-                            // props.navigation.navigate('UpdateDetails');
                         })
                         .catch((err) => {
                             dispatch(SnackbarUpdate({

@@ -9,6 +9,8 @@ import { ThemeContext } from 'styled-components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Review from './review';
 
+import Routes from '../../constants/routeConst';
+
 const ProfileScreen = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
@@ -54,7 +56,7 @@ const ProfileScreen = (props) => {
                 }}
                 icon="plus"
                 label='Review'
-                onPress={() => props.navigation.navigate('CreateReview')}
+                onPress={() => props.navigation.navigate(Routes.createReview)}
             />
         </StyledScrollView>
     )

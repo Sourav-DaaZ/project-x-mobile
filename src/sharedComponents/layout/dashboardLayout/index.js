@@ -16,6 +16,7 @@ import {
 import Loader from '../../loader';
 import SnackBar from '../../snackbar'
 import BannerComponent from '../../banner';
+import Routes from '../../../constants/routeConst';
 import { useIsFocused } from '@react-navigation/native';
 
 const DashboardLayout = (props) => {
@@ -38,7 +39,7 @@ const DashboardLayout = (props) => {
                     }
                     dispatch(location(varData));
                 },
-                    (error) => props.navigation.navigate('Access', { type: 'Camera' }),
+                    (error) => props.navigation.navigate(Routes.access, { type: 'Camera' }),
                     { enableHighAccuracy: true, timeout: 20000 }
                 );
             }
@@ -79,13 +80,13 @@ const DashboardLayout = (props) => {
                         profileImg: res.data.images
                     }))
                 } else {
-                    props.navigation.navigate('UpdateDetails')
+                    props.navigation.navigate(Routes.updateDetails)
                 }
                 setRefreshing(false);
             })
             .catch((err) => {
                 if (err.error_code === "E-520") {
-                    props.navigation.navigate('UpdateDetails')
+                    props.navigation.navigate(Routes.updateDetails)
                 }
                 setRefreshing(false);
             });
@@ -102,7 +103,7 @@ const DashboardLayout = (props) => {
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
             <Loader show={props.showLoader ? props.showLoader : false} />
             <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={()=>setMsg('')} />
-            <BannerComponent />
+            {/* <BannerComponent /> */}
             {props.outsideScroll}
             <StyledScrollView
                 showsVerticalScrollIndicator={false}
@@ -130,7 +131,7 @@ const DashboardLayout = (props) => {
                 }}
                 icon="plus"
                 label='Post'
-                onPress={() => props.navigation.navigate('CreatePost', { categories: props.category })}
+                onPress={() => props.navigation.navigate(Routes.createPost, { categories: props.category })}
             /> : null}
         </DashboardOuterView>
     );

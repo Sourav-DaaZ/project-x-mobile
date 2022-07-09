@@ -1,7 +1,27 @@
-export const RoutsConst = {
-    login: '/login',
-    register: '/register',
-    dashboard: '/dashboard',
-    setting: '/setting',
-    notMatch: '/404',
+const Routes = {
+    home: 'Home',
+    dashboard: 'Dashboard',
+    category: 'Category',
+    search: 'Search',
+    notification: 'Notification',
+    setting: 'Setting',
+    access: 'Access',
+    login: 'Login',
+    register: 'Register',
+    updateDetails: 'UpdateDetails',
+    createPost: 'CreatePost',
+    editPost: 'EditPost',
+    createApplication: 'CreateApplication',
+    applicationDetails: 'ApplicationDetails',
+    editApplication: 'EditApplication',
+    applicationList: 'ApplicationList',
+    myPost: 'MyPost',
+    editDetails: 'EditDetails',
+    createReview: 'CreateReview',
+    singleCategory: 'SingleCategory',
+    profile: 'Profile',
+    appChat: 'AppChat',
+    postDetails: 'PostDetails'
 }
+
+export default Routes;

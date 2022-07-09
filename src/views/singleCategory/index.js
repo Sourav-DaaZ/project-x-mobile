@@ -15,6 +15,7 @@ import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
+import Routes from '../../constants/routeConst';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -81,7 +82,7 @@ const SingleCategory = (props) => {
             </StyledViewButton> : null}
             <StyledHorizontalScrollView>
                 {globalPost && data.map((x, i) =>
-                    <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate('Posts', { id: x._id })} />
+                    <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
                 {!globalPost && data.map((x, i) => <TouchableOpacity key={i}><List.Item
                     title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
@@ -98,7 +99,7 @@ const SingleCategory = (props) => {
                 }}
                 icon="plus"
                 label='Post'
-                onPress={() => props.navigation.navigate('CreatePost', { category: { name: props.route.params.data.category_name, id: props.route.params.data._id } })}
+                onPress={() => props.navigation.navigate(Routes.createPost, { category: { name: props.route.params.data.category_name, id: props.route.params.data._id } })}
             /> : null}
         </React.Fragment>
     )

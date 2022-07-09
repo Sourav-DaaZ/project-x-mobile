@@ -14,6 +14,7 @@ import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
+import Routes from '../../constants/routeConst';
 
 const ApplicationList = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -49,7 +50,7 @@ const ApplicationList = (props) => {
         <React.Fragment>
             <StyledHorizontalScrollView>
                 {data.map((x, i) =>
-                    <Card key={i} message={x.details} onViewPress={() => props.navigation.navigate('ApplicationDetails', { id: x._id })} />
+                    <Card key={i} message={x.details} onViewPress={() => props.navigation.navigate(Routes.applicationDetails, { id: x._id })} />
                 )}
             </StyledHorizontalScrollView>
         </React.Fragment>
