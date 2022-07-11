@@ -12,6 +12,7 @@ export const API = {
     requestForChangePassword: '/request_for_change_password',
     userIdCheck: '/user_id_check',
     registerUser: '/register_user',
+    userDetails: '/user_details',
     categoryList: '/category_list',
     searchPost: '/search_post',
     getPosts: '/get_posts',
@@ -23,6 +24,7 @@ export const API = {
     socialLogin: '/social_login',
     appConfig: '/app_config',
     myNotification: '/my_notification',
+    getReviewForOther: '/get_review_for_other',
   },
   authUrls: {
     details: '/details',

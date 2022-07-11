@@ -55,7 +55,7 @@ export const StyledCardParagraph = styled(Paragraph)`
 
 export const StyledCardButton = styled(Button)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    width: 50%;
+    width: 80%;
     margin-right: 2%;
 `;
 
@@ -68,5 +68,6 @@ export const StyledCardIcon = styled(Ionicons)`
 export const StyledDotIcon = styled(Entypo)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     font-size: ${width * .07}px;
+    margin-right: 3%;
 `;
 

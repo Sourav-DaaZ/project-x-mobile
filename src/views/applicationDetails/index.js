@@ -86,7 +86,7 @@ const ApplicationDetails = (props) => {
             </StyledCardContent>
             <StyledCardAction>
                 <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => props.navigation.navigate(Routes.appChat, { id: data._id })}>Comment</StyledCardButton>
-                <TouchableOpacity><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
+                {/* <TouchableOpacity><StyledCardIcon name='chatbox-outline' /></TouchableOpacity> */}
                 <TouchableOpacity onPress={() => setShowMenu(true)}>
                     <Menu
                         visible={showMenu}

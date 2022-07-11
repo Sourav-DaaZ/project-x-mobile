@@ -9,6 +9,13 @@ const OutsideAuthApi = () => {
         "Content-Type": "multipart/form-data",
     };
     return {
+        userDetailsApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.userDetails + param,
+                method: 'GET',
+                headers: { ...defaultHeaders },
+            })
+        },
         loginApi(data) {
             return axiosObj({
                 url: API.noAuthUrls.login,
@@ -92,13 +99,6 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
-        allUserApi(param) {
-            return axiosObj({
-                url: API.noAuthUrls.allUser + param,
-                method: 'GET',
-                headers: { ...defaultHeaders }
-            })
-        },
         searchUserApi(param) {
             return axiosObj({
                 url: API.noAuthUrls.searchUser + "?search=" + param,
@@ -123,7 +123,14 @@ const OutsideAuthApi = () => {
         },
         myNotificationApi(param) {
             return axiosObj({
-                url: API.noAuthUrls.myNotification+param,
+                url: API.noAuthUrls.myNotification + param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        getReviewForOtherApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.getReviewForOther + param,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })

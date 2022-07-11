@@ -56,7 +56,7 @@ const Dashboard = (props) => {
 
     return (
         <DashboardLayout fab={true} {...props} showLoader={showLoader} showMsg={showMsg} category={category} refreshFnc={() => setRefreshing(!refreshing)}>
-            <Animatable.View animation='slideInDown'>
+            <Animatable.View animation='slideInUp'>
                 <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<Button><AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor }} /></Button>} />
                 <View style={{ flexDirection: "row" }}>
                     <StyledHorizontalScrollView style={{ height: "100%", paddingBottom: 20, paddingLeft: 20, }} horizontal showsHorizontalScrollIndicator={false}>

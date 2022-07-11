@@ -23,13 +23,14 @@ const SearchScreen = (props) => {
     const [data, setData] = useState([]);
     const [flag, setFlag] = useState(true);
 
-    const onTypeFnc = (text) => {
+    const onTypeFnc = (text, lflag) => {
         if (text.length === 0 || (text.length <= 1 && validate(text, { isAlphaNumeric: true }))) {
             setSearchQuery(text);
             setData([])
         } else if (text.length > 1 && validate(text, { isAlphaNumeric: true })) {
             setSearchQuery(text);
-            if (flag) {
+            setData([])
+            if (lflag) {
                 OutsideAuthApi()
                     .searchPostApi(text)
                     .then((res) => {
@@ -53,13 +54,13 @@ const SearchScreen = (props) => {
 
     return (
         <DashboardLayout {...props} fab={false} outsideScroll={
-            <StyledSearchbar focus clear onChangeText={onTypeFnc} value={searchQuery} />
+            <StyledSearchbar focus clear onChangeText={(x) => onTypeFnc(x, flag)} value={searchQuery} />
         }>
             <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                <StyledChip selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery) }}>
+                <StyledChip selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
                     Post
                 </StyledChip>
-                <StyledChip selected={!flag} onPress={() => { setFlag(false);; onTypeFnc(searchQuery) }}>
+                <StyledChip selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
                     User
                 </StyledChip>
             </View>
@@ -67,11 +68,11 @@ const SearchScreen = (props) => {
                 {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })}><List.Item
                     title={x.message ? x.message : ''}
                     description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
-                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images && x.images[0] && x.visible? x.images[0] : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
-                {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { data: x })}><List.Item
+                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
+                {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x._id })}><List.Item
                     title={x.userInfo?.name ? x.userInfo.name : ''}
                     description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
-                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images? x.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
+                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo && x.userInfo.images ? x.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
                 <StyledDivider />
 
             </StyledScrollView>

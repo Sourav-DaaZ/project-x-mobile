@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import {
     Avatar,
@@ -6,27 +6,48 @@ import {
 } from 'react-native-paper';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledReviewProfile, StyledScrollView, StyledContainer } from './style';
 import { ThemeContext } from 'styled-components';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { SnackbarUpdate, loader, detailsUpdate } from '../../store/actions';
 import Review from './review';
 
 import Routes from '../../constants/routeConst';
+import OutsideAuthApi from '../../services/outSideAuth';
 
 const ProfileScreen = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const dispatch = useDispatch()
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        OutsideAuthApi()
+            .userDetailsApi(`?user_id=${props.route.params?.id}`)
+            .then((res) => {
+                setData(res.data);
+            })
+            .catch((err) => {
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err.message
+                }))
+            });
+    }, [])
+
     return (
         <StyledScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
             <StyledProfileView>
                 <Avatar.Image
                     source={{
                         uri:
-                            'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                            data.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
                     }}
                     size={70}
                 />
-                <StyledTitle>Sourav Das</StyledTitle>
+                <StyledTitle>{data?.name}</StyledTitle>
+                <StyledParagraph>{data?.category?.category_name + (data?.subCategory ? `( ${data?.subCategory} )` : '')}</StyledParagraph>
             </StyledProfileView>
-            <StyledReviewProfile>
+            {/* <StyledReviewProfile>
                 <StyledCenter>
                     <StyledSemiTitle>0</StyledSemiTitle>
                     <StyledParagraph>Followers</StyledParagraph>
@@ -42,11 +63,11 @@ const ProfileScreen = (props) => {
                     <StyledParagraph>Followers</StyledParagraph>
                 </StyledCenter>
 
-            </StyledReviewProfile>
+            </StyledReviewProfile> */}
             <StyledContainer>
-                <Review {...props} />
+                <Review {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} />
             </StyledContainer>
-            <FAB
+            {props.route.params && props.route.params.id !== detailsStore.id ? <FAB
                 style={{
                     position: 'absolute',
                     margin: 16,
@@ -56,8 +77,8 @@ const ProfileScreen = (props) => {
                 }}
                 icon="plus"
                 label='Review'
-                onPress={() => props.navigation.navigate(Routes.createReview)}
-            />
+                onPress={() => props.navigation.navigate(Routes.createReview, { id: props.route.params.id })}
+            /> : null}
         </StyledScrollView>
     )
 }

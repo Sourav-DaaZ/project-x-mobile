@@ -11,6 +11,7 @@ import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
+import OutsideAuthApi from '../../services/outSideAuth';
 
 const Review = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -26,24 +27,40 @@ const Review = (props) => {
 
     useEffect(() => {
         setData([]);
-        dispatch(loader(true));
-        if (globalPost) {
-            InsideAuthApi(authStore)
-                .getReviewApi('?isPublic=true')
-                .then((res) => {
-                    setData(res.data);
-                    dispatch(loader(false));
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                    dispatch(loader(false));
-                });
+        if (props.myUser) {
+            dispatch(loader(true));
+            if (globalPost) {
+                InsideAuthApi(authStore)
+                    .getReviewApi('?isPublic=true')
+                    .then((res) => {
+                        setData(res.data);
+                        dispatch(loader(false));
+                    })
+                    .catch((err) => {
+                        dispatch(SnackbarUpdate({
+                            type: 'error',
+                            msg: err.message
+                        }));
+                        dispatch(loader(false));
+                    });
+            } else {
+                InsideAuthApi(authStore)
+                    .getReviewApi('?isPublic=false')
+                    .then((res) => {
+                        setData(res.data);
+                        dispatch(loader(false));
+                    })
+                    .catch((err) => {
+                        dispatch(SnackbarUpdate({
+                            type: 'error',
+                            msg: err.message
+                        }));
+                        dispatch(loader(false));
+                    });
+            }
         } else {
-            InsideAuthApi(authStore)
-                .getReviewApi('?isPublic=false')
+            OutsideAuthApi()
+                .getReviewForOtherApi(`?user_id=${props.route.params?.id}`)
                 .then((res) => {
                     setData(res.data);
                     dispatch(loader(false));
@@ -55,12 +72,13 @@ const Review = (props) => {
                     }));
                     dispatch(loader(false));
                 });
+
         }
-    }, [globalPost])
+    }, [globalPost, props])
 
     return (
         <React.Fragment>
-            {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
+            {props.myUser && authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
                 {GlobalButton(globalPost, 'Pbulic Review', () => setGlobalPost(true))}
                 {GlobalButton(!globalPost, 'Private Review', () => setGlobalPost(false))}
             </StyledViewButton> : null}

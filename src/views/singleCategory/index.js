@@ -34,6 +34,7 @@ const SingleCategory = (props) => {
     useEffect(() => {
         setData([]);
         dispatch(loader(true));
+        console.log(globalPost);
         if (globalPost) {
             let requestData = {
                 category_id: props.route.params?.data._id,
@@ -84,10 +85,10 @@ const SingleCategory = (props) => {
                 {globalPost && data.map((x, i) =>
                     <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
-                {!globalPost && data.map((x, i) => <TouchableOpacity key={i}><List.Item
+                {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}><List.Item
                     title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
                     description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
-                    left={props => x.user.images && x.userInfo.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo.images[0] }} /> : null} /></TouchableOpacity>)}
+                    left={props => x.user && x.user.images && x.userInfo.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo.images[0] }} /> : null} /></TouchableOpacity>)}
             </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{

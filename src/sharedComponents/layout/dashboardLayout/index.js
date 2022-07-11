@@ -80,13 +80,13 @@ const DashboardLayout = (props) => {
                         profileImg: res.data.images
                     }))
                 } else {
-                    props.navigation.navigate(Routes.updateDetails)
+                    props.navigation.navigate(Routes.updateDetails, { logedin: false })
                 }
                 setRefreshing(false);
             })
             .catch((err) => {
                 if (err.error_code === "E-520") {
-                    props.navigation.navigate(Routes.updateDetails)
+                    props.navigation.navigate(Routes.updateDetails, { logedin: false })
                 }
                 setRefreshing(false);
             });
@@ -109,7 +109,7 @@ const DashboardLayout = (props) => {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    props.refreshFnc && <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
                 scrollEnabled={props.outerScrollViewScrollEnabled}>
                 {props.banner ? <StyledFullImg

@@ -107,7 +107,8 @@ const CreateReview = (props) => {
       const requestData = {
         "isPublic": isPublic,
         "description": data.controls.description.value,
-        "user_id": "61f1b96a60a42d2d13c92db2"
+        "user_id": props.route.params.id,
+        "token": "token"
       }
       setLoader(true);
       InsideAuthApi(authStore)

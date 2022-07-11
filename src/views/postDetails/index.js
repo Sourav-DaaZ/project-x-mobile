@@ -88,7 +88,7 @@ const PostDetails = (props) => {
             </StyledCardContent>
             <StyledCardAction>
                 <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user? 'View' : 'Apply'}</StyledCardButton>
-                <TouchableOpacity onPress={() => props.navigation.navigate(Routes.appChat)}><StyledCardIcon name='chatbox-outline' /></TouchableOpacity>
+                {/* <TouchableOpacity onPress={() => props.navigation.navigate(Routes.appChat)}><StyledCardIcon name='chatbox-outline' /></TouchableOpacity> */}
                 <TouchableOpacity onPress={() => setShowMenu(true)}>
                     <Menu
                         visible={showMenu}

@@ -42,7 +42,7 @@ const Setting = (props) => {
 
   return (
     <DashboardLayout {...props}>
-      {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile)}>
+      {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: detailsStore.id })}>
         <StyledProfileView>
           <View>
             <StyledTitle>{detailsStore.name}</StyledTitle>
@@ -94,7 +94,7 @@ const Setting = (props) => {
             <StyledSemiTitle>My Posts</StyledSemiTitle>
           </StyledLeftContainer>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: false })}>
+        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: true })}>
           <StyledLeftContainer>
             <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
             <StyledSemiTitle>Details Update</StyledSemiTitle>
