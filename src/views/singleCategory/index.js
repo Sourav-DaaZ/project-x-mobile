@@ -34,7 +34,6 @@ const SingleCategory = (props) => {
     useEffect(() => {
         setData([]);
         dispatch(loader(true));
-        console.log(globalPost);
         if (globalPost) {
             let requestData = {
                 category_id: props.route.params?.data._id,

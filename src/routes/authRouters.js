@@ -45,8 +45,7 @@ const Tab = createBottomTabNavigator();
 export function AuthRouters(props) {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
-
-
+console.log(props);
   const TabComponent = () => {
     return (
       <Tab.Navigator

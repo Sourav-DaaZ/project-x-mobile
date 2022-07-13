@@ -15,12 +15,9 @@ import thunk from 'redux-thunk';
 import { Platform } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import GlobalThemeProvider from './contextProviders/globalThemeProvider';
-import * as FCMNotificationHandler from "./services/Google/Firebase/FCMNotificationHandler";
 
 import AuthReducer from './store/reducers/auth';
 import DetailsReducer from './store/reducers/userDetails';
-
-import messaging from '@react-native-firebase/messaging';
 
 if (__DEV__) {
   import('./reactotronConfig').then(() => console.log('Reactotron Configured'));
@@ -33,14 +30,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-if (Platform.OS === "android") {
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Message handled in the background!', remoteMessage);
-  });
 
-  FCMNotificationHandler.requestUserPermission();
-  FCMNotificationHandler.NotifinationListener();
-}
 const App = () => {
 
   return (

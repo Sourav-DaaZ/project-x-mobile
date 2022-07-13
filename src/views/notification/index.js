@@ -49,7 +49,7 @@ const NotificationScreen = (props) => {
             <StyledScrollView>
                 {data.map((x, i) => (
                     <TouchableOpacity key={i} style={{ borderBottom: '2px solid blue' }} onPress={() => props.navigation.navigate(Routes[x.data.route], { id: x.data.id })}><List.Item
-                        title={(x.data.userVisible ? x.created_by.userInfo.name.toLowerCase() + ': ' : "anonymous: ") + (x.data.title ? x.data.title : '')}
+                        title={(x.data.userVisible & x.created_by.userInfo ? x.created_by.userInfo.name.toLowerCase() + ': ' : "anonymous: ") + (x.data.title ? x.data.title : '')}
                         description={timeFormat(x.createdAt)}
                         left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images && x.data.userVisible ? x.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>
                 ))}

@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Routs from '../../../constants/routeConst';
 
 export async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
@@ -31,13 +32,15 @@ async function GetFCMToken() {
         console.log("Token is present!");
     }
 }
-export const NotifinationListener = () => {
-
+export const NotifinationListener = (navigationRef) => {
     messaging().onNotificationOpenedApp(remoteMessage => {
         console.log(
             'Notification caused app to open from background state:',
-            remoteMessage.notification,
+            remoteMessage.data,
         );
+        if (remoteMessage.data && remoteMessage.data.route) {
+            navigationRef.current?.navigate(Routs[remoteMessage.data.route], { id: remoteMessage.data.id })
+        }
     });
 
     messaging()
@@ -56,4 +59,10 @@ export const NotifinationListener = () => {
     messaging().onMessage(async remoteMessage => {
         console.log("foreground notification", remoteMessage)
     })
+}
+
+export const backgroundNotification = () => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+        console.log('Message handled in the background!', remoteMessage);
+    });
 }

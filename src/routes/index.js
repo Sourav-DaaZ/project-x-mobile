@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { Text, Platform } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
 import SnackBar from '../sharedComponents/snackbar';
 import Loader from '../sharedComponents/loader';
@@ -11,6 +11,10 @@ import Modal from '../sharedComponents/modal';
 import OutsideAuthApi from '../services/outSideAuth';
 import { UpdateButton, UpdateTitle, UpdateDescription, UpdateWrapper, ButtonWrapper, CancelText } from './style';
 import defaultValue from '../constants/defaultValue';
+import messaging from '@react-native-firebase/messaging';
+import * as FCMNotificationHandler from "../services/google/firebase/FCMNotificationHandler";
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import { generateLink, handleDynamicLink } from '../services/google/deepLinkingHandler';
 
 const AuthenticationRoutes = React.lazy(() => import('./authRouters').then(module => ({ default: module.AuthRouters })));
 
@@ -19,7 +23,13 @@ function Routs(props) {
   const [updatePopup, setUpdatePopup] = useState(null);
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const dispatch = useDispatch();
+  const navigationRef = useNavigationContainerRef()
 
+  if (Platform.OS === "android") {
+    FCMNotificationHandler.backgroundNotification();
+    FCMNotificationHandler.requestUserPermission();
+    FCMNotificationHandler.NotifinationListener(navigationRef);
+  }
 
   const fetchCredentials = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('token') || "{}");
@@ -38,21 +48,35 @@ function Routs(props) {
 
   useEffect(() => {
     fetchCredentials();
+    dynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        console.log(link)
+      });
   }, [])
+
+  useEffect(() => {
+    const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
+    // When the component is unmounted, remove the listener
+    return () => unsubscribe();
+  }, []);
+
   useEffect(() => {
     if (authStore.message.msg !== '') {
       setShow(true);
     }
   }, [authStore.message])
 
-  
+
   return (
     <React.Suspense fallback={
       <Text>Loading</Text>
     }>
       <SnackBar show={show} text={authStore.message.msg} type={authStore.message.type} onDismiss={() => setShow(false)} />
       <Loader show={authStore.loading} />
-      <NavigationContainer>
+      <NavigationContainer ref={
+        navigationRef
+      }>
         <AuthenticationRoutes {...props} islogin={authStore.access_token && authStore.access_token !== ''} />
       </NavigationContainer>
       {updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS] ? <Modal show={updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS]} onClose={!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? () => setUpdatePopup(null) : null}>
