@@ -12,6 +12,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import OutsideAuthApi from '../../services/outSideAuth';
+import BottomShadow from '../../sharedComponents/bottomShadow';
 
 const Review = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -78,13 +79,15 @@ const Review = (props) => {
 
     return (
         <React.Fragment>
-            {props.myUser && authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
-                {GlobalButton(globalPost, 'Pbulic Review', () => setGlobalPost(true))}
-                {GlobalButton(!globalPost, 'Private Review', () => setGlobalPost(false))}
-            </StyledViewButton> : null}
+            {props.myUser && authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
+                <StyledViewButton>
+                    {GlobalButton(globalPost, 'Pbulic Review', () => setGlobalPost(true))}
+                    {GlobalButton(!globalPost, 'Private Review', () => setGlobalPost(false))}
+                </StyledViewButton>
+            </BottomShadow> : null}
             <StyledHorizontalScrollView>
                 {data.map((x, i) =>
-                    <Card key={i} message={x.description} />
+                    <Card key={i} title={x.description} />
                 )}
             </StyledHorizontalScrollView>
         </React.Fragment>

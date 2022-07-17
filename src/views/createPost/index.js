@@ -235,7 +235,7 @@ const CreatePost = (props) => {
 
 
   return (
-    <StyledScrollView style={{ flex: 1 }}>
+    <StyledScrollView>
       <InputView>
         {formElementsArray?.map((x, index) => (
           x.id !== 'otp' && <Input

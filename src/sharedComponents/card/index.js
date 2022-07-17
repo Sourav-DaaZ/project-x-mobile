@@ -1,5 +1,4 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import {
     StyledCard,
     StyledCardContent,
@@ -8,14 +7,15 @@ import {
     StyledCardParagraph,
     StyledCardCover,
     StyledCardButton,
-    StyledCardsecondButton,
+    StyledView,
     StyledCardIcon
 } from './style'
+import * as Animatable from 'react-native-animatable';
 
 const CardComponent = (props) => {
 
     return (
-        <React.Fragment>
+        <Animatable.View animation='fadeInUp'>
             {props.images ? <StyledCardCover source={{ uri: props.images }} /> : null}
             <StyledCard style={{ marginTop: !props.images ? 20 : -20 }}>
                 <StyledCardContent>
@@ -24,11 +24,10 @@ const CardComponent = (props) => {
                 </StyledCardContent>
                 <StyledCardAction>
                     {props.onViewPress ? <StyledCardButton mode='contained' contentStyle={{ padding: 3 }} onPress={props.onViewPress}>View</StyledCardButton> : null}
-                    {props.onChatPress ? <StyledCardsecondButton mode='text' onPress={props.onChatPress}><StyledCardIcon name='chatbox-outline' /></StyledCardsecondButton> : null}
-                    {props.onSherePress ? <StyledCardsecondButton mode='text' onPress={props.onSherePress}><StyledCardIcon name='share-outline' /></StyledCardsecondButton> : null}
+                    {props.onSherePress ? <StyledView><StyledCardIcon name='share-outline' /></StyledView> : null}
                 </StyledCardAction>
             </StyledCard>
-        </React.Fragment>
+        </Animatable.View>
     )
 };
 

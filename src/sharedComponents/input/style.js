@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { View, TextInput, Text } from 'react-native';
 import { Switch } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { Searchbar } from 'react-native-paper';
 const { width, height } = Dimensions.get('screen');
 
 export const StyledInputView = styled(View)`
@@ -40,4 +41,8 @@ export const StyledPicker = styled(DropDownPicker)`
 
 export const StyledSwitch = styled(Switch)`
 
+`;
+
+export const StyledSearchbar = styled(Searchbar)`
+    
 `;

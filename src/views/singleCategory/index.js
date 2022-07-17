@@ -7,7 +7,8 @@ import {
     StyledViewButton,
     StyledButtonView,
     StyledButtonActive,
-    StyledTouchableOpacity
+    StyledTouchableOpacity,
+    StyledListView
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import InsideAuthApi from '../../services/inSideAuth';
@@ -16,6 +17,8 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import Routes from '../../constants/routeConst';
+import ListItem from '../../sharedComponents/listItem';
+import BottomShadow from '../../sharedComponents/bottomShadow';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -76,18 +79,24 @@ const SingleCategory = (props) => {
 
     return (
         <React.Fragment>
-            {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
-                {GlobalButton(globalPost, 'Global Post', () => setGlobalPost(true))}
-                {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
-            </StyledViewButton> : null}
+            {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
+                <StyledViewButton>
+                    {GlobalButton(globalPost, 'Global Post', () => setGlobalPost(true))}
+                    {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
+                </StyledViewButton>
+            </BottomShadow> : null}
             <StyledHorizontalScrollView>
                 {globalPost && data.map((x, i) =>
-                    <Card key={i} title={x.title} message={x.message} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                    <Card key={i} images='https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' title={x.title} message={x.message} onSherePress={() => console.log('hi')} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
-                {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}><List.Item
-                    title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
-                    description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
-                    left={props => x.user && x.user.images && x.userInfo.images[0] ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo.images[0] }} /> : null} /></TouchableOpacity>)}
+                {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
+                    <StyledListView animation='zoomIn'>
+                        <ListItem
+                            title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
+                            description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
+                            image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user && x.user.images && x.userInfo.images[0] ? x.userInfo.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
+                    </StyledListView>
+                </TouchableOpacity>)}
             </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{

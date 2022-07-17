@@ -2,12 +2,13 @@ import styled from 'styled-components/native';
 import { Dimensions, View } from 'react-native';
 import { Searchbar, Divider, Chip } from 'react-native-paper';
 
+import * as Animatable from 'react-native-animatable';
+
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 
 
 export const StyledScrollView = styled(View)`
-    background: white;
     margin: 10px;
     margin-top: 0px;
 `;
@@ -22,10 +23,10 @@ export const StyledList = styled(View)`
     margin-bottom: 10px;
 `;
 
-export const StyledDivider = styled(Divider)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
-    margin-top: 5px;
-    margin-bottom: 5px;
+export const StyledWrapper = styled(Animatable.View)`
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+    margin-bottom: 10px;
+    border-radius: 10px;
 `;
 
 export const StyledChip = styled(Chip)`

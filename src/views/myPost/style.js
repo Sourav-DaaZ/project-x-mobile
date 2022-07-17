@@ -21,7 +21,7 @@ export const StyledViewButton = styled(View)`
 export const StyledButtonView = styled(Text)`
     width: 100%;
     text-align: center;
-    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}; 
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor}; 
     fontWeight: 600;
     font-size: 15px;
     text-transform: uppercase;
@@ -37,7 +37,7 @@ export const StyledTouchableOpacity = styled(TouchableOpacity)`
 `;
 export const StyledButtonActive = styled(Button)`
     width: 50%;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}; 
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor}; 
     border-radius: 0px;
 `;
 

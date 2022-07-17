@@ -9,14 +9,7 @@ export const DashboardOuterView = styled(View)`
     display: flex;
     flex: 1;
     flex-direction: column;
-    padding-bottom: 40px;
-    margin-bottom: 35px;
-    z-index: -1;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    height: 100%;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
-    box-shadow: 0px 9px 5px #00000020;
+    z-index: 1;
 `;
 
 export const StyledFullImg = styled(Image)`
@@ -25,5 +18,6 @@ export const StyledFullImg = styled(Image)`
 `;
 
 export const StyledScrollView = styled(ScrollView)`
-    background: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+    padding-horizontal: 10px;
 `;

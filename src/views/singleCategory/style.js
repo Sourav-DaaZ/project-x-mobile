@@ -3,18 +3,22 @@ import { Dimensions, ScrollView, View, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button'
 
+import * as Animatable from 'react-native-animatable';
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
-    background: white;
-    padding-top: 20px
+    margin-top: -10px;
 `;
 
 export const StyledViewButton = styled(View)`
     display: flex;
     flex-direction: row;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}; 
+`;
+
+export const StyledListView = styled(Animatable.View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}; 
 `;
 

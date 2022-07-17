@@ -9,20 +9,22 @@ const width_logo = width * .6;
 
 export const StyledScrollView = styled(View)`
     background: white;
-    padding: 20px;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
 `;
 
 export const StyledCard = styled(Card)`
     width: ${(width / 2) - 30}px;
     margin: 5px;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledHeadline = styled(Paragraph)`
     text-align: center; 
     margin-top: 15px;
     font-size: ${height * .02}px;
-    font-weight: 500
+    font-weight: 500;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;

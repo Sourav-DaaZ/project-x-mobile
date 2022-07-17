@@ -190,7 +190,7 @@ const CreateApplication = (props) => {
          <StyledText>User Visibility</StyledText>
        <Input 
         ele={'switch'}
-        color={colors.mainByColor}
+        color={colors.mainColor}
         value={userVisible}
         onChange={()=> setUserVisible(!userVisible)}
        />

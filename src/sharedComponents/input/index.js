@@ -1,7 +1,7 @@
 import React from 'react';
 import { Picker } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker, StyledSwitch } from './style';
+import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker, StyledSwitch, StyledSearchbar } from './style';
 
 const Input = (props) => {
   const [dot, setDot] = React.useState(true);
@@ -92,6 +92,21 @@ const Input = (props) => {
         <StyledSwitch color={props.color} value={props.value} onValueChange={props.onChange} />
       )
       break;
+    case 'search':
+      inputElement = (
+        <StyledSearchbar
+          ref={props.ref}
+          theme={props.theme}
+          value={props.value}
+          onChangeText={props.onChange}
+          placeholder={props.placeholder}
+          isFocused={props.isFocused}
+          onFocus={props.onFocus}
+          autoFocus={props.focus}
+          disabled
+          editable={props.editable !== undefined? props.editable : true}
+           />
+      )
   }
   return inputElement;
 };

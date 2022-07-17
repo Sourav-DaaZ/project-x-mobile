@@ -13,7 +13,7 @@ export const StyledView = styled(Animatable.View)`
 `
 
 export const StyledClose = styled(Animatable.Text)`
-    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 3px;

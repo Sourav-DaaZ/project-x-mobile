@@ -169,7 +169,7 @@ const CreateReview = (props) => {
           <StyledText>Public Visibility</StyledText>
           <Input
             ele={'switch'}
-            color={colors.mainByColor}
+            color={colors.mainColor}
             value={isPublic}
             onChange={() => setIsPublic(!isPublic)}
           />

@@ -1,19 +1,17 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
+import { Dimensions, TouchableOpacity } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
+const { width } = Dimensions.get('screen');
 
 
 export const StyledCard = styled(Card)`
-    width: ${width - 50}px; 
     margin: 25px;
     margin-top: -20px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     border-radius: 10px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
@@ -35,10 +33,14 @@ export const StyledCardAction = styled(Card.Actions)`
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 export const StyledCardTitle = styled(Title)`
-    font-size: ${width * .06}px;
+    font-size: ${width * .05}px;
     font-weight: 600;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;
@@ -50,13 +52,16 @@ export const StyledCardParagraph = styled(Paragraph)`
 
 export const StyledCardButton = styled(Button)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    width: 45%;
+    width: 75%;
     margin-right: 2%;
 `;
 
-export const StyledCardsecondButton = styled(Button)`
-    margin-left: 4%;
+export const StyledView = styled(TouchableOpacity)`
     width: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
 `;
 

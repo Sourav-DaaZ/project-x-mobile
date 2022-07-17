@@ -3,12 +3,17 @@ import { Dimensions, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Paragraph, Title, Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
 
+import * as Animatable from 'react-native-animatable';
+
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 
 
 export const StyledScrollView = styled(ScrollView)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+    flex: 1;
+    margin-horizontal: 10px;
+    margin-bottom: 10px;
+    margin-top: -50px;
 `;
 
 export const StyledProfileView = styled(View)`
@@ -16,10 +21,20 @@ export const StyledProfileView = styled(View)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    padding-top: 60px;
     padding-bottom: 20px;
     border-bottom-width: 1px;
+    border-radius: 10px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+`;
+
+export const StyledImage = styled(View)`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
 `;
 
 export const StyledReviewProfile = styled(View)`
@@ -27,11 +42,11 @@ export const StyledReviewProfile = styled(View)`
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    padding: 20px;
-    padding-top: 0px;
+    padding: 10px;
     margin-top: 0px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 export const StyledContainer = styled(View)`
    
@@ -63,8 +78,7 @@ export const StyledCenter = styled(View)`
 `;
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
-    background: white;
-    padding-top: 20px
+    background: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
 `;
 
 export const StyledViewButton = styled(View)`

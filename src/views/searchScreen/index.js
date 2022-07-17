@@ -1,12 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 import { List, Avatar } from 'react-native-paper';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import {
     StyledScrollView,
-    StyledSearchbar,
-    StyledDivider,
-    StyledChip
+    StyledWrapperBody,
+    StyledChip,
+    StyledWrapper,
+    StyledOptiondWrapper,
+    StyledWrapperList
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
@@ -14,6 +16,8 @@ import { SnackbarUpdate } from '../../store/actions';
 import { validate } from '../../utils';
 import Routes from '../../constants/routeConst';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
+import Input from '../../sharedComponents/input';
+import ListItem from '../../sharedComponents/listItem';
 
 const SearchScreen = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -54,28 +58,47 @@ const SearchScreen = (props) => {
 
     return (
         <DashboardLayout {...props} fab={false} outsideScroll={
-            <StyledSearchbar focus clear onChangeText={(x) => onTypeFnc(x, flag)} value={searchQuery} />
+            <StyledWrapper>
+                <Input
+                    ele={'search'}
+                    placeholder="Search Post / User"
+                    theme={{
+                        colors: {
+                            placeholder: colors.textColor, text: colors.textDeep, background: colors.backgroundColor
+                        }
+                    }}
+                    
+                    focus clear onChange={(x) => onTypeFnc(x, flag)} value={searchQuery} />
+            </StyledWrapper>
         }>
-            <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                <StyledChip selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
-                    Post
-                </StyledChip>
-                <StyledChip selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
-                    User
-                </StyledChip>
-            </View>
-            <StyledScrollView>
-                {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })}><List.Item
-                    title={x.message ? x.message : ''}
-                    description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
-                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
-                {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x._id })}><List.Item
-                    title={x.userInfo?.name ? x.userInfo.name : ''}
-                    description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
-                    left={props => <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo && x.userInfo.images ? x.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} /></TouchableOpacity>)}
-                <StyledDivider />
-
-            </StyledScrollView>
+            <StyledWrapperBody>
+                <StyledOptiondWrapper>
+                    <StyledChip selectedColor={flag ? colors.backgroundColor : colors.borderLight} selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
+                        Post
+                    </StyledChip>
+                    <StyledChip selectedColor={!flag ? colors.backgroundColor : colors.borderLight} selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
+                        User
+                    </StyledChip>
+                </StyledOptiondWrapper>
+                <StyledScrollView>
+                    {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })}>
+                        <StyledWrapperList>
+                            <ListItem
+                                title={x.message ? x.message : ''}
+                                description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
+                                image={<Avatar.Image style={{ margin: 5 }} size={60} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
+                        </StyledWrapperList>
+                    </TouchableOpacity>)}
+                    {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x._id })}>
+                        <StyledWrapperList>
+                            <ListItem
+                                title={x.userInfo?.name ? x.userInfo.name : ''}
+                                description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
+                                image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo && x.userInfo.images ? x.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
+                        </StyledWrapperList>
+                    </TouchableOpacity>)}
+                </StyledScrollView>
+            </StyledWrapperBody>
         </DashboardLayout>
     )
 }

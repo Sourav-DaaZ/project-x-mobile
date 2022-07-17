@@ -2,6 +2,8 @@ import styled from 'styled-components/native';
 import { Dimensions, View } from 'react-native';
 import { Paragraph, Title } from 'react-native-paper';
 
+import * as Animatable from 'react-native-animatable';
+
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 
@@ -11,27 +13,21 @@ export const StyledProfileView = styled(View)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+    padding-vertical: 10px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
 `;
 
-export const StyledModalView = styled(View)`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 50px;
-    padding-bottom: 80px;
+export const WrapperView = styled(Animatable.View)`
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 0px;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledProfile = styled(View)`
-    margin-left: 10px;
-    margin-right: 20px;
-    margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
@@ -44,7 +40,7 @@ export const StyledTitle = styled(Title)`
 `;
 
 export const StyledSemiTitle = styled(Title)`
-    font-size: ${height * .025}px;
+    font-size: ${height * .023}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
     letter-spacing: 1px;
     font-weight: 500;
@@ -67,5 +63,6 @@ export const StyledLeftContainer = styled(View)`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin: 10px;
+    margin-vertical: 10px;
+    margin-bottom: 5px;
 `;

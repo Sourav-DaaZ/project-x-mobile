@@ -334,7 +334,7 @@ const EditPost = (props) => {
           <StyledText>Public Post</StyledText>
           <Input
             ele={'switch'}
-            color={colors.mainByColor}
+            color={colors.mainColor}
             value={isPublic}
             onChange={() => setIsPublic(!isPublic)}
           />
@@ -345,7 +345,7 @@ const EditPost = (props) => {
           <StyledText>User Visibility</StyledText>
           <Input
             ele={'switch'}
-            color={colors.mainByColor}
+            color={colors.mainColor}
             value={userVisible}
             onChange={() => setUserVisible(!userVisible)}
           />

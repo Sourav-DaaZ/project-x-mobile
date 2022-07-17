@@ -38,6 +38,7 @@ import NotificationScreen from '../views/notification';
 import Routes from '../constants/routeConst';
 
 import { CustomTab, CustomHeader } from './custom';
+import BottomShadow from '../sharedComponents/bottomShadow';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -45,13 +46,12 @@ const Tab = createBottomTabNavigator();
 export function AuthRouters(props) {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
-console.log(props);
+
   const TabComponent = () => {
     return (
       <Tab.Navigator
         tabBar={props => <CustomTab {...props} colors={colors} />}
         screenOptions={{
-          headerShown: false,
           lazy: true,
         }}
       >
@@ -59,6 +59,9 @@ console.log(props);
           name={Routes.dashboard}
           options={{
             tabBarLabel: 'Dashboard',
+            header: () => (<CustomHeader
+              left={<Image style={{ marginLeft: 10 }} source={logoImg} />}
+            />),
             tabBarIcon: (color, size) => (
               <AntDesign name="home" color={color} size={size} />
             ),
@@ -68,24 +71,27 @@ console.log(props);
           name={Routes.category}
           options={{
             tabBarLabel: 'Category',
+            header: () => (<BottomShadow>
+              <CustomHeader
+                logo={<Image style={{ marginLeft: 10 }} source={logoImg} />}
+              />
+            </BottomShadow>),
             tabBarIcon: (color, size) => (
               <Ionicons name="md-file-tray-stacked" color={color} size={size} />
             ),
           }}
           component={CategoryList} />
-        <Tab.Screen
-          name={Routes.search}
-          options={{
-            tabBarLabel: 'Search',
-            tabBarIcon: (color, size) => (
-              <Ionicons name="md-search" color={color} size={size} />
-            ),
-          }}
-          component={SearchScreen} />
+
         <Tab.Screen
           name={Routes.notification}
           options={{
             tabBarLabel: 'Notifications',
+            header: () => (
+              <BottomShadow>
+                <CustomHeader
+                  logo={<Image style={{ marginLeft: 10 }} source={logoImg} />}
+                />
+              </BottomShadow>),
             tabBarIcon: (color, size) => (
               <Ionicons name="notifications-outline" color={color} size={size} />
             ),
@@ -95,6 +101,12 @@ console.log(props);
           name={Routes.setting}
           options={{
             tabBarLabel: 'Setting',
+            header: () => (
+              <BottomShadow>
+                <CustomHeader
+                  logo={<Image style={{ marginLeft: 10 }} source={logoImg} />}
+                />
+              </BottomShadow>),
             tabBarIcon: (color, size) => (
               <Fontisto name="player-settings" color={color} size={size} />
             ),
@@ -111,15 +123,24 @@ console.log(props);
         name={Routes.home}
         component={TabComponent}
         options={() => ({
-          header: () => <CustomHeader
-            logo={<Image source={logoImg} />}
-          />
+          headerShown: false,
         })} />
       <Stack.Screen
         name={Routes.access}
         component={AccessScreen}
         options={() => ({
           headerShown: false
+        })} />
+      <Stack.Screen
+        name={Routes.search}
+        component={SearchScreen}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} />
       {!props.islogin ? <Stack.Screen
         name={Routes.login}
@@ -137,98 +158,118 @@ console.log(props);
         name={Routes.updateDetails}
         component={UpdateDetails}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            // left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              // left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createPost}
         component={CreatePost}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.editPost}
         component={EditPost}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createApplication}
         component={CreateApplication}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.applicationDetails}
         component={ApplicationDetails}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.editApplication}
         component={EditApplication}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.applicationList}
         component={ApplicationList}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.myPost}
         component={MyPost}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.editDetails}
         component={EditDetails}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createReview}
         component={CreateReview}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       <Stack.Screen
         name={Routes.singleCategory}
         component={SingleCategory}
         options={({ navigation }) => ({
           header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
             logo={<Image source={logoImg} />}
           />
         })} />
@@ -236,28 +277,34 @@ console.log(props);
         name={Routes.profile}
         component={ProfileScreen}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} />
       <Stack.Screen
         name={Routes.appChat}
         component={ChatScreen}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} />
       <Stack.Screen
         name={Routes.postDetails}
         component={PostDetails}
         options={({ navigation }) => ({
-          header: () => <CustomHeader
-            left={<Ionicons name="chevron-back" color={colors.mainColor} size={30} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
-          />
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} />
     </Stack.Navigator>
   );

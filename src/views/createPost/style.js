@@ -11,7 +11,7 @@ export const SubmitButton = styled(Button)`
     width: 100%;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     margin-bottom: 10px
-    margin-top: 50px
+    margin-top: 40px
 `;
 
 export const InputView = styled(View)`
@@ -24,10 +24,13 @@ export const InputView = styled(View)`
 
 export const StyledScrollView = styled(ScrollView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-top: -20px;
     padding: 30px;
+    margin-horizontal: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
     padding-top: 0px;
 `;
+
 
 export const StyledInput = styled(View)`
     flex: 1;

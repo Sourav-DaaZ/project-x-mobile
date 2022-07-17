@@ -10,8 +10,10 @@ export const StyledTabView = styled(View)`
     flex-Direction: row;
     justify-content: space-around;
     align-items: center;
-    height: ${height * .06}px;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+    padding: 10px 5px;
+    border-top-width: 1px;
+    border-top-color:  ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledHeaderView = styled(SafeAreaView)`
@@ -30,22 +32,19 @@ export const StyledEachHeaderView = styled(View)`
 
 export const StyledCercularBorder = styled(View)`
     padding: ${height * .015}px;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
     border-radius: 50px;
-    margin-top: -${height * .045}px
 `;
 
 export const StyledCercularByBorder = styled(View)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     border-radius: 50px;
     padding: ${height * .015}px;
-    margin-top: -${height * .045}px
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
 `;
 
 export const StyledOption = styled(View)`
     padding: ${height * .015}px;
-    margin-top: -${height * .045}px
 `;
 
 export const UpdateButton = styled(Button)`
