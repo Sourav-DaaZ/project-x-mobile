@@ -19,5 +19,4 @@ export const StyledFullImg = styled(Image)`
 
 export const StyledScrollView = styled(ScrollView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
-    padding-horizontal: 10px;
 `;

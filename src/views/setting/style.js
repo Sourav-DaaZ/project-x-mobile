@@ -14,17 +14,9 @@ export const StyledProfileView = styled(View)`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    padding-vertical: 10px;
+    padding-bottom: 10px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
-`;
-
-export const WrapperView = styled(Animatable.View)`
-    flex: 1;
-    padding: 20px;
-    padding-bottom: 0px;
-    border-radius: 10px;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledProfile = styled(View)`
@@ -34,13 +26,13 @@ export const StyledProfile = styled(View)`
 `;
 
 export const StyledTitle = styled(Title)`
-    font-size: ${height * .03}px;
+    font-size: ${width * .07}px;
     font-weight: 500;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
 `;
 
 export const StyledSemiTitle = styled(Title)`
-    font-size: ${height * .023}px;
+    font-size: ${width * .05}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
     letter-spacing: 1px;
     font-weight: 500;
@@ -65,4 +57,5 @@ export const StyledLeftContainer = styled(View)`
     align-items: center;
     margin-vertical: 10px;
     margin-bottom: 5px;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].textLight}; 
 `;

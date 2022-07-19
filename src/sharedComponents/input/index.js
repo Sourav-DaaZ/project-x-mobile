@@ -1,11 +1,14 @@
-import React from 'react';
-import { Picker } from 'react-native';
+import React, { useContext } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker, StyledSwitch, StyledSearchbar } from './style';
-
+import { ThemeContext } from 'styled-components';
 const Input = (props) => {
   const [dot, setDot] = React.useState(true);
+  const themeContext = useContext(ThemeContext);
+  const colors = themeContext.colors[themeContext.baseColor];
+
   let inputElement = null;
+
   switch (props.ele) {
     case 'input':
       inputElement = (
@@ -19,6 +22,7 @@ const Input = (props) => {
               placeholder={props.placeholder}
               style={props.style}
               autoFocus={props.autoFocus}
+              placeholderTextColor={colors.textLight}
               keyboardType={props.keyNum ? "numeric" : null}
               onChangeText={(val) => props.onInputChange(val, props.type)}
               value={props.value}
@@ -42,6 +46,7 @@ const Input = (props) => {
             <StyledInputElement
               placeholder={props.placeholder}
               style={props.inputStyle}
+              placeholderTextColor={colors.textLight}
               onChangeText={(val) => props.onInputChange(val, props.type)}
               value={props.value}
               autoFocus={props.autoFocus}
@@ -97,6 +102,7 @@ const Input = (props) => {
         <StyledSearchbar
           ref={props.ref}
           theme={props.theme}
+          style={props.style}
           value={props.value}
           onChangeText={props.onChange}
           placeholder={props.placeholder}
@@ -104,8 +110,8 @@ const Input = (props) => {
           onFocus={props.onFocus}
           autoFocus={props.focus}
           disabled
-          editable={props.editable !== undefined? props.editable : true}
-           />
+          editable={props.editable !== undefined ? props.editable : true}
+        />
       )
   }
   return inputElement;

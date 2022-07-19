@@ -12,9 +12,8 @@ import {
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import SingleCategory from '../categoryList/singleCat';
-import * as Animatable from 'react-native-animatable';
 import Routes from '../../constants/routeConst';
-import BottomShadow from '../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Input from '../../sharedComponents/input';
 
 const Dashboard = (props) => {
@@ -66,9 +65,10 @@ const Dashboard = (props) => {
                             placeholder="Search Post / User"
                             theme={{
                                 colors: {
-                                    placeholder: colors.textColor, text: colors.textDeep, background: colors.backgroundColor
+                                    placeholder: colors.textLight, text: colors.textDeep
                                 }
                             }}
+                            style={{ backgroundColor: colors.backgroundColor }}
                             value={''}
                             editable={false}
                             onFocus={() => props.navigation.navigate(Routes.search)}
@@ -78,23 +78,21 @@ const Dashboard = (props) => {
             </BottomShadow>
 
         }>
-            <Animatable.View animation='slideInDown'>
-                <StyledWrapperDiv>
-                    <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
-                    <View style={{ flexDirection: "row" }}>
-                        <StyledHorizontalScrollView style={{ height: "100%", paddingBottom: 20 }} horizontal showsHorizontalScrollIndicator={false}>
-                            <TouchableWithoutFeedback
-                                onPressIn={handleInnerPressIn}
-                                onPressOut={handleInnerPressOut}
-                            >
-                                <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                                    {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
-                                </View>
-                            </TouchableWithoutFeedback>
-                        </StyledHorizontalScrollView>
-                    </View>
-                </StyledWrapperDiv>
-            </Animatable.View>
+            <ShadowWrapperContainer>
+                <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
+                <View style={{ flexDirection: "row" }}>
+                    <StyledHorizontalScrollView style={{ height: "100%"}} horizontal showsHorizontalScrollIndicator={false}>
+                        <TouchableWithoutFeedback
+                            onPressIn={handleInnerPressIn}
+                            onPressOut={handleInnerPressOut}
+                        >
+                            <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                                {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </StyledHorizontalScrollView>
+                </View>
+            </ShadowWrapperContainer>
         </DashboardLayout>
     )
 };

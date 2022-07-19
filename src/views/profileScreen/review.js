@@ -12,9 +12,12 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import OutsideAuthApi from '../../services/outSideAuth';
-import BottomShadow from '../../sharedComponents/bottomShadow';
+import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import { ThemeContext } from 'styled-components';
 
 const Review = (props) => {
+    const themeContext = useContext(ThemeContext);
+    const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
@@ -23,7 +26,7 @@ const Review = (props) => {
 
 
     const GlobalButton = (select, text, onPress) => (
-        select ? <StyledButtonActive mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+        select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
     )
 
     useEffect(() => {

@@ -12,11 +12,12 @@ export const StyledScrollView = styled(View)`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-horizontal: 10px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
 `;
 
 export const StyledCard = styled(Card)`
-    width: ${(width / 2) - 30}px;
+    width: ${(width / 2) - 20}px;
     margin: 5px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;

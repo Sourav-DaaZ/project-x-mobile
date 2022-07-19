@@ -1,22 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import {
-  Avatar
+  Avatar, Colors
 } from 'react-native-paper';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
-import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer, WrapperView } from './style';
-
+import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer } from './style';
+import { ThemeContext } from 'styled-components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import InsideAuthApi from '../../services/inSideAuth';
-import { SnackbarUpdate, loader, tokenUpdate } from '../../store/actions';
+import { tokenUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routes from '../../constants/routeConst';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const Setting = (props) => {
   const dispatch = useDispatch();
+  const themeContext = useContext(ThemeContext);
+  const colors = themeContext.colors[themeContext.baseColor];
   const detailsStore = useSelector((state) => state.details, shallowEqual);
   const authStore = useSelector((state) => state.auth, shallowEqual);
 
@@ -42,7 +45,7 @@ const Setting = (props) => {
 
   return (
     <DashboardLayout {...props}>
-      <WrapperView animation='flipInX'>
+      <ShadowWrapperContainer>
         {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: detailsStore.id })}>
           <StyledProfileView>
             <View>
@@ -74,30 +77,26 @@ const Setting = (props) => {
         </TouchableOpacity>}
         <StyledProfileView style={{ justifyContent: 'space-around' }}>
           <StyledCenter>
-            <Ionicons name='settings-outline' size={30} />
+            <Ionicons style={{ color: colors.textLight }} name='settings-outline' size={30} />
             <StyledParagraph>Setting</StyledParagraph>
-          </StyledCenter>
-          <StyledCenter>
-            <Ionicons name='settings-outline' size={30} />
-            <StyledParagraph></StyledParagraph>
           </StyledCenter>
         </StyledProfileView>
         <StyledProfile>
           <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
             <StyledLeftContainer>
-              <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
               <StyledSemiTitle>My Applications</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myPost)}>
             <StyledLeftContainer>
-              <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
               <StyledSemiTitle>My Posts</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: true })}>
             <StyledLeftContainer>
-              <Ionicons style={{ marginRight: 20 }} name='settings-outline' size={20} />
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
               <StyledSemiTitle>Details Update</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
@@ -105,12 +104,12 @@ const Setting = (props) => {
         {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
           <TouchableOpacity onPress={onLoginOut}>
             <StyledLeftContainer>
-              <MaterialIcons style={{ marginRight: 20 }} name='logout' size={25} />
+              <MaterialIcons style={{ marginRight: 10, color: colors.textLight }} name='logout' size={25} />
               <StyledSemiTitle>Logout</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
         </StyledProfile> : null}
-      </WrapperView>
+      </ShadowWrapperContainer>
     </DashboardLayout>
   )
 }

@@ -310,7 +310,7 @@ const Register = (props) => {
   }
 
   const GlobalButton = (select, text, onPress) => (
-    select ? <StyledButtonActive mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+    select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
   )
 
   return (
@@ -343,7 +343,7 @@ const Register = (props) => {
           ))}
         </InputView>
         <StyledForgot></StyledForgot>
-        <LoginSubmitButton mode='contained' onPress={registerFnc}>
+        <LoginSubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={registerFnc}>
           Register
         </LoginSubmitButton>
       </LoginOuterView>
@@ -369,7 +369,7 @@ const Register = (props) => {
             />))}
           <StyledForgot>
           </StyledForgot>
-          <LoginSubmitButton mode='contained' onPress={registerFnc}>
+          <LoginSubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={registerFnc}>
             Register
           </LoginSubmitButton>
         </StyledInputOtp>

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
-import { List, Avatar, FAB } from 'react-native-paper';
+import { Avatar, FAB } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native';
 import {
     StyledHorizontalScrollView,
@@ -8,17 +8,16 @@ import {
     StyledButtonView,
     StyledButtonActive,
     StyledTouchableOpacity,
-    StyledListView
+    StyledUserWrapper
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
-import InsideAuthApi from '../../services/inSideAuth';
 import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import Routes from '../../constants/routeConst';
 import ListItem from '../../sharedComponents/listItem';
-import BottomShadow from '../../sharedComponents/bottomShadow';
+import { BottomShadow } from '../../sharedComponents/bottomShadow';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -31,7 +30,7 @@ const SingleCategory = (props) => {
 
 
     const GlobalButton = (select, text, onPress) => (
-        select ? <StyledButtonActive mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+        select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
     )
 
     useEffect(() => {
@@ -87,15 +86,15 @@ const SingleCategory = (props) => {
             </BottomShadow> : null}
             <StyledHorizontalScrollView>
                 {globalPost && data.map((x, i) =>
-                    <Card key={i} images='https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' title={x.title} message={x.message} onSherePress={() => console.log('hi')} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                    <Card key={i} images='https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' title={x.title} message={x.message} onSherePress={() => console.log('hi')} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
                 {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
-                    <StyledListView animation='zoomIn'>
+                    <StyledUserWrapper>
                         <ListItem
                             title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
                             description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
                             image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user && x.user.images && x.userInfo.images[0] ? x.userInfo.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
-                    </StyledListView>
+                    </StyledUserWrapper>
                 </TouchableOpacity>)}
             </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB

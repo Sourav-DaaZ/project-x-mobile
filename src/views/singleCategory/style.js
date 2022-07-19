@@ -9,7 +9,11 @@ const width_logo = width * .6;
 
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
-    margin-top: -10px;
+    margin-top: 0px;
+`;
+
+export const StyledUserWrapper = styled(View)`
+    margin-horizontal: 15px;
 `;
 
 export const StyledViewButton = styled(View)`

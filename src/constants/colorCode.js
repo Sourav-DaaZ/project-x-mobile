@@ -6,7 +6,7 @@ export const defaultColor = {
         backgroundDeepColor: '#f1f3f6',
         iconColor: '#222428',
         textDeep: '#05375a',
-        borderDeep: '#000000',
+        borderDeep: '#1A2E4F',
         textLight: '#70757a',
         borderColor: 'rgba(0,0,0,.1)',
         errorColor: '#e72c30'

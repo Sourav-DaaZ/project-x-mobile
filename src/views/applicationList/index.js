@@ -1,20 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
-import { FAB } from 'react-native-paper';
 import {
     StyledHorizontalScrollView,
-    StyledViewButton,
-    StyledButtonView,
-    StyledButtonActive,
-    StyledTouchableOpacity
 } from './style';
-import OutsideAuthApi from '../../services/outSideAuth';
 import InsideAuthApi from '../../services/inSideAuth';
 import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, loader } from '../../store/actions';
 import Routes from '../../constants/routeConst';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const ApplicationList = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -47,13 +42,13 @@ const ApplicationList = (props) => {
     }, [])
 
     return (
-        <React.Fragment>
+        <ShadowWrapperContainer animation='pulse'>
             <StyledHorizontalScrollView>
                 {data.map((x, i) =>
                     <Card key={i} message={x.details} onViewPress={() => props.navigation.navigate(Routes.applicationDetails, { id: x._id })} />
                 )}
             </StyledHorizontalScrollView>
-        </React.Fragment>
+        </ShadowWrapperContainer>
     )
 };
 

@@ -48,13 +48,11 @@ const CategoryList = (props) => {
 
 
     return (
-        <React.Fragment>
-            <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
-                <StyledScrollView>
-                    {category?.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
-                </StyledScrollView>
-            </DashboardLayout>
-        </React.Fragment>
+        <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
+            <StyledScrollView>
+                {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
+            </StyledScrollView>
+        </DashboardLayout>
     )
 }
 export default CategoryList;

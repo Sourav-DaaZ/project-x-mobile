@@ -38,7 +38,7 @@ import NotificationScreen from '../views/notification';
 import Routes from '../constants/routeConst';
 
 import { CustomTab, CustomHeader } from './custom';
-import BottomShadow from '../sharedComponents/bottomShadow';
+import { BottomShadow } from '../sharedComponents/bottomShadow';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -299,12 +299,11 @@ export function AuthRouters(props) {
         name={Routes.postDetails}
         component={PostDetails}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
+          header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
               logo={<Image source={logoImg} />}
             />
-          </BottomShadow>
         })} />
     </Stack.Navigator>
   );

@@ -16,7 +16,7 @@ export const StyledHeaderView = styled(View)`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    padding-vertical: 10px;
+    padding-bottom: 10px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
 `;
@@ -30,13 +30,5 @@ export const StyledSearchbarView = styled(View)`
     margin-top: 1px;
     margin-horizontal: 20px;
     margin-bottom: 30px;
-`;
-
-export const StyledWrapperDiv = styled(View)`
-    flex: 1;
-    margin-bottom: 10px;
-    padding-horizontal: 10px;
-    border-radius: 10px;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 

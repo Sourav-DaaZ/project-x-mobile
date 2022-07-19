@@ -21,6 +21,7 @@ import {
   StyledText,
   StyledInlineInputContainer
 } from './style';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const CreateApplication = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -68,8 +69,7 @@ const CreateApplication = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={20} />
         ],
       }
     },
@@ -163,43 +163,45 @@ const CreateApplication = (props) => {
 
 
   return (
-    <StyledScrollView style={{ flex: 1 }}>
-      <InputView>
-        {formElementsArray?.map((x, index) => (
-          x.id !== 'otp' && <Input
-            key={index}
-            title={x.config?.elementConfig?.text}
-            placeholder={x.config?.elementConfig?.placeholder}
-            onInputChange={onInputChange}
-            onSubmit={() => Keyboard.dismiss()}
-            value={x.config?.value}
-            class={x.config?.className}
-            type={x.config?.elementConfig?.type}
-            keyNum={x.config?.validation?.isNumeric}
-            isValid={x.config?.valid}
-            validation={x.config?.validation}
-            errorMsg={x.config?.errors}
-            icons={x.config?.icons}
-            ele={x.config?.elementType}
-          />
-        ))}
-      </InputView>
-      
-      <StyledInlineInputContainer>
-       <StyledInlineInput>
-         <StyledText>User Visibility</StyledText>
-       <Input 
-        ele={'switch'}
-        color={colors.mainColor}
-        value={userVisible}
-        onChange={()=> setUserVisible(!userVisible)}
-       />
-       </StyledInlineInput>
-      </StyledInlineInputContainer>
-      <SubmitButton mode='contained' loading={loader} onPress={!loader?applicationFnc:null}>
-        Create Application
-      </SubmitButton>
-    </StyledScrollView>
+    <ShadowWrapperContainer>
+      <StyledScrollView style={{ flex: 1 }}>
+        <InputView>
+          {formElementsArray?.map((x, index) => (
+            x.id !== 'otp' && <Input
+              key={index}
+              title={x.config?.elementConfig?.text}
+              placeholder={x.config?.elementConfig?.placeholder}
+              onInputChange={onInputChange}
+              onSubmit={() => Keyboard.dismiss()}
+              value={x.config?.value}
+              class={x.config?.className}
+              type={x.config?.elementConfig?.type}
+              keyNum={x.config?.validation?.isNumeric}
+              isValid={x.config?.valid}
+              validation={x.config?.validation}
+              errorMsg={x.config?.errors}
+              icons={x.config?.icons}
+              ele={x.config?.elementType}
+            />
+          ))}
+        </InputView>
+
+        <StyledInlineInputContainer>
+          <StyledInlineInput>
+            <StyledText>User Visibility</StyledText>
+            <Input
+              ele={'switch'}
+              color={colors.mainByColor}
+              value={userVisible}
+              onChange={() => setUserVisible(!userVisible)}
+            />
+          </StyledInlineInput>
+        </StyledInlineInputContainer>
+        <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? applicationFnc : null}>
+          Create Application
+        </SubmitButton>
+      </StyledScrollView>
+    </ShadowWrapperContainer>
   );
 };
 

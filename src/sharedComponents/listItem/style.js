@@ -1,14 +1,9 @@
 import styled from 'styled-components/native';
 import { View, Dimensions } from 'react-native';
 import { Paragraph, Title } from 'react-native-paper';
+import * as Animatable from 'react-native-animatable';
 
 const { width, height } = Dimensions.get('screen');
-
-export const StyledWrapper = styled(View)`
-    padding: 10px;
-    border-radius: 10px;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-`;
 
 export const StyledProfileView = styled(View)`
     display: flex;
@@ -17,6 +12,9 @@ export const StyledProfileView = styled(View)`
     align-items: center;
     padding: 10px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+    margin-bottom: 15px;
+    border-radius: 10px;
 `;
 
 export const StyledTitle = styled(Paragraph)`

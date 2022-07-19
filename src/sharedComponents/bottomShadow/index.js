@@ -3,9 +3,10 @@ import {
     View,
 } from 'react-native';
 import { ThemeContext } from 'styled-components';
+import { StyledContainer } from './style';
 
 
-export default BottomShadow = (props) => {
+export const BottomShadow = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     return (
@@ -19,8 +20,16 @@ export default BottomShadow = (props) => {
                     shadowRadius: 3,
                     elevation: 10,
                 }} >
-                    {props.children}
+                {props.children}
             </View>
         </View>
+    );
+};
+
+export const ShadowWrapperContainer = (props) => {
+    return (
+        <StyledContainer style={props.style} animation={props.animation ? props.animation : 'flipInX'}>
+            {props.children}
+        </StyledContainer>
     );
 };

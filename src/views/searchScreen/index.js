@@ -64,38 +64,34 @@ const SearchScreen = (props) => {
                     placeholder="Search Post / User"
                     theme={{
                         colors: {
-                            placeholder: colors.textColor, text: colors.textDeep, background: colors.backgroundColor
+                            placeholder: colors.textLight, text: colors.textDeep
                         }
                     }}
-                    
+                    style={{ backgroundColor: colors.backgroundColor }}
                     focus clear onChange={(x) => onTypeFnc(x, flag)} value={searchQuery} />
             </StyledWrapper>
         }>
             <StyledWrapperBody>
                 <StyledOptiondWrapper>
-                    <StyledChip selectedColor={flag ? colors.backgroundColor : colors.borderLight} selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
+                    <StyledChip selectedColor={flag ? colors.backgroundColor : colors.borderDeep} selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
                         Post
                     </StyledChip>
-                    <StyledChip selectedColor={!flag ? colors.backgroundColor : colors.borderLight} selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
+                    <StyledChip selectedColor={!flag ? colors.backgroundColor : colors.borderDeep} selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
                         User
                     </StyledChip>
                 </StyledOptiondWrapper>
                 <StyledScrollView>
                     {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })}>
-                        <StyledWrapperList>
-                            <ListItem
-                                title={x.message ? x.message : ''}
-                                description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
-                                image={<Avatar.Image style={{ margin: 5 }} size={60} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
-                        </StyledWrapperList>
+                        <ListItem
+                            title={x.message ? x.message : ''}
+                            description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
+                            image={<Avatar.Image style={{ margin: 5 }} size={60} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
                     </TouchableOpacity>)}
                     {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x._id })}>
-                        <StyledWrapperList>
-                            <ListItem
-                                title={x.userInfo?.name ? x.userInfo.name : ''}
-                                description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
-                                image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo && x.userInfo.images ? x.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
-                        </StyledWrapperList>
+                        <ListItem
+                            title={x.userInfo?.name ? x.userInfo.name : ''}
+                            description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
+                            image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo && x.userInfo.images ? x.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
                     </TouchableOpacity>)}
                 </StyledScrollView>
             </StyledWrapperBody>

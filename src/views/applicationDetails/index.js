@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import {
     StyledCard,
@@ -8,21 +8,27 @@ import {
     StyledCardParagraph,
     StyledCardCover,
     StyledCardButton,
-    StyledCardIcon,
-    StyledDotIcon
+    StyledInlineContainer,
+    StyledDotIcon,
+    StyledInlineLeft,
+    StyledInlineRight
 } from './style';
 import { TouchableOpacity } from 'react-native';
 
 import { Menu, Divider } from 'react-native-paper';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { ThemeContext } from 'styled-components';
 import { SnackbarUpdate, loader } from '../../store/actions';
+import OutsideAuthApi from '../../services/outSideAuth';
 import InsideAuthApi from '../../services/inSideAuth';
 import Routes from '../../constants/routeConst';
 
 const ApplicationDetails = (props) => {
     const [data, setData] = useState({});
     const [showMenu, setShowMenu] = useState(false);
+    const themeContext = useContext(ThemeContext);
+    const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
@@ -49,11 +55,11 @@ const ApplicationDetails = (props) => {
 
     const deletePost = () => {
         const requestData = {
-            application_id: data._id,
-            delete_application: true
+            post_id: data._id,
+            delete_post: true
         }
         InsideAuthApi(authStore)
-            .updateApplicationApi(requestData)
+            .updatePost(requestData)
             .then((res) => {
                 dispatch(loader(false));
                 dispatch(SnackbarUpdate({
@@ -73,36 +79,42 @@ const ApplicationDetails = (props) => {
     }
 
     return (
-        <StyledCard>
-            {data.images && data.images[0] ? <StyledCardCover source={{ uri: data.images[0] }} resizeMode='contain' /> : null}
-            <StyledCardContent>
-                <StyledCardTitle>{data?.details}</StyledCardTitle>
-                {data?.expectedPrice ? <StyledCardParagraph>Expected Cost: <StyledCardTitle style={{
-                    fontSize: 18,
-                }}>{data.expectedPrice} Rs.</StyledCardTitle></StyledCardParagraph> : null}
-                {data?.created_by?.userId ? <StyledCardParagraph>Created By: <StyledCardTitle style={{
-                    fontSize: 18,
-                }}>{data.created_by.userId}</StyledCardTitle></StyledCardParagraph> : null}
-            </StyledCardContent>
-            <StyledCardAction>
-                <StyledCardButton mode='contained' disabled={detailsStore.id === ''} onPress={() => props.navigation.navigate(Routes.appChat, { id: data._id })}>Comment</StyledCardButton>
-                {/* <TouchableOpacity><StyledCardIcon name='chatbox-outline' /></TouchableOpacity> */}
-                <TouchableOpacity onPress={() => setShowMenu(true)}>
-                    <Menu
-                        visible={showMenu}
-                        onDismiss={() => setShowMenu(false)}
-                        anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
-                    >
-                        <Menu.Item onPress={() => {
-                            props.navigation.navigate(Routes.editApplication, { data: data })
-                            setShowMenu(false);
-                        }} title="Edit Application" />
-                        <Divider />
-                        <Menu.Item onPress={deletePost} title="Delete Application" />
-                    </Menu>
-                </TouchableOpacity>
-            </StyledCardAction>
-        </StyledCard>
+        <React.Fragment>
+            <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            <StyledCard animation='flipInX'>
+                <StyledCardContent>
+                    <StyledInlineContainer>
+                        <StyledInlineLeft>
+                            {data?.created_by?.userId ? <StyledCardParagraph>{data.created_by.userId}</StyledCardParagraph> : null}
+                            <StyledCardTitle style={{ marginBottom: 5 }}>{data?.title}</StyledCardTitle>
+                        </StyledInlineLeft>
+                        <StyledInlineRight>
+                            {data?.expectedPrice ? <StyledCardTitle style={{ textAlign: 'right' }}>{data.expectedPrice} Rs</StyledCardTitle> : null}
+                            {data?.genderSpecific && data.genderSpecific.toLowerCase() !== 'all' ? <StyledCardParagraph style={{ textAlign: 'right' }}>({data.genderSpecific} only)</StyledCardParagraph> : null}
+                        </StyledInlineRight>
+                    </StyledInlineContainer>
+                    <StyledCardParagraph>{data?.details}</StyledCardParagraph>
+                </StyledCardContent>
+                <StyledCardAction>
+                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' disabled={detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user ? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
+                    <TouchableOpacity onPress={() => setShowMenu(true)}>
+                        <Menu
+                            visible={showMenu}
+                            onDismiss={() => setShowMenu(false)}
+                            anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
+                        >
+                            <Menu.Item onPress={() => {
+                                props.navigation.navigate(Routes.editApplication, { data: data })
+                                setShowMenu(false);
+                            }} title="Edit Application" />
+                            <Divider />
+                            <Menu.Item onPress={deletePost} title="Delete Application" />
+                        </Menu>
+                    </TouchableOpacity>
+                </StyledCardAction>
+            </StyledCard>
+        </React.Fragment>
     )
 }
+
 export default ApplicationDetails;

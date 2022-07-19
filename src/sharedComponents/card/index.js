@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     StyledCard,
     StyledCardContent,
@@ -9,13 +9,15 @@ import {
     StyledCardButton,
     StyledView,
     StyledCardIcon
-} from './style'
+} from './style';
+import { ThemeContext } from 'styled-components';
 import * as Animatable from 'react-native-animatable';
 
 const CardComponent = (props) => {
-
+    const themeContext = useContext(ThemeContext);
+    const colors = themeContext.colors[themeContext.baseColor];
     return (
-        <Animatable.View animation='fadeInUp'>
+        <Animatable.View animation='bounceIn'>
             {props.images ? <StyledCardCover source={{ uri: props.images }} /> : null}
             <StyledCard style={{ marginTop: !props.images ? 20 : -20 }}>
                 <StyledCardContent>
@@ -23,7 +25,7 @@ const CardComponent = (props) => {
                     {props.message ? <StyledCardParagraph>{props.message}</StyledCardParagraph> : null}
                 </StyledCardContent>
                 <StyledCardAction>
-                    {props.onViewPress ? <StyledCardButton mode='contained' contentStyle={{ padding: 3 }} onPress={props.onViewPress}>View</StyledCardButton> : null}
+                    {props.onViewPress ? <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' contentStyle={{ padding: 3 }} onPress={props.onViewPress}>View</StyledCardButton> : null}
                     {props.onSherePress ? <StyledView><StyledCardIcon name='share-outline' /></StyledView> : null}
                 </StyledCardAction>
             </StyledCard>

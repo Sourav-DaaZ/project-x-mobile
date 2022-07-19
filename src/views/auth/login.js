@@ -270,7 +270,7 @@ const Login = (props) => {
   }
 
   const GlobalButton = (select, text, onPress) => (
-    select ? <StyledButtonActive mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+    select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
   )
 
   return (
@@ -306,7 +306,7 @@ const Login = (props) => {
             <TouchableOpacity onPress={resetPassword}><LoginDescription>Forgot Password?</LoginDescription></TouchableOpacity><TouchableOpacity onPress={() => setIsOtpLogin(!isOtpLogin)}><LoginDescription>Login with {!isOtpLogin ? 'OTP' : 'Password'}?</LoginDescription></TouchableOpacity>
           </StyledForgot>
         </InputView>
-        <LoginSubmitButton mode='contained' onPress={loginFnc}>
+        <LoginSubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={loginFnc}>
           Login
         </LoginSubmitButton>
       </LoginOuterView>
@@ -332,7 +332,7 @@ const Login = (props) => {
             />))}
           <StyledForgot>
           </StyledForgot>
-          <LoginSubmitButton mode='contained' onPress={loginFnc}>
+          <LoginSubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={loginFnc}>
             Login
           </LoginSubmitButton>
         </StyledInputOtp>
