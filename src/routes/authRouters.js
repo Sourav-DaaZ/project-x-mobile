@@ -202,12 +202,10 @@ export function AuthRouters(props) {
         name={Routes.applicationDetails}
         component={ApplicationDetails}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
+          header: () => <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
               logo={<Image source={logoImg} />}
             />
-          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.editApplication}
