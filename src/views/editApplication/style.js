@@ -9,7 +9,7 @@ const width_logo = width * .6;
 
 export const SubmitButton = styled(Button)`
     width: 100%;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     margin-bottom: 10px
     margin-top: 50px
 `;

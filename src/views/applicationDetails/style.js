@@ -26,7 +26,7 @@ export const StyledInlineContainer = styled(View)`
 
 export const StyledInlineLeft = styled(View)`
    width: 70%;
-   padding-right: 10px
+   padding-right: 10px;
 `;
 export const StyledInlineRight = styled(View)`
    width: 30%
@@ -80,8 +80,8 @@ export const StyledCardParagraph = styled(Paragraph)`
 
 export const StyledCardButton = styled(Button)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    width: 80%;
-    margin-right: 2%;
+    width: 48%;
+    margin-right: 1%;
 `;
 
 export const StyledCardIcon = styled(Ionicons)`

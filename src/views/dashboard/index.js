@@ -15,6 +15,7 @@ import SingleCategory from '../categoryList/singleCat';
 import Routes from '../../constants/routeConst';
 import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Input from '../../sharedComponents/input';
+import Loader from '../../sharedComponents/loader';
 
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -56,7 +57,7 @@ const Dashboard = (props) => {
     }, [isFocused, refreshing])
 
     return (
-        <DashboardLayout fab={true} {...props} showLoader={showLoader} showMsg={showMsg} category={category} refreshFnc={() => setRefreshing(!refreshing)} outsideScroll={
+        <DashboardLayout fab={true} {...props} showMsg={showMsg} category={category} refreshFnc={() => setRefreshing(!refreshing)} outsideScroll={
             <BottomShadow>
                 <StyledSearchbarView>
                     <TouchableOpacity activeOpacity={1} onPress={() => props.navigation.navigate(Routes.search)}>
@@ -78,10 +79,10 @@ const Dashboard = (props) => {
             </BottomShadow>
 
         }>
-            <ShadowWrapperContainer>
+            {showLoader ? <Loader /> : <ShadowWrapperContainer>
                 <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
                 <View style={{ flexDirection: "row" }}>
-                    <StyledHorizontalScrollView style={{ height: "100%"}} horizontal showsHorizontalScrollIndicator={false}>
+                    <StyledHorizontalScrollView style={{ height: "100%" }} horizontal showsHorizontalScrollIndicator={false}>
                         <TouchableWithoutFeedback
                             onPressIn={handleInnerPressIn}
                             onPressOut={handleInnerPressOut}
@@ -92,7 +93,7 @@ const Dashboard = (props) => {
                         </TouchableWithoutFeedback>
                     </StyledHorizontalScrollView>
                 </View>
-            </ShadowWrapperContainer>
+            </ShadowWrapperContainer>}
         </DashboardLayout>
     )
 };

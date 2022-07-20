@@ -23,10 +23,12 @@ import { SnackbarUpdate, loader } from '../../store/actions';
 import OutsideAuthApi from '../../services/outSideAuth';
 import InsideAuthApi from '../../services/inSideAuth';
 import Routes from '../../constants/routeConst';
+import Loader from '../../sharedComponents/loader';
 
 const PostDetails = (props) => {
     const [data, setData] = useState({});
     const [showMenu, setShowMenu] = useState(false);
+    const [showLoader, setShowLoader] = useState(true);
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -40,14 +42,14 @@ const PostDetails = (props) => {
                 .getPostDetailsApi(props.route.params?.id)
                 .then((res) => {
                     setData(res.data);
-                    dispatch(loader(false));
+                    setShowLoader(false)
                 })
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
                         msg: err.message
                     }));
-                    dispatch(loader(false));
+                    setShowLoader(false)
                 });
         })
         return () => unsubscribe
@@ -58,10 +60,11 @@ const PostDetails = (props) => {
             post_id: data._id,
             delete_post: true
         }
+        setShowLoader(true);
         InsideAuthApi(authStore)
             .updatePost(requestData)
             .then((res) => {
-                dispatch(loader(false));
+                setShowLoader(false)
                 dispatch(SnackbarUpdate({
                     type: 'success',
                     msg: res.message
@@ -70,7 +73,7 @@ const PostDetails = (props) => {
                 props.navigation.goBack();
             })
             .catch((err) => {
-                dispatch(loader(false));
+                setShowLoader(false)
                 dispatch(SnackbarUpdate({
                     type: 'error',
                     msg: err.message
@@ -79,7 +82,7 @@ const PostDetails = (props) => {
     }
 
     return (
-        <React.Fragment>
+        showLoader ? <Loader /> :<React.Fragment>
             <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
@@ -95,7 +98,7 @@ const PostDetails = (props) => {
                     <StyledCardParagraph>{data?.message}</StyledCardParagraph>
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' disabled={detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user ? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
+                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' disabled={data.length === 0 ||  detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user ? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
                     <TouchableOpacity onPress={() => setShowMenu(true)}>
                         <Menu
                             visible={showMenu}

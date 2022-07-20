@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 
 const { width, height } = Dimensions.get('screen');
 
-export const StyledProfileView = styled(View)`
+export const StyledProfileView = styled(Animatable.View)`
     display: flex;
     flex-direction: row;
     justify-content: flex-start;

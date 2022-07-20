@@ -7,7 +7,7 @@ import validation from '../../constants/validationMsg';
 import InsideAuthApi from '../../services/inSideAuth';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -23,6 +23,7 @@ import {
   StyledInput
 } from './style';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
+import Loader from '../../sharedComponents/loader';
 
 const CreatePost = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -43,6 +44,7 @@ const CreatePost = (props) => {
   const [loading, setLoading] = useState(false);
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
   const [data, setData] = useState({
     controls: {
       title: {
@@ -107,22 +109,24 @@ const CreatePost = (props) => {
   });
 
   useEffect(() => {
+    if (props.route.params.category) {
+      setCategory(props.route.params.category.id);
+    }
     let data = []
-    dispatch(loader(true));
     OutsideAuthApi()
       .categoryListApi()
       .then((res) => {
+        setShowLoader(false);
         res.data?.map((x, i) => {
           data.push({
             key: x._id,
             label: x.category_name, value: x._id
           })
         })
-        dispatch(loader(false));
         setCategoryArr(data);
       })
       .catch((err) => {
-        dispatch(loader(false));
+        setShowLoader(false);
         dispatch(SnackbarUpdate({
           type: 'error',
           msg: err.message
@@ -236,7 +240,7 @@ const CreatePost = (props) => {
 
 
   return (
-    <ShadowWrapperContainer style={{ paddingTop: 0 }}>
+    showLoader ? <Loader /> : <ShadowWrapperContainer style={{ paddingTop: 0 }}>
       <StyledScrollView>
         <InputView>
           {formElementsArray?.map((x, index) => (
@@ -331,7 +335,7 @@ const CreatePost = (props) => {
             />
           </StyledInput> : null}
         </StyledInlineInputContainer>
-        <StyledInlineInputContainer>
+        <StyledInlineInputContainer style={{ zIndex: 1 }}>
           <StyledInlineInput>
             <StyledText>Public Post</StyledText>
             <Input
@@ -342,7 +346,7 @@ const CreatePost = (props) => {
             />
           </StyledInlineInput>
         </StyledInlineInputContainer>
-        <StyledInlineInputContainer>
+        <StyledInlineInputContainer style={{ zIndex: 1 }}>
           <StyledInlineInput>
             <StyledText>User Visibility</StyledText>
             <Input

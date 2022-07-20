@@ -12,6 +12,7 @@ import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import { useIsFocused } from '@react-navigation/native';
 
 import Routes from '../../constants/routeConst';
+import Loader from '../../sharedComponents/loader';
 
 const CategoryList = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -48,10 +49,10 @@ const CategoryList = (props) => {
 
 
     return (
-        <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
-            <StyledScrollView>
+        <DashboardLayout {...props} fab={false} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
+            {showLoader ? <Loader /> : <StyledScrollView>
                 {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
-            </StyledScrollView>
+            </StyledScrollView>}
         </DashboardLayout>
     )
 }

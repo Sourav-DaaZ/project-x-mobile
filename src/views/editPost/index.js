@@ -6,7 +6,7 @@ import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
 import InsideAuthApi from '../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import OutsideAuthApi from '../../services/outSideAuth';
 
@@ -23,6 +23,7 @@ import {
   StyledInput
 } from './style';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
+import Loader from '../../sharedComponents/loader';
 
 const EditPost = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -42,6 +43,8 @@ const EditPost = (props) => {
   const [category, setCategory] = useState('');
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     controls: {
       title: {
@@ -106,7 +109,6 @@ const EditPost = (props) => {
 
   useEffect(() => {
     let data = []
-    dispatch(loader(true));
     OutsideAuthApi()
       .categoryListApi()
       .then((res) => {
@@ -116,12 +118,12 @@ const EditPost = (props) => {
             label: x.category_name, value: x._id
           })
         })
-        dispatch(loader(false));
+        setShowLoader(false);
         setCategoryArr(data);
         setCategory(props.route.params.data.category_id)
       })
       .catch((err) => {
-        dispatch(loader(false));
+        setShowLoader(false);
         dispatch(SnackbarUpdate({
           type: 'error',
           msg: err.message
@@ -190,7 +192,7 @@ const EditPost = (props) => {
         msg: validation.validateField()
       }))
     } else {
-      dispatch(loader(true));
+      setLoading(true);
       const requestData = {
         post_id: props.route.params.data._id,
         category_id: props.route.params.category ? props.route.params.category.id : category,
@@ -208,7 +210,7 @@ const EditPost = (props) => {
       InsideAuthApi(authStore)
         .updatePost(requestData)
         .then((res) => {
-          dispatch(loader(false));
+          setLoading(false);
           dispatch(SnackbarUpdate({
             type: 'success',
             msg: res.message
@@ -216,7 +218,7 @@ const EditPost = (props) => {
           props.navigation.goBack();
         })
         .catch((err) => {
-          dispatch(loader(false));
+          setLoading(false);
           dispatch(SnackbarUpdate({
             type: 'error',
             msg: err.message
@@ -236,7 +238,7 @@ const EditPost = (props) => {
 
 
   return (
-    <ShadowWrapperContainer>
+    showLoader ? <Loader /> : <ShadowWrapperContainer>
       <StyledScrollView>
         <InputView>
           {formElementsArray?.map((x, index) => (
@@ -353,7 +355,7 @@ const EditPost = (props) => {
             />
           </StyledInlineInput>
         </StyledInlineInputContainer>
-        <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={editPostFnc}>
+        <SubmitButton labelStyle={{ color: colors.backgroundColor }} loading={loading} mode='contained' onPress={!loading ? editPostFnc : null}>
           Edit Post
         </SubmitButton>
       </StyledScrollView>

@@ -14,10 +14,11 @@ import OutsideAuthApi from '../../services/outSideAuth';
 import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import Routes from '../../constants/routeConst';
 import ListItem from '../../sharedComponents/listItem';
 import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import Loader from '../../sharedComponents/loader';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -27,6 +28,7 @@ const SingleCategory = (props) => {
     const dispatch = useDispatch();
     const [globalPost, setGlobalPost] = useState(true);
     const [data, setData] = useState([]);
+    const [showLoader, setShowLoader] = useState(true);
 
 
     const GlobalButton = (select, text, onPress) => (
@@ -35,7 +37,7 @@ const SingleCategory = (props) => {
 
     useEffect(() => {
         setData([]);
-        dispatch(loader(true));
+        setShowLoader(true);
         if (globalPost) {
             let requestData = {
                 category_id: props.route.params?.data._id,
@@ -50,28 +52,28 @@ const SingleCategory = (props) => {
                 .getPostsApi(requestData)
                 .then((res) => {
                     setData(res.data);
-                    dispatch(loader(false));
+                     setShowLoader(false);
                 })
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
                         msg: err.message
                     }));
-                    dispatch(loader(false));
+                     setShowLoader(false);
                 });
         } else {
             OutsideAuthApi()
                 .allUserApi("?lat=" + detailsStore.location.lat + "&long=" + detailsStore.location.long + "&category=" + props.route.params.data._id)
                 .then((res) => {
                     setData(res.data);
-                    dispatch(loader(false));
+                     setShowLoader(false);
                 })
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
                         msg: err.message
                     }));
-                    dispatch(loader(false));
+                     setShowLoader(false);
                 });
         }
     }, [globalPost])
@@ -84,7 +86,7 @@ const SingleCategory = (props) => {
                     {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
                 </StyledViewButton>
             </BottomShadow> : null}
-            <StyledHorizontalScrollView>
+            {showLoader ? <Loader /> : <StyledHorizontalScrollView>
                 {globalPost && data.map((x, i) =>
                     <Card key={i} images='https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' title={x.title} message={x.message} onSherePress={() => console.log('hi')} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
@@ -96,7 +98,7 @@ const SingleCategory = (props) => {
                             image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user && x.user.images && x.userInfo.images[0] ? x.userInfo.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
                     </StyledUserWrapper>
                 </TouchableOpacity>)}
-            </StyledHorizontalScrollView>
+            </StyledHorizontalScrollView>}
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',

@@ -9,7 +9,7 @@ export default ListItem = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     return (
-        <StyledProfileView animation='bounceInUp'>
+        <StyledProfileView animation='zoomIn'>
            {props.image}
             <View style={{marginLeft: 10}}>
                 <StyledTitle>{props.title}</StyledTitle>

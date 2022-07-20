@@ -1,13 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
-import defaultValue from '../../constants/defaultValue';
 import { updateObject, validate } from '../../utils';
 import validation from '../../constants/validationMsg';
 import InsideAuthApi from '../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -21,6 +20,7 @@ import {
   StyledText,
   StyledInlineInputContainer
 } from './style';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const EditApplication = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -162,43 +162,45 @@ const EditApplication = (props) => {
 
 
   return (
-    <StyledScrollView style={{ flex: 1 }}>
-      <InputView>
-        {formElementsArray?.map((x, index) => (
-          x.id !== 'otp' && <Input
-            key={index}
-            title={x.config?.elementConfig?.text}
-            placeholder={x.config?.elementConfig?.placeholder}
-            onInputChange={onInputChange}
-            onSubmit={() => Keyboard.dismiss()}
-            value={x.config?.value}
-            class={x.config?.className}
-            type={x.config?.elementConfig?.type}
-            keyNum={x.config?.validation?.isNumeric}
-            isValid={x.config?.valid}
-            validation={x.config?.validation}
-            errorMsg={x.config?.errors}
-            icons={x.config?.icons}
-            ele={x.config?.elementType}
-          />
-        ))}
-      </InputView>
+    <ShadowWrapperContainer>
+      <StyledScrollView>
+        <InputView>
+          {formElementsArray?.map((x, index) => (
+            x.id !== 'otp' && <Input
+              key={index}
+              title={x.config?.elementConfig?.text}
+              placeholder={x.config?.elementConfig?.placeholder}
+              onInputChange={onInputChange}
+              onSubmit={() => Keyboard.dismiss()}
+              value={x.config?.value}
+              class={x.config?.className}
+              type={x.config?.elementConfig?.type}
+              keyNum={x.config?.validation?.isNumeric}
+              isValid={x.config?.valid}
+              validation={x.config?.validation}
+              errorMsg={x.config?.errors}
+              icons={x.config?.icons}
+              ele={x.config?.elementType}
+            />
+          ))}
+        </InputView>
 
-      <StyledInlineInputContainer>
-        <StyledInlineInput>
-          <StyledText>User Visibility</StyledText>
-          <Input
-            ele={'switch'}
-            color={colors.mainColor}
-            value={userVisible}
-            onChange={() => setUserVisible(!userVisible)}
-          />
-        </StyledInlineInput>
-      </StyledInlineInputContainer>
-      <SubmitButton mode='contained' loading={loader} onPress={!loader ? applicationFnc : null}>
-        Edit Application
-      </SubmitButton>
-    </StyledScrollView>
+        <StyledInlineInputContainer>
+          <StyledInlineInput>
+            <StyledText>User Visibility</StyledText>
+            <Input
+              ele={'switch'}
+              color={colors.mainByColor}
+              value={userVisible}
+              onChange={() => setUserVisible(!userVisible)}
+            />
+          </StyledInlineInput>
+        </StyledInlineInputContainer>
+        <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? applicationFnc : null}>
+          Edit Application
+        </SubmitButton>
+      </StyledScrollView>
+    </ShadowWrapperContainer>
   );
 };
 

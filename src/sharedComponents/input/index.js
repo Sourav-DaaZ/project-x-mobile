@@ -79,8 +79,6 @@ const Input = (props) => {
             zIndexInverse={props.zIndexInverse}
             min={props.min}
             max={props.max}
-            maxHeight={100}
-            autoScroll={true}
             style={props.style}
             listItemContainerStyle={props.listStyle}
             dropDownContainerStyle={props.containerStyle}

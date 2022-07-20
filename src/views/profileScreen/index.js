@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, TouchableOpacity } from 'react-native';
 import {
     Avatar,
     FAB
@@ -7,26 +6,30 @@ import {
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledReviewProfile, StyledImage, StyledScrollView, StyledContainer } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader, detailsUpdate } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import Review from './review';
 
 import Routes from '../../constants/routeConst';
 import OutsideAuthApi from '../../services/outSideAuth';
+import Loader from '../../sharedComponents/loader';
 
 const ProfileScreen = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const detailsStore = useSelector((state) => state.details, shallowEqual);
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+    const [showLoader, setShowLoader] = useState(true);
 
     useEffect(() => {
         OutsideAuthApi()
             .userDetailsApi(`?user_id=${props.route.params?.id}`)
             .then((res) => {
+                setShowLoader(false);
                 setData(res.data);
             })
             .catch((err) => {
+                setShowLoader(false);
                 dispatch(SnackbarUpdate({
                     type: 'error',
                     msg: err.message
@@ -35,7 +38,7 @@ const ProfileScreen = (props) => {
     }, [])
 
     return (
-        <React.Fragment>
+        showLoader ? <Loader /> : <React.Fragment>
             <StyledImage>
                 <Avatar.Image
                     source={{

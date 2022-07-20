@@ -6,24 +6,20 @@ import { useSelector, shallowEqual } from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import { location } from '../../../store/actions';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader, detailsUpdate } from '../../../store/actions';
+import { detailsUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
 import {
     DashboardOuterView,
     StyledFullImg,
     StyledScrollView,
 } from './style';
-import Loader from '../../loader';
 import SnackBar from '../../snackbar'
-import BannerComponent from '../../banner';
 import Routes from '../../../constants/routeConst';
-import { useIsFocused } from '@react-navigation/native';
 
 const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
-    const isFocused = useIsFocused();
     const [refreshing, setRefreshing] = useState(false);
     const [msg, setMsg] = useState(false);
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -101,7 +97,6 @@ const DashboardLayout = (props) => {
     return (
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
-            <Loader show={props.showLoader ? props.showLoader : false} />
             <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={()=>setMsg('')} />
             {/* <BannerComponent /> */}
             {props.outsideScroll}

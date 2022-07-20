@@ -1,18 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar } from 'react-native-paper';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import {
     StyledScrollView,
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import { timeFormat } from '../../utils'
 
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../constants/routeConst';
 import ListItem from '../../sharedComponents/listItem';
+import Loader from '../../sharedComponents/loader';
 
 const NotificationScreen = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -42,9 +43,9 @@ const NotificationScreen = (props) => {
 
 
     return (
-        <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} refreshFnc={() => setRefreshing(!refreshing)}>
+        <DashboardLayout {...props} fab={false} showMsg={showMsg} refreshFnc={() => setRefreshing(!refreshing)}>
 
-            <StyledScrollView>
+            {showLoader ? <Loader /> : <StyledScrollView>
                 {data.map((x, i) => (
                     <TouchableOpacity key={i} style={{ borderBottom: '2px solid blue' }} onPress={() => props.navigation.navigate(Routes[x.data.route], { id: x.data.id })}>
                         <ListItem
@@ -54,7 +55,7 @@ const NotificationScreen = (props) => {
                         />
                     </TouchableOpacity>
                 ))}
-            </StyledScrollView>
+            </StyledScrollView>}
         </DashboardLayout>
     )
 }

@@ -52,6 +52,6 @@ export const StyledInlineInputContainer = styled(View)`
     justify-content: space-between;
     align-items: center;
     position: relative;
-    z-index: 999;
+    z-index: 9;
     margin-bottom: 10px;
 `

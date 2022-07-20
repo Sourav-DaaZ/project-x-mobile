@@ -3,7 +3,6 @@ import { Text, Platform } from 'react-native'
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
 import SnackBar from '../sharedComponents/snackbar';
-import Loader from '../sharedComponents/loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { tokenUpdate } from '../store/actions';
@@ -11,10 +10,9 @@ import Modal from '../sharedComponents/modal';
 import OutsideAuthApi from '../services/outSideAuth';
 import { UpdateButton, UpdateTitle, UpdateDescription, UpdateWrapper, ButtonWrapper, CancelText } from './style';
 import defaultValue from '../constants/defaultValue';
-import messaging from '@react-native-firebase/messaging';
 import * as FCMNotificationHandler from "../services/google/firebase/FCMNotificationHandler";
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { generateLink, handleDynamicLink } from '../services/google/deepLinkingHandler';
+import { handleDynamicLink } from '../services/google/deepLinkingHandler';
 
 const AuthenticationRoutes = React.lazy(() => import('./authRouters').then(module => ({ default: module.AuthRouters })));
 
@@ -73,7 +71,6 @@ function Routs(props) {
       <Text>Loading</Text>
     }>
       <SnackBar show={show} text={authStore.message.msg} type={authStore.message.type} onDismiss={() => setShow(false)} />
-      <Loader show={authStore.loading} />
       <NavigationContainer ref={
         navigationRef
       }>
