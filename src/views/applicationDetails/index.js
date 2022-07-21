@@ -10,7 +10,8 @@ import {
     StyledCardButton,
     StyledInlineContainer,
     StyledInlineLeft,
-    StyledInlineRight
+    StyledInlineRight,
+    StyledDotIcon
 } from './style';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -19,6 +20,8 @@ import { SnackbarUpdate } from '../../store/actions';
 import InsideAuthApi from '../../services/inSideAuth';
 import Routes from '../../constants/routeConst';
 import Loader from '../../sharedComponents/loader';
+import { Divider, Menu } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
 
 const ApplicationDetails = (props) => {
     const [data, setData] = useState({});
@@ -28,6 +31,7 @@ const ApplicationDetails = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [showLoader, setShowLoader] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -63,6 +67,7 @@ const ApplicationDetails = (props) => {
                     type: 'success',
                     msg: res.message
                 }));
+                setShowMenu(false);
                 props.navigation.goBack();
             })
             .catch((err) => {
@@ -90,10 +95,23 @@ const ApplicationDetails = (props) => {
                     </StyledInlineContainer>
                     {data?.created_by?.userId ? <StyledCardParagraph>Created By: {data.created_by.userId}</StyledCardParagraph> : null}
                 </StyledCardContent>
-                {detailsStore.id === data.created_by?._id ? <StyledCardAction>
-                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} disabled={data && detailsStore.id === ''} onPress={() => props.navigation.navigate(Routes.editApplication, { data: data })}>Edit</StyledCardButton>
-                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} disabled={data && detailsStore.id === ''} onPress={!loading ? deletePost : null}>Delete</StyledCardButton>
-                </StyledCardAction> : null}
+                <StyledCardAction>
+                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} disabled={data && detailsStore.id === ''} onPress={() => props.navigation.navigate(Routes.appChat, { id: data._id })}>Chat</StyledCardButton>
+                    {detailsStore.id === data.created_by?._id ? <TouchableOpacity onPress={() => setShowMenu(true)}>
+                        <Menu
+                            visible={showMenu}
+                            onDismiss={() => setShowMenu(false)}
+                            anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
+                        >
+                            <Menu.Item onPress={() => {
+                                props.navigation.navigate(Routes.editApplication, { data: data })
+                                setShowMenu(false);
+                            }} title="Edit Application" />
+                            <Divider />
+                            <Menu.Item onPress={deletePost} title="Delete Application" />
+                        </Menu>
+                    </TouchableOpacity> : null}
+                </StyledCardAction>
             </StyledCard>
         </React.Fragment>
     )

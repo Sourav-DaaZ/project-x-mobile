@@ -8,7 +8,6 @@ import {
     StyledCardCover,
     StyledCardButton,
     StyledView,
-    StyledCardIcon
 } from './style';
 import { ThemeContext } from 'styled-components';
 import * as Animatable from 'react-native-animatable';
@@ -26,7 +25,7 @@ const CardComponent = (props) => {
                 </StyledCardContent>
                 <StyledCardAction>
                     {props.onViewPress ? <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' contentStyle={{ padding: 3 }} onPress={props.onViewPress}>View</StyledCardButton> : null}
-                    {props.onSherePress ? <StyledView><StyledCardIcon name='share-outline' /></StyledView> : null}
+                    {props.onIconPress ? <StyledView onPress={props.onIconPress}>{props.icon}</StyledView> : null}
                 </StyledCardAction>
             </StyledCard>
         </Animatable.View>

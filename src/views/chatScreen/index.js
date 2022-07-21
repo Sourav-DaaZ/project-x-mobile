@@ -102,7 +102,7 @@ export function ChatScreen(props) {
             <StyledInputView>
                 <View style={{ width: '85%' }}>
                     <StyledInput ele='input' styleView={{
-                        backgroundColor: colors.backgroundDeepColor,
+                        backgroundColor: colors.mainColor,
                         borderBottomWidth: 0
                     }}
                         value={inputValue}
@@ -110,7 +110,7 @@ export function ChatScreen(props) {
                     />
                 </View>
                 <TouchableOpacity onPress={changeInput}>
-                    <Ionicons name='send' size={30} style={{ color: colors.mainColor, marginLeft: 20, marginTop: 10 }} />
+                    <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20, marginTop: 10 }} />
                 </TouchableOpacity>
             </StyledInputView>
         </StyledSafeAreaView>

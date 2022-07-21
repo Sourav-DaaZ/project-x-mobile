@@ -1,5 +1,5 @@
-import React, { useEffect, useState, createRef } from 'react';
-import { Text, Platform } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { Platform } from 'react-native'
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
 import SnackBar from '../sharedComponents/snackbar';
@@ -13,6 +13,7 @@ import defaultValue from '../constants/defaultValue';
 import * as FCMNotificationHandler from "../services/google/firebase/FCMNotificationHandler";
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { handleDynamicLink } from '../services/google/deepLinkingHandler';
+import SplashScreen from '../views/splashScreen';
 
 const AuthenticationRoutes = React.lazy(() => import('./authRouters').then(module => ({ default: module.AuthRouters })));
 
@@ -68,7 +69,7 @@ function Routs(props) {
 
   return (
     <React.Suspense fallback={
-      <Text>Loading</Text>
+      <SplashScreen />
     }>
       <SnackBar show={show} text={authStore.message.msg} type={authStore.message.type} onDismiss={() => setShow(false)} />
       <NavigationContainer ref={

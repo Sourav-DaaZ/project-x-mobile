@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { Dimensions, ScrollView, View, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button'
-
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import * as Animatable from 'react-native-animatable';
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
@@ -49,3 +49,7 @@ export const StyledButtonActive = styled(Button)`
     border-radius: 0px;
 `;
 
+export const StyledCardIcon = styled(Ionicons)`
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
+    font-size: ${width * .07}px;
+`;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     StyledHorizontalScrollView,
+    StyledCardIcon
 } from './style';
 import InsideAuthApi from '../../services/inSideAuth';
 import Card from '../../sharedComponents/card';
@@ -43,7 +44,7 @@ const ApplicationList = (props) => {
         showLoader ? <Loader /> : <ShadowWrapperContainer animation='pulse'>
             <StyledHorizontalScrollView>
                 {data.map((x, i) =>
-                    <Card key={i} message={x.details} onViewPress={() => props.navigation.navigate(Routes.applicationDetails, { id: x._id })} />
+                    <Card key={i} message={x.details} icon={<StyledCardIcon name='chatbox-outline' />} onIconPress={() => props.navigation.navigate(Routes.appChat, { id: x._id })} onViewPress={() => props.navigation.navigate(Routes.applicationDetails, { id: x._id })} />
                 )}
             </StyledHorizontalScrollView>
         </ShadowWrapperContainer>

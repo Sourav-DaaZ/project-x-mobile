@@ -22,7 +22,7 @@ const AccessScreen = (props) => {
       />
       <SplashTitle>{props.route.params.type} Access ERROR!</SplashTitle>
       <SplashDescription>Please give your {props.route.params.type} access for better performance.</SplashDescription>
-      <SplashButton mode='contained' circular onPress={() => props.navigation.goBack()}>
+      <SplashButton labelStyle={{ color: colors.backgroundColor }} mode='contained' circular onPress={() => props.navigation.goBack()}>
         Try Again
       </SplashButton>
     </SplashOuterView>

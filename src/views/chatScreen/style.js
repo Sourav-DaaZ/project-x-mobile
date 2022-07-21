@@ -11,12 +11,10 @@ export const StyledCard = styled(Card)`
 `;
 
 export const StyledSafeAreaView = styled(SafeAreaView)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     flex: 1
 `;
 
 export const StyledScrollView = styled(ScrollView)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     height: 100%;
     padding-left: 30px;
     padding-right: 30px;
@@ -24,7 +22,7 @@ export const StyledScrollView = styled(ScrollView)`
 `;
 
 export const StyledInputView = styled(View)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     padding-left: 30px;
     padding-right: 30px;
     box-shadow: 0px -5px 5px #00000020;

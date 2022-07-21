@@ -64,9 +64,3 @@ export const StyledView = styled(TouchableOpacity)`
     align-items: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
 `;
-
-export const StyledCardIcon = styled(Ionicons)`
-    color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    font-size: ${width * .07}px;
-`;
-

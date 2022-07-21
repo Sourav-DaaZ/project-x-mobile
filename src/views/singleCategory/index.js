@@ -8,7 +8,8 @@ import {
     StyledButtonView,
     StyledButtonActive,
     StyledTouchableOpacity,
-    StyledUserWrapper
+    StyledUserWrapper,
+    StyledCardIcon
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import Card from '../../sharedComponents/card';
@@ -88,7 +89,7 @@ const SingleCategory = (props) => {
             </BottomShadow> : null}
             {showLoader ? <Loader /> : <StyledHorizontalScrollView>
                 {globalPost && data.map((x, i) =>
-                    <Card key={i} images='https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' title={x.title} message={x.message} onSherePress={() => console.log('hi')} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                    <Card key={i} images='https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
                 {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
                     <StyledUserWrapper>

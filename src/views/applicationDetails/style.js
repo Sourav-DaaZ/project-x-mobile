@@ -80,7 +80,7 @@ export const StyledCardParagraph = styled(Paragraph)`
 
 export const StyledCardButton = styled(Button)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    width: 48%;
+    width: 80%;
     margin-right: 1%;
 `;
 
