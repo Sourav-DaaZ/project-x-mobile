@@ -8,8 +8,7 @@ const width_logo = width * .6;
 
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor}; 
-    padding-top: 20px;
+
 `;
 
 export const StyledViewButton = styled(View)`
@@ -41,3 +40,7 @@ export const StyledButtonActive = styled(Button)`
     border-radius: 0px;
 `;
 
+export const StyledButtonLoadMore = styled(Button)`
+    width: 100%;
+    margin-bottom: 20px;
+`;

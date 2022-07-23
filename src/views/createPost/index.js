@@ -29,6 +29,7 @@ const CreatePost = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
+  const detailsStore = useSelector((state) => state.details, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
   const formElementsArray = [];
   const [genderArr, setGenderArr] = useState([
@@ -204,10 +205,7 @@ const CreatePost = (props) => {
         isPublic: isPublic,
         genderSpecific: gender,
         userVisible: userVisible,
-        location: {
-          lat: 104,
-          long: 20
-        }
+        location: detailsStore.location
       }
       InsideAuthApi(authStore)
         .createPost(requestData)

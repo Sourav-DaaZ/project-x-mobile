@@ -90,7 +90,7 @@ export function ChatScreen(props) {
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }>
                 {chats.map((x, i) => (
-                    x.user === detailsStore.id ? <StyledMyChatView key={i}>
+                    x?.user === detailsStore.id ? <StyledMyChatView key={i}>
                         <StyledMyChatViewText>{x.msg}</StyledMyChatViewText>
                         <StyledClock style={{ right: 0 }}>{timeFormat(x.time)}</StyledClock>
                     </StyledMyChatView> : <StyledUserChatView key={i}>

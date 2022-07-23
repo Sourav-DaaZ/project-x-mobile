@@ -49,6 +49,11 @@ export const StyledButtonActive = styled(Button)`
     border-radius: 0px;
 `;
 
+export const StyledButtonLoadMore = styled(Button)`
+    width: 100%;
+    margin-bottom: 20px;
+`;
+
 export const StyledCardIcon = styled(Ionicons)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     font-size: ${width * .07}px;

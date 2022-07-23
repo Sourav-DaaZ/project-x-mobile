@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, Image, ScrollView } from 'react-native';
-import { Card, Title, Paragraph } from 'react-native-paper';
+import { Dimensions, View, Image, ScrollView, ImageBackground } from 'react-native';
+import { Title, Paragraph } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -36,8 +36,6 @@ export const StyledCardCover = styled(Image)`
     height: ${height * .35}px; 
     width: 100%;
     resizeMode: contain;
-    z-index: -1;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].borderDeep};
 `;
 
 export const StyledCardContent = styled(ScrollView)`
@@ -63,6 +61,10 @@ export const StyledCardAction = styled(View)`
     padding-horizontal: 10px;
     padding-bottom: 10px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+`;
+
+export const StyledImageBackground = styled(ImageBackground)`
+    
 `;
 
 export const StyledCardTitle = styled(Title)`

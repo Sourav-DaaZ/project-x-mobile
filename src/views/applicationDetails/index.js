@@ -11,7 +11,8 @@ import {
     StyledInlineContainer,
     StyledInlineLeft,
     StyledInlineRight,
-    StyledDotIcon
+    StyledDotIcon,
+    StyledImageBackground
 } from './style';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -81,7 +82,9 @@ const ApplicationDetails = (props) => {
 
     return (
         showLoader ? <Loader /> : <React.Fragment>
-            <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
                     <StyledInlineContainer>

@@ -11,7 +11,8 @@ import {
     StyledInlineContainer,
     StyledDotIcon,
     StyledInlineLeft,
-    StyledInlineRight
+    StyledInlineRight,
+    StyledImageBackground
 } from './style';
 import { TouchableOpacity } from 'react-native';
 
@@ -82,8 +83,10 @@ const PostDetails = (props) => {
     }
 
     return (
-        showLoader ? <Loader /> :<React.Fragment>
-            <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+        showLoader ? <Loader /> : <React.Fragment>
+            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
                     <StyledInlineContainer>
@@ -98,7 +101,7 @@ const PostDetails = (props) => {
                     <StyledCardParagraph>{data?.message}</StyledCardParagraph>
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' disabled={data.length === 0 ||  detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user ? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
+                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' disabled={data.length === 0 || detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user ? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
                     <TouchableOpacity onPress={() => setShowMenu(true)}>
                         <Menu
                             visible={showMenu}

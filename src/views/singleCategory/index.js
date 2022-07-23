@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar, FAB } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, RefreshControl } from 'react-native';
 import {
     StyledHorizontalScrollView,
     StyledViewButton,
@@ -9,7 +9,8 @@ import {
     StyledButtonActive,
     StyledTouchableOpacity,
     StyledUserWrapper,
-    StyledCardIcon
+    StyledCardIcon,
+    StyledButtonLoadMore
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import Card from '../../sharedComponents/card';
@@ -30,54 +31,86 @@ const SingleCategory = (props) => {
     const [globalPost, setGlobalPost] = useState(true);
     const [data, setData] = useState([]);
     const [showLoader, setShowLoader] = useState(true);
+    const [dataLoader, setDataLoader] = useState(true);
+    const [page, setPage] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
 
 
     const GlobalButton = (select, text, onPress) => (
         select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
     )
 
-    useEffect(() => {
-        setData([]);
-        setShowLoader(true);
+    const apiCall = (globalPost, pageCount) => {
         if (globalPost) {
-            let requestData = {
-                category_id: props.route.params?.data._id,
-                location: {
-                    lat: 102,
-                    long: 21
-                },
-                // distance: 500000,
-                // gender: "male"
-            }
+            const requestData = `?category_id=${props.route.params?.data._id}&lat=${detailsStore.location.lat}&long=${detailsStore.location.long}&gender=${detailsStore.gender}&page=${pageCount}`
             OutsideAuthApi()
                 .getPostsApi(requestData)
                 .then((res) => {
-                    setData(res.data);
-                     setShowLoader(false);
+                    if (res.data && pageCount > 0) {
+                        let varData = data;
+                        varData = varData.concat(res.data)
+                        setData(varData);
+                    } else {
+                        setData(res.data);
+                    }
+                    if (res.data && res.data.length === 0) {
+                        setDataLoader(false)
+                    }
+                    setRefreshing(false);
+                    setShowLoader(false);
                 })
                 .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                     setShowLoader(false);
+                    if (err.message) {
+                        dispatch(SnackbarUpdate({
+                            type: 'error',
+                            msg: err.message
+                        }));
+                    }
+                    setRefreshing(false);
+                    setShowLoader(false);
                 });
         } else {
+            const requestData = `?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}&category=${props.route.params.data._id}&page=${pageCount}`
             OutsideAuthApi()
-                .allUserApi("?lat=" + detailsStore.location.lat + "&long=" + detailsStore.location.long + "&category=" + props.route.params.data._id)
+                .allUserApi(requestData)
                 .then((res) => {
-                    setData(res.data);
-                     setShowLoader(false);
+                    if (res.data && pageCount > 0) {
+                        let varData = data;
+                        varData = varData.concat(res.data)
+                        setData(varData);
+                    } else {
+                        setData(res.data);
+                    }
+                    if (res.data && res.data.length === 0) {
+                        setDataLoader(false)
+                    }
+                    setRefreshing(false);
+                    setShowLoader(false);
                 })
                 .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                     setShowLoader(false);
+                    if (err.message) {
+                        dispatch(SnackbarUpdate({
+                            type: 'error',
+                            msg: err.message
+                        }));
+                    }
+                    setRefreshing(false);
+                    setShowLoader(false);
                 });
         }
-    }, [globalPost])
+    }
+
+    useEffect(() => {
+        setData([]);
+        setShowLoader(true);
+        setDataLoader(true);
+        setPage(0);
+        apiCall(globalPost, 0)
+    }, [globalPost, refreshing])
+
+    useEffect(() => {
+        apiCall(globalPost, page)
+    }, [page])
 
     return (
         <React.Fragment>
@@ -87,7 +120,11 @@ const SingleCategory = (props) => {
                     {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
                 </StyledViewButton>
             </BottomShadow> : null}
-            {showLoader ? <Loader /> : <StyledHorizontalScrollView>
+            {showLoader ? <Loader /> : <StyledHorizontalScrollView showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
+                }>
                 {globalPost && data.map((x, i) =>
                     <Card key={i} images='https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
@@ -99,6 +136,7 @@ const SingleCategory = (props) => {
                             image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user && x.user.images && x.userInfo.images[0] ? x.userInfo.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
                     </StyledUserWrapper>
                 </TouchableOpacity>)}
+                {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
             </StyledHorizontalScrollView>}
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
