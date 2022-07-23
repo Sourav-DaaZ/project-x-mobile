@@ -25,7 +25,7 @@ const ApplicationList = (props) => {
 
     const apiCall = (pageCount) => {
         InsideAuthApi(authStore)
-        .getAllApplicationsApi(props.route.params?.id?`?post_id="${props.route.params?.id}&page=${pageCount}`:`?page=${pageCount}`)
+        .getAllApplicationsApi(props.route.params?.id?`?post_id=${props.route.params?.id}&page=${pageCount}`:`?page=${pageCount}`)
         .then((res) => {
             if (res.data && pageCount > 0) {
                 let varData = data;
