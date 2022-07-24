@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import { Dimensions, SafeAreaView, ScrollView, View, Text} from 'react-native';
 import { Card } from 'react-native-paper';
 import Input from '../../sharedComponents/input';
+import Button from '../../sharedComponents/button';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -19,6 +20,11 @@ export const StyledScrollView = styled(ScrollView)`
     padding-left: 30px;
     padding-right: 30px;
     margin-bottom: 10px;
+`;
+
+export const WrapperView = styled(View)`
+    margin-bottom: 10px;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
 `;
 
 export const StyledInputView = styled(View)`
@@ -64,6 +70,20 @@ export const StyledMyChatView = styled(View)`
     align-self: flex-end;
 `;
 
+export const StyledTimeView = styled(Text)`
+    width: 100%;
+    text-align: center;
+    margin-vertical: 5px;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
+`;
+
+export const HeaderText = styled(Text)`
+    font-weight: 500;
+    font-size: ${width * .05}px;
+    margin-top: 5px;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
+`;
+
 export const StyledUserChatViewText = styled(Text)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     font-size: ${width * .04}px;
@@ -80,4 +100,8 @@ export const StyledClock = styled(Text)`
     position: absolute;
     bottom: -40px;
     padding: 20px;
+`;
+
+export const StyledButtonLoadMore = styled(Button)`
+    width: 100%;
 `;

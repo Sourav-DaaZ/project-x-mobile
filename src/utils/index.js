@@ -47,9 +47,24 @@ export const validate = (value, rules) => {
 
 export const timeFormat = (time) => {
   var dt = new Date(time);
-  if(dt.getDate() === new Date().getDate()){
-    return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`  
+  if (dt.getDate() === new Date().getDate()) {
+    return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`
   }
-  return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')} ${(dt.getMonth() + 1).toString().padStart(2, '0')}/${dt.getDate().toString().padStart(2, '0')}/${dt.getFullYear().toString().padStart(2, '0').slice(-2)}`
+  return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')} `
 
+}
+
+export const dataFormat = (time, oldTime) => {
+  var dt = new Date(time);
+  if (oldTime === undefined) {
+    return `${(dt.getMonth() + 1).toString().padStart(2, '0')}/${dt.getDate().toString().padStart(2, '0')}/${dt.getFullYear().toString().padStart(2, '0').slice(-2)}`
+  }
+  var oldDt = new Date(oldTime);
+  if ((dt.getDate() === oldDt.getDate()) && (dt.getMonth() === oldDt.getMonth()) && (dt.getFullYear() === oldDt.getFullYear())) {
+    return null
+  } else if (dt.getDate() === new Date().getDate()) {
+    return `Today`
+  } else {
+    return `${(dt.getMonth() + 1).toString().padStart(2, '0')}/${dt.getDate().toString().padStart(2, '0')}/${dt.getFullYear().toString().padStart(2, '0').slice(-2)}`
+  }
 }

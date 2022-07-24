@@ -26,6 +26,7 @@ export const StyledInlineContainer = styled(View)`
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 5px;
+    margin-top: -15px;
 `;
 
 export const StyledInlineLeft = styled(View)`
@@ -44,8 +45,8 @@ export const StyledCardCover = styled(Image)`
 
 export const StyledCardContent = styled(ScrollView)`
     margin-horizontal: 10px;
-    padding-horizontal: 10px;
     margin-top: -30px;
+    padding-top: 20px;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     flex: 1;
@@ -72,11 +73,13 @@ export const StyledCardTitle = styled(Title)`
     font-weight: 600;
     margin-top: 20px;
     margin-bottom: 0px;
+    margin-horizontal: 10px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;
 
 export const StyledCardParagraph = styled(Paragraph)`
     font-size: ${width * .04}px;
+    margin-horizontal: 10px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
 `;
 

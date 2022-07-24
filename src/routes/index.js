@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native'
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
-import SnackBar from '../sharedComponents/snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { tokenUpdate } from '../store/actions';
@@ -18,7 +17,6 @@ import SplashScreen from '../views/splashScreen';
 const AuthenticationRoutes = React.lazy(() => import('./authRouters').then(module => ({ default: module.AuthRouters })));
 
 function Routs(props) {
-  const [show, setShow] = useState(false);
   const [updatePopup, setUpdatePopup] = useState(null);
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const dispatch = useDispatch();
@@ -60,18 +58,11 @@ function Routs(props) {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (authStore.message.msg !== '') {
-      setShow(true);
-    }
-  }, [authStore.message])
-
 
   return (
     <React.Suspense fallback={
       <SplashScreen />
     }>
-      <SnackBar show={show} text={authStore.message.msg} type={authStore.message.type} onDismiss={() => setShow(false)} />
       <NavigationContainer ref={
         navigationRef
       }>

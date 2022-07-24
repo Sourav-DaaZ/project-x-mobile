@@ -7,7 +7,6 @@ export const initialState = {
   gender: '',
   userCat: '',
   expectedCat: [],
-  profileImg: '',
   location: {
     lat: 0,
     long: 0

@@ -23,9 +23,11 @@ export const InputView = styled(View)`
 
 export const StyledScrollView = styled(ScrollView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-top: -20px;
+    margin-top: -50px;
+    border-radius: 10px;
     padding: 30px;
-    padding-top: 0px;
+    padding-top: 40px;
+    width: 100%;
 `;
 
 export const StyledInput = styled(View)`
@@ -60,4 +62,12 @@ export const StyledInlineInputContainer = styled(View)`
     position: relative;
     z-index: 999;
     margin-bottom: 10px;
+`
+
+export const WrapperImage = styled(View)`
+    flex: 1;
+    margin: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `

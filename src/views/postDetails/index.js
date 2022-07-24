@@ -16,7 +16,7 @@ import {
 } from './style';
 import { TouchableOpacity } from 'react-native';
 
-import { Menu, Divider } from 'react-native-paper';
+import { Menu, Divider, Avatar } from 'react-native-paper';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { ThemeContext } from 'styled-components';
@@ -25,6 +25,7 @@ import OutsideAuthApi from '../../services/outSideAuth';
 import InsideAuthApi from '../../services/inSideAuth';
 import Routes from '../../constants/routeConst';
 import Loader from '../../sharedComponents/loader';
+import ListItem from '../../sharedComponents/listItem'
 
 const PostDetails = (props) => {
     const [data, setData] = useState({});
@@ -84,11 +85,12 @@ const PostDetails = (props) => {
 
     return (
         showLoader ? <Loader /> : <React.Fragment>
-            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+                <StyledCardCover source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
             </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
+                    {data?.owner?._id && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data?.owner?.user })}><ListItem image={<Avatar.Image size={50} source={{ uri: data?.owner?.images ? "data:image/png;base64," + data.owner.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.owner?.name} /></TouchableOpacity> : null}
                     <StyledInlineContainer>
                         <StyledInlineLeft>
                             <StyledCardTitle style={{ marginBottom: 5 }}>{data?.title}</StyledCardTitle>
@@ -102,20 +104,20 @@ const PostDetails = (props) => {
                 </StyledCardContent>
                 <StyledCardAction>
                     <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' disabled={data.length === 0 || detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user ? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
-                    <TouchableOpacity onPress={() => setShowMenu(true)}>
+                    {detailsStore.id === data.owner?.user ? <TouchableOpacity onPress={() => setShowMenu(true)}>
                         <Menu
                             visible={showMenu}
                             onDismiss={() => setShowMenu(false)}
                             anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
                         >
                             <Menu.Item onPress={() => {
-                                props.navigation.navigate(Routes.editPost, { data: data })
+                                props.navigation.navigate(Routes.editPost, { data: data, image: data.images })
                                 setShowMenu(false);
                             }} title="Edit Post" />
                             <Divider />
                             <Menu.Item onPress={deletePost} title="Delete Post" />
                         </Menu>
-                    </TouchableOpacity>
+                    </TouchableOpacity> : null}
                 </StyledCardAction>
             </StyledCard>
         </React.Fragment>

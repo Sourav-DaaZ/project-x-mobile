@@ -21,7 +21,7 @@ const DashboardLayout = (props) => {
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
     const [refreshing, setRefreshing] = useState(false);
-    const [msg, setMsg] = useState(false);
+    const [msg, setMsg] = useState('');
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
@@ -38,9 +38,9 @@ const DashboardLayout = (props) => {
                     (error) => props.navigation.navigate(Routes.access, { type: 'Camera' }),
                     { enableHighAccuracy: true, timeout: 20000 }
                 );
-            }
-            if (authStore.access_token) {
-                apiCall(authStore);
+                if (authStore.access_token ) {
+                    apiCall(authStore);
+                }
             }
         })
         return () => unsubscribe
@@ -73,7 +73,6 @@ const DashboardLayout = (props) => {
                         gender: res.data.gender,
                         userCat: res.data.category,
                         expectedCat: res.data.category_preference,
-                        profileImg: res.data.images
                     }))
                 } else {
                     props.navigation.navigate(Routes.updateDetails, { logedin: false })
@@ -97,7 +96,7 @@ const DashboardLayout = (props) => {
     return (
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
-            <SnackBar show={msg ? msg !== '' : false} text={msg ? msg : ''} type={props.showMsgType ? props.showMsgType : 'error'} onDismiss={()=>setMsg('')} />
+            <SnackBar text={msg} type={props.showMsgType ? props.showMsgType : 'error'}/>
             {/* <BannerComponent /> */}
             {props.outsideScroll}
             <StyledScrollView

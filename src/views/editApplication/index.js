@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
 import { updateObject, validate } from '../../utils';
@@ -18,15 +18,21 @@ import {
   StyledScrollView,
   StyledInlineInput,
   StyledText,
-  StyledInlineInputContainer
+  StyledInlineInputContainer,
+  StyledImageBackground,
+  StyledCardCover,
+  InputWrapper,
+
 } from './style';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const EditApplication = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
+  const [image, setImage] = useState(props.route.params?.image ? props.route.params.image : [null]);
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
@@ -127,8 +133,8 @@ const EditApplication = (props) => {
         application_id: props.route.params.data._id,
         details: data.controls.description.value,
         expectedPrice: Number(data.controls.price.value),
-        userVisible: userVisible,
-        images: []
+        visible: userVisible,
+        images: image
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -151,6 +157,23 @@ const EditApplication = (props) => {
     }
   }
 
+  const uploadImg = async () => {
+    const options = {
+      includeBase64: true,
+      maxWidth: 200,
+      quality: .6,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    try {
+      const result = await launchImageLibrary(options);
+      setImage([result.assets[0].base64]);
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
 
   for (let key in data.controls) {
@@ -162,8 +185,13 @@ const EditApplication = (props) => {
 
 
   return (
-    <ShadowWrapperContainer>
-      <StyledScrollView>
+    <StyledScrollView>
+      <TouchableOpacity onPress={uploadImg}>
+        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? "data:image/png;base64," + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+          <StyledCardCover source={{ uri: image && image[0] ? "data:image/png;base64," + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+        </StyledImageBackground>
+      </TouchableOpacity>
+      <InputWrapper>
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input
@@ -199,8 +227,8 @@ const EditApplication = (props) => {
         <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? applicationFnc : null}>
           Edit Application
         </SubmitButton>
-      </StyledScrollView>
-    </ShadowWrapperContainer>
+      </InputWrapper>
+    </StyledScrollView>
   );
 };
 

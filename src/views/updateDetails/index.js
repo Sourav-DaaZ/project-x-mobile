@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Keyboard, TouchableOpacity } from 'react-native';
+import { Image, Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
 import { updateObject, validate } from '../../utils';
@@ -7,13 +7,15 @@ import validation from '../../constants/validationMsg';
 import InsideAuthApi from '../../services/inSideAuth';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader, tokenUpdate } from '../../store/actions';
+import { SnackbarUpdate, detailsUpdate, tokenUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { launchImageLibrary } from 'react-native-image-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Routes from '../../constants/routeConst';
+import logoImg from '../../assets/images/logo.png';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import {
   SubmitButton,
@@ -21,10 +23,14 @@ import {
   StyledScrollView,
   StyledInlineInput,
   StyledText,
+  WrapperImage,
   StyledLgout,
   StyledInlineInputContainer,
   StyledInput
 } from './style';
+import { Avatar } from 'react-native-paper';
+import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import { CustomHeader } from '../../routes/custom';
 
 const UpdateDetails = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -45,6 +51,7 @@ const UpdateDetails = (props) => {
   const [loading, setLoading] = useState(false);
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+  const [image, setImage] = useState(props.route.params?.image ? props.route.params.image : null);
   const [data, setData] = useState({
     controls: {
       name: {
@@ -68,10 +75,9 @@ const UpdateDetails = (props) => {
       },
     },
   });
-  
+
   useEffect(() => {
     let data = []
-    dispatch(loader(true));
     OutsideAuthApi()
       .categoryListApi()
       .then((res) => {
@@ -81,11 +87,9 @@ const UpdateDetails = (props) => {
             label: x.category_name, value: x._id
           })
         })
-        dispatch(loader(false));
         setCategoryArr(data);
       })
       .catch((err) => {
-        dispatch(loader(false));
         dispatch(SnackbarUpdate({
           type: 'error',
           msg: err.message
@@ -162,6 +166,7 @@ const UpdateDetails = (props) => {
         category: category,
         category_preference: tergetCategory,
         gender: gender,
+        images: image
       }
       InsideAuthApi(authStore)
         .updateDetailsApi(requestData)
@@ -202,7 +207,24 @@ const UpdateDetails = (props) => {
       });
   }
 
+  const uploadImg = async () => {
+    const options = {
+      includeBase64: true,
+      maxWidth: 200,
+      quality: .6,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
 
+    try {
+      const result = await launchImageLibrary(options);
+      setImage(result.assets[0].base64);
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   for (let key in data.controls) {
     formElementsArray.push({
@@ -211,113 +233,125 @@ const UpdateDetails = (props) => {
     });
   }
 
-
   return (
-    <StyledScrollView style={{ flex: 1 }}>
-      <InputView>
-        {formElementsArray?.map((x, index) => (
-          <Input
-            key={index}
-            title={x.config?.elementConfig?.text}
-            placeholder={x.config?.elementConfig?.placeholder}
-            onInputChange={onInputChange}
-            onSubmit={() => Keyboard.dismiss()}
-            value={x.config?.value}
-            class={x.config?.className}
-            type={x.config?.elementConfig?.type}
-            keyNum={x.config?.validation?.isNumeric}
-            isValid={x.config?.valid}
-            validation={x.config?.validation}
-            errorMsg={x.config?.errors}
-            icons={x.config?.icons}
-            ele={x.config?.elementType}
-          />
-        ))}
-      </InputView>
-      <StyledInlineInputContainer style={{ zIndex: 1000 }}>
-        <StyledInput>
-          <Input
-            ele='select'
-            open={openCategory}
-            title={'My Category'}
-            value={category}
-            items={categoryArr}
-            placeholder={'Select Category'}
-            style={{
-              borderWidth: 0,
-              borderBottomWidth: 1,
-              borderColor: colors.borderColor,
-              marginLeft: -5
-            }}
-            containerStyle={{
-              borderWidth: 1,
-              borderColor: colors.borderColor,
-            }}
-            setOpen={setOpenCategory}
-            setValue={setCategory}
-            setItems={setCategoryArr}
-          />
-        </StyledInput>
-        <StyledInput>
-          <Input
-            ele='select'
-            open={openGender}
-            title={'Gender'}
-            value={gender}
-            items={genderArr}
-            placeholder={'Select Gender'}
-            style={{
-              borderWidth: 0,
-              borderBottomWidth: 1,
-              borderColor: colors.borderColor,
-              marginLeft: -5
-            }}
-            containerStyle={{
-              borderWidth: 1,
-              borderColor: colors.borderColor,
-            }}
-            setOpen={setOpenGender}
-            setValue={setGender}
-            setItems={setGenderArr}
-          />
-        </StyledInput>
-      </StyledInlineInputContainer>
-      <StyledInlineInputContainer>
-        <StyledInput>
-          <Input
-            ele='select'
-            open={openTergetCategory}
-            title={'Interested Category'}
-            value={tergetCategory}
-            items={categoryArr}
-            multiple={true}
-            max={5}
-            placeholder={'Select Category'}
-            style={{
-              borderWidth: 0,
-              borderBottomWidth: 1,
-              borderColor: colors.borderColor,
-              marginLeft: -5
-            }}
-            containerStyle={{
-              borderWidth: 1,
-              borderColor: colors.borderColor,
-            }}
-            setOpen={setOpenTergetCategory}
-            setValue={setTergetCategory}
-            setItems={setCategoryArr}
-          />
-        </StyledInput>
-      </StyledInlineInputContainer>
-      <SubmitButton mode='contained' loading={loading} onPress={!loading ? editDetailsFnc : null}>
-        Save
-      </SubmitButton>
-      <TouchableOpacity style={{
-        marginTop: 20
-      }} onPress={!props.route.params?.logedin ? onLoginOut : () => props.navigation.goBack()}>
-        <StyledLgout>{!props.route.params?.logedin ? "Logout" : "Back"}</StyledLgout>
-      </TouchableOpacity>
-    </StyledScrollView>
+    <React.Fragment>
+      <BottomShadow>
+        <CustomHeader
+          left={props.route.params?.logedin ? <Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => props.navigation.goBack()} /> : null}
+          logo={<Image source={logoImg} />}
+        />
+      </BottomShadow>
+      <WrapperImage>
+        <TouchableOpacity style={{ zIndex: 9 }} onPress={uploadImg}>
+          <Avatar.Image size={120} source={{ uri: image ? "data:image/png;base64," + image : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />
+        </TouchableOpacity>
+        <StyledScrollView style={{ flex: 1 }}>
+          <InputView>
+            {formElementsArray?.map((x, index) => (
+              <Input
+                key={index}
+                title={x.config?.elementConfig?.text}
+                placeholder={x.config?.elementConfig?.placeholder}
+                onInputChange={onInputChange}
+                onSubmit={() => Keyboard.dismiss()}
+                value={x.config?.value}
+                class={x.config?.className}
+                type={x.config?.elementConfig?.type}
+                keyNum={x.config?.validation?.isNumeric}
+                isValid={x.config?.valid}
+                validation={x.config?.validation}
+                errorMsg={x.config?.errors}
+                icons={x.config?.icons}
+                ele={x.config?.elementType}
+              />
+            ))}
+          </InputView>
+          <StyledInlineInputContainer style={{ zIndex: 1000 }}>
+            <StyledInput>
+              <Input
+                ele='select'
+                open={openCategory}
+                title={'My Category'}
+                value={category}
+                items={categoryArr}
+                placeholder={'Select Category'}
+                style={{
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                  borderColor: colors.borderColor,
+                  marginLeft: -5
+                }}
+                containerStyle={{
+                  borderWidth: 1,
+                  borderColor: colors.borderColor,
+                }}
+                setOpen={setOpenCategory}
+                setValue={setCategory}
+                setItems={setCategoryArr}
+              />
+            </StyledInput>
+            <StyledInput>
+              <Input
+                ele='select'
+                open={openGender}
+                title={'Gender'}
+                value={gender}
+                items={genderArr}
+                placeholder={'Select Gender'}
+                style={{
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                  borderColor: colors.borderColor,
+                  marginLeft: -5
+                }}
+                containerStyle={{
+                  borderWidth: 1,
+                  borderColor: colors.borderColor,
+                }}
+                setOpen={setOpenGender}
+                setValue={setGender}
+                setItems={setGenderArr}
+              />
+            </StyledInput>
+          </StyledInlineInputContainer>
+          <StyledInlineInputContainer>
+            <StyledInput>
+              <Input
+                ele='select'
+                open={openTergetCategory}
+                title={'Interested Category'}
+                value={tergetCategory}
+                items={categoryArr}
+                multiple={true}
+                max={5}
+                placeholder={'Select Category'}
+                style={{
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                  borderColor: colors.borderColor,
+                  marginLeft: -5
+                }}
+                containerStyle={{
+                  borderWidth: 1,
+                  borderColor: colors.borderColor,
+                }}
+                setOpen={setOpenTergetCategory}
+                setValue={setTergetCategory}
+                setItems={setCategoryArr}
+              />
+            </StyledInput>
+          </StyledInlineInputContainer>
+          <SubmitButton mode='contained' loading={loading} onPress={!loading ? editDetailsFnc : null}>
+            Save
+          </SubmitButton>
+          {!props.route.params?.logedin ? <TouchableOpacity style={{
+            marginTop: 20
+          }} onPress={onLoginOut}>
+            <StyledLgout>{"Logout"}</StyledLgout>
+          </TouchableOpacity> : null}
+        </StyledScrollView>
+      </WrapperImage>
+    </React.Fragment>
   );
 };
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, Image, ScrollView } from 'react-native';
+import { Dimensions, View, Image, ScrollView, ImageBackground } from 'react-native';
 import { Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button'
 
@@ -24,8 +24,6 @@ export const InputView = styled(View)`
 
 export const StyledScrollView = styled(ScrollView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-horizontal: 10px;
-    padding-top: 0px;
 `;
 
 
@@ -55,3 +53,22 @@ export const StyledInlineInputContainer = styled(View)`
     z-index: 9;
     margin-bottom: 10px;
 `
+export const StyledImageBackground = styled(ImageBackground)`
+    margin-bottom: -60px;
+`;
+
+export const StyledCardCover = styled(Image)`
+    height: ${height * .35}px; 
+    width: 100%;
+    resizeMode: contain;
+`;
+
+export const InputWrapper = styled(View)`
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+    margin-horizontal: 10px;
+    padding: 30px;
+    padding-top: 0px;
+    margin: 10px;
+    border-radius: 10px;
+    z-index: 9
+`;

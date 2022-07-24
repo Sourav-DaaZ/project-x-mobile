@@ -30,29 +30,18 @@ const Dashboard = (props) => {
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
 
     useEffect(() => {
-        let isMounted = true;
-        // const unsubscribe = props.navigation.addListener("focus", () => {
         if (isFocused) {
             setShowLoader(true);
             OutsideAuthApi()
                 .categoryListApi()
                 .then((res) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        setCategory(res.data);
-                    }
+                    setShowLoader(false);
+                    setCategory(res.data);
                 })
                 .catch((err) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        setShowMsg(err.message);
-                    }
+                    setShowLoader(false);
+                    setShowMsg(err.message);
                 })
-            // });
-        }
-        return () => {
-            isMounted = false;
-            setRefreshing(false)
         };
     }, [isFocused, refreshing])
 

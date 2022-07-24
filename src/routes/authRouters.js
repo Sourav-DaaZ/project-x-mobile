@@ -158,65 +158,52 @@ export function AuthRouters(props) {
         name={Routes.updateDetails}
         component={UpdateDetails}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
-              // left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
-          </BottomShadow>
+          headerShown: false
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createPost}
         component={CreatePost}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
-              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
-          </BottomShadow>
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.editPost}
         component={EditPost}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
-              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
-          </BottomShadow>
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createApplication}
         component={CreateApplication}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
-              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
-          </BottomShadow>
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.applicationDetails}
         component={ApplicationDetails}
         options={({ navigation }) => ({
           header: () => <CustomHeader
-              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.editApplication}
         component={EditApplication}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
-              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
-          </BottomShadow>
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.applicationList}
@@ -286,12 +273,7 @@ export function AuthRouters(props) {
         name={Routes.appChat}
         component={ChatScreen}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
-              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
-          </BottomShadow>
+          headerShown: false
         })} />
       <Stack.Screen
         name={Routes.postDetails}

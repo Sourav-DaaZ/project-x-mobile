@@ -13,7 +13,7 @@ export default ListItem = (props) => {
            {props.image}
             <View style={{marginLeft: 10}}>
                 <StyledTitle>{props.title}</StyledTitle>
-                <StyledParagraph>{props.description}</StyledParagraph>
+                {props.description?<StyledParagraph>{props.description}</StyledParagraph>:null}
             </View>
         </StyledProfileView>
     );

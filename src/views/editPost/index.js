@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
 import { updateObject, validate } from '../../utils';
@@ -20,10 +20,13 @@ import {
   StyledInlineInput,
   StyledText,
   StyledInlineInputContainer,
-  StyledInput
+  StyledInput,
+  StyledImageBackground,
+  StyledCardCover,
+  InputWrapper
 } from './style';
-import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Loader from '../../sharedComponents/loader';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const EditPost = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -38,13 +41,14 @@ const EditPost = (props) => {
   ]);
   const [categoryArr, setCategoryArr] = useState([]);
   const [isPublic, setIsPublic] = useState(true);
-  const [userVisible, setUserVisible] = useState(true);
+  const [userVisible, setUserVisible] = useState(props.route.params.data.visible ? props.route.params.data.visible : false);
   const [gender, setGender] = useState(props.route.params.data.genderSpecific ? props.route.params.data.genderSpecific : genderArr[0].value);
   const [category, setCategory] = useState('');
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(props.route.params?.image ? props.route.params.image : [null]);
   const [data, setData] = useState({
     controls: {
       title: {
@@ -201,11 +205,8 @@ const EditPost = (props) => {
         expected_price: Number(data.controls.price.value),
         isPublic: isPublic,
         genderSpecific: gender,
-        userVisible: userVisible,
-        location: {
-          lat: 104,
-          long: 20
-        }
+        visible: userVisible,
+        images: image
       }
       InsideAuthApi(authStore)
         .updatePost(requestData)
@@ -227,6 +228,23 @@ const EditPost = (props) => {
     }
   }
 
+  const uploadImg = async () => {
+    const options = {
+      includeBase64: true,
+      maxWidth: 200,
+      quality: .6,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    try {
+      const result = await launchImageLibrary(options);
+      setImage([result.assets[0].base64]);
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
 
   for (let key in data.controls) {
@@ -238,8 +256,13 @@ const EditPost = (props) => {
 
 
   return (
-    showLoader ? <Loader /> : <ShadowWrapperContainer>
-      <StyledScrollView>
+    showLoader ? <Loader /> : <StyledScrollView>
+      <TouchableOpacity onPress={uploadImg}>
+        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? "data:image/png;base64," + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+          <StyledCardCover source={{ uri: image && image[0] ? "data:image/png;base64," + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+        </StyledImageBackground>
+      </TouchableOpacity>
+      <InputWrapper>
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input
@@ -358,8 +381,8 @@ const EditPost = (props) => {
         <SubmitButton labelStyle={{ color: colors.backgroundColor }} loading={loading} mode='contained' onPress={!loading ? editPostFnc : null}>
           Edit Post
         </SubmitButton>
-      </StyledScrollView>
-    </ShadowWrapperContainer>
+      </InputWrapper>
+    </StyledScrollView>
   );
 };
 

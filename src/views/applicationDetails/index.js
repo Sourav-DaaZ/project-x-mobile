@@ -21,8 +21,9 @@ import { SnackbarUpdate } from '../../store/actions';
 import InsideAuthApi from '../../services/inSideAuth';
 import Routes from '../../constants/routeConst';
 import Loader from '../../sharedComponents/loader';
-import { Divider, Menu } from 'react-native-paper';
+import { Avatar, Divider, Menu } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native';
+import ListItem from '../../sharedComponents/listItem';
 
 const ApplicationDetails = (props) => {
     const [data, setData] = useState({});
@@ -79,14 +80,15 @@ const ApplicationDetails = (props) => {
                 }))
             });
     }
-
+    
     return (
         showLoader ? <Loader /> : <React.Fragment>
-            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+                <StyledCardCover source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
             </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
+                    {data?.created_by?.userId && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data.created_by?._id })}><ListItem image={<Avatar.Image size={50} source={{ uri: data.created_by?.images && data.created_by.images[0] ? "data:image/png;base64," + data.created_by.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.created_by?.userId} /></TouchableOpacity> : null}
                     <StyledInlineContainer>
                         <StyledInlineLeft>
                             <StyledCardTitle style={{ marginBottom: 5 }}>{data?.details}</StyledCardTitle>
@@ -96,10 +98,9 @@ const ApplicationDetails = (props) => {
                             {data?.genderSpecific && data.genderSpecific.toLowerCase() !== 'all' ? <StyledCardParagraph style={{ textAlign: 'right' }}>({data.genderSpecific} only)</StyledCardParagraph> : null}
                         </StyledInlineRight>
                     </StyledInlineContainer>
-                    {data?.created_by?.userId ? <StyledCardParagraph>Created By: {data.created_by.userId}</StyledCardParagraph> : null}
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} disabled={data && detailsStore.id === ''} onPress={() => props.navigation.navigate(Routes.appChat, { id: data._id })}>Chat</StyledCardButton>
+                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} disabled={data && detailsStore.id === ''} onPress={() => props.navigation.navigate(Routes.appChat, { id: data._id, name: data.details })}>Chat</StyledCardButton>
                     {detailsStore.id === data.created_by?._id ? <TouchableOpacity onPress={() => setShowMenu(true)}>
                         <Menu
                             visible={showMenu}
@@ -107,7 +108,7 @@ const ApplicationDetails = (props) => {
                             anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
                         >
                             <Menu.Item onPress={() => {
-                                props.navigation.navigate(Routes.editApplication, { data: data })
+                                props.navigation.navigate(Routes.editApplication, { data: data, image: data.images })
                                 setShowMenu(false);
                             }} title="Edit Application" />
                             <Divider />

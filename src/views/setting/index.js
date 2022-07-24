@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import {
-  Avatar, Colors
+  Avatar
 } from 'react-native-paper';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer } from './style';
@@ -9,12 +9,13 @@ import { ThemeContext } from 'styled-components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import InsideAuthApi from '../../services/inSideAuth';
-import { tokenUpdate } from '../../store/actions';
+import { detailsUpdate, tokenUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routes from '../../constants/routeConst';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
+import Loader from '../../sharedComponents/loader';
 
 const Setting = (props) => {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const Setting = (props) => {
   const colors = themeContext.colors[themeContext.baseColor];
   const detailsStore = useSelector((state) => state.details, shallowEqual);
   const authStore = useSelector((state) => state.auth, shallowEqual);
+  const [data, setData] = useState({});
+  const [showLoader, setShowLoader] = useState(true);
 
 
   const onLoginOut = () => {
@@ -29,6 +32,13 @@ const Setting = (props) => {
       .logout()
       .then(async (res) => {
         await AsyncStorage.removeItem('token');
+        dispatch(detailsUpdate({
+          id: '',
+          name: '',
+          gender: '',
+          userCat: '',
+          expectedCat: [],
+        }))
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''
@@ -43,19 +53,47 @@ const Setting = (props) => {
       });
   }
 
+  useEffect(() => {
+    if (authStore.access_token !== '') {
+      InsideAuthApi(authStore)
+        .detailsApi()
+        .then((res) => {
+          setShowLoader(false);
+          if (res.data && res.data.name && res.data.category && res.data.category_preference) {
+            dispatch(detailsUpdate({
+              id: res.data.user,
+              name: res.data.name,
+              gender: res.data.gender,
+              userCat: res.data.category,
+              expectedCat: res.data.category_preference,
+            }))
+            setData(res.data)
+          } else {
+            props.navigation.navigate(Routes.updateDetails, { logedin: false })
+          }
+        })
+        .catch((err) => {
+          setShowLoader(false);
+          console.log(err)
+        });
+    } else {
+      setShowLoader(false);
+    }
+  }, [])
+
   return (
-    <DashboardLayout {...props}>
+    showLoader ? <Loader /> : <DashboardLayout {...props} showMsg={''}>
       <ShadowWrapperContainer>
         {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: detailsStore.id })}>
           <StyledProfileView>
             <View>
-              <StyledTitle>{detailsStore.name}</StyledTitle>
-              <StyledParagraph>{detailsStore.userCat.category_name}</StyledParagraph>
+              <StyledTitle>{data?.name}</StyledTitle>
+              <StyledParagraph>{data?.category?.category_name}</StyledParagraph>
             </View>
             <Avatar.Image
               source={{
                 uri:
-                  detailsStore.images ? detailsStore.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                  data?.images ? "data:image/png;base64," + data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
               }}
               size={70}
             />
@@ -69,7 +107,7 @@ const Setting = (props) => {
             <Avatar.Image
               source={{
                 uri:
-                  detailsStore.images ? detailsStore.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                  data?.images ? "data:image/png;base64," + data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
               }}
               size={70}
             />
@@ -94,7 +132,7 @@ const Setting = (props) => {
               <StyledSemiTitle>My Posts</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: true })}>
+          <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: true, image: data?.images })}>
             <StyledLeftContainer>
               <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
               <StyledSemiTitle>Details Update</StyledSemiTitle>
