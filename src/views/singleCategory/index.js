@@ -118,8 +118,9 @@ const SingleCategory = (props) => {
         <React.Fragment>
             {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
                 <StyledViewButton>
-                    {GlobalButton(globalPost, 'Global Post', () => setGlobalPost(true))}
+                    {GlobalButton(globalPost, 'Post', () => setGlobalPost(true))}
                     {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
+                    {GlobalButton(globalPost && !globalPost, 'Global', () => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id }))}
                 </StyledViewButton>
             </BottomShadow> : null}
             {showLoader ? <Loader /> : <StyledHorizontalScrollView showsVerticalScrollIndicator={false}

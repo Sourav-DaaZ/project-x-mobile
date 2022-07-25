@@ -102,6 +102,29 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
+        addTagApi(data) {
+            return axiosObj({
+                url: API.authUrls.addTag,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
+        tagActionApi(param) {
+            return axiosObj({
+                url: API.authUrls.tagAction + param,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+            })
+        },
+        editTagApi(data) {
+            return axiosObj({
+                url: API.authUrls.editTag,
+                method: 'PATCH',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
         logout() {
             return axiosObj({
                 url: API.authUrls.logout,

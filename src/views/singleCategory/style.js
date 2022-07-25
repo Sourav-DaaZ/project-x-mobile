@@ -44,7 +44,7 @@ export const StyledTouchableOpacity = styled(TouchableOpacity)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 export const StyledButtonActive = styled(Button)`
-    width: 50%;
+    width: 34%;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}; 
     border-radius: 0px;
 `;

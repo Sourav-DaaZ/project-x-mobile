@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.105:5000/api',
+    dev: 'http://192.168.0.108:5000/api',
     qa: '',
     uat: '',
     prod: '',
@@ -17,6 +17,8 @@ export const API = {
     searchPost: '/search_post',
     getPosts: '/get_posts',
     postSocket: '/post',
+    tagSocket: '/tag',
+    globalChatSocket: '/globalChat',
     tagList: '/tag_list',
     getPostDetails: '/get_post_details',
     allUser: '/all_user',
@@ -40,5 +42,8 @@ export const API = {
     getReview: '/get_review',
     createReview: '/create_review',
     updateLocation: '/update_location',
+    addTag: '/add_tag',
+    tagAction: '/tag_action',
+    editTag: '/edit_tag',
   },
 };

@@ -3,8 +3,6 @@ import { Dimensions, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Paragraph, Title, Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
 
-import * as Animatable from 'react-native-animatable';
-
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 

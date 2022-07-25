@@ -21,7 +21,13 @@ const Routes = {
     singleCategory: 'SingleCategory',
     profile: 'Profile',
     appChat: 'AppChat',
-    postDetails: 'PostDetails'
+    globalChat: 'GlobalChat',
+    postDetails: 'PostDetails',
+    tagChat: 'TagChat',
+    tagList: 'TagList',
+    addTag: 'AddTag',
+    editTag: 'EditTag',
+    myTag: 'MyTag',
 }
 
 export default Routes;

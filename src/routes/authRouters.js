@@ -17,7 +17,8 @@ import UpdateDetails from '../views/updateDetails';
 import SearchScreen from '../views/searchScreen';
 import ProfileScreen from '../views/profileScreen';
 import PostDetails from '../views/postDetails';
-import ChatScreen from '../views/chatScreen';
+import ApplicationChat from '../views/applicationChat';
+import TagChat from '../views/tagChat';
 import CreatePost from '../views/createPost';
 import EditPost from '../views/editPost';
 import MyPost from '../views/myPost';
@@ -39,6 +40,10 @@ import Routes from '../constants/routeConst';
 
 import { CustomTab, CustomHeader } from './custom';
 import { BottomShadow } from '../sharedComponents/bottomShadow';
+import AddTags from '../views/addTags';
+import EditTags from '../views/editTags';
+import GlobalChat from '../views/globalChat';
+import MyTags from '../views/myTags';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,6 +87,19 @@ export function AuthRouters(props) {
           }}
           component={CategoryList} />
 
+        <Tab.Screen
+          name={Routes.tagList}
+          options={{
+            tabBarLabel: 'Tag List',
+            header: () => (
+              <CustomHeader
+                logo={<Image style={{ marginLeft: 10 }} source={logoImg} />}
+              />),
+            tabBarIcon: (color, size) => (
+              <Ionicons name="md-pricetags-outline" color={color} size={size} />
+            ),
+          }}
+          component={TagList} />
         <Tab.Screen
           name={Routes.notification}
           options={{
@@ -228,6 +246,17 @@ export function AuthRouters(props) {
           </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
+        name={Routes.myTag}
+        component={MyTags}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
         name={Routes.editDetails}
         component={EditDetails}
         options={({ navigation }) => ({
@@ -241,6 +270,28 @@ export function AuthRouters(props) {
       {props.islogin ? <Stack.Screen
         name={Routes.createReview}
         component={CreateReview}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.addTag}
+        component={AddTags}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.editTag}
+        component={EditTags}
         options={({ navigation }) => ({
           header: () => <BottomShadow>
             <CustomHeader
@@ -271,7 +322,19 @@ export function AuthRouters(props) {
         })} />
       <Stack.Screen
         name={Routes.appChat}
-        component={ChatScreen}
+        component={ApplicationChat}
+        options={({ navigation }) => ({
+          headerShown: false
+        })} />
+      <Stack.Screen
+        name={Routes.tagChat}
+        component={TagChat}
+        options={({ navigation }) => ({
+          headerShown: false
+        })} />
+      <Stack.Screen
+        name={Routes.globalChat}
+        component={GlobalChat}
         options={({ navigation }) => ({
           headerShown: false
         })} />

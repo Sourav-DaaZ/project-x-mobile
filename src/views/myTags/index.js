@@ -12,31 +12,26 @@ import OutsideAuthApi from '../../services/outSideAuth';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../constants/routeConst';
 import DashboardHeader from '../dashboard/header';
-import { FAB } from 'react-native-paper';
+import { FAB, Menu } from 'react-native-paper';
 import Loader from '../../sharedComponents/loader';
+import InsideAuthApi from '../../services/inSideAuth';
 
-const TagList = (props) => {
+const MyTags = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
-    const [sTag, setStag] = useState([]);
-    const [nTag, setNtag] = useState([]);
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
+    const [Tag, setTag] = useState([]);
     const [showMsg, setShowMsg] = useState('');
+    const [showMenu, setShowMenu] = useState(null);
     const [showLoader, setShowLoader] = useState('');
 
-
-    useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-        setShowLoader(true);
+    const apiCall = () => {
         OutsideAuthApi()
-            .tagListApi(`?lat=${100}&long=${20}`)
+            .tagListApi(`?user=${detailsStore.id}`)
             .then((res) => {
                 if (res.data) {
-                    let secure = [];
-                    let notSecure = [];
-                    res.data?.map((x) => x.secure ? secure.push(x) : notSecure.push(x))
-                    setStag(secure);
-                    setNtag(notSecure);
+                    setTag(res.data)
                 }
                 setShowLoader(false);
             })
@@ -44,28 +39,49 @@ const TagList = (props) => {
                 setShowLoader(false);
                 setShowMsg(err.message)
             });
+    }
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener("focus", () => {
+            setShowLoader(true);
+            apiCall();
         })
         return unsubscribe;
     }, []);
 
+    const onDelete = (id) => {
+        const param = {
+            id: id,
+            delete_tag: true
+        }
+        InsideAuthApi(authStore)
+            .editTagApi(param)
+            .then((res) => {
+                setShowMenu(null);
+                apiCall()
+            })
+            .catch((err) => {
+                setShowMenu(null);
+                setShowMsg(err.message)
+            });
+    }
 
     return (
         showLoader ? <Loader /> : <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
             <StyledScrollView>
                 <WrapperView animation='zoomIn'>
-                    <DashboardHeader text='Secure Tags' />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>{sTag.map((x, i) =>
-                        <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
-                            {x.tag_name}
-                        </StyledChip>
-                    )}</View>
-                </WrapperView>
-                <WrapperView animation='zoomIn'>
-                    <DashboardHeader text='Other Tags' />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>{nTag.map((x, i) =>
-                        <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
-                            {x.tag_name}
-                        </StyledChip>
+                    <DashboardHeader text='My Tags' />
+                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>{Tag.map((x, i) =>
+                        <Menu
+                            key={i}
+                            visible={showMenu === i}
+                            onDismiss={() => setShowMenu(null)}
+                            anchor={<StyledChip accessibilityLabel={x.details} onLongPress={() => setShowMenu(i)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                                {x.tag_name}
+                            </StyledChip>}
+                        >
+                            <Menu.Item onPress={() => onDelete(x._id)} title="Delete" />
+                        </Menu>
                     )}</View>
                 </WrapperView>
             </StyledScrollView>
@@ -84,4 +100,4 @@ const TagList = (props) => {
         </DashboardLayout>
     )
 }
-export default TagList;
+export default MyTags;

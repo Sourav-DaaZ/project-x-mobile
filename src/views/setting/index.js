@@ -132,6 +132,12 @@ const Setting = (props) => {
               <StyledSemiTitle>My Posts</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myTag)}>
+            <StyledLeftContainer>
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+              <StyledSemiTitle>My Tags</StyledSemiTitle>
+            </StyledLeftContainer>
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: true, image: data?.images })}>
             <StyledLeftContainer>
               <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />

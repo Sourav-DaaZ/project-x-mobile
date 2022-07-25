@@ -105,7 +105,8 @@ const DashboardLayout = (props) => {
                 refreshControl={
                     props.refreshFnc && <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
-                scrollEnabled={props.outerScrollViewScrollEnabled}>
+                scrollEnabled={props.outerScrollViewScrollEnabled}
+                contentContainerStyle={{ flexGrow: 1 }}>
                 {props.banner ? <StyledFullImg
                     resizeMode='cover'
                     source={{

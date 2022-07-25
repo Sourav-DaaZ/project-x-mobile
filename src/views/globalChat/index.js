@@ -23,7 +23,8 @@ import { timeFormat, dataFormat } from '../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow } from '../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../routes/custom';
-export function ChatScreen(props) {
+
+const GlobalChat = (props) => {
     const scrollViewRef = useRef();
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
@@ -32,7 +33,7 @@ export function ChatScreen(props) {
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
-    const socket = io(API.baseUrls[API.currentEnv] + API.noAuthUrls.postSocket);
+    const socket = io(API.baseUrls[API.currentEnv] + API.noAuthUrls.globalChatSocket);
 
     const onLeave = () => {
         socket.emit('close', props.route.params.id, (error) => {
@@ -132,9 +133,9 @@ export function ChatScreen(props) {
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }>
                 {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
-                {chats.map((x, i) => (
+                {chats?.map((x, i) => (
                     <WrapperView key={i}>
-                        {i === 0 ? <StyledTimeView>{dataFormat(x.time, undefined)}</StyledTimeView> : dataFormat(x.time, chats[i - 1].time) ? <StyledTimeView>{dataFormat(x.time, chats[i - 1].time)}</StyledTimeView> : null}
+                        {i === 0 && x.time ? <StyledTimeView>{dataFormat(x.time, undefined)}</StyledTimeView> : dataFormat(x.time, chats[i - 1].time) ? <StyledTimeView>{dataFormat(x.time, chats[i - 1].time)}</StyledTimeView> : null}
                         {x?.user === detailsStore.id ? <StyledMyChatView>
                             <StyledMyChatViewText>{x.msg}</StyledMyChatViewText>
                             <StyledClock style={{ right: 0 }}>{timeFormat(x.time)}</StyledClock>
@@ -162,4 +163,4 @@ export function ChatScreen(props) {
         </StyledSafeAreaView>
     )
 }
-export default ChatScreen;
+export default GlobalChat;

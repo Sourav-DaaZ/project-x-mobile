@@ -77,9 +77,9 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders },
             })
         },
-        tagListApi(lat, long, distance) {
+        tagListApi(param) {
             return axiosObj({
-                url: API.noAuthUrls.tagList + `?lat=${lat}&&long=${long}${distance ? "&&distance=" + distance : ''}`,
+                url: API.noAuthUrls.tagList + param,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
