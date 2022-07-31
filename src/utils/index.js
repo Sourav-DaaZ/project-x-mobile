@@ -54,7 +54,7 @@ export const timeFormat = (time) => {
 
 }
 
-export const dataFormat = (time, oldTime) => {
+export const dateFormat = (time, oldTime) => {
   var dt = new Date(time);
   if (oldTime === undefined) {
     return `${(dt.getMonth() + 1).toString().padStart(2, '0')}/${dt.getDate().toString().padStart(2, '0')}/${dt.getFullYear().toString().padStart(2, '0').slice(-2)}`

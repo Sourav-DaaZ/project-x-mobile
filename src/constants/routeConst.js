@@ -28,6 +28,8 @@ const Routes = {
     addTag: 'AddTag',
     editTag: 'EditTag',
     myTag: 'MyTag',
+    createBooking: 'CreateBooking',
+    editBooking: 'EditBooking',
 }
 
 export default Routes;

@@ -125,6 +125,29 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
+        bookingListApi() {
+            return axiosObj({
+                url: API.authUrls.bookingList,
+                method: 'GET',
+                headers: { ...defaultHeaders },
+            })
+        },
+        addBookingApi(data) {
+            return axiosObj({
+                url: API.authUrls.addBooking,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
+        editBookinggApi(data) {
+            return axiosObj({
+                url: API.authUrls.editBooking,
+                method: 'PATCH',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
         logout() {
             return axiosObj({
                 url: API.authUrls.logout,

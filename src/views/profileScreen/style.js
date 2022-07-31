@@ -2,6 +2,8 @@ import styled from 'styled-components/native';
 import { Dimensions, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Paragraph, Title, Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
+import Input from '../../sharedComponents/input';
+import Entypo from 'react-native-vector-icons/Entypo'
 
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
@@ -47,7 +49,7 @@ export const StyledReviewProfile = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 export const StyledContainer = styled(View)`
-   
+   flex: 1
 `;
 
 export const StyledTitle = styled(Title)`
@@ -77,12 +79,30 @@ export const StyledCenter = styled(View)`
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
     background: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+    display: flex;
+    flex: 1
 `;
 
 export const StyledViewButton = styled(View)`
     display: flex;
     flex-direction: row;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}; 
+`;
+export const StyledStatus = styled(View)`
+    flex-direction: column;
+`;
+
+export const CardWrapper = styled(View)`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+`;
+
+export const StyledNotesView = styled(View)`
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor}; 
+    margin-vertical: 10px;
 `;
 
 export const StyledButtonView = styled(Text)`
@@ -108,3 +128,27 @@ export const StyledButtonActive = styled(Button)`
     border-radius: 0px;
 `;
 
+export const StyledInput = styled(Input)`
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 0px;
+    border-radius: 30px;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+`;
+
+export const StyledDotIcon = styled(Entypo)`
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
+    font-size: ${width * .07}px;
+    margin-right: 5px;
+`;
+
+export const StyledInputView = styled(View)`
+    box-shadow: 0px -5px 5px #00000020;
+    display: flex;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+`;

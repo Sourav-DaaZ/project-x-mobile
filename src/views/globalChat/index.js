@@ -19,7 +19,7 @@ import {
     HeaderText
 } from './style';
 import { API } from '../../constants/apiConstant';
-import { timeFormat, dataFormat } from '../../utils';
+import { timeFormat, dateFormat } from '../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow } from '../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../routes/custom';
@@ -135,7 +135,7 @@ const GlobalChat = (props) => {
                 {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
                 {chats?.map((x, i) => (
                     <WrapperView key={i}>
-                        {i === 0 && x.time ? <StyledTimeView>{dataFormat(x.time, undefined)}</StyledTimeView> : dataFormat(x.time, chats[i - 1].time) ? <StyledTimeView>{dataFormat(x.time, chats[i - 1].time)}</StyledTimeView> : null}
+                        {i === 0 && x.time ? <StyledTimeView>{dateFormat(x.time, undefined)}</StyledTimeView> : dateFormat(x.time, chats[i - 1].time) ? <StyledTimeView>{dateFormat(x.time, chats[i - 1].time)}</StyledTimeView> : null}
                         {x?.user === detailsStore.id ? <StyledMyChatView>
                             <StyledMyChatViewText>{x.msg}</StyledMyChatViewText>
                             <StyledClock style={{ right: 0 }}>{timeFormat(x.time)}</StyledClock>

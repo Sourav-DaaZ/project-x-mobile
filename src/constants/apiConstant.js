@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.108:5000/api',
+    dev: 'http://192.168.0.110:5000/api',
     qa: '',
     uat: '',
     prod: '',
@@ -45,5 +45,8 @@ export const API = {
     addTag: '/add_tag',
     tagAction: '/tag_action',
     editTag: '/edit_tag',
+    bookingList: '/booking_list',
+    addBooking: '/add_booking',
+    editBooking: '/edit_booking',
   },
 };

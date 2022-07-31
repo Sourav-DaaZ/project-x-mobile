@@ -29,6 +29,8 @@ const Input = (props) => {
               onBlur={() => props.onBlur ? props.onBlur(props.type) : null}
               onSubmitEditing={() => props.onSubmit()}
               autoCapitalize="none"
+              onFocus={props.onFocus}
+              editable={props.editable !== undefined ? props.editable : true}
             />
             {props.isValid ? (props.icons ? props.icons[1] : null) : null}
           </StyledInputView>

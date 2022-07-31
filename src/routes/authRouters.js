@@ -41,9 +41,11 @@ import Routes from '../constants/routeConst';
 import { CustomTab, CustomHeader } from './custom';
 import { BottomShadow } from '../sharedComponents/bottomShadow';
 import AddTags from '../views/addTags';
+import AddBooking from '../views/addBooking';
 import EditTags from '../views/editTags';
 import GlobalChat from '../views/globalChat';
 import MyTags from '../views/myTags';
+import EditBooking from '../views/editBooking';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -281,6 +283,28 @@ export function AuthRouters(props) {
       {props.islogin ? <Stack.Screen
         name={Routes.addTag}
         component={AddTags}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.createBooking}
+        component={AddBooking}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.editBooking}
+        component={EditBooking}
         options={({ navigation }) => ({
           header: () => <BottomShadow>
             <CustomHeader

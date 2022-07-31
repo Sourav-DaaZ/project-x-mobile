@@ -3,7 +3,7 @@ import {
     Avatar,
     FAB
 } from 'react-native-paper';
-import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledReviewProfile, StyledImage, StyledScrollView, StyledContainer } from './style';
+import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledReviewProfile, StyledImage, StyledScrollView, StyledContainer, StyledButtonActive, StyledTouchableOpacity, StyledButtonView, StyledViewButton } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
@@ -12,14 +12,18 @@ import Review from './review';
 import Routes from '../../constants/routeConst';
 import OutsideAuthApi from '../../services/outSideAuth';
 import Loader from '../../sharedComponents/loader';
+import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import Booking from './booking';
 
 const ProfileScreen = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
     const detailsStore = useSelector((state) => state.details, shallowEqual);
+    const authStore = useSelector((state) => state.auth, shallowEqual);
     const [data, setData] = useState([]);
     const [showLoader, setShowLoader] = useState(true);
+    const [globalPost, setGlobalPost] = useState(true);
 
     useEffect(() => {
         OutsideAuthApi()
@@ -37,13 +41,17 @@ const ProfileScreen = (props) => {
             });
     }, [])
 
+    const GlobalButton = (select, text, onPress) => (
+        select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+    )
+
     return (
         showLoader ? <Loader /> : <React.Fragment>
             <StyledImage>
                 <Avatar.Image
                     source={{
                         uri:
-                            data.images ? "data:image/png;base64," +data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                            data.images ? "data:image/png;base64," + data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
                     }}
                     size={120}
                 />
@@ -68,21 +76,27 @@ const ProfileScreen = (props) => {
                     </StyledCenter>
                 </StyledReviewProfile>
                 <StyledContainer>
-                    <Review {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} />
+                    {data.user === detailsStore.id && authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
+                        <StyledViewButton>
+                            {GlobalButton(globalPost, 'Booking', () => setGlobalPost(true))}
+                            {GlobalButton(!globalPost, 'Review', () => setGlobalPost(false))}
+                        </StyledViewButton>
+                    </BottomShadow> : null}
+                    {globalPost ? <Booking {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} /> : null}
                 </StyledContainer>
-                {props.route.params && props.route.params.id !== detailsStore.id ? <FAB
-                    style={{
-                        position: 'absolute',
-                        margin: 16,
-                        right: 0,
-                        bottom: 30,
-                        backgroundColor: colors.mainColor
-                    }}
-                    icon="plus"
-                    label='Review'
-                    onPress={() => props.navigation.navigate(Routes.createReview, { id: props.route.params.id })}
-                /> : null}
             </StyledScrollView>
+            {props.route.params && props.route.params.id === detailsStore.id ? <FAB
+                style={{
+                    position: 'absolute',
+                    margin: 16,
+                    right: 0,
+                    bottom: 30,
+                    backgroundColor: colors.mainColor
+                }}
+                icon="plus"
+                label='Book'
+                onPress={() => props.navigation.navigate(Routes.createBooking)}
+            /> : null}
         </React.Fragment>
     )
 }
