@@ -134,6 +134,13 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
+        bookingListForAllApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.bookingListForAll + param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
     }
 }
 

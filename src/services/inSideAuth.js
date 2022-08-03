@@ -79,9 +79,9 @@ const InsideAuthApi = (authStore) => {
                 headers: { ...defaultHeaders }
             })
         },
-        getReviewApi(param) {
+        getReviewApi() {
             return axiosObj({
-                url: API.authUrls.getReview + param,
+                url: API.authUrls.getReview,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
@@ -125,9 +125,9 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        bookingListApi() {
+        bookingListApi(param) {
             return axiosObj({
-                url: API.authUrls.bookingList,
+                url: API.authUrls.bookingList + param,
                 method: 'GET',
                 headers: { ...defaultHeaders },
             })
@@ -143,6 +143,14 @@ const InsideAuthApi = (authStore) => {
         editBookinggApi(data) {
             return axiosObj({
                 url: API.authUrls.editBooking,
+                method: 'PATCH',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
+        editReviewApi(data) {
+            return axiosObj({
+                url: API.authUrls.editReview,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
                 data: data

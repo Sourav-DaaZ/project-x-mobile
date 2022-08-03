@@ -23,7 +23,7 @@ import {
 } from './style';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
-const CreateReview = (props) => {
+const EditReview = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -32,7 +32,7 @@ const CreateReview = (props) => {
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
-  const [isPublic, setIsPublic] = useState(true);
+  const [isPublic, setIsPublic] = useState(props.route.params.data?.isPublic ? props.route.params.data.isPublic : true);
   const [data, setData] = useState({
     controls: {
       description: {
@@ -42,11 +42,11 @@ const CreateReview = (props) => {
           text: 'Description*',
           placeholder: 'Enter your description',
         },
-        value: '',
+        value: props.route.params.data?.description ? props.route.params.data.description : '',
         validation: {
           required: true,
         },
-        valid: false,
+        valid: props.route.params.data?.description ? true : false,
         errors: '',
         className: [],
         icons: [
@@ -109,12 +109,11 @@ const CreateReview = (props) => {
       const requestData = {
         "isPublic": isPublic,
         "description": data.controls.description.value,
-        "user_id": props.route.params.id,
-        "token": authStore.firebase_token
+        "id": props.route.params.data?._id
       }
       setLoader(true);
       InsideAuthApi(authStore)
-        .createReviewApi(requestData)
+        .editReviewApi(requestData)
         .then((res) => {
           setLoader(false);
           dispatch(SnackbarUpdate({
@@ -179,11 +178,11 @@ const CreateReview = (props) => {
           </StyledInlineInput>
         </StyledInlineInputContainer>
         <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? applicationFnc : null}>
-          Create Review
+          Edit Review
         </SubmitButton>
       </StyledScrollView>
     </ShadowWrapperContainer>
   );
 };
 
-export default CreateReview;
+export default EditReview;

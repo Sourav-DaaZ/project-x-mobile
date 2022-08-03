@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     StyledHorizontalScrollView,
 } from './style';
@@ -7,7 +7,6 @@ import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
-import OutsideAuthApi from '../../services/outSideAuth';
 import ListItem from '../../sharedComponents/listItem';
 import Loader from '../../sharedComponents/loader';
 import { dateFormat } from '../../utils';
@@ -23,35 +22,19 @@ const Review = (props) => {
     useEffect(() => {
         setData([]);
         setLoading(true);
-        if (props.myUser) {
-            InsideAuthApi(authStore)
-                .getReviewApi()
-                .then((res) => {
-                    setData(res.data);
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                    setLoading(false);
-                });
-        } else {
-            OutsideAuthApi()
-                .getReviewForOtherApi(`?user_id=${props.route.params?.id}&token=${authStore.firebase_token}`)
-                .then((res) => {
-                    setData(res.data);
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                    setLoading(false);
-                });
-        }
+        InsideAuthApi(authStore)
+            .getReviewApi()
+            .then((res) => {
+                setData(res.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err.message
+                }));
+                setLoading(false);
+            });
     }, [props.modalShow])
 
     return (

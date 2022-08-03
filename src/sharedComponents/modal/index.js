@@ -13,6 +13,7 @@ const ModalComponent = (props) => {
         right: 0,
         borderRadius: 30,
         paddingTop: 40,
+        zIndex: 999
     };
 
     return (

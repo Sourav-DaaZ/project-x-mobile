@@ -11,7 +11,6 @@ const width_logo = width * .6;
 
 export const StyledScrollView = styled(ScrollView)`
     flex: 1;
-    margin-horizontal: 10px;
     margin-bottom: 10px;
 `;
 

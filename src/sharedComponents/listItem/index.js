@@ -12,7 +12,7 @@ export default ListItem = (props) => {
         <StyledProfileView style={props.topStyle} animation='zoomIn'>
            {props.image}
             <View style={{marginLeft: 10}}>
-                <StyledTitle>{props.title}</StyledTitle>
+            {props.title?<StyledTitle>{props.title}</StyledTitle>:null}
                 {props.description?<StyledParagraph>{props.description}</StyledParagraph>:null}
             </View>
         </StyledProfileView>

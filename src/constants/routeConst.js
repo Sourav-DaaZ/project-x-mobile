@@ -18,6 +18,7 @@ const Routes = {
     myPost: 'MyPost',
     editDetails: 'EditDetails',
     createReview: 'CreateReview',
+    editReview: 'EditReview',
     singleCategory: 'SingleCategory',
     profile: 'Profile',
     appChat: 'AppChat',
@@ -28,6 +29,8 @@ const Routes = {
     addTag: 'AddTag',
     editTag: 'EditTag',
     myTag: 'MyTag',
+    myReview: 'MyReview',
+    myBooking: 'MyBooking',
     createBooking: 'CreateBooking',
     editBooking: 'EditBooking',
 }

@@ -27,6 +27,7 @@ export const API = {
     appConfig: '/app_config',
     myNotification: '/my_notification',
     getReviewForOther: '/get_review_for_other',
+    bookingListForAll: '/booking_list_for_all',
   },
   authUrls: {
     details: '/details',
@@ -48,5 +49,6 @@ export const API = {
     bookingList: '/booking_list',
     addBooking: '/add_booking',
     editBooking: '/edit_booking',
+    editReview: '/edit_review',
   },
 };

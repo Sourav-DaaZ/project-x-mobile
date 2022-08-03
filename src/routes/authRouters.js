@@ -26,9 +26,12 @@ import EditApplication from '../views/editApplication';
 import ApplicationDetails from '../views/applicationDetails';
 import CreateApplication from '../views/createApplication';
 import CreateReview from '../views/createReview';
+import EditReview from '../views/editReview';
 import ApplicationList from '../views/applicationList';
 import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
+import MyBooking from '../views/myBooking';
+import MyReview from '../views/myReview';
 import Camera from '../views/camera';
 import TagList from '../views/tagList';
 import Login from '../views/auth/login';
@@ -281,6 +284,17 @@ export function AuthRouters(props) {
           </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
+        name={Routes.editReview}
+        component={EditReview}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
         name={Routes.addTag}
         component={AddTags}
         options={({ navigation }) => ({
@@ -316,6 +330,27 @@ export function AuthRouters(props) {
       {props.islogin ? <Stack.Screen
         name={Routes.editTag}
         component={EditTags}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.myBooking}
+        component={MyBooking}
+        options={({ navigation }) => ({
+          header: () =>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.myReview}
+        component={MyReview}
         options={({ navigation }) => ({
           header: () => <BottomShadow>
             <CustomHeader

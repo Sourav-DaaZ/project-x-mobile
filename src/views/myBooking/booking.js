@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     StyledHorizontalScrollView,
+    StyledViewButton,
+    StyledButtonView,
+    StyledButtonActive,
+    StyledTouchableOpacity,
+    CardWrapper,
     StyledParagraph,
+    StyledInput,
     StyledStatus,
+    StyledNotesView,
+    StyledDotIcon,
+    StyledInputView
 } from './style';
 import InsideAuthApi from '../../services/inSideAuth';
 import Card from '../../sharedComponents/card';
@@ -10,56 +19,56 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
 import OutsideAuthApi from '../../services/outSideAuth';
+import { BottomShadow } from '../../sharedComponents/bottomShadow';
 import ListItem from '../../sharedComponents/listItem';
 import Loader from '../../sharedComponents/loader';
+import { ThemeContext } from 'styled-components';
+import { Avatar, Divider, FAB, Menu } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { dateFormat, timeFormat } from '../../utils';
-import { TouchableOpacity } from 'react-native';
+import Routes from '../../constants/routeConst';
+import { TouchableOpacity, View } from 'react-native';
+import defaultValue from '../../constants/defaultValue';
 
 const Booking = (props) => {
+    const themeContext = useContext(ThemeContext);
+    const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [showMenu, setShowMenu] = useState(-1);
+    const [showNotes, setShowNotes] = useState(-1);
+    const [showStatusMenu, setShowStatusMenu] = useState(-1);
+    const [addNotes, setAddNotes] = useState('');
 
 
     const apiCall = () => {
-        setData([]);
-        if (props.myUser) {
-            setLoading(true);
-            InsideAuthApi(authStore)
-                .bookingListApi()
-                .then((res) => {
-                    setData(res.data);
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                    setLoading(false);
-                });
-        } else {
-            setLoading(true);
-            OutsideAuthApi()
-                .bookingListForAllApi(`?id=${props.route.params?.id}`)
-                .then((res) => {
-                    setData(res.data);
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err.message
-                    }));
-                    setLoading(false);
-                });
+        let param = `?myBooking=true`
+        if(props.bookingType){
+            param = `?myBooking=true&past=true`
         }
+        setData([]);
+        setLoading(true);
+        InsideAuthApi(authStore)
+            .bookingListApi(param)
+            .then((res) => {
+                setData(res.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err.message
+                }));
+                setLoading(false);
+            });
     }
 
     useEffect(() => {
         apiCall()
-    }, [props.modalShow])
+    }, [props.modalShow, props.bookingType])
 
 
     return (

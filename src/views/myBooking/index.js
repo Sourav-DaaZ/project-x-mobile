@@ -1,18 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
-    Avatar,
     Divider,
-    FAB,
     Menu
 } from 'react-native-paper';
 import {
-    StyledProfileView,
-    StyledTitle,
     StyledParagraph,
-    StyledCenter,
-    StyledSemiTitle,
-    StyledReviewProfile,
-    StyledImage,
     StyledScrollView,
     StyledContainer,
     StyledButtonActive,
@@ -26,16 +18,12 @@ import {
     StyledPopupWrapper,
     CardWrapper,
     StyledDotIcon,
-    ImageWrapper
 } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
-import Review from './review';
 
 import Routes from '../../constants/routeConst';
-import OutsideAuthApi from '../../services/outSideAuth';
-import Loader from '../../sharedComponents/loader';
 import { BottomShadow } from '../../sharedComponents/bottomShadow';
 import Booking from './booking';
 import Modal from '../../sharedComponents/modal';
@@ -46,37 +34,19 @@ import ListItem from '../../sharedComponents/listItem';
 import { dateFormat, timeFormat } from '../../utils';
 import InsideAuthApi from '../../services/inSideAuth';
 
-const ProfileScreen = (props) => {
+const MyBooking = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const authStore = useSelector((state) => state.auth, shallowEqual);
-    const [data, setData] = useState([]);
     const [popupData, setPopupData] = useState({});
-    const [showLoader, setShowLoader] = useState(true);
     const [globalPost, setGlobalPost] = useState('booking');
     const [modalShow, setModalShow] = useState(true);
     const [addNotes, setAddNotes] = useState('');
     const [showNotes, setShowNotes] = useState(false);
     const [showStatusMenu, setShowStatusMenu] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-
-    useEffect(() => {
-        OutsideAuthApi()
-            .userDetailsApi(`?user_id=${props.route.params?.id}`)
-            .then((res) => {
-                setShowLoader(false);
-                setData(res.data);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                dispatch(SnackbarUpdate({
-                    type: 'error',
-                    msg: err.message
-                }))
-            });
-    }, [])
 
     const GlobalButton = (select, text, onPress) => (
         select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
@@ -132,53 +102,19 @@ const ProfileScreen = (props) => {
     }
 
     return (
-        showLoader ? <Loader /> : <React.Fragment>
+        <React.Fragment>
             <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <ImageWrapper>
-                    <StyledImage>
-                        <Avatar.Image
-                            source={{
-                                uri:
-                                    data.images ? "data:image/png;base64," + data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
-                            }}
-                            size={120}
-                        />
-                    </StyledImage>
-                </ImageWrapper>
-                <StyledProfileView>
-                    <StyledTitle>{data?.name}</StyledTitle>
-                    <StyledParagraph>{data?.category?.category_name + (data?.subCategory ? `( ${data?.subCategory} )` : '')}</StyledParagraph>
-                </StyledProfileView>
-                <StyledReviewProfile>
-                    <StyledCenter>
-                        <StyledSemiTitle>0</StyledSemiTitle>
-                        {/* <StyledParagraph>Followers</StyledParagraph> */}
-                    </StyledCenter>
-                </StyledReviewProfile>
                 <StyledContainer>
                     {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
                         <StyledViewButton>
                             {GlobalButton(globalPost === 'booking', 'Booking', () => setGlobalPost('booking'))}
-                            {GlobalButton(globalPost === 'review', 'Review', () => setGlobalPost('review'))}
+                            {GlobalButton(globalPost === 'past_booking', 'Past Booking', () => setGlobalPost('past_booking'))}
                         </StyledViewButton>
                     </BottomShadow> : null}
-                    {globalPost === 'booking' ? <Booking {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
-                    {globalPost === 'review' ? <Review {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
+                    <Booking {...props} userId={props.route.params?.id} bookingType={globalPost === 'past_booking'} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
                 </StyledContainer>
             </StyledScrollView>
-            {props.route.params && props.route.params.id !== detailsStore.id ? <FAB
-                style={{
-                    position: 'absolute',
-                    margin: 16,
-                    right: 0,
-                    bottom: 30,
-                    backgroundColor: colors.mainColor
-                }}
-                icon="plus"
-                label={globalPost === 'booking' ? 'Book' : globalPost === 'review' ? 'Review' : ''}
-                onPress={() => { globalPost === 'booking' ? props.navigation.navigate(Routes.createBooking) : globalPost === 'review' ? props.navigation.navigate(Routes.createReview, { id: data.user }) : null }}
-            /> : null}
-            {popupData._id && globalPost === 'booking' ? <Modal show={modalShow} onClose={onClose}>
+            {popupData._id ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
                     <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.startDate) + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) : '') + (popupData.reportTime ? ' (' + timeFormat(popupData.reportTime) + ')' : '')} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
@@ -235,46 +171,7 @@ const ProfileScreen = (props) => {
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
-            {popupData._id && globalPost === 'review' ? <Modal show={modalShow} onClose={onClose}>
-                <CardWrapper>
-                    <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.createdAt)} />
-                    {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
-                        visible={showMenu}
-                        onDismiss={() => setShowMenu(false)}
-                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={25} /></TouchableOpacity>}
-                    >
-                        <Menu.Item onPress={() => {
-                            props.navigation.navigate(Routes.editReview, { data: popupData });
-                            onClose();
-                        }} title="Edit Review" />
-                        <Divider />
-                    </Menu> : null}
-                </CardWrapper>
-                <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} title={popupData.description ? popupData.description : ''} />
-                <StyledPopupWrapper>
-                    <StyledStatus>
-                        <StyledParagraph>{popupData.status ? "status: " + popupData.status[popupData.status.length - 1] : null}</StyledParagraph>
-                        <StyledParagraph>{popupData.status?.map((y, i) => y + (i !== popupData.status.length - 1 ? " -> " : ""))}</StyledParagraph>
-                    </StyledStatus>
-                </StyledPopupWrapper>
-                <StyledNotesView>
-                    <TouchableOpacity onPress={() => setShowNotes(!showNotes)}>
-                        <StyledParagraph style={{ textAlign: 'center', color: colors.mainByColor }}>{showNotes ? "Hide" : "Show"} Notes</StyledParagraph>
-                    </TouchableOpacity>
-                    {showNotes && popupData.comment?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
-                </StyledNotesView>
-                <StyledInputView>
-                    <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                        borderBottomWidth: 0,
-                        backgroundColor: colors.mainColor,
-                        width: "90%"
-                    }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
-                    {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity onPress={() => onReviewEdit(popupData._id, addNotes)}>
-                        <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20 }} />
-                    </TouchableOpacity> : null}
-                </StyledInputView>
-            </Modal> : null}
         </React.Fragment>
     )
 }
-export default ProfileScreen;
+export default MyBooking;

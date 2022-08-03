@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../utils';
 
 export const initialState = {
+  firebase_token: '',
   access_token: '',
   refresh_token: '',
   loading: false,

@@ -144,6 +144,18 @@ const Setting = (props) => {
               <StyledSemiTitle>Details Update</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myBooking, { logedin: true, image: data?.images })}>
+            <StyledLeftContainer>
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+              <StyledSemiTitle>My Booking</StyledSemiTitle>
+            </StyledLeftContainer>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myReview, { logedin: true, image: data?.images })}>
+            <StyledLeftContainer>
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+              <StyledSemiTitle>My Review</StyledSemiTitle>
+            </StyledLeftContainer>
+          </TouchableOpacity>
         </StyledProfile>
         {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
           <TouchableOpacity onPress={onLoginOut}>
