@@ -63,7 +63,7 @@ const SingleCategory = (props) => {
                     if (err.message) {
                         dispatch(SnackbarUpdate({
                             type: 'error',
-                            msg: err.message
+                            msg: err?.message
                         }));
                     }
                     setRefreshing(false);
@@ -91,7 +91,7 @@ const SingleCategory = (props) => {
                     if (err.message) {
                         dispatch(SnackbarUpdate({
                             type: 'error',
-                            msg: err.message
+                            msg: err?.message
                         }));
                     }
                     setRefreshing(false);

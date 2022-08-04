@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { Colors } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
+import { useSelector, shallowEqual } from 'react-redux';
+import SnackBar from '../sharedComponents/snackbar';
 import { StyledTabView, StyledCercularBorder, StyledHeaderView, StyledEachHeaderView, StyledOption, StyledCercularByBorder } from './style'
 
 export const CustomTab = ({ state, descriptors, navigation, colors }) => {
@@ -64,8 +65,11 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
 }
 
 export const CustomHeader = (props) => {
+    const authStore = useSelector((state) => state.auth, shallowEqual);
+
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
+            <SnackBar text={authStore.message.msg} type={authStore.message.type} />
             <StyledEachHeaderView style={{ width: 40 }}>
                 {props.left}
             </StyledEachHeaderView>

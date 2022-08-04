@@ -228,7 +228,7 @@ export function AuthRouters(props) {
             logo={<Image source={logoImg} />}
           />
         })} /> : null}
-      {props.islogin ? <Stack.Screen
+      {!props.islogin ? <Stack.Screen
         name={Routes.applicationList}
         component={ApplicationList}
         options={({ navigation }) => ({

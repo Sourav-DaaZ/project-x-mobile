@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { StatusBar, View, TouchableOpacity } from 'react-native';
 import logoImg from '../../../assets/images/logo.png';
 import { ThemeContext } from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, tokenUpdate, detailsUpdate } from '../../../store/actions';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { SnackbarUpdate, tokenUpdate } from '../../../store/actions';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import {
     LoginContainer,
@@ -20,14 +20,14 @@ import {
 } from './style';
 import {
     GoogleSignin,
-    statusCodes,
 } from '@react-native-google-signin/google-signin';
 
 import { Profile, LoginManager } from 'react-native-fbsdk-next';
+import SnackBar from '../../snackbar';
 
 const LoginLayout = (props) => {
     const themeContext = useContext(ThemeContext);
-    const [visible, setVisible] = React.useState(true);
+    const authStore = useSelector((state) => state.auth, shallowEqual);
     const dispatch = useDispatch();
     const colors = themeContext.colors[themeContext.baseColor];
 
@@ -56,7 +56,7 @@ const LoginLayout = (props) => {
                         .catch((err) => {
                             dispatch(SnackbarUpdate({
                                 type: 'error',
-                                msg: err.message
+                                msg: err?.message
                             }))
                         });
                 }).catch((e) => {
@@ -109,6 +109,7 @@ const LoginLayout = (props) => {
     return (
         <LoginContainer>
             <StatusBar backgroundColor={colors.mainColor} barStyle="light-content" />
+            <SnackBar text={authStore.message.msg} type={authStore.message.type} />
             <LoginSafeView animation='lightSpeedIn'>
                 <LoginBack onPress={() => props.navigation.goBack()}><StyledIonicons name='chevron-back' size={30} /></LoginBack>
                 <LoginLogo

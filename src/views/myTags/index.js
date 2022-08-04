@@ -7,7 +7,7 @@ import {
     StyledChip,
     WrapperView
 } from './style';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import OutsideAuthApi from '../../services/outSideAuth';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../constants/routeConst';
@@ -15,14 +15,15 @@ import DashboardHeader from '../dashboard/header';
 import { FAB, Menu } from 'react-native-paper';
 import Loader from '../../sharedComponents/loader';
 import InsideAuthApi from '../../services/inSideAuth';
+import { SnackbarUpdate } from '../../store/actions';
 
 const MyTags = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const dispatch = useDispatch();
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [Tag, setTag] = useState([]);
-    const [showMsg, setShowMsg] = useState('');
     const [showMenu, setShowMenu] = useState(null);
     const [showLoader, setShowLoader] = useState('');
 
@@ -37,7 +38,10 @@ const MyTags = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
-                setShowMsg(err.message)
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err?.message
+                }));
             });
     }
 
@@ -62,12 +66,15 @@ const MyTags = (props) => {
             })
             .catch((err) => {
                 setShowMenu(null);
-                setShowMsg(err.message)
+                useDispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err?.message
+                }));
             });
     }
 
     return (
-        showLoader ? <Loader /> : <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
+        showLoader ? <Loader /> : <DashboardLayout {...props} fab={false}>
             <StyledScrollView>
                 <WrapperView animation='zoomIn'>
                     <DashboardHeader text='My Tags' />

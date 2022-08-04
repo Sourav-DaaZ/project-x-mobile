@@ -55,7 +55,7 @@ const MyReview = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             })
     }

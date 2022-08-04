@@ -48,6 +48,7 @@ export const StyledCenter = styled(View)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-vertical: 10px;
 `;
 
 export const StyledLeftContainer = styled(View)`

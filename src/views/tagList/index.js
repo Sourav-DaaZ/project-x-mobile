@@ -7,50 +7,54 @@ import {
     StyledChip,
     WrapperView
 } from './style';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import OutsideAuthApi from '../../services/outSideAuth';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../constants/routeConst';
 import DashboardHeader from '../dashboard/header';
 import { FAB } from 'react-native-paper';
 import Loader from '../../sharedComponents/loader';
+import { SnackbarUpdate } from '../../store/actions';
 
 const TagList = (props) => {
     const themeContext = useContext(ThemeContext);
+    const dispatch = useDispatch();
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const [sTag, setStag] = useState([]);
     const [nTag, setNtag] = useState([]);
-    const [showMsg, setShowMsg] = useState('');
     const [showLoader, setShowLoader] = useState('');
 
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener("focus", () => {
-        setShowLoader(true);
-        OutsideAuthApi()
-            .tagListApi(`?lat=${100}&long=${20}`)
-            .then((res) => {
-                if (res.data) {
-                    let secure = [];
-                    let notSecure = [];
-                    res.data?.map((x) => x.secure ? secure.push(x) : notSecure.push(x))
-                    setStag(secure);
-                    setNtag(notSecure);
-                }
-                setShowLoader(false);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                setShowMsg(err.message)
-            });
+            setShowLoader(true);
+            OutsideAuthApi()
+                .tagListApi(`?lat=${100}&long=${20}`)
+                .then((res) => {
+                    if (res.data) {
+                        let secure = [];
+                        let notSecure = [];
+                        res.data?.map((x) => x.secure ? secure.push(x) : notSecure.push(x))
+                        setStag(secure);
+                        setNtag(notSecure);
+                    }
+                    setShowLoader(false);
+                })
+                .catch((err) => {
+                    setShowLoader(false);
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err?.message
+                    }));
+                });
         })
         return unsubscribe;
     }, []);
 
 
     return (
-        showLoader ? <Loader /> : <DashboardLayout {...props} fab={false} showLoader={showLoader} showMsg={showMsg} setShowMsg={() => setShowMsg('')}>
+        showLoader ? <Loader /> : <DashboardLayout {...props} fab={false} >
             <StyledScrollView>
                 <WrapperView animation='zoomIn'>
                     <DashboardHeader text='Secure Tags' />

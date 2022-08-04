@@ -10,7 +10,6 @@ import {
     StyledTitle,
     StyledParagraph,
     StyledCenter,
-    StyledSemiTitle,
     StyledReviewProfile,
     StyledImage,
     StyledScrollView,
@@ -40,6 +39,8 @@ import { BottomShadow } from '../../sharedComponents/bottomShadow';
 import Booking from './booking';
 import Modal from '../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native';
 import defaultValue from '../../constants/defaultValue';
 import ListItem from '../../sharedComponents/listItem';
@@ -73,7 +74,7 @@ const ProfileScreen = (props) => {
                 setShowLoader(false);
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             });
     }, [])
@@ -99,7 +100,7 @@ const ProfileScreen = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             })
     }
@@ -120,7 +121,7 @@ const ProfileScreen = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             })
     }
@@ -151,8 +152,13 @@ const ProfileScreen = (props) => {
                 </StyledProfileView>
                 <StyledReviewProfile>
                     <StyledCenter>
-                        <StyledSemiTitle>0</StyledSemiTitle>
-                        {/* <StyledParagraph>Followers</StyledParagraph> */}
+                        <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
+                    </StyledCenter>
+                    <StyledCenter>
+                        <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
+                    </StyledCenter>
+                    <StyledCenter>
+                        <Fontisto style={{ color: colors.mainColor }} name='messenger' size={30} />
                     </StyledCenter>
                 </StyledReviewProfile>
                 <StyledContainer>

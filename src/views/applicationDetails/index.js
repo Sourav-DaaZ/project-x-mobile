@@ -47,7 +47,7 @@ const ApplicationDetails = (props) => {
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
-                        msg: err.message
+                        msg: err?.message
                     }));
                     setShowLoader(false);
                 });
@@ -76,7 +76,7 @@ const ApplicationDetails = (props) => {
                 setLoading(false);
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             });
     }

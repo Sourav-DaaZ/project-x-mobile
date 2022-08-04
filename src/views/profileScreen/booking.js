@@ -27,7 +27,7 @@ const Booking = (props) => {
         if (props.myUser) {
             setLoading(true);
             InsideAuthApi(authStore)
-                .bookingListApi()
+                .bookingListApi('')
                 .then((res) => {
                     setData(res.data);
                     setLoading(false);
@@ -35,7 +35,7 @@ const Booking = (props) => {
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
-                        msg: err.message
+                        msg: err?.message
                     }));
                     setLoading(false);
                 });
@@ -50,7 +50,7 @@ const Booking = (props) => {
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
-                        msg: err.message
+                        msg: err?.message
                     }));
                     setLoading(false);
                 });

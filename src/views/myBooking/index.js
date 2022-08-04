@@ -69,7 +69,7 @@ const MyBooking = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             })
     }
@@ -90,7 +90,7 @@ const MyBooking = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             })
     }

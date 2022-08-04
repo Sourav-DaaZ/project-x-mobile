@@ -49,7 +49,7 @@ const PostDetails = (props) => {
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
-                        msg: err.message
+                        msg: err?.message
                     }));
                     setShowLoader(false)
                 });
@@ -78,7 +78,7 @@ const PostDetails = (props) => {
                 setShowLoader(false)
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err.message
+                    msg: err?.message
                 }))
             });
     }

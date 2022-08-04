@@ -8,8 +8,9 @@ import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSe
 import { ThemeContext } from 'styled-components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import InsideAuthApi from '../../services/inSideAuth';
-import { detailsUpdate, tokenUpdate } from '../../store/actions';
+import { detailsUpdate, SnackbarUpdate, tokenUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -74,7 +75,10 @@ const Setting = (props) => {
         })
         .catch((err) => {
           setShowLoader(false);
-          console.log(err)
+          dispatch(SnackbarUpdate({
+            type: 'error',
+            msg: err.message
+          }));
         });
     } else {
       setShowLoader(false);
@@ -82,7 +86,7 @@ const Setting = (props) => {
   }, [])
 
   return (
-    showLoader ? <Loader /> : <DashboardLayout {...props} showMsg={''}>
+    showLoader ? <Loader /> : <DashboardLayout {...props}>
       <ShadowWrapperContainer>
         {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: detailsStore.id })}>
           <StyledProfileView>
@@ -113,13 +117,21 @@ const Setting = (props) => {
             />
           </StyledProfileView>
         </TouchableOpacity>}
-        <StyledProfileView style={{ justifyContent: 'space-around' }}>
+        {authStore.access_token && authStore.access_token !== '' ? <StyledProfileView style={{ justifyContent: 'space-around' }}>
           <StyledCenter>
-            <Ionicons style={{ color: colors.textLight }} name='settings-outline' size={30} />
-            <StyledParagraph>Setting</StyledParagraph>
+            <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
           </StyledCenter>
-        </StyledProfileView>
-        <StyledProfile>
+          <StyledCenter>
+            <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
+          </StyledCenter>
+        </StyledProfileView> : null}
+        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
+          <StyledLeftContainer>
+            <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+            <StyledSemiTitle>My Applications</StyledSemiTitle>
+          </StyledLeftContainer>
+        </TouchableOpacity>
+        {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
           <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
             <StyledLeftContainer>
               <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
@@ -156,7 +168,7 @@ const Setting = (props) => {
               <StyledSemiTitle>My Review</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
-        </StyledProfile>
+        </StyledProfile> : null}
         {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
           <TouchableOpacity onPress={onLoginOut}>
             <StyledLeftContainer>

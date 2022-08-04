@@ -13,7 +13,6 @@ import {
     StyledFullImg,
     StyledScrollView,
 } from './style';
-import SnackBar from '../../snackbar'
 import Routes from '../../../constants/routeConst';
 
 const DashboardLayout = (props) => {
@@ -21,7 +20,6 @@ const DashboardLayout = (props) => {
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
     const [refreshing, setRefreshing] = useState(false);
-    const [msg, setMsg] = useState('');
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
@@ -46,9 +44,6 @@ const DashboardLayout = (props) => {
         return () => unsubscribe
     }, [authStore.access_token, refreshing]);
 
-    useEffect(() => {
-        setMsg(props.showMsg);
-    }, [props.showMsg])
 
     const apiCall = (authStore) => {
         const varData = {
@@ -96,7 +91,6 @@ const DashboardLayout = (props) => {
     return (
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
-            <SnackBar text={msg} type={props.showMsgType ? props.showMsgType : 'error'}/>
             {/* <BannerComponent /> */}
             {props.outsideScroll}
             <StyledScrollView

@@ -146,7 +146,7 @@ const CreateApplication = (props) => {
           setLoader(false);
           dispatch(SnackbarUpdate({
             type: 'error',
-            msg: err.message
+            msg: err?.message
           }))
         });
     }

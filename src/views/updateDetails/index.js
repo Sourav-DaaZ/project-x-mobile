@@ -92,7 +92,7 @@ const UpdateDetails = (props) => {
       .catch((err) => {
         dispatch(SnackbarUpdate({
           type: 'error',
-          msg: err.message
+          msg: err?.message
         }));
       });
   }, [])
@@ -182,7 +182,7 @@ const UpdateDetails = (props) => {
           setLoading(false);
           dispatch(SnackbarUpdate({
             type: 'error',
-            msg: err.message
+            msg: err?.message
           }))
         });
     }
@@ -341,7 +341,7 @@ const UpdateDetails = (props) => {
               />
             </StyledInput>
           </StyledInlineInputContainer>
-          <SubmitButton mode='contained' loading={loading} onPress={!loading ? editDetailsFnc : null}>
+          <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} onPress={!loading ? editDetailsFnc : null}>
             Save
           </SubmitButton>
           {!props.route.params?.logedin ? <TouchableOpacity style={{

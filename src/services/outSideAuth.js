@@ -141,6 +141,14 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
+        refreshTokenCall(data) {
+            return axiosObj({
+                url: API.noAuthUrls.refreshToken,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        }
     }
 }
 

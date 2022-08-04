@@ -28,6 +28,7 @@ export const API = {
     myNotification: '/my_notification',
     getReviewForOther: '/get_review_for_other',
     bookingListForAll: '/booking_list_for_all',
+    refreshToken: '/refresh_token',
   },
   authUrls: {
     details: '/details',

@@ -6,7 +6,7 @@ import {
     StyledScrollView,
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import { timeFormat } from '../../utils'
 
@@ -14,11 +14,12 @@ import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../constants/routeConst';
 import ListItem from '../../sharedComponents/listItem';
 import Loader from '../../sharedComponents/loader';
+import { SnackbarUpdate } from '../../store/actions';
 
 const NotificationScreen = (props) => {
     const themeContext = useContext(ThemeContext);
+    const dispatch = useDispatch();
     const [showLoader, setShowLoader] = useState(false);
-    const [showMsg, setShowMsg] = useState('');
     const [refreshing, setRefreshing] = useState(false);
     const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
@@ -36,14 +37,17 @@ const NotificationScreen = (props) => {
                 })
                 .catch((err) => {
                     setShowLoader(false);
-                    setShowMsg(err.message)
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err?.message
+                    }));
                 });
         }
     }, [isFocused, refreshing])
 
 
     return (
-        <DashboardLayout {...props} fab={false} showMsg={showMsg} refreshFnc={() => setRefreshing(!refreshing)}>
+        <DashboardLayout {...props} fab={false} refreshFnc={() => setRefreshing(!refreshing)}>
 
             {showLoader ? <Loader /> : <StyledScrollView>
                 {data.map((x, i) => (
