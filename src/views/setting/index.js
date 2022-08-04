@@ -125,12 +125,6 @@ const Setting = (props) => {
             <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
           </StyledCenter>
         </StyledProfileView> : null}
-        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
-          <StyledLeftContainer>
-            <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
-            <StyledSemiTitle>My Applications</StyledSemiTitle>
-          </StyledLeftContainer>
-        </TouchableOpacity>
         {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
           <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
             <StyledLeftContainer>
