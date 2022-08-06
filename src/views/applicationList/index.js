@@ -27,6 +27,7 @@ const ApplicationList = (props) => {
         InsideAuthApi(authStore)
             .getAllApplicationsApi(props.route.params?.id ? `?post_id=${props.route.params?.id}&page=${pageCount}` : `?page=${pageCount}`)
             .then((res) => {
+                console.log(res.data);
                 if (res.data && pageCount > 0) {
                     let varData = data;
                     varData = varData.concat(res.data)
@@ -66,7 +67,7 @@ const ApplicationList = (props) => {
     return (
         showLoader ? <Loader /> :
             <StyledHorizontalScrollView>
-                {data?.map((x, i) =>
+                {data && data.map((x, i) =>
                     <Card key={i} message={x.details} icon={<StyledCardIcon name='chatbox-outline' />} onIconPress={() => props.navigation.navigate(Routes.appChat, { id: x._id, name: x.details })} onViewPress={() => props.navigation.navigate(Routes.applicationDetails, { id: x._id })} />
                 )}
                 {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}

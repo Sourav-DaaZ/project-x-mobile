@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
@@ -67,4 +69,8 @@ export const dateFormat = (time, oldTime) => {
   } else {
     return `${(dt.getMonth() + 1).toString().padStart(2, '0')}/${dt.getDate().toString().padStart(2, '0')}/${dt.getFullYear().toString().padStart(2, '0').slice(-2)}`
   }
+}
+
+export const getAccessToken = async () => {
+  return JSON.parse(await AsyncStorage.getItem('token') || "{}"); 
 }

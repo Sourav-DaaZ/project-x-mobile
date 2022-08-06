@@ -2,6 +2,9 @@ import axios from 'axios';
 import { API } from '../constants/apiConstant';
 import validation from '../constants/validationMsg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ReduxStore from '../store';
+import { tokenUpdate } from '../store/actions';
+const { dispatch } = ReduxStore;
 
 const axiosObj = (info) => {
   const { url, method, headers, data } = info;
@@ -17,7 +20,7 @@ const axiosObj = (info) => {
       return config;
     },
     (e) => {
-      Promise.reject(e);
+      return Promise.reject(e);
     },
   );
 
@@ -26,22 +29,37 @@ const axiosObj = (info) => {
       return response.data;
     },
     async (error) => {
-      const tokenData = JSON.parse(await AsyncStorage.getItem('token') || "{}");
-      if (!(error.config && error.response && error.response.status === 401 && tokenData && tokenData.refresh_token)) {
-        return Promise.reject(error);
-      } else {
+      const tokenData = JSON.parse(await AsyncStorage.getItem('token') || '{}');
+      if ((error.config && error.response && error.response.status === 401 && tokenData && tokenData.refresh_token)) {
         AxiosInstance.interceptors.response.eject(interceptor);
         const data = { refresh_token: tokenData?.refresh_token ? tokenData.refresh_token : '' };
-        return axios.post(API.baseUrls[API.currentEnv] + API.noAuthUrls.refreshToken, data)
+        return await axios.post(API.baseUrls[API.currentEnv] + API.noAuthUrls.refreshToken, data)
           .then(async response => {
             tokenData.access_token = response.data.data.access_token;
             await AsyncStorage.setItem('token', JSON.stringify(tokenData));
             error.response.config.headers['Authorization'] = 'Bearer ' + response.data.data.access_token;
-            return axios(error.response.config);
+            return await axios(error.response.config)
+              .then(fResponse => {
+                return fResponse.data
+              })
+              .catch(async error => {
+                await AsyncStorage.removeItem('token');
+                dispatch(tokenUpdate({
+                  access_token: '',
+                  refresh_token: ''
+                }))
+                return await Promise.reject({ message: validation.generaleError });
+              });
           }).catch(async error => {
             await AsyncStorage.removeItem('token');
-            return Promise.reject({ message: validation.generaleError });
+            dispatch(tokenUpdate({
+              access_token: '',
+              refresh_token: ''
+            }))
+            return await Promise.reject({ message: validation.generaleError });
           });
+      } else {
+        return Promise.reject(error);
       }
     }
   );

@@ -17,15 +17,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routes from '../../constants/routeConst';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Loader from '../../sharedComponents/loader';
+import { useIsFocused } from '@react-navigation/native';
 
 const Setting = (props) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
   const detailsStore = useSelector((state) => state.details, shallowEqual);
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const [data, setData] = useState({});
-  const [showLoader, setShowLoader] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
 
 
   const onLoginOut = () => {
@@ -55,7 +57,7 @@ const Setting = (props) => {
   }
 
   useEffect(() => {
-    if (authStore.access_token !== '') {
+    if (authStore.access_token !== '' && isFocused) {
       InsideAuthApi(authStore)
         .detailsApi()
         .then((res) => {
@@ -75,15 +77,9 @@ const Setting = (props) => {
         })
         .catch((err) => {
           setShowLoader(false);
-          dispatch(SnackbarUpdate({
-            type: 'error',
-            msg: err.message
-          }));
         });
-    } else {
-      setShowLoader(false);
     }
-  }, [])
+  }, [isFocused])
 
   return (
     showLoader ? <Loader /> : <DashboardLayout {...props}>

@@ -1,24 +1,35 @@
 import axiosObj from './axiosConfig';
 import { API } from '../constants/apiConstant';
+import { getAccessToken } from '../utils';
 
 const InsideAuthApi = (authStore) => {
-    const defaultHeaders = {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + authStore.access_token
-    };
-    const formDataHeaders = {
-        "Content-Type": "multipart/form-data",
-        "Authorization": "Bearer " + authStore.access_token
-    };
+    // const defaultHeaders = {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer " + authStore.access_token
+    // };
+    // const formDataHeaders = {
+    //     "Content-Type": "multipart/form-data",
+    //     "Authorization": "Bearer " + authStore.access_token
+    // };
     return {
-        detailsApi() {
+        async detailsApi() {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.details,
                 method: 'GET',
                 headers: { ...defaultHeaders },
             })
         },
-        updateDetailsApi(data) {
+        async updateDetailsApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.updateDetails,
                 method: 'PATCH',
@@ -26,7 +37,12 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        createPost(data) {
+        async createPost(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.createPost,
                 method: 'POST',
@@ -34,7 +50,12 @@ const InsideAuthApi = (authStore) => {
                 data: data,
             })
         },
-        updatePost(data) {
+        async updatePost(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.updatePost,
                 method: 'PATCH',
@@ -42,7 +63,12 @@ const InsideAuthApi = (authStore) => {
                 data: data,
             })
         },
-        createApplicationApi(data) {
+        async createApplicationApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.createApplication,
                 method: 'POST',
@@ -50,7 +76,12 @@ const InsideAuthApi = (authStore) => {
                 data: data,
             })
         },
-        updateApplicationApi(data) {
+        async updateApplicationApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.updateApplication,
                 method: 'PATCH',
@@ -58,35 +89,60 @@ const InsideAuthApi = (authStore) => {
                 data: data,
             })
         },
-        getAllApplicationsApi(id) {
+        async getAllApplicationsApi(id) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.getAllApplications + id,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
-        getApplicationDetailsApi(id) {
+        async getApplicationDetailsApi(id) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.getApplicationDetails + "?application_id=" + id,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
-        getMyPostApi(param) {
+        async getMyPostApi(param) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.getMyPost + param,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
-        getReviewApi() {
+        async getReviewApi() {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.getReview,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
-        createReviewApi(data) {
+        async createReviewApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.createReview,
                 method: 'POST',
@@ -94,7 +150,12 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        updateLocationApi(data) {
+        async updateLocationApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.updateLocation,
                 method: 'POST',
@@ -102,7 +163,12 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        addTagApi(data) {
+        async addTagApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.addTag,
                 method: 'POST',
@@ -110,14 +176,24 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        tagActionApi(param) {
+        async tagActionApi(param) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.tagAction + param,
                 method: 'POST',
                 headers: { ...defaultHeaders },
             })
         },
-        editTagApi(data) {
+        async editTagApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.editTag,
                 method: 'PATCH',
@@ -125,14 +201,24 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        bookingListApi(param) {
+        async bookingListApi(param) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.bookingList + param,
                 method: 'GET',
                 headers: { ...defaultHeaders },
             })
         },
-        addBookingApi(data) {
+        async addBookingApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.addBooking,
                 method: 'POST',
@@ -140,7 +226,12 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        editBookinggApi(data) {
+        async editBookinggApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.editBooking,
                 method: 'PATCH',
@@ -148,7 +239,12 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        editReviewApi(data) {
+        async editReviewApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.editReview,
                 method: 'PATCH',
@@ -156,7 +252,12 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
-        logout() {
+        async logout() {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
             return axiosObj({
                 url: API.authUrls.logout,
                 method: 'POST',
