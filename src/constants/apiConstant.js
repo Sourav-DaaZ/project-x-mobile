@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.110:5000/api',
+    dev: 'http://192.168.0.101:5000/api',
     qa: '',
     uat: '',
     prod: '',
@@ -19,6 +19,7 @@ export const API = {
     postSocket: '/post',
     tagSocket: '/tag',
     globalChatSocket: '/globalChat',
+    ChatSocket: '/chat',
     tagList: '/tag_list',
     getPostDetails: '/get_post_details',
     allUser: '/all_user',

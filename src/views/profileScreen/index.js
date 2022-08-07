@@ -157,17 +157,19 @@ const ProfileScreen = (props) => {
                     <StyledCenter>
                         <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
                     </StyledCenter>
-                    <StyledCenter>
-                        <Fontisto style={{ color: colors.mainColor }} name='messenger' size={30} />
-                    </StyledCenter>
+                    {props.route.params?.id && props.route.params.id !== detailsStore.id ? <StyledCenter>
+                        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.userChat, { id: props.route.params.id })}>
+                            <Fontisto style={{ color: colors.mainColor }} name='messenger' size={30} />
+                        </TouchableOpacity>
+                    </StyledCenter> : null}
                 </StyledReviewProfile>
                 <StyledContainer>
-                    {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
+                    <BottomShadow>
                         <StyledViewButton>
                             {GlobalButton(globalPost === 'booking', 'Booking', () => setGlobalPost('booking'))}
                             {GlobalButton(globalPost === 'review', 'Review', () => setGlobalPost('review'))}
                         </StyledViewButton>
-                    </BottomShadow> : null}
+                    </BottomShadow>
                     {globalPost === 'booking' ? <Booking {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
                     {globalPost === 'review' ? <Review {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
                 </StyledContainer>

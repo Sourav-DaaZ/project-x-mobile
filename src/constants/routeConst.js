@@ -23,6 +23,7 @@ const Routes = {
     profile: 'Profile',
     appChat: 'AppChat',
     globalChat: 'GlobalChat',
+    userChat: 'UserChat',
     postDetails: 'PostDetails',
     tagChat: 'TagChat',
     tagList: 'TagList',

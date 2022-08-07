@@ -47,6 +47,7 @@ import AddTags from '../views/addTags';
 import AddBooking from '../views/addBooking';
 import EditTags from '../views/editTags';
 import GlobalChat from '../views/globalChat';
+import UserChat from '../views/userChat';
 import MyTags from '../views/myTags';
 import EditBooking from '../views/editBooking';
 
@@ -357,6 +358,12 @@ export function AuthRouters(props) {
               logo={<Image source={logoImg} />}
             />
           </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.userChat}
+        component={UserChat}
+        options={({ navigation }) => ({
+          headerShown: false
         })} /> : null}
       <Stack.Screen
         name={Routes.singleCategory}
