@@ -74,27 +74,6 @@ const MyBooking = (props) => {
             })
     }
 
-    const onReviewEdit = (id, note) => {
-        const requestData = {
-            id: id,
-            comment: note,
-        }
-        InsideAuthApi(authStore)
-            .editReviewApi(requestData)
-            .then((res) => {
-                if (res.data) {
-                    setPopupData(res.data);
-                }
-                setAddNotes('');
-            })
-            .catch((err) => {
-                dispatch(SnackbarUpdate({
-                    type: 'error',
-                    msg: err?.message
-                }))
-            })
-    }
-
     const onClose = () => {
         setModalShow(false);
         setPopupData({});

@@ -25,7 +25,7 @@ const SearchScreen = (props) => {
     const colors = themeContext.colors[themeContext.baseColor];
     const [searchQuery, setSearchQuery] = useState('');
     const [data, setData] = useState([]);
-    const [flag, setFlag] = useState(true);
+    const [flag, setFlag] = useState(false);
 
     const onTypeFnc = (text, lflag) => {
         if (text.length === 0 || (text.length <= 1 && validate(text, { isAlphaNumeric: true }))) {
@@ -73,11 +73,11 @@ const SearchScreen = (props) => {
         }>
             <StyledWrapperBody>
                 <StyledOptiondWrapper>
-                    <StyledChip selectedColor={flag ? colors.backgroundColor : colors.borderDeep} selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
-                        Post
-                    </StyledChip>
                     <StyledChip selectedColor={!flag ? colors.backgroundColor : colors.borderDeep} selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
                         User
+                    </StyledChip>
+                    <StyledChip selectedColor={flag ? colors.backgroundColor : colors.borderDeep} selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
+                        Post
                     </StyledChip>
                 </StyledOptiondWrapper>
                 <StyledScrollView>

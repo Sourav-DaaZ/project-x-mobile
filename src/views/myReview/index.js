@@ -68,7 +68,7 @@ const MyReview = (props) => {
 
     return (
         <React.Fragment>
-            <Review {...props} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
+            <Review {...props} colors={colors} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
             {popupData._id ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
                     <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.createdAt)} />

@@ -170,8 +170,8 @@ const ProfileScreen = (props) => {
                             {GlobalButton(globalPost === 'review', 'Review', () => setGlobalPost('review'))}
                         </StyledViewButton>
                     </BottomShadow>
-                    {globalPost === 'booking' ? <Booking {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
-                    {globalPost === 'review' ? <Review {...props} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
+                    {globalPost === 'booking' ? <Booking {...props} colors={colors} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
+                    {globalPost === 'review' ? <Review {...props} colors={colors} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
                 </StyledContainer>
             </StyledScrollView>
             {props.route.params && props.route.params.id !== detailsStore.id ? <FAB

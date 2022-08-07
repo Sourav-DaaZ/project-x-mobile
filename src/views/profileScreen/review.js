@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+    StyledButtonLoadMore,
     StyledHorizontalScrollView,
 } from './style';
 import InsideAuthApi from '../../services/inSideAuth';
@@ -18,16 +19,24 @@ const Review = (props) => {
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(0);
+    const [dataLoader, setDataLoader] = useState(true);
 
-
-    useEffect(() => {
-        setData([]);
-        setLoading(true);
+    const apiCall = (pageCount) => {
         if (props.myUser) {
             InsideAuthApi(authStore)
-                .getReviewApi()
+                .getReviewApi(`?page=${pageCount}`)
                 .then((res) => {
-                    setData(res.data);
+                    if (res.data && pageCount > 0) {
+                        let varData = data;
+                        varData = varData.concat(res.data)
+                        setData(varData);
+                    } else {
+                        setData(res.data);
+                    }
+                    if (res.data && res.data.length === 0) {
+                        setDataLoader(false)
+                    }
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -39,9 +48,18 @@ const Review = (props) => {
                 });
         } else {
             OutsideAuthApi()
-                .getReviewForOtherApi(`?user_id=${props.route.params?.id}&token=${authStore.firebase_token}`)
+                .getReviewForOtherApi(`?user_id=${props.route.params?.id}&token=${authStore.firebase_token}&page=${pageCount}`)
                 .then((res) => {
-                    setData(res.data);
+                    if (res.data && pageCount > 0) {
+                        let varData = data;
+                        varData = varData.concat(res.data)
+                        setData(varData);
+                    } else {
+                        setData(res.data);
+                    }
+                    if (res.data && res.data.length === 0) {
+                        setDataLoader(false)
+                    }
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -52,7 +70,21 @@ const Review = (props) => {
                     setLoading(false);
                 });
         }
+    }
+
+    useEffect(() => {
+        setData([]);
+        setLoading(true);
+        setPage(0);
+        setDataLoader(true);
+        apiCall(0);
     }, [props.modalShow])
+
+    useEffect(() => {
+        if (page > 0) {
+            apiCall(page)
+        }
+    }, [page])
 
     return (
         loading ? <Loader /> : <StyledHorizontalScrollView>
@@ -69,6 +101,7 @@ const Review = (props) => {
                     />
                 </TouchableOpacity>
             )}
+            {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: props.colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
         </StyledHorizontalScrollView>
     )
 };

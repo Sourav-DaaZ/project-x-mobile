@@ -34,6 +34,7 @@ const Routes = {
     myBooking: 'MyBooking',
     createBooking: 'CreateBooking',
     editBooking: 'EditBooking',
+    chatList: 'ChatList',
 }
 
 export default Routes;

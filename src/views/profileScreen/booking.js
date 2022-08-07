@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+    StyledButtonLoadMore,
     StyledHorizontalScrollView,
     StyledParagraph,
     StyledStatus,
@@ -20,16 +21,24 @@ const Booking = (props) => {
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(0);
+    const [dataLoader, setDataLoader] = useState(true);
 
-
-    const apiCall = () => {
-        setData([]);
+    const apiCall = (pageCount) => {
         if (props.myUser) {
-            setLoading(true);
             InsideAuthApi(authStore)
-                .bookingListApi('')
+                .bookingListApi(`?page=${pageCount}`)
                 .then((res) => {
-                    setData(res.data);
+                    if (res.data && pageCount > 0) {
+                        let varData = data;
+                        varData = varData.concat(res.data)
+                        setData(varData);
+                    } else {
+                        setData(res.data);
+                    }
+                    if (res.data && res.data.length === 0) {
+                        setDataLoader(false)
+                    }
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -40,11 +49,19 @@ const Booking = (props) => {
                     setLoading(false);
                 });
         } else {
-            setLoading(true);
             OutsideAuthApi()
-                .bookingListForAllApi(`?id=${props.route.params?.id}`)
+                .bookingListForAllApi(`?id=${props.route.params?.id}&page=${pageCount}`)
                 .then((res) => {
-                    setData(res.data);
+                    if (res.data && pageCount > 0) {
+                        let varData = data;
+                        varData = varData.concat(res.data)
+                        setData(varData);
+                    } else {
+                        setData(res.data);
+                    }
+                    if (res.data && res.data.length === 0) {
+                        setDataLoader(false)
+                    }
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -58,8 +75,18 @@ const Booking = (props) => {
     }
 
     useEffect(() => {
-        apiCall()
+        setData([]);
+        setLoading(true);
+        setPage(0);
+        setDataLoader(true);
+        apiCall(0);
     }, [props.modalShow])
+
+    useEffect(() => {
+        if (page > 0) {
+            apiCall(page)
+        }
+    }, [page])
 
 
     return (
@@ -83,6 +110,7 @@ const Booking = (props) => {
                     />
                 </TouchableOpacity>
             )}
+            {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: props.colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
         </StyledHorizontalScrollView>
     )
 };

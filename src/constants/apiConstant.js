@@ -52,5 +52,6 @@ export const API = {
     addBooking: '/add_booking',
     editBooking: '/edit_booking',
     editReview: '/edit_review',
+    myChatList: '/my_chat_list',
   },
 };

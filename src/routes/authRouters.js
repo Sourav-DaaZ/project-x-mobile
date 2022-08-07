@@ -32,6 +32,7 @@ import EditDetails from '../views/editDetails';
 import Setting from '../views/setting';
 import MyBooking from '../views/myBooking';
 import MyReview from '../views/myReview';
+import ChatScreen from '../views/chatScreen';
 import Camera from '../views/camera';
 import TagList from '../views/tagList';
 import Login from '../views/auth/login';
@@ -70,8 +71,9 @@ export function AuthRouters(props) {
           name={Routes.dashboard}
           options={{
             tabBarLabel: 'Dashboard',
-            header: () => (<CustomHeader
+            header: ({ navigation }) => (<CustomHeader
               left={<Image style={{ marginLeft: 10 }} source={logoImg} />}
+              right={props.islogin ? <Ionicons name="md-chatbubble-outline" color={colors.iconColor} size={30} onPress={() => navigation.navigate(Routes.chatList)} /> : null}
             />),
             tabBarIcon: (color, size) => (
               <AntDesign name="home" color={color} size={size} />
@@ -364,6 +366,17 @@ export function AuthRouters(props) {
         component={UserChat}
         options={({ navigation }) => ({
           headerShown: false
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.chatList}
+        component={ChatScreen}
+        options={({ navigation }) => ({
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       <Stack.Screen
         name={Routes.singleCategory}

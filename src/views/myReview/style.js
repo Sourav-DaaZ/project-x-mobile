@@ -175,3 +175,8 @@ export const StyledInputView = styled(View)`
     justify-content: center;
     align-items: center;
 `;
+
+export const StyledButtonLoadMore = styled(Button)`
+    width: 100%;
+    margin-bottom: 20px;
+`;

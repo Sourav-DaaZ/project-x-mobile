@@ -1,60 +1,50 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
     StyledHorizontalScrollView,
-    StyledViewButton,
-    StyledButtonView,
-    StyledButtonActive,
-    StyledTouchableOpacity,
-    CardWrapper,
     StyledParagraph,
-    StyledInput,
     StyledStatus,
-    StyledNotesView,
-    StyledDotIcon,
-    StyledInputView
+    StyledButtonLoadMore
 } from './style';
 import InsideAuthApi from '../../services/inSideAuth';
 import Card from '../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
-import OutsideAuthApi from '../../services/outSideAuth';
-import { BottomShadow } from '../../sharedComponents/bottomShadow';
 import ListItem from '../../sharedComponents/listItem';
 import Loader from '../../sharedComponents/loader';
 import { ThemeContext } from 'styled-components';
-import { Avatar, Divider, FAB, Menu } from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { dateFormat, timeFormat } from '../../utils';
-import Routes from '../../constants/routeConst';
 import { TouchableOpacity, View } from 'react-native';
-import defaultValue from '../../constants/defaultValue';
 
 const Booking = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
-    const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
+    const [page, setPage] = useState(0);
+    const [dataLoader, setDataLoader] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [showMenu, setShowMenu] = useState(-1);
-    const [showNotes, setShowNotes] = useState(-1);
-    const [showStatusMenu, setShowStatusMenu] = useState(-1);
-    const [addNotes, setAddNotes] = useState('');
 
 
-    const apiCall = () => {
-        let param = `?myBooking=true`
-        if(props.bookingType){
-            param = `?myBooking=true&past=true`
+    const apiCall = (pageCount) => {
+        let param = `?myBooking=true&page=${pageCount}`
+        if (props.bookingType) {
+            param = `?myBooking=true&past=true&page=${pageCount}`
         }
-        setData([]);
-        setLoading(true);
         InsideAuthApi(authStore)
             .bookingListApi(param)
             .then((res) => {
-                setData(res.data);
+                if (res.data && pageCount > 0) {
+                    let varData = data;
+                    varData = varData.concat(res.data)
+                    setData(varData);
+                } else {
+                    setData(res.data);
+                }
+                if (res.data && res.data.length === 0) {
+                    setDataLoader(false)
+                }
                 setLoading(false);
             })
             .catch((err) => {
@@ -67,8 +57,17 @@ const Booking = (props) => {
     }
 
     useEffect(() => {
-        apiCall()
+        setPage(0);
+        setDataLoader(true);
+        setLoading(true);
+        apiCall(0);
     }, [props.modalShow, props.bookingType])
+
+    useEffect(() => {
+        if (page > 0) {
+            apiCall(page)
+        }
+    }, [page])
 
 
     return (
@@ -92,6 +91,7 @@ const Booking = (props) => {
                     />
                 </TouchableOpacity>
             )}
+            {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
         </StyledHorizontalScrollView>
     )
 };

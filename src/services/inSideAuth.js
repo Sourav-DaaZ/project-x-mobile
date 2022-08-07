@@ -125,14 +125,14 @@ const InsideAuthApi = (authStore) => {
                 headers: { ...defaultHeaders }
             })
         },
-        async getReviewApi() {
+        async getReviewApi(param) {
             const token = await getAccessToken();
             const defaultHeaders = {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
             return axiosObj({
-                url: API.authUrls.getReview,
+                url: API.authUrls.getReview + param,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
@@ -250,6 +250,18 @@ const InsideAuthApi = (authStore) => {
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
                 data: data
+            })
+        },
+        async myChatListApi(param) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            return axiosObj({
+                url: API.authUrls.myChatList + param,
+                method: 'GET',
+                headers: { ...defaultHeaders },
             })
         },
         async logout() {
