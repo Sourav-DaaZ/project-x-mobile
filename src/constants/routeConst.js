@@ -1,4 +1,8 @@
 const Routes = {
+    adminCategoryList: 'AdminCategoryList',
+    adminCategoryUpdate: 'AdminCategoryUpdate',
+    adminBannerList: 'AdminBannerList',
+    adminBannerUpdate: 'AdminBannerUpdate',
     home: 'Home',
     dashboard: 'Dashboard',
     category: 'Category',

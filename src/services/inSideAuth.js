@@ -264,6 +264,32 @@ const InsideAuthApi = (authStore) => {
                 headers: { ...defaultHeaders },
             })
         },
+        async createCategoryApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            return axiosObj({
+                url: API.authUrls.createCategory,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
+        async editCategoryApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            return axiosObj({
+                url: API.authUrls.editCategory,
+                method: 'PATCH',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
         async logout() {
             const token = await getAccessToken();
             const defaultHeaders = {

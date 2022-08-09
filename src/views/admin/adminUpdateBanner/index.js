@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
-import Input from '../../sharedComponents/input';
-import { updateObject, validate } from '../../utils';
-import validation from '../../constants/validationMsg';
-import InsideAuthApi from '../../services/inSideAuth';
+import Input from '../../../sharedComponents/input';
+import { updateObject, validate } from '../../../utils';
+import validation from '../../../constants/validationMsg';
+import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../store/actions';
+import { SnackbarUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -27,7 +27,7 @@ import {
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import { launchImageLibrary } from 'react-native-image-picker';
 
-const EditApplication = (props) => {
+const AdminUpdateBanner = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -232,4 +232,4 @@ const EditApplication = (props) => {
   );
 };
 
-export default EditApplication;
+export default AdminUpdateBanner;

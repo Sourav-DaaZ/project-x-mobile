@@ -237,7 +237,7 @@ const CreatePost = (props) => {
     const options = {
       includeBase64: true,
       maxWidth: 200,
-      quality: .6,
+      quality: .5,
       storageOptions: {
         skipBackup: true,
         path: 'images',

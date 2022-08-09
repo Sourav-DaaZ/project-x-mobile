@@ -51,6 +51,10 @@ import GlobalChat from '../views/globalChat';
 import UserChat from '../views/userChat';
 import MyTags from '../views/myTags';
 import EditBooking from '../views/editBooking';
+import AdminBannerList from '../views/admin/adminBannerList';
+import AdminUpdateBanner from '../views/admin/adminUpdateBanner';
+import AdminCategoryList from '../views/admin/adminCategoryList';
+import AdminUpdateCategory from '../views/admin/adminUpdateCategory';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -178,6 +182,42 @@ export function AuthRouters(props) {
         component={Register}
         options={() => ({
           headerShown: false
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.adminBannerList}
+        component={AdminBannerList}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+        {props.islogin ? <Stack.Screen
+        name={Routes.adminBannerUpdate}
+        component={AdminUpdateBanner}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+        {props.islogin ? <Stack.Screen
+        name={Routes.adminCategoryList}
+        component={AdminCategoryList}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
+        })} /> : null}
+        {props.islogin ? <Stack.Screen
+        name={Routes.adminCategoryUpdate}
+        component={AdminUpdateCategory}
+        options={({ navigation }) => ({
+          header: () => <CustomHeader
+            left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+            logo={<Image source={logoImg} />}
+          />
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.updateDetails}

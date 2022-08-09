@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.101:5000/api',
+    dev: 'http://192.168.0.103:5000/api',
     qa: '',
     uat: '',
     prod: '',
@@ -32,6 +32,8 @@ export const API = {
     refreshToken: '/refresh_token',
   },
   authUrls: {
+    createCategory: '/create_category',
+    editCategory: '/edit_category',
     details: '/details',
     createPost: '/create_post',
     updatePost: '/update_post',

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { Banner } from 'react-native-paper';
+import { Dimensions, TouchableOpacity, View } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { StyledClose, StyledView } from './style';
@@ -15,19 +14,26 @@ const upDown = {
 
 };
 
-const BannerComponent = (props) => {
+const Banner = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
-    const [show, setShow] = React.useState(false);
+    const SLIDER_WIDTH = Dimensions.get('window').width;
+    const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
+
+    const renderItem = ({ item }) => (
+        <View>
+            <Text>{`Item ${item}`}</Text>
+        </View>
+    );
 
     return (
-        <React.Fragment>
-            {show && <StyledView animation={show ? 'fadeInDown' : 'fadeOutUp'}>
-                {props.children}
-            </StyledView>}
-            <TouchableOpacity style={{ zIndex: 99 }} onPress={() => setShow(!show)}><StyledClose animation={upDown} iterationCount='infinite' direction="alternate"><MaterialIcons name={show ? 'keyboard-arrow-up' : 'keyboard-arrow-down'} size={40} /></StyledClose></TouchableOpacity>
-        </React.Fragment>
+        <View>
+            <Text style={styles.counter}
+            >
+                {this.state.index}
+            </Text>
+        </View>
     );
 };
 
-export default BannerComponent;
+export default Banner;

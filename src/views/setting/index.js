@@ -158,6 +158,18 @@ const Setting = (props) => {
               <StyledSemiTitle>My Review</StyledSemiTitle>
             </StyledLeftContainer>
           </TouchableOpacity>
+          {data.type === 'admin' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.adminCategoryList)}>
+            <StyledLeftContainer>
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+              <StyledSemiTitle>Admin Category List</StyledSemiTitle>
+            </StyledLeftContainer>
+          </TouchableOpacity> : null}
+          {data.type === 'admin' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.adminBannerList)}>
+            <StyledLeftContainer>
+              <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+              <StyledSemiTitle>Admin Banner List</StyledSemiTitle>
+            </StyledLeftContainer>
+          </TouchableOpacity> : null}
         </StyledProfile> : null}
         {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
           <TouchableOpacity onPress={onLoginOut}>
