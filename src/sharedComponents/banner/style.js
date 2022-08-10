@@ -1,28 +1,15 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-import { Card, Title } from 'react-native-paper';
-import * as Animatable from 'react-native-animatable';
-
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import { Dimensions, Image, ImageBackground } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
-export const StyledView = styled(Animatable.View)`
-    z-index: 98
-`
 
-export const StyledClose = styled(Animatable.Text)`
-    color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: 3px;
-    text-align: center;
-    position: absolute;
-    width: 70px;
-    padding: 20px;
-    padding-left: 15px;
-    padding-top: 0px;
-    left: 50%;
-    margin-left: -35px;
+export const StyledImageBackground = styled(ImageBackground)`
+    width: ${width}px;
+`;
+
+export const StyledCardCover = styled(Image)`
+    height: 150px; 
+    width: 100%;
+    resizeMode: contain;
 `;

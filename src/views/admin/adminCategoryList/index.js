@@ -26,36 +26,26 @@ const AdminCategoryList = (props) => {
 
 
     useEffect(() => {
-        let isMounted = true;
-        if (isFocused) {
-            setShowLoader(true);
-            OutsideAuthApi()
-                .categoryListApi()
-                .then((res) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        setCategory(res.data);
-                    }
-                })
-                .catch((err) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        dispatch(SnackbarUpdate({
-                            type: 'error',
-                            msg: err?.message
-                        }));
-                        setShowMsg(err.message)
-                    }
-                });
-        }
-        return () => {
-            isMounted = true
-        }
-    }, [isFocused]);
+        setShowLoader(true);
+        OutsideAuthApi()
+            .categoryListApi()
+            .then((res) => {
+                setShowLoader(false);
+                setCategory(res.data);
+            })
+            .catch((err) => {
+                setShowLoader(false);
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err?.message
+                }));
+                setShowMsg(err.message)
+            });
+    }, []);
 
 
     return (
-        showLoader ? <Loader /> : <StyledScrollView style={{flex: 1}}>
+        showLoader ? <Loader /> : <StyledScrollView style={{ flex: 1 }}>
             {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.adminCategoryUpdate, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
             <FAB
                 style={{

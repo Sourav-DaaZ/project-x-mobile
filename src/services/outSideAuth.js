@@ -141,6 +141,13 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
+        getBannerApi(param) {
+            return axiosObj({
+                url: API.noAuthUrls.getBanner + param,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
         refreshTokenCall(data) {
             return axiosObj({
                 url: API.noAuthUrls.refreshToken,

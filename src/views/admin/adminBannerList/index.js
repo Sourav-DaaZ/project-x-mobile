@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { Linking, Alert } from 'react-native';
 
 import {
     StyledScrollView
@@ -15,50 +15,72 @@ import Routes from '../../../constants/routeConst';
 import Loader from '../../../sharedComponents/loader';
 import { SnackbarUpdate } from '../../../store/actions';
 import Banner from '../../../sharedComponents/banner';
+import { ThemeContext } from 'styled-components';
+import { FAB } from 'react-native-paper';
+import { View } from 'react-native-animatable';
+import { openUrl } from '../../../utils';
+
 
 const AdminBannerList = (props) => {
-    const isFocused = useIsFocused();
-    const [category, setCategory] = useState([]);
-    const dispatch = useDispatch();
+    const themeContext = useContext(ThemeContext);
+    const colors = themeContext.colors[themeContext.baseColor];
     const [showLoader, setShowLoader] = useState('');
-
+    const [data, setData] = useState([]);
 
     useEffect(() => {
-        let isMounted = true;
-        if (isFocused) {
-            setShowLoader(true);
-            OutsideAuthApi()
-                .categoryListApi()
-                .then((res) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        setCategory(res.data);
-                    }
+        const unsubscribe = props.navigation.addListener("focus", () => {
+        OutsideAuthApi()
+            .getBannerApi('?banner_for=all')
+            .then((res) => {
+                setShowLoader(false);
+                let varData = [];
+                res.data?.map((x, i) => {
+                    varData.push([{
+                        key: x._id,
+                        img: x.image,
+                        onPress: () => openUrl(x.link),
+                        onLongPress: () => props.navigation.navigate(Routes.adminBannerUpdate, {data: x})
+                    }])
                 })
-                .catch((err) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        dispatch(SnackbarUpdate({
-                            type: 'error',
-                            msg: err?.message
-                        }));
-                        setShowMsg(err.message)
-                    }
-                });
-        }
-        return () => {
-            isMounted = true
-        }
-    }, [isFocused]);
-
+                setData(varData);
+            })
+            .catch((err) => {
+                setShowLoader(false);
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err?.message
+                }));
+                setShowMsg(err.message)
+            });
+        })
+        return () => unsubscribe;
+    }, [])
 
     return (
-        <DashboardLayout {...props} fab={false}>
-            {showLoader ? <Loader /> : <StyledScrollView>
-                <Banner />
-                {/* {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)} */}
-            </StyledScrollView>}
-        </DashboardLayout>
+
+        showLoader ? <Loader /> : <StyledScrollView>
+            {data.map((x, i) => <View style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'row',
+                flex: 1,
+                flexWrap: 'wrap'
+            }} key={i}><Banner data={x} /></View>)}
+
+            <FAB
+                style={{
+                    position: 'absolute',
+                    margin: 16,
+                    right: 0,
+                    bottom: 30,
+                    backgroundColor: colors.mainColor
+                }}
+                icon="plus"
+                label='Banner'
+                onPress={() => props.navigation.navigate(Routes.adminBannerUpdate)}
+            />
+        </StyledScrollView>
     )
 }
 export default AdminBannerList;

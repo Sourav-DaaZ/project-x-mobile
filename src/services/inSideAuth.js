@@ -290,6 +290,32 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
+        async bannerAddApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            return axiosObj({
+                url: API.authUrls.bannerAdd,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
+        async bannerUpdateApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            return axiosObj({
+                url: API.authUrls.bannerUpdate,
+                method: 'PATCH',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
         async logout() {
             const token = await getAccessToken();
             const defaultHeaders = {

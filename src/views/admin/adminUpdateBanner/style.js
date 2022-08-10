@@ -10,14 +10,12 @@ const width_logo = width * .6;
 export const SubmitButton = styled(Button)`
     width: 100%;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    margin-bottom: 10px
-    margin-top: 50px
+    margin-top: 100px
 `;
 
 export const InputView = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     margin-bottom: ${height * .01}px;
-    min-height: ${height * .25}px;
     justify-content: center;
     width: 100%;
 `;

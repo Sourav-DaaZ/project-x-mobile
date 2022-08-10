@@ -91,6 +91,7 @@ const DashboardLayout = (props) => {
     return (
         <DashboardOuterView>
             <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
+            {/* <BannerComponent /> */}
             {props.outsideScroll}
             <StyledScrollView
                 showsVerticalScrollIndicator={false}

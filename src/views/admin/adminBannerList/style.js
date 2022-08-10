@@ -6,11 +6,9 @@ const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 
 
-export const StyledScrollView = styled(View)`
+export const StyledScrollView = styled(ScrollView)`
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-horizontal: 10px;
+    flex-direction: column;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
 `;
 

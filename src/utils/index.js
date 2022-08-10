@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Linking } from "react-native";
 
 export const updateObject = (oldObject, updatedProperties) => {
   return {
@@ -74,3 +75,14 @@ export const dateFormat = (time, oldTime) => {
 export const getAccessToken = async () => {
   return JSON.parse(await AsyncStorage.getItem('token') || "{}"); 
 }
+
+export const openUrl = async (url) => {
+  const supported = await Linking.openURL(url);
+  if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(url);
+  } else {
+      Alert.alert(`Invalid Url: ${url}`);
+  }
+};
