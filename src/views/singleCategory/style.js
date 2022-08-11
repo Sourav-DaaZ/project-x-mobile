@@ -9,7 +9,7 @@ const width_logo = width * .6;
 
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
-    margin-top: 0px;
+    
 `;
 
 export const StyledUserWrapper = styled(View)`
@@ -57,4 +57,8 @@ export const StyledButtonLoadMore = styled(Button)`
 export const StyledCardIcon = styled(Ionicons)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     font-size: ${width * .07}px;
+`;
+
+export const StyledBannerWrapper = styled(View)`
+    
 `;

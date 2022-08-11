@@ -27,8 +27,18 @@ export const StyledHeaderHeadline = styled(Headline)`
 `;
 
 export const StyledSearchbarView = styled(View)`
-    margin-top: 1px;
+    padding-top: 20px;
     margin-horizontal: 20px;
     margin-bottom: 30px;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
+`;
+export const StyledBannerWrapper = styled(View)`
+    margin-bottom: 15px;
+    margin-horizontal: 10px;
+    width: ${width - 20}px;
+    overflow: hidden;
 `;
 
+export const StyledScrollView = styled(ScrollView)`
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+`;

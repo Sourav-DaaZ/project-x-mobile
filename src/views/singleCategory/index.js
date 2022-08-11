@@ -10,7 +10,8 @@ import {
     StyledTouchableOpacity,
     StyledUserWrapper,
     StyledCardIcon,
-    StyledButtonLoadMore
+    StyledButtonLoadMore,
+    StyledBannerWrapper
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import Card from '../../sharedComponents/card';
@@ -21,6 +22,8 @@ import Routes from '../../constants/routeConst';
 import ListItem from '../../sharedComponents/listItem';
 import { BottomShadow } from '../../sharedComponents/bottomShadow';
 import Loader from '../../sharedComponents/loader';
+import Banner from '../../sharedComponents/banner';
+import { openUrl } from '../../utils';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -30,6 +33,7 @@ const SingleCategory = (props) => {
     const dispatch = useDispatch();
     const [globalPost, setGlobalPost] = useState(true);
     const [data, setData] = useState([]);
+    const [banner, setBanner] = useState([]);
     const [showLoader, setShowLoader] = useState(true);
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
@@ -56,7 +60,6 @@ const SingleCategory = (props) => {
                     if (res.data && res.data.length === 0) {
                         setDataLoader(false)
                     }
-                    setRefreshing(false);
                     setShowLoader(false);
                 })
                 .catch((err) => {
@@ -66,7 +69,6 @@ const SingleCategory = (props) => {
                             msg: err?.message
                         }));
                     }
-                    setRefreshing(false);
                     setShowLoader(false);
                 });
         } else {
@@ -84,7 +86,6 @@ const SingleCategory = (props) => {
                     if (res.data && res.data.length === 0) {
                         setDataLoader(false)
                     }
-                    setRefreshing(false);
                     setShowLoader(false);
                 })
                 .catch((err) => {
@@ -94,40 +95,70 @@ const SingleCategory = (props) => {
                             msg: err?.message
                         }));
                     }
-                    setRefreshing(false);
                     setShowLoader(false);
                 });
         }
+        setRefreshing(false);
     }
 
     useEffect(() => {
         setData([]);
+        setBanner([]);
         setShowLoader(true);
         setDataLoader(true);
         setPage(0);
-        apiCall(globalPost, 0)
+        apiCall(globalPost, 0);
+        bannerData();
     }, [globalPost, refreshing])
 
     useEffect(() => {
         if (page !== 0) {
+            setBanner([]);
             apiCall(globalPost, page)
+            bannerData()
         }
     }, [page])
 
+    const bannerData = () => {
+        OutsideAuthApi()
+            .getBannerApi(`?banner_for=category&category=${props.route.params?.data._id}&lat=${detailsStore.location.lat}&long=${detailsStore.location.long}`)
+            .then((res) => {
+                let varData = [];
+                res.data?.map((x, i) => {
+                    varData.push({
+                        key: x._id,
+                        img: x.image,
+                        onPress: () => openUrl(x.link)
+                    })
+                })
+                setBanner(varData);
+            })
+            .catch((err) => {
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err?.message
+                }));
+            })
+        }
+
     return (
         <React.Fragment>
-            {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
-                <StyledViewButton>
-                    {GlobalButton(globalPost, 'Post', () => setGlobalPost(true))}
-                    {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
-                    {GlobalButton(globalPost && !globalPost, 'Global', () => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id }))}
-                </StyledViewButton>
-            </BottomShadow> : null}
-            {showLoader ? <Loader /> : <StyledHorizontalScrollView showsVerticalScrollIndicator={false}
+            {showLoader ? <Loader /> : <StyledHorizontalScrollView
                 showsHorizontalScrollIndicator={false}
+                stickyHeaderIndices={[1]}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
                 }>
+                <StyledBannerWrapper>
+                    {banner.length > 0 ? <Banner data={banner} /> : null}
+                </StyledBannerWrapper>
+                <BottomShadow small>
+                    {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
+                        {GlobalButton(globalPost, 'Post', () => setGlobalPost(true))}
+                        {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
+                        {GlobalButton(globalPost && !globalPost, 'Global', () => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id }))}
+                    </StyledViewButton> : null}
+                </BottomShadow>
                 {globalPost && data.map((x, i) =>
                     <Card key={i} images={x.images && x.images[0] ? "data:image/png;base64," + x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}

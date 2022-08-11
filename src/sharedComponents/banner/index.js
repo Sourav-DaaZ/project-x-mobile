@@ -26,27 +26,28 @@ const styles = StyleSheet.create({
     paginationDotActive: { backgroundColor: "lightblue" },
     paginationDotInactive: { backgroundColor: "gray" },
 
-    carousel: { flex: 1, width: windowWidth, flexDirection: 'row' },
-});
-
-const Slide = memo(function Slide({ data }) {
-    return (
-        <TouchableOpacity onPress={data.fnc} onLongPress={data.longFnc}>
-            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.image }}>
-                <StyledCardCover source={{ uri: data.image }} resizeMode='contain' />
-            </StyledImageBackground>
-        </TouchableOpacity>
-    );
+    carousel: { flex: 1, width: windowWidth, height: 150, flexDirection: 'row' },
 });
 
 
 export default Banner = (props) => {
     const [index, setIndex] = useState(-1);
     const indexRef = useRef(index);
-    const flatList = createRef()
+    const flatList = createRef();
+    const [slideData, setSlideData] = useState(props.data)
     indexRef.current = index;
 
-    const slideList = props.data.map((x, i) => {
+    const Slide = memo(function Slide({ data }) {
+        return (
+            <TouchableOpacity onPress={data.fnc} onLongPress={data.longFnc}>
+                <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.image }}>
+                    <StyledCardCover source={{ uri: data.image }} resizeMode='contain' />
+                </StyledImageBackground>
+            </TouchableOpacity>
+        );
+    });
+
+    const slideList = slideData.map((x, i) => {
         return {
             id: i,
             image: x.img,
@@ -96,21 +97,21 @@ export default Banner = (props) => {
     }, []);
 
     useEffect(() => {
-        if (props.data.length > 1) {
+        if (slideData.length > 1) {
             const time = setInterval(goToNextPage, 5000)
             return () => clearInterval(time)
         }
-    }, [index, props.data])
+    }, [index, slideData])
 
     const goToNextPage = () => {
-        const varData = index === props.data.length - 1 ? 0 : index + 1;
+        const varData = index === slideData.length - 1 ? 0 : index + 1;
         if (flatList.current && index !== undefined && index >= 0) {
             flatList.current?.scrollToIndex({
-                index: varData > props.data.length - 1 ? -1 : varData,
+                index: varData > slideData.length - 1 ? -1 : varData,
                 animated: true,
             });
         }
-        setIndex(index > props.data.length - 1 ? 0 : index + 1)
+        setIndex(index > slideData.length - 1 ? 0 : index + 1)
     };
 
     const flatListOptimizationProps = {
@@ -149,7 +150,7 @@ export default Banner = (props) => {
                 ref={flatList}
                 {...flatListOptimizationProps}
             />
-            {props.data.length > 1 ? <Pagination index={index}></Pagination> : null}
+            {slideData.length > 1 ? <Pagination index={index}></Pagination> : null}
         </View>
     );
 }

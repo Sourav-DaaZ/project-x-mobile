@@ -10,7 +10,7 @@ export const BottomShadow = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     return (
-        <View style={{ overflow: 'hidden', paddingBottom: 40, backgroundColor: colors.backgroundDeepColor, marginBottom: -20 }}>
+        <View style={{ overflow: 'hidden', paddingBottom: props.small ? 15 : 40, backgroundColor: colors.backgroundDeepColor, marginBottom: props.small ? 0 : -20 }}>
             <View
                 style={{
                     backgroundColor: colors.backgroundColor,

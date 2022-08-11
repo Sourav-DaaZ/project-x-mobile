@@ -75,10 +75,7 @@ export function AuthRouters(props) {
           name={Routes.dashboard}
           options={{
             tabBarLabel: 'Dashboard',
-            header: ({ navigation }) => (<CustomHeader
-              left={<Image style={{ marginLeft: 10 }} source={logoImg} />}
-              right={props.islogin ? <Ionicons name="md-chatbubble-outline" color={colors.iconColor} size={30} onPress={() => navigation.navigate(Routes.chatList)} /> : null}
-            />),
+            headerShown: false,
             tabBarIcon: (color, size) => (
               <AntDesign name="home" color={color} size={size} />
             ),
