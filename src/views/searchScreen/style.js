@@ -9,7 +9,6 @@ export const StyledScrollView = styled(View)`
 `;
 
 export const StyledWrapperBody = styled(View)`
-    margin-top: 30px;
     margin-horizontal: 10px;
 `;
 
@@ -26,8 +25,8 @@ export const StyledDivider = styled(Divider)`
 
 export const StyledWrapper = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-horizontal: 20px;
-    margin-bottom: 20px;
+    margin-horizontal: 10px;
+    margin-bottom: 10px;
 `;
 
 export const StyledOptiondWrapper = styled(View)`
@@ -35,7 +34,6 @@ export const StyledOptiondWrapper = styled(View)`
     flexDirection: row;
     flexWrap: wrap;
     margin: 10px;
-    margin-top: -30px;
 `;
 
 export const StyledChip = styled(Chip)`

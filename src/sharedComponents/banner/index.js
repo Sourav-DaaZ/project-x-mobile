@@ -34,9 +34,14 @@ export default Banner = (props) => {
     const [index, setIndex] = useState(-1);
     const indexRef = useRef(index);
     const flatList = createRef();
-    const [slideData, setSlideData] = useState(props.data)
+    const [slideData, setSlideData] = useState([])
     indexRef.current = index;
 
+    useEffect(() => {
+        setIndex(0);
+        setSlideData(props.data)
+    }, [props])
+    
     const Slide = memo(function Slide({ data }) {
         return (
             <TouchableOpacity onPress={data.fnc} onLongPress={data.longFnc}>
@@ -75,10 +80,6 @@ export default Banner = (props) => {
             </View>
         );
     }
-
-    useEffect(() => {
-        setIndex(0)
-    }, [])
 
     const onScroll = useCallback((event) => {
         const slideSize = event.nativeEvent.layoutMeasurement.width;

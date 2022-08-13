@@ -40,42 +40,42 @@ const Dashboard = (props) => {
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
 
     useEffect(() => {
-        if(isFocused){
-        setShowLoader(true);
-        OutsideAuthApi()
-            .categoryListApi()
-            .then((res) => {
-                setShowLoader(false);
-                setCategory(res.data);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                dispatch(SnackbarUpdate({
-                    type: 'error',
-                    msg: err?.message
-                }));
-            })
-        OutsideAuthApi()
-            .getBannerApi('?banner_for=main')
-            .then((res) => {
-                setShowLoader(false);
-                let varData = [];
-                res.data?.map((x, i) => {
-                    varData.push({
-                        key: x._id,
-                        img: x.image,
-                        onPress: () => openUrl(x.link)
-                    })
+        if (isFocused) {
+            setShowLoader(true);
+            OutsideAuthApi()
+                .categoryListApi()
+                .then((res) => {
+                    setShowLoader(false);
+                    setCategory(res.data);
                 })
-                setBanner(varData);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                dispatch(SnackbarUpdate({
-                    type: 'error',
-                    msg: err?.message
-                }));
-            })
+                .catch((err) => {
+                    setShowLoader(false);
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err?.message
+                    }));
+                })
+            OutsideAuthApi()
+                .getBannerApi('?banner_for=main')
+                .then((res) => {
+                    setShowLoader(false);
+                    let varData = [];
+                    res.data?.map((x, i) => {
+                        varData.push({
+                            key: x._id,
+                            img: x.image,
+                            onPress: () => openUrl(x.link)
+                        })
+                    })
+                    setBanner(varData);
+                })
+                .catch((err) => {
+                    setShowLoader(false);
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err?.message
+                    }));
+                })
         }
         setRefreshing(false);
     }, [isFocused, refreshing])
@@ -114,9 +114,9 @@ const Dashboard = (props) => {
                         </StyledSearchbarView>
                     </BottomShadow>
                 </View>
-                {banner.length > 0 ? <StyledBannerWrapper>
-                    <Banner data={banner} />
-                </StyledBannerWrapper> : null}
+                <StyledBannerWrapper>
+                    {banner.length > 0 ? <Banner data={banner} /> : null}
+                </StyledBannerWrapper>
                 {showLoader ? <Loader /> : <ShadowWrapperContainer>
                     <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
                     <View style={{ flexDirection: "row" }}>

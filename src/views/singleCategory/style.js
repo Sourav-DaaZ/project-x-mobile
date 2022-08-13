@@ -60,5 +60,7 @@ export const StyledCardIcon = styled(Ionicons)`
 `;
 
 export const StyledBannerWrapper = styled(View)`
+    display: flex;
+    flex: 1
     
 `;

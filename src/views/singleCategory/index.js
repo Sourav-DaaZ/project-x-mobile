@@ -113,9 +113,9 @@ const SingleCategory = (props) => {
 
     useEffect(() => {
         if (page !== 0) {
-            setBanner([]);
+            // setBanner([]);
             apiCall(globalPost, page)
-            bannerData()
+            // bannerData()
         }
     }, [page])
 
@@ -139,7 +139,7 @@ const SingleCategory = (props) => {
                     msg: err?.message
                 }));
             })
-        }
+    }
 
     return (
         <React.Fragment>
@@ -150,8 +150,8 @@ const SingleCategory = (props) => {
                     <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
                 }>
                 <StyledBannerWrapper>
-                    {banner.length > 0 ? <Banner data={banner} /> : null}
-                </StyledBannerWrapper>
+                {banner.length > 0 ? <Banner data={banner} /> : null}
+                </StyledBannerWrapper> 
                 <BottomShadow small>
                     {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
                         {GlobalButton(globalPost, 'Post', () => setGlobalPost(true))}

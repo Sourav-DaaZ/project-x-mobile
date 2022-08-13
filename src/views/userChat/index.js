@@ -39,6 +39,7 @@ const UserChat = (props) => {
         const room = [detailsStore.id, props.route.params.id];
         socket.emit('close', room, (error) => {
             console.warn(error);
+            socket.disconnect();
         });
     }
 

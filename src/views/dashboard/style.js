@@ -37,6 +37,8 @@ export const StyledBannerWrapper = styled(View)`
     margin-horizontal: 10px;
     width: ${width - 20}px;
     overflow: hidden;
+    display: flex;
+    flex: 1;
 `;
 
 export const StyledScrollView = styled(ScrollView)`

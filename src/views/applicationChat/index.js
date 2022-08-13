@@ -38,6 +38,7 @@ const ApplicationChat = (props) => {
     const onLeave = () => {
         socket.emit('close', props.route.params.id, (error) => {
             console.warn(error);
+            socket.disconnect();
         });
     }
 

@@ -63,11 +63,11 @@ function Routs(props) {
     <React.Suspense fallback={
       <SplashScreen />
     }>
-      <NavigationContainer ref={
+      {updatePopup !== null ? <NavigationContainer ref={
         navigationRef
       }>
         <AuthenticationRoutes {...props} islogin={authStore.access_token && authStore.access_token !== ''} />
-      </NavigationContainer>
+      </NavigationContainer> : null}
       {updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS] ? <Modal show={updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS]} onClose={!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? () => setUpdatePopup(null) : null}>
         <UpdateWrapper>
           <UpdateTitle critical={defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]}>Update Alert!</UpdateTitle>
