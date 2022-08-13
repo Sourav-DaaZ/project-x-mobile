@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
 import { Dimensions, ScrollView } from 'react-native';
 import { Platform } from 'react-native';
-import { View, Image } from 'react-native';
+import { SafeAreaView, Image } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
-export const DashboardOuterView = styled(View)`
+export const DashboardOuterView = styled(SafeAreaView)`
     display: flex;
     flex: 1;
     flex-direction: column;

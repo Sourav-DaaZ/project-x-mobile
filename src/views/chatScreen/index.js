@@ -60,7 +60,7 @@ const ChatScreen = (props) => {
             apiCall(0)
         }
     }, [isFocused])
-    
+
     useEffect(() => {
         if (page > 0) {
             apiCall(page)
@@ -76,7 +76,7 @@ const ChatScreen = (props) => {
                         title={(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId)}
                         description={x?.comments[0]?.msg}
                         smallDescription={timeFormat(x?.updatedAt)}
-                        image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: detailsStore.id !== x.sender_user_id._id ? ("data:image/png;base64," + x.sender_user_id.userInfo.images) : ("data:image/png;base64," + x.receiver_user_id.userInfo.images) }} />}
+                        image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: detailsStore.id !== x.sender_user_id._id ? x.sender_user_id.userInfo.images : x.receiver_user_id.userInfo.images }} />}
                     />
                 </TouchableOpacity>
             ))}

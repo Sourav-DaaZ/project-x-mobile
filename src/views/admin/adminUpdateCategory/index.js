@@ -25,7 +25,7 @@ const AdminUpdateCategory = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const colors = themeContext.colors[themeContext.baseColor];
-  const [image, setImage] = useState(props.route.params?.data?.images ? props.route.params?.data?.images : '');
+  const [image, setImage] = useState(props.route.params?.data?.images ? props.route.params?.data?.images : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg');
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);

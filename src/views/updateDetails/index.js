@@ -220,7 +220,7 @@ const UpdateDetails = (props) => {
 
     try {
       const result = await launchImageLibrary(options);
-      setImage(result.assets[0].base64);
+      setImage('data:image/png;base64,' + result.assets[0].base64);
     } catch (e) {
       console.log(e)
     }
@@ -243,7 +243,7 @@ const UpdateDetails = (props) => {
       </BottomShadow>
       <WrapperImage>
         <TouchableOpacity style={{ zIndex: 9 }} onPress={uploadImg}>
-          <Avatar.Image size={120} source={{ uri: image ? "data:image/png;base64," + image : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />
+          <Avatar.Image size={120} source={{ uri: image ? image : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />
         </TouchableOpacity>
         <StyledScrollView style={{ flex: 1 }}>
           <InputView>

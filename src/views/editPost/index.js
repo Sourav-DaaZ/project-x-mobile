@@ -240,7 +240,7 @@ const EditPost = (props) => {
     };
     try {
       const result = await launchImageLibrary(options);
-      setImage([result.assets[0].base64]);
+      setImage(['data:image/png;base64,' + result.assets[0].base64]);
     } catch (e) {
       console.log(e)
     }
@@ -258,8 +258,8 @@ const EditPost = (props) => {
   return (
     showLoader ? <Loader /> : <StyledScrollView>
       <TouchableOpacity onPress={uploadImg}>
-        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? "data:image/png;base64," + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-          <StyledCardCover source={{ uri: image && image[0] ? "data:image/png;base64," + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+          <StyledCardCover source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
         </StyledImageBackground>
       </TouchableOpacity>
       <InputWrapper>

@@ -85,12 +85,12 @@ const PostDetails = (props) => {
 
     return (
         showLoader ? <Loader /> : <React.Fragment>
-            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-                <StyledCardCover source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
             </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
-                    {data?.owner?._id && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data?.owner?.user })}><ListItem image={<Avatar.Image size={50} source={{ uri: data?.owner?.images ? "data:image/png;base64," + data.owner.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.owner?.name} /></TouchableOpacity> : null}
+                    {data?.owner?._id && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data?.owner?.user })}><ListItem image={<Avatar.Image size={50} source={{ uri: data?.owner?.images ? data.owner.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.owner?.name} /></TouchableOpacity> : null}
                     <StyledInlineContainer>
                         <StyledInlineLeft>
                             <StyledCardTitle style={{ marginBottom: 5 }}>{data?.title}</StyledCardTitle>

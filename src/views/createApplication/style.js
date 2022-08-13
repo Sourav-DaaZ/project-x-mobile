@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, Image, ScrollView } from 'react-native';
+import { Dimensions, View, Image, ScrollView, ImageBackground } from 'react-native';
 import { Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button'
 
@@ -50,3 +50,12 @@ export const StyledInlineInputContainer = styled(View)`
     z-index: 999;
     margin-bottom: 20px;
 `
+export const StyledImageBackground = styled(ImageBackground)`
+    margin-bottom: -60px;
+`;
+
+export const StyledCardCover = styled(Image)`
+    height: ${height * .35}px; 
+    width: 100%;
+    resizeMode: contain;
+`;

@@ -150,8 +150,8 @@ const SingleCategory = (props) => {
                     <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
                 }>
                 <StyledBannerWrapper>
-                {banner.length > 0 ? <Banner data={banner} /> : null}
-                </StyledBannerWrapper> 
+                    {banner.length > 0 ? <Banner data={banner} /> : null}
+                </StyledBannerWrapper>
                 <BottomShadow small>
                     {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
                         {GlobalButton(globalPost, 'Post', () => setGlobalPost(true))}
@@ -160,7 +160,7 @@ const SingleCategory = (props) => {
                     </StyledViewButton> : null}
                 </BottomShadow>
                 {globalPost && data.map((x, i) =>
-                    <Card key={i} images={x.images && x.images[0] ? "data:image/png;base64," + x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                    <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 )}
                 {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
                     <StyledUserWrapper>

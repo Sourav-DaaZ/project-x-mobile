@@ -45,17 +45,21 @@ function Routs(props) {
 
   useEffect(() => {
     fetchCredentials();
-    dynamicLinks()
-      .getInitialLink()
-      .then(link => {
-        console.log(link)
-      });
+    if (Platform.OS === "android") {
+      dynamicLinks()
+        .getInitialLink()
+        .then(link => {
+          console.log(link)
+        });
+    }
   }, [])
 
   useEffect(() => {
-    const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
-    // When the component is unmounted, remove the listener
-    return () => unsubscribe();
+    if (Platform.OS === "android") {
+      const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
+      // When the component is unmounted, remove the listener
+      return () => unsubscribe();
+    }
   }, []);
 
 

@@ -12,11 +12,13 @@ import {
     DashboardOuterView,
 } from './style';
 import Routes from '../../../constants/routeConst';
+import { useIsFocused } from '@react-navigation/native';
 
 const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
+    const isFocused = useIsFocused();
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
@@ -29,12 +31,15 @@ const DashboardLayout = (props) => {
                 }
                 dispatch(location(varData));
             },
-                (error) => props.navigation.navigate(Routes.access, { type: 'Camera' }),
+                (error) => props.navigation.navigate(Routes.access, { type: 'Location' }),
                 { enableHighAccuracy: true, timeout: 20000 }
             );
-            if (authStore.access_token) {
-                apiCall(authStore);
-            }
+        }
+    }, [isFocused, props.refreshing]);
+
+    useEffect(() => {
+        if (authStore.access_token) {
+            apiCall(authStore);
         }
     }, [authStore.access_token, props.refreshing]);
 

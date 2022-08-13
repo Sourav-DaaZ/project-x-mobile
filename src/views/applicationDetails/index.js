@@ -83,12 +83,12 @@ const ApplicationDetails = (props) => {
     
     return (
         showLoader ? <Loader /> : <React.Fragment>
-            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-                <StyledCardCover source={{ uri: data.images && data.images[0] ? "data:image/png;base64," + data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+            <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'}} resizeMode='contain' />
             </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
-                    {data?.created_by?.userId && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data.created_by?._id })}><ListItem image={<Avatar.Image size={50} source={{ uri: data.created_by?.images && data.created_by.images[0] ? "data:image/png;base64," + data.created_by.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.created_by?.userId} /></TouchableOpacity> : null}
+                    {data?.created_by?.userId && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data.created_by?._id })}><ListItem image={<Avatar.Image size={50} source={{ uri: data.created_by?.images && data.created_by.images[0] ? data.created_by.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.created_by?.userId} /></TouchableOpacity> : null}
                     <StyledInlineContainer>
                         <StyledInlineLeft>
                             <StyledCardTitle style={{ marginBottom: 5 }}>{data?.details}</StyledCardTitle>

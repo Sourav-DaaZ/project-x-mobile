@@ -19,9 +19,12 @@ import {
   StyledScrollView,
   StyledInlineInput,
   StyledText,
-  StyledInlineInputContainer
+  StyledInlineInputContainer,
+  StyledCardCover,
+  StyledImageBackground
 } from './style';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const CreateApplication = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -74,6 +77,24 @@ const CreateApplication = (props) => {
       }
     },
   });
+
+  const uploadImg = async () => {
+    const options = {
+      includeBase64: true,
+      maxWidth: 200,
+      quality: .5,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    try {
+      const result = await launchImageLibrary(options);
+      setImage(['data:image/png;base64,' + result.assets[0].base64]);
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const onInputChange = (val, type) => {
     let varVal = {};
@@ -165,6 +186,11 @@ const CreateApplication = (props) => {
   return (
     <ShadowWrapperContainer>
       <StyledScrollView style={{ flex: 1 }}>
+        <TouchableOpacity onPress={uploadImg}>
+          <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+            <StyledCardCover source={{ uri: image && image[0] ? + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+          </StyledImageBackground>
+        </TouchableOpacity>
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input

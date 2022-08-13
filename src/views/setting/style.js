@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import { Paragraph, Title } from 'react-native-paper';
 
 import * as Animatable from 'react-native-animatable';
@@ -59,4 +59,8 @@ export const StyledLeftContainer = styled(View)`
     margin-vertical: 10px;
     margin-bottom: 5px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight}; 
+`;
+
+export const WrapperContainer = styled(ScrollView)`
+    display: flex;
 `;

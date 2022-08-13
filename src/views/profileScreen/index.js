@@ -140,7 +140,7 @@ const ProfileScreen = (props) => {
                         <Avatar.Image
                             source={{
                                 uri:
-                                    data.images ? "data:image/png;base64," + data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                                    data.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
                             }}
                             size={120}
                         />

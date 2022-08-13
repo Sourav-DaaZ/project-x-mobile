@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import { Searchbar, Divider, Chip } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
 
@@ -7,7 +7,7 @@ const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
 
 
-export const StyledScrollView = styled(View)`
+export const StyledScrollView = styled(ScrollView)`
     margin: 10px;
     margin-top: 0px;
 `;

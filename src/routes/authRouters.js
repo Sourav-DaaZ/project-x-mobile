@@ -9,52 +9,51 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import Dashboard from '../views/dashboard';
-import SingleCategory from '../views/singleCategory';
-import CategoryList from '../views/categoryList';
-import UpdateDetails from '../views/updateDetails';
-import SearchScreen from '../views/searchScreen';
-import ProfileScreen from '../views/profileScreen';
-import PostDetails from '../views/postDetails';
-import ApplicationChat from '../views/applicationChat';
-import TagChat from '../views/tagChat';
-import CreatePost from '../views/createPost';
-import EditPost from '../views/editPost';
-import MyPost from '../views/myPost';
-import EditApplication from '../views/editApplication';
-import ApplicationDetails from '../views/applicationDetails';
-import CreateApplication from '../views/createApplication';
-import CreateReview from '../views/createReview';
-import EditReview from '../views/editReview';
-import ApplicationList from '../views/applicationList';
-import EditDetails from '../views/editDetails';
-import Setting from '../views/setting';
-import MyBooking from '../views/myBooking';
-import MyReview from '../views/myReview';
-import ChatScreen from '../views/chatScreen';
-import Camera from '../views/camera';
-import TagList from '../views/tagList';
-import Login from '../views/auth/login';
-import Register from '../views/auth/register';
-import AccessScreen from '../views/access';
-import NotificationScreen from '../views/notification';
-
 import Routes from '../constants/routeConst';
-
 import { CustomTab, CustomHeader } from './custom';
 import { BottomShadow } from '../sharedComponents/bottomShadow';
-import AddTags from '../views/addTags';
-import AddBooking from '../views/addBooking';
-import EditTags from '../views/editTags';
-import GlobalChat from '../views/globalChat';
-import UserChat from '../views/userChat';
-import MyTags from '../views/myTags';
-import EditBooking from '../views/editBooking';
-import AdminBannerList from '../views/admin/adminBannerList';
-import AdminUpdateBanner from '../views/admin/adminUpdateBanner';
-import AdminCategoryList from '../views/admin/adminCategoryList';
-import AdminUpdateCategory from '../views/admin/adminUpdateCategory';
+
+const Dashboard = React.lazy(() => import('../views/dashboard'));
+const SingleCategory = React.lazy(() => import('../views/singleCategory'));
+const CategoryList = React.lazy(() => import('../views/categoryList'));
+const UpdateDetails = React.lazy(() => import('../views/updateDetails'));
+const SearchScreen = React.lazy(() => import('../views/searchScreen'));
+const ProfileScreen = React.lazy(() => import('../views/profileScreen'));
+const PostDetails = React.lazy(() => import('../views/postDetails'));
+const ApplicationChat = React.lazy(() => import('../views/applicationChat'));
+const TagChat = React.lazy(() => import('../views/tagChat'));
+const CreatePost = React.lazy(() => import('../views/createPost'));
+const EditPost = React.lazy(() => import('../views/editPost'));
+const MyPost = React.lazy(() => import('../views/myPost'));
+const EditApplication = React.lazy(() => import('../views/editApplication'));
+const ApplicationDetails = React.lazy(() => import('../views/applicationDetails'));
+const CreateApplication = React.lazy(() => import('../views/createApplication'));
+const CreateReview = React.lazy(() => import('../views/createReview'));
+const EditReview = React.lazy(() => import('../views/editReview'));
+const ApplicationList = React.lazy(() => import('../views/applicationList'));
+const EditDetails = React.lazy(() => import('../views/editDetails'));
+const Setting = React.lazy(() => import('../views/setting'));
+const MyBooking = React.lazy(() => import('../views/myBooking'));
+const MyReview = React.lazy(() => import('../views/myReview'));
+const ChatScreen = React.lazy(() => import('../views/chatScreen'));
+const Camera = React.lazy(() => import('../views/camera'));
+const TagList = React.lazy(() => import('../views/tagList'));
+const Login = React.lazy(() => import('../views/auth/login'));
+const Register = React.lazy(() => import('../views/auth/register'));
+const AccessScreen = React.lazy(() => import('../views/access'));
+const NotificationScreen = React.lazy(() => import('../views/notification'));
+
+const AddTags = React.lazy(() => import('../views/addTags'));
+const AddBooking = React.lazy(() => import('../views/addBooking'));
+const EditTags = React.lazy(() => import('../views/editTags'));
+const GlobalChat = React.lazy(() => import('../views/globalChat'));
+const UserChat = React.lazy(() => import('../views/userChat'));
+const MyTags = React.lazy(() => import('../views/myTags'));
+const EditBooking = React.lazy(() => import('../views/editBooking'));
+const AdminBannerList = React.lazy(() => import('../views/admin/adminBannerList'));
+const AdminUpdateBanner = React.lazy(() => import('../views/admin/adminUpdateBanner'));
+const AdminCategoryList = React.lazy(() => import('../views/admin/adminCategoryList'));
+const AdminUpdateCategory = React.lazy(() => import('../views/admin/adminUpdateCategory'));
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -189,7 +188,7 @@ export function AuthRouters(props) {
             logo={<Image source={logoImg} />}
           />
         })} /> : null}
-        {props.islogin ? <Stack.Screen
+      {props.islogin ? <Stack.Screen
         name={Routes.adminBannerUpdate}
         component={AdminUpdateBanner}
         options={({ navigation }) => ({
@@ -198,7 +197,7 @@ export function AuthRouters(props) {
             logo={<Image source={logoImg} />}
           />
         })} /> : null}
-        {props.islogin ? <Stack.Screen
+      {props.islogin ? <Stack.Screen
         name={Routes.adminCategoryList}
         component={AdminCategoryList}
         options={({ navigation }) => ({
@@ -207,7 +206,7 @@ export function AuthRouters(props) {
             logo={<Image source={logoImg} />}
           />
         })} /> : null}
-        {props.islogin ? <Stack.Screen
+      {props.islogin ? <Stack.Screen
         name={Routes.adminCategoryUpdate}
         component={AdminUpdateCategory}
         options={({ navigation }) => ({
