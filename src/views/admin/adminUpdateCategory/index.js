@@ -129,7 +129,7 @@ const AdminUpdateCategory = (props) => {
       }
       setLoader(true);
       InsideAuthApi()
-        .editCategoryApi(requestData)
+        .createCategoryApi(requestData)
         .then((res) => {
           setLoader(false);
           dispatch(SnackbarUpdate({
@@ -238,7 +238,7 @@ const AdminUpdateCategory = (props) => {
             />
           ))}
         </InputView>
-        <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? createCategory : editCategory : null}>
+        <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editCategory : createCategory : null}>
           {props.route.params?.data?._id ? "Edit Category" : "Create Category"}
         </SubmitButton>
       </InputWrapper>

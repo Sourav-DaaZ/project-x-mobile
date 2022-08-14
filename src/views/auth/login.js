@@ -205,7 +205,7 @@ const Login = (props) => {
       } else {
         const requestData = {
           "userId": data.controls.email.value,
-          ...(modalShow && { otp: data.controls.otp.value }),
+          ...(modalShow && { otp: data.controls.otp.value.toString() }),
           ...(!modalShow && { password: data.controls.password.value }),
         }
         let varVl;

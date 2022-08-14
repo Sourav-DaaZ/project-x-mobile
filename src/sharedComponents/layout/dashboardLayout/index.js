@@ -35,13 +35,13 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-    }, [isFocused, props.refreshing]);
+    }, [isFocused]);
 
     useEffect(() => {
         if (authStore.access_token) {
             apiCall(authStore);
         }
-    }, [authStore.access_token, props.refreshing]);
+    }, [isFocused, authStore.access_token, props.refreshing]);
 
 
     const apiCall = (authStore) => {

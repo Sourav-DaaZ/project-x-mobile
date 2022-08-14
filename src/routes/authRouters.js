@@ -13,7 +13,7 @@ import Routes from '../constants/routeConst';
 import { CustomTab, CustomHeader } from './custom';
 import { BottomShadow } from '../sharedComponents/bottomShadow';
 
-const Dashboard = React.lazy(() => import('../views/dashboard'));
+import Dashboard from '../views/dashboard';
 const SingleCategory = React.lazy(() => import('../views/singleCategory'));
 const CategoryList = React.lazy(() => import('../views/categoryList'));
 const UpdateDetails = React.lazy(() => import('../views/updateDetails'));

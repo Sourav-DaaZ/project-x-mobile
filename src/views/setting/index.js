@@ -31,10 +31,11 @@ const Setting = (props) => {
 
 
   const onLoginOut = () => {
-    InsideAuthApi(authStore)
+    console.log('hii')
+    InsideAuthApi()
       .logout()
-      .then(async (res) => {
-        await AsyncStorage.removeItem('token');
+      .then((res) => {
+        AsyncStorage.removeItem('token');
         dispatch(detailsUpdate({
           id: '',
           name: '',
@@ -47,8 +48,8 @@ const Setting = (props) => {
           refresh_token: ''
         }));
       })
-      .catch(async (err) => {
-        await AsyncStorage.removeItem('token');
+      .catch((err) => {
+        AsyncStorage.removeItem('token');
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''
@@ -58,11 +59,13 @@ const Setting = (props) => {
 
   useEffect(() => {
     if (authStore.access_token !== '' && isFocused) {
-      InsideAuthApi(authStore)
+      InsideAuthApi()
         .detailsApi()
         .then((res) => {
           setShowLoader(false);
-          if (res.data && res.data.name && res.data.category && res.data.category_preference) {
+          if(res.data.type === 'admin'){
+            setData(res.data)
+          }else if (res.data && res.data.name && res.data.category && res.data.category_preference) {
             dispatch(detailsUpdate({
               id: res.data.user,
               name: res.data.name,

@@ -73,6 +73,8 @@ export const LoginScrollView = styled(Animatable.View)`
 
 export const LoginNetworkView = styled(Animatable.View)`
   flex: .2;
+  min-height: 5px;
+  padding: 5px;
   background-color: white;
   border-radius: 20px;
   margin: 20px;

@@ -50,10 +50,6 @@ const Dashboard = (props) => {
                 })
                 .catch((err) => {
                     setShowLoader(false);
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err?.message
-                    }));
                 })
             OutsideAuthApi()
                 .getBannerApi('?banner_for=main')
@@ -71,10 +67,6 @@ const Dashboard = (props) => {
                 })
                 .catch((err) => {
                     setShowLoader(false);
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err?.message
-                    }));
                 })
         }
         setRefreshing(false);

@@ -69,7 +69,7 @@ export const CustomHeader = (props) => {
 
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
-            <SnackBar text={authStore.message.msg} type={authStore.message.type} />
+            {/* <SnackBar text={authStore.message.msg} type={authStore.message.type} /> */}
             <StyledEachHeaderView style={{ width: 40 }}>
                 {props.left}
             </StyledEachHeaderView>

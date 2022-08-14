@@ -271,7 +271,7 @@ const Register = (props) => {
       } else {
         const requestData = {
           "userId": data.controls.userId.value,
-          "otp": data.controls.otp.value,
+          "otp": data.controls.otp.value.toString(),
           "email": data.controls.email.value,
           "password": data.controls.password.value
         }
