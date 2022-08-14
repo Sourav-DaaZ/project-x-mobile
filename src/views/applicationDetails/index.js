@@ -24,6 +24,7 @@ import Loader from '../../sharedComponents/loader';
 import { Avatar, Divider, Menu } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native';
 import ListItem from '../../sharedComponents/listItem';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const ApplicationDetails = (props) => {
     const [data, setData] = useState({});
@@ -80,11 +81,11 @@ const ApplicationDetails = (props) => {
                 }))
             });
     }
-    
+
     return (
-        showLoader ? <Loader /> : <React.Fragment>
+        showLoader ? <Loader /> : <ShadowWrapperContainer none>
             <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'}} resizeMode='contain' />
+                <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
             </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
@@ -117,7 +118,7 @@ const ApplicationDetails = (props) => {
                     </TouchableOpacity> : null}
                 </StyledCardAction>
             </StyledCard>
-        </React.Fragment>
+        </ShadowWrapperContainer>
     )
 }
 

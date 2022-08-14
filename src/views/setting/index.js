@@ -31,11 +31,10 @@ const Setting = (props) => {
 
 
   const onLoginOut = () => {
-    console.log('hii')
     InsideAuthApi()
       .logout()
-      .then((res) => {
-        AsyncStorage.removeItem('token');
+      .then(async(res) => {
+        await AsyncStorage.removeItem('token');
         dispatch(detailsUpdate({
           id: '',
           name: '',
@@ -48,8 +47,15 @@ const Setting = (props) => {
           refresh_token: ''
         }));
       })
-      .catch((err) => {
-        AsyncStorage.removeItem('token');
+      .catch(async(err) => {
+        await AsyncStorage.removeItem('token');
+        dispatch(detailsUpdate({
+          id: '',
+          name: '',
+          gender: '',
+          userCat: '',
+          expectedCat: [],
+        }))
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''

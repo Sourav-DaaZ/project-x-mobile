@@ -35,7 +35,7 @@ import Review from './review';
 import Routes from '../../constants/routeConst';
 import OutsideAuthApi from '../../services/outSideAuth';
 import Loader from '../../sharedComponents/loader';
-import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Booking from './booking';
 import Modal from '../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -133,7 +133,7 @@ const ProfileScreen = (props) => {
     }
 
     return (
-        showLoader ? <Loader /> : <React.Fragment>
+        showLoader ? <Loader /> : <ShadowWrapperContainer none>
             <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <ImageWrapper>
                     <StyledImage>
@@ -282,7 +282,7 @@ const ProfileScreen = (props) => {
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
-        </React.Fragment>
+        </ShadowWrapperContainer>
     )
 }
 export default ProfileScreen;

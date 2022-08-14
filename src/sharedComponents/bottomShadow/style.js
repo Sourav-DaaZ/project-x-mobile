@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
+import { View } from 'react-native';
 
 
 export const StyledContainer = styled(Animatable.View)`
@@ -9,4 +10,9 @@ export const StyledContainer = styled(Animatable.View)`
     margin: 15px;
     margin-top: 0px;
     display: flex;
+`;
+
+export const StyledView = styled(View)`
+    display: flex;
+    flex: 1;
 `;

@@ -20,6 +20,7 @@ import {
 } from './style';
 import SingleCat from '../../categoryList/singleCat';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 
 const AdminUpdateCategory = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -159,7 +160,7 @@ const AdminUpdateCategory = (props) => {
       }))
     } else {
       const requestData = {
-        
+
         category_name: data.controls.category_name.value,
         description: data.controls.description.value,
         images: image
@@ -213,36 +214,38 @@ const AdminUpdateCategory = (props) => {
 
 
   return (
-    <StyledScrollView>
-      <TouchableOpacity onPress={uploadImg}>
-        <SingleCat img={image} name={data.controls.category_name.value} />
-      </TouchableOpacity>
-      <InputWrapper>
-        <InputView>
-          {formElementsArray?.map((x, index) => (
-            <Input
-              key={index}
-              title={x.config?.elementConfig?.text}
-              placeholder={x.config?.elementConfig?.placeholder}
-              onInputChange={onInputChange}
-              onSubmit={() => Keyboard.dismiss()}
-              value={x.config?.value}
-              class={x.config?.className}
-              type={x.config?.elementConfig?.type}
-              keyNum={x.config?.validation?.isNumeric}
-              isValid={x.config?.valid}
-              validation={x.config?.validation}
-              errorMsg={x.config?.errors}
-              icons={x.config?.icons}
-              ele={x.config?.elementType}
-            />
-          ))}
-        </InputView>
-        <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editCategory : createCategory : null}>
-          {props.route.params?.data?._id ? "Edit Category" : "Create Category"}
-        </SubmitButton>
-      </InputWrapper>
-    </StyledScrollView>
+    <ShadowWrapperContainer none>
+      <StyledScrollView>
+        <TouchableOpacity onPress={uploadImg}>
+          <SingleCat img={image} name={data.controls.category_name.value} />
+        </TouchableOpacity>
+        <InputWrapper>
+          <InputView>
+            {formElementsArray?.map((x, index) => (
+              <Input
+                key={index}
+                title={x.config?.elementConfig?.text}
+                placeholder={x.config?.elementConfig?.placeholder}
+                onInputChange={onInputChange}
+                onSubmit={() => Keyboard.dismiss()}
+                value={x.config?.value}
+                class={x.config?.className}
+                type={x.config?.elementConfig?.type}
+                keyNum={x.config?.validation?.isNumeric}
+                isValid={x.config?.valid}
+                validation={x.config?.validation}
+                errorMsg={x.config?.errors}
+                icons={x.config?.icons}
+                ele={x.config?.elementType}
+              />
+            ))}
+          </InputView>
+          <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editCategory : createCategory : null}>
+            {props.route.params?.data?._id ? "Edit Category" : "Create Category"}
+          </SubmitButton>
+        </InputWrapper>
+      </StyledScrollView>
+    </ShadowWrapperContainer>
   );
 };
 

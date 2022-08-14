@@ -25,6 +25,7 @@ import { TouchableOpacity } from 'react-native';
 import ListItem from '../../sharedComponents/listItem';
 import { dateFormat } from '../../utils';
 import InsideAuthApi from '../../services/inSideAuth';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const MyReview = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -67,7 +68,7 @@ const MyReview = (props) => {
     }
 
     return (
-        <React.Fragment>
+        <ShadowWrapperContainer none>
             <Review {...props} colors={colors} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
             {popupData._id ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
@@ -108,7 +109,7 @@ const MyReview = (props) => {
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
-        </React.Fragment>
+        </ShadowWrapperContainer>
     )
 }
 export default MyReview;

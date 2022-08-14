@@ -27,6 +27,7 @@ import {
 } from './style';
 import Loader from '../../sharedComponents/loader';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const EditPost = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -96,7 +97,7 @@ const EditPost = (props) => {
           text: 'Expected Price',
           placeholder: 'Enter Expected Price',
         },
-        value: props.route.params.data.expected_price ? props.route.params.data.expected_price.toString() : '',
+        value: props.route.params.data.expectedPrice ? props.route.params.data.expectedPrice.toString() : '',
         validation: {
           required: false,
           isNumeric: true
@@ -202,7 +203,7 @@ const EditPost = (props) => {
         category_id: props.route.params.category ? props.route.params.category.id : category,
         title: data.controls.title.value,
         message: data.controls.description.value,
-        expected_price: Number(data.controls.price.value),
+        expectedPrice: Number(data.controls.price.value),
         isPublic: isPublic,
         genderSpecific: gender,
         visible: userVisible,
@@ -256,133 +257,135 @@ const EditPost = (props) => {
 
 
   return (
-    showLoader ? <Loader /> : <StyledScrollView>
-      <TouchableOpacity onPress={uploadImg}>
-        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-          <StyledCardCover source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
-        </StyledImageBackground>
-      </TouchableOpacity>
-      <InputWrapper>
-        <InputView>
-          {formElementsArray?.map((x, index) => (
-            x.id !== 'otp' && <Input
-              key={index}
-              title={x.config?.elementConfig?.text}
-              placeholder={x.config?.elementConfig?.placeholder}
-              onInputChange={onInputChange}
-              onSubmit={() => Keyboard.dismiss()}
-              value={x.config?.value}
-              class={x.config?.className}
-              type={x.config?.elementConfig?.type}
-              keyNum={x.config?.validation?.isNumeric}
-              isValid={x.config?.valid}
-              validation={x.config?.validation}
-              errorMsg={x.config?.errors}
-              icons={x.config?.icons}
-              ele={x.config?.elementType}
-            />
-          ))}
-        </InputView>
-        {props.route.params.category ? <StyledText>Categoty Name: {props.route.params.category.name}</StyledText> : <StyledInlineInputContainer style={{ zIndex: 1000 }}>
-          <StyledInput>
-            <Input
-              ele='select'
-              open={openCategory}
-              title={'Select Category'}
-              value={category}
-              items={categoryArr}
-              placeholder={'Select Category'}
-              style={{
-                borderWidth: 0,
-                borderBottomWidth: 1,
-                borderColor: colors.borderColor,
-                marginLeft: -5
-              }}
-              containerStyle={{
-                borderWidth: 1,
-                borderColor: colors.borderColor,
-              }}
-              setOpen={setOpenCategory}
-              setValue={setCategory}
-              setItems={setCategoryArr}
-            />
-          </StyledInput>
-          <StyledInput>
-            <Input
-              ele='select'
-              open={openGender}
-              title={'Terget Gender'}
-              value={gender}
-              items={genderArr}
-              placeholder={'Select Gender'}
-              style={{
-                borderWidth: 0,
-                borderBottomWidth: 1,
-                borderColor: colors.borderColor,
-                marginLeft: -5
-              }}
-              containerStyle={{
-                borderWidth: 1,
-                borderColor: colors.borderColor,
-              }}
-              setOpen={setOpenGender}
-              setValue={setGender}
-              setItems={setGenderArr}
-            />
-          </StyledInput>
-        </StyledInlineInputContainer>}
-        <StyledInlineInputContainer>
-          {props.route.params.category ? <StyledInput>
-            <Input
-              ele='select'
-              open={openGender}
-              title={'Terget Gender'}
-              value={gender}
-              items={genderArr}
-              placeholder={'Select Gender'}
-              style={{
-                borderWidth: 0,
-                borderBottomWidth: 1,
-                borderColor: colors.borderColor,
-                marginLeft: -5
-              }}
-              containerStyle={{
-                borderWidth: 1,
-                borderColor: colors.borderColor,
-              }}
-              setOpen={setOpenGender}
-              setValue={setGender}
-              setItems={setGenderArr}
-            />
-          </StyledInput> : null}
-        </StyledInlineInputContainer>
-        <StyledInlineInputContainer>
-          <StyledInlineInput>
-            <StyledText>Public Post</StyledText>
-            <Input
-              ele={'switch'}
-              color={colors.mainByColor}
-              value={isPublic}
-              onChange={() => setIsPublic(!isPublic)}
-            />
-          </StyledInlineInput>
-        </StyledInlineInputContainer>
-        <StyledInlineInputContainer>
-          <StyledInlineInput>
-            <StyledText>User Visibility</StyledText>
-            <Input
-              ele={'switch'}
-              color={colors.mainByColor}
-              value={userVisible}
-              onChange={() => setUserVisible(!userVisible)}
-            />
-          </StyledInlineInput>
-        </StyledInlineInputContainer>
-        <SubmitButton labelStyle={{ color: colors.backgroundColor }} loading={loading} mode='contained' onPress={!loading ? editPostFnc : null}>
-          Edit Post
-        </SubmitButton>
-      </InputWrapper>
-    </StyledScrollView>
+    showLoader ? <Loader /> : <ShadowWrapperContainer none>
+      <StyledScrollView>
+        <TouchableOpacity onPress={uploadImg}>
+          <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+            <StyledCardCover source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+          </StyledImageBackground>
+        </TouchableOpacity>
+        <InputWrapper>
+          <InputView>
+            {formElementsArray?.map((x, index) => (
+              x.id !== 'otp' && <Input
+                key={index}
+                title={x.config?.elementConfig?.text}
+                placeholder={x.config?.elementConfig?.placeholder}
+                onInputChange={onInputChange}
+                onSubmit={() => Keyboard.dismiss()}
+                value={x.config?.value}
+                class={x.config?.className}
+                type={x.config?.elementConfig?.type}
+                keyNum={x.config?.validation?.isNumeric}
+                isValid={x.config?.valid}
+                validation={x.config?.validation}
+                errorMsg={x.config?.errors}
+                icons={x.config?.icons}
+                ele={x.config?.elementType}
+              />
+            ))}
+          </InputView>
+          {props.route.params.category ? <StyledText>Categoty Name: {props.route.params.category.name}</StyledText> : <StyledInlineInputContainer style={{ zIndex: 1000 }}>
+            <StyledInput>
+              <Input
+                ele='select'
+                open={openCategory}
+                title={'Select Category'}
+                value={category}
+                items={categoryArr}
+                placeholder={'Select Category'}
+                style={{
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                  borderColor: colors.borderColor,
+                  marginLeft: -5
+                }}
+                containerStyle={{
+                  borderWidth: 1,
+                  borderColor: colors.borderColor,
+                }}
+                setOpen={setOpenCategory}
+                setValue={setCategory}
+                setItems={setCategoryArr}
+              />
+            </StyledInput>
+            <StyledInput>
+              <Input
+                ele='select'
+                open={openGender}
+                title={'Terget Gender'}
+                value={gender}
+                items={genderArr}
+                placeholder={'Select Gender'}
+                style={{
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                  borderColor: colors.borderColor,
+                  marginLeft: -5
+                }}
+                containerStyle={{
+                  borderWidth: 1,
+                  borderColor: colors.borderColor,
+                }}
+                setOpen={setOpenGender}
+                setValue={setGender}
+                setItems={setGenderArr}
+              />
+            </StyledInput>
+          </StyledInlineInputContainer>}
+          <StyledInlineInputContainer>
+            {props.route.params.category ? <StyledInput>
+              <Input
+                ele='select'
+                open={openGender}
+                title={'Terget Gender'}
+                value={gender}
+                items={genderArr}
+                placeholder={'Select Gender'}
+                style={{
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                  borderColor: colors.borderColor,
+                  marginLeft: -5
+                }}
+                containerStyle={{
+                  borderWidth: 1,
+                  borderColor: colors.borderColor,
+                }}
+                setOpen={setOpenGender}
+                setValue={setGender}
+                setItems={setGenderArr}
+              />
+            </StyledInput> : null}
+          </StyledInlineInputContainer>
+          <StyledInlineInputContainer>
+            <StyledInlineInput>
+              <StyledText>Public Post</StyledText>
+              <Input
+                ele={'switch'}
+                color={colors.mainByColor}
+                value={isPublic}
+                onChange={() => setIsPublic(!isPublic)}
+              />
+            </StyledInlineInput>
+          </StyledInlineInputContainer>
+          <StyledInlineInputContainer>
+            <StyledInlineInput>
+              <StyledText>User Visibility</StyledText>
+              <Input
+                ele={'switch'}
+                color={colors.mainByColor}
+                value={userVisible}
+                onChange={() => setUserVisible(!userVisible)}
+              />
+            </StyledInlineInput>
+          </StyledInlineInputContainer>
+          <SubmitButton labelStyle={{ color: colors.backgroundColor }} loading={loading} mode='contained' onPress={!loading ? editPostFnc : null}>
+            Edit Post
+          </SubmitButton>
+        </InputWrapper>
+      </StyledScrollView>
+    </ShadowWrapperContainer>
   );
 };
 

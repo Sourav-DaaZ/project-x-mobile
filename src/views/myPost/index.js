@@ -20,7 +20,7 @@ const MyPost = (props) => {
     const [data, setData] = useState([]);
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
-    const [showLoader, setShowLoader] = useState(true);
+    const [showLoader, setShowLoader] = useState(false);
 
     const apiCall = (pageCount) => {
         InsideAuthApi(authStore)

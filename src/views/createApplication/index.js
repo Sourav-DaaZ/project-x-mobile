@@ -148,7 +148,7 @@ const CreateApplication = (props) => {
       const requestData = {
         post_id: props.route.params.id,
         details: data.controls.description.value,
-        expectedPrice: data.controls.price.value,
+        expectedPrice: Number(data.controls.price.value),
         userVisible: userVisible,
         images: []
       }

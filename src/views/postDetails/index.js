@@ -26,11 +26,12 @@ import InsideAuthApi from '../../services/inSideAuth';
 import Routes from '../../constants/routeConst';
 import Loader from '../../sharedComponents/loader';
 import ListItem from '../../sharedComponents/listItem'
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const PostDetails = (props) => {
     const [data, setData] = useState({});
     const [showMenu, setShowMenu] = useState(false);
-    const [showLoader, setShowLoader] = useState(true);
+    const [showLoader, setShowLoader] = useState(false);
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -84,7 +85,7 @@ const PostDetails = (props) => {
     }
 
     return (
-        showLoader ? <Loader /> : <React.Fragment>
+        showLoader ? <Loader /> : <ShadowWrapperContainer none>
             <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
                 <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
             </StyledImageBackground>
@@ -96,7 +97,7 @@ const PostDetails = (props) => {
                             <StyledCardTitle style={{ marginBottom: 5 }}>{data?.title}</StyledCardTitle>
                         </StyledInlineLeft>
                         <StyledInlineRight>
-                            {data?.expected_price ? <StyledCardTitle style={{ textAlign: 'right' }}>{data.expected_price} Rs</StyledCardTitle> : null}
+                            {data?.expectedPrice ? <StyledCardTitle style={{ textAlign: 'right' }}>{data.expectedPrice} Rs</StyledCardTitle> : null}
                             {data?.genderSpecific && data.genderSpecific.toLowerCase() !== 'all' ? <StyledCardParagraph style={{ textAlign: 'right' }}>({data.genderSpecific} only)</StyledCardParagraph> : null}
                         </StyledInlineRight>
                     </StyledInlineContainer>
@@ -120,7 +121,7 @@ const PostDetails = (props) => {
                     </TouchableOpacity> : null}
                 </StyledCardAction>
             </StyledCard>
-        </React.Fragment>
+        </ShadowWrapperContainer>
     )
 }
 export default PostDetails;

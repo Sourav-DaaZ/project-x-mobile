@@ -13,6 +13,7 @@ import {
 } from './style';
 import Routes from '../../../constants/routeConst';
 import { useIsFocused } from '@react-navigation/native';
+import { ShadowWrapperContainer } from '../../bottomShadow';
 
 const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -35,13 +36,13 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-    }, [isFocused]);
+    }, []);
 
     useEffect(() => {
         if (authStore.access_token) {
             apiCall(authStore);
         }
-    }, [isFocused, authStore.access_token, props.refreshing]);
+    }, [authStore.access_token, props.refreshing]);
 
 
     const apiCall = (authStore) => {
@@ -80,22 +81,24 @@ const DashboardLayout = (props) => {
     };
 
     return (
-        <DashboardOuterView>
-            <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
-            {props.children}
-            {props.fab && authStore.access_token && authStore.access_token !== '' ? <FAB
-                style={{
-                    position: 'absolute',
-                    margin: 16,
-                    right: 0,
-                    bottom: 30,
-                    backgroundColor: colors.mainColor
-                }}
-                icon="plus"
-                label='Post'
-                onPress={() => props.navigation.navigate(Routes.createPost, { categories: props.category })}
-            /> : null}
-        </DashboardOuterView>
+        <ShadowWrapperContainer none>
+            <DashboardOuterView>
+                <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
+                {props.children}
+                {props.fab && authStore.access_token && authStore.access_token !== '' ? <FAB
+                    style={{
+                        position: 'absolute',
+                        margin: 16,
+                        right: 0,
+                        bottom: 30,
+                        backgroundColor: colors.mainColor
+                    }}
+                    icon="plus"
+                    label='Post'
+                    onPress={() => props.navigation.navigate(Routes.createPost, { categories: props.category })}
+                /> : null}
+            </DashboardOuterView>
+        </ShadowWrapperContainer>
     );
 };
 

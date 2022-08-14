@@ -3,7 +3,9 @@ import {
     View,
 } from 'react-native';
 import { ThemeContext } from 'styled-components';
-import { StyledContainer } from './style';
+import { StyledContainer, StyledView } from './style';
+import { useSelector, shallowEqual } from 'react-redux';
+import SnackBar from '../snackbar';
 
 
 export const BottomShadow = (props) => {
@@ -27,9 +29,15 @@ export const BottomShadow = (props) => {
 };
 
 export const ShadowWrapperContainer = (props) => {
+    const authStore = useSelector((state) => state.auth, shallowEqual);
     return (
-        <StyledContainer style={props.style} animation={props.animation ? props.animation : 'flipInX'}>
-            {props.children}
-        </StyledContainer>
+        <React.Fragment>
+            <SnackBar text={authStore.message.msg} type={authStore.message.type} />
+            {props.none ? <StyledView>
+                {props.children}
+            </StyledView> : <StyledContainer style={props.style} animation={props.animation ? props.animation : 'flipInX'}>
+                {props.children}
+            </StyledContainer>}
+        </React.Fragment>
     );
 };

@@ -63,7 +63,6 @@ const AddTags = (props) => {
         value: '',
         validation: {
           required: true,
-          isNumeric: true
         },
         valid: true,
         errors: '',
@@ -152,7 +151,7 @@ const AddTags = (props) => {
 
   return (
     <ShadowWrapperContainer>
-      <StyledScrollView style={{ flex: 1 }}>
+      <StyledScrollView>
         <InputView>
           {formElementsArray?.map((x, index) => (
             <Input
@@ -173,18 +172,6 @@ const AddTags = (props) => {
             />
           ))}
         </InputView>
-
-        {/* <StyledInlineInputContainer>
-          <StyledInlineInput>
-            <StyledText>Available to Public?</StyledText>
-            <Input
-              ele={'switch'}
-              color={colors.mainByColor}
-              value={isPublic}
-              onChange={() => setIsPublic(!isPublic)}
-            />
-          </StyledInlineInput>
-        </StyledInlineInputContainer> */}
         <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? createTagFnc : null}>
           Create Tags
         </SubmitButton>

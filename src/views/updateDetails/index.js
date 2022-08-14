@@ -29,7 +29,7 @@ import {
   StyledInput
 } from './style';
 import { Avatar } from 'react-native-paper';
-import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../routes/custom';
 
 const UpdateDetails = (props) => {
@@ -192,18 +192,32 @@ const UpdateDetails = (props) => {
     InsideAuthApi(authStore)
       .logout()
       .then(async (res) => {
-        await AsyncStorage.removeItem('token');
+        dispatch(detailsUpdate({
+          id: '',
+          name: '',
+          gender: '',
+          userCat: '',
+          expectedCat: [],
+        }))
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''
         }));
+        await AsyncStorage.removeItem('token');
       })
       .catch(async (err) => {
-        await AsyncStorage.removeItem('token');
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''
         }));
+        dispatch(detailsUpdate({
+          id: '',
+          name: '',
+          gender: '',
+          userCat: '',
+          expectedCat: [],
+        }))
+        await AsyncStorage.removeItem('token');
       });
   }
 
@@ -234,7 +248,7 @@ const UpdateDetails = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <ShadowWrapperContainer>
       <BottomShadow>
         <CustomHeader
           left={props.route.params?.logedin ? <Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => props.navigation.goBack()} /> : null}
@@ -351,7 +365,7 @@ const UpdateDetails = (props) => {
           </TouchableOpacity> : null}
         </StyledScrollView>
       </WrapperImage>
-    </React.Fragment>
+    </ShadowWrapperContainer>
   );
 };
 

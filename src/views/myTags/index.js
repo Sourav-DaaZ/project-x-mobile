@@ -25,7 +25,7 @@ const MyTags = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [Tag, setTag] = useState([]);
     const [showMenu, setShowMenu] = useState(null);
-    const [showLoader, setShowLoader] = useState('');
+    const [showLoader, setShowLoader] = useState(false);
 
     const apiCall = () => {
         OutsideAuthApi()
@@ -46,11 +46,8 @@ const MyTags = (props) => {
     }
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            setShowLoader(true);
-            apiCall();
-        })
-        return unsubscribe;
+        setShowLoader(true);
+        apiCall();
     }, []);
 
     const onDelete = (id) => {

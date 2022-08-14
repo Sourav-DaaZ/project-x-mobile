@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
 import Routes from '../../constants/routeConst';
 import ListItem from '../../sharedComponents/listItem';
-import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Loader from '../../sharedComponents/loader';
 import Banner from '../../sharedComponents/banner';
 import { openUrl } from '../../utils';
@@ -34,7 +34,7 @@ const SingleCategory = (props) => {
     const [globalPost, setGlobalPost] = useState(true);
     const [data, setData] = useState([]);
     const [banner, setBanner] = useState([]);
-    const [showLoader, setShowLoader] = useState(true);
+    const [showLoader, setShowLoader] = useState(false);
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
@@ -142,7 +142,7 @@ const SingleCategory = (props) => {
     }
 
     return (
-        <React.Fragment>
+        <ShadowWrapperContainer none>
             {showLoader ? <Loader /> : <StyledHorizontalScrollView
                 showsHorizontalScrollIndicator={false}
                 stickyHeaderIndices={[1]}
@@ -184,7 +184,7 @@ const SingleCategory = (props) => {
                 label='Post'
                 onPress={() => props.navigation.navigate(Routes.createPost, { category: { name: props.route.params.data.category_name, id: props.route.params.data._id } })}
             /> : null}
-        </React.Fragment>
+        </ShadowWrapperContainer>
     )
 };
 

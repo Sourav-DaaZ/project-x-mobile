@@ -19,6 +19,7 @@ import { ThemeContext } from 'styled-components';
 import { FAB } from 'react-native-paper';
 import { View } from 'react-native-animatable';
 import { openUrl } from '../../../utils';
+import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 
 
 const AdminBannerList = (props) => {
@@ -29,58 +30,60 @@ const AdminBannerList = (props) => {
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener("focus", () => {
-        OutsideAuthApi()
-            .getBannerApi('?banner_for=all')
-            .then((res) => {
-                setShowLoader(false);
-                let varData = [];
-                res.data?.map((x, i) => {
-                    varData.push([{
-                        key: x._id,
-                        img: x.image,
-                        onPress: () => openUrl(x.link),
-                        onLongPress: () => props.navigation.navigate(Routes.adminBannerUpdate, {data: x})
-                    }])
+            OutsideAuthApi()
+                .getBannerApi('?banner_for=all')
+                .then((res) => {
+                    setShowLoader(false);
+                    let varData = [];
+                    res.data?.map((x, i) => {
+                        varData.push([{
+                            key: x._id,
+                            img: x.image,
+                            onPress: () => openUrl(x.link),
+                            onLongPress: () => props.navigation.navigate(Routes.adminBannerUpdate, { data: x })
+                        }])
+                    })
+                    setData(varData);
                 })
-                setData(varData);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                dispatch(SnackbarUpdate({
-                    type: 'error',
-                    msg: err?.message
-                }));
-                setShowMsg(err.message)
-            });
+                .catch((err) => {
+                    setShowLoader(false);
+                    dispatch(SnackbarUpdate({
+                        type: 'error',
+                        msg: err?.message
+                    }));
+                    setShowMsg(err.message)
+                });
         })
         return () => unsubscribe;
     }, [])
 
     return (
 
-        showLoader ? <Loader /> : <StyledScrollView>
-            {data.map((x, i) => <View style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'row',
-                flex: 1,
-                flexWrap: 'wrap'
-            }} key={i}><Banner data={x} /></View>)}
+        showLoader ? <Loader /> : <ShadowWrapperContainer>
+            <StyledScrollView none>
+                {data.map((x, i) => <View style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    flex: 1,
+                    flexWrap: 'wrap'
+                }} key={i}><Banner data={x} /></View>)}
 
-            <FAB
-                style={{
-                    position: 'absolute',
-                    margin: 16,
-                    right: 0,
-                    bottom: 30,
-                    backgroundColor: colors.mainColor
-                }}
-                icon="plus"
-                label='Banner'
-                onPress={() => props.navigation.navigate(Routes.adminBannerUpdate)}
-            />
-        </StyledScrollView>
+                <FAB
+                    style={{
+                        position: 'absolute',
+                        margin: 16,
+                        right: 0,
+                        bottom: 30,
+                        backgroundColor: colors.mainColor
+                    }}
+                    icon="plus"
+                    label='Banner'
+                    onPress={() => props.navigation.navigate(Routes.adminBannerUpdate)}
+                />
+            </StyledScrollView>
+        </ShadowWrapperContainer>
     )
 }
 export default AdminBannerList;

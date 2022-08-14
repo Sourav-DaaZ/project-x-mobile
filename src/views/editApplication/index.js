@@ -185,50 +185,52 @@ const EditApplication = (props) => {
 
 
   return (
-    <StyledScrollView>
-      <TouchableOpacity onPress={uploadImg}>
-        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-          <StyledCardCover source={{ uri: image && image[0] ? + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
-        </StyledImageBackground>
-      </TouchableOpacity>
-      <InputWrapper>
-        <InputView>
-          {formElementsArray?.map((x, index) => (
-            x.id !== 'otp' && <Input
-              key={index}
-              title={x.config?.elementConfig?.text}
-              placeholder={x.config?.elementConfig?.placeholder}
-              onInputChange={onInputChange}
-              onSubmit={() => Keyboard.dismiss()}
-              value={x.config?.value}
-              class={x.config?.className}
-              type={x.config?.elementConfig?.type}
-              keyNum={x.config?.validation?.isNumeric}
-              isValid={x.config?.valid}
-              validation={x.config?.validation}
-              errorMsg={x.config?.errors}
-              icons={x.config?.icons}
-              ele={x.config?.elementType}
-            />
-          ))}
-        </InputView>
+    <ShadowWrapperContainer none>
+      <StyledScrollView>
+        <TouchableOpacity onPress={uploadImg}>
+          <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+            <StyledCardCover source={{ uri: image && image[0] ? + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+          </StyledImageBackground>
+        </TouchableOpacity>
+        <InputWrapper>
+          <InputView>
+            {formElementsArray?.map((x, index) => (
+              x.id !== 'otp' && <Input
+                key={index}
+                title={x.config?.elementConfig?.text}
+                placeholder={x.config?.elementConfig?.placeholder}
+                onInputChange={onInputChange}
+                onSubmit={() => Keyboard.dismiss()}
+                value={x.config?.value}
+                class={x.config?.className}
+                type={x.config?.elementConfig?.type}
+                keyNum={x.config?.validation?.isNumeric}
+                isValid={x.config?.valid}
+                validation={x.config?.validation}
+                errorMsg={x.config?.errors}
+                icons={x.config?.icons}
+                ele={x.config?.elementType}
+              />
+            ))}
+          </InputView>
 
-        <StyledInlineInputContainer>
-          <StyledInlineInput>
-            <StyledText>User Visibility</StyledText>
-            <Input
-              ele={'switch'}
-              color={colors.mainByColor}
-              value={userVisible}
-              onChange={() => setUserVisible(!userVisible)}
-            />
-          </StyledInlineInput>
-        </StyledInlineInputContainer>
-        <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? applicationFnc : null}>
-          Edit Application
-        </SubmitButton>
-      </InputWrapper>
-    </StyledScrollView>
+          <StyledInlineInputContainer>
+            <StyledInlineInput>
+              <StyledText>User Visibility</StyledText>
+              <Input
+                ele={'switch'}
+                color={colors.mainByColor}
+                value={userVisible}
+                onChange={() => setUserVisible(!userVisible)}
+              />
+            </StyledInlineInput>
+          </StyledInlineInputContainer>
+          <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? applicationFnc : null}>
+            Edit Application
+          </SubmitButton>
+        </InputWrapper>
+      </StyledScrollView>
+    </ShadowWrapperContainer>
   );
 };
 

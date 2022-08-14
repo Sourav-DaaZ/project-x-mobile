@@ -24,7 +24,7 @@ import {
   InputWrapper,
 
 } from './style';
-import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
+import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Banner from '../../../sharedComponents/banner';
 import OutsideAuthApi from '../../../services/outSideAuth';
@@ -279,81 +279,83 @@ const AdminUpdateBanner = (props) => {
 
 
   return (
-    <StyledScrollView>
-      <Banner data={[{
-        img: image,
-        onPress: uploadImg
-      }]} />
-      <InputWrapper>
-        <InputView>
-          {formElementsArray?.map((x, index) => (
-            x.id !== 'otp' && <Input
-              key={index}
-              title={x.config?.elementConfig?.text}
-              placeholder={x.config?.elementConfig?.placeholder}
-              onInputChange={onInputChange}
-              onSubmit={() => Keyboard.dismiss()}
-              value={x.config?.value}
-              class={x.config?.className}
-              type={x.config?.elementConfig?.type}
-              keyNum={x.config?.validation?.isNumeric}
-              isValid={x.config?.valid}
-              validation={x.config?.validation}
-              errorMsg={x.config?.errors}
-              icons={x.config?.icons}
-              ele={x.config?.elementType}
-            />
-          ))}
-        </InputView>
-        <Input
-          ele='select'
-          open={showBanner}
-          title={'Select Type'}
-          value={bannerFor}
-          items={bannerForArr}
-          placeholder={'Select Type'}
-          style={{
-            borderWidth: 0,
-            borderBottomWidth: 1,
-            borderColor: colors.borderColor,
-            marginLeft: -5,
-          }}
-          containerStyle={{
-            borderWidth: 1,
-            borderColor: colors.borderColor,
-          }}
-          setOpen={setShowBanner}
-          setValue={setBannerFor}
-          setItems={setBannerForArr}
-        />
-        <InputView>
+    <ShadowWrapperContainer none>
+      <StyledScrollView>
+        <Banner data={[{
+          img: image,
+          onPress: uploadImg
+        }]} />
+        <InputWrapper>
+          <InputView>
+            {formElementsArray?.map((x, index) => (
+              x.id !== 'otp' && <Input
+                key={index}
+                title={x.config?.elementConfig?.text}
+                placeholder={x.config?.elementConfig?.placeholder}
+                onInputChange={onInputChange}
+                onSubmit={() => Keyboard.dismiss()}
+                value={x.config?.value}
+                class={x.config?.className}
+                type={x.config?.elementConfig?.type}
+                keyNum={x.config?.validation?.isNumeric}
+                isValid={x.config?.valid}
+                validation={x.config?.validation}
+                errorMsg={x.config?.errors}
+                icons={x.config?.icons}
+                ele={x.config?.elementType}
+              />
+            ))}
+          </InputView>
           <Input
             ele='select'
-            open={openCategory}
-            title={'Select Category'}
-            value={category}
-            items={categoryArr}
-            placeholder={'Select Category'}
+            open={showBanner}
+            title={'Select Type'}
+            value={bannerFor}
+            items={bannerForArr}
+            placeholder={'Select Type'}
             style={{
               borderWidth: 0,
               borderBottomWidth: 1,
               borderColor: colors.borderColor,
-              marginLeft: -5
+              marginLeft: -5,
             }}
             containerStyle={{
               borderWidth: 1,
               borderColor: colors.borderColor,
             }}
-            setOpen={setOpenCategory}
-            setValue={setCategory}
-            setItems={setCategoryArr}
+            setOpen={setShowBanner}
+            setValue={setBannerFor}
+            setItems={setBannerForArr}
           />
-        </InputView>
-        <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editBannerFnc : createBannerFnc : null}>
-          {props.route.params?.data?._id ? 'Edit Banner' : 'Create Banner'}
-        </SubmitButton>
-      </InputWrapper>
-    </StyledScrollView>
+          <InputView>
+            <Input
+              ele='select'
+              open={openCategory}
+              title={'Select Category'}
+              value={category}
+              items={categoryArr}
+              placeholder={'Select Category'}
+              style={{
+                borderWidth: 0,
+                borderBottomWidth: 1,
+                borderColor: colors.borderColor,
+                marginLeft: -5
+              }}
+              containerStyle={{
+                borderWidth: 1,
+                borderColor: colors.borderColor,
+              }}
+              setOpen={setOpenCategory}
+              setValue={setCategory}
+              setItems={setCategoryArr}
+            />
+          </InputView>
+          <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editBannerFnc : createBannerFnc : null}>
+            {props.route.params?.data?._id ? 'Edit Banner' : 'Create Banner'}
+          </SubmitButton>
+        </InputWrapper>
+      </StyledScrollView>
+    </ShadowWrapperContainer>
   );
 };
 

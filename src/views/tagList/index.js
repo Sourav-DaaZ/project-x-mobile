@@ -21,6 +21,7 @@ const TagList = (props) => {
     const dispatch = useDispatch();
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [sTag, setStag] = useState([]);
     const [nTag, setNtag] = useState([]);
     const [showLoader, setShowLoader] = useState('');
@@ -30,7 +31,7 @@ const TagList = (props) => {
         const unsubscribe = props.navigation.addListener("focus", () => {
             setShowLoader(true);
             OutsideAuthApi()
-                .tagListApi(`?lat=${100}&long=${20}`)
+                .tagListApi(`?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}`)
                 .then((res) => {
                     if (res.data) {
                         let secure = [];

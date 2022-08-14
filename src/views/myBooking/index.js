@@ -24,7 +24,7 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../store/actions';
 
 import Routes from '../../constants/routeConst';
-import { BottomShadow } from '../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Booking from './booking';
 import Modal from '../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -81,7 +81,7 @@ const MyBooking = (props) => {
     }
 
     return (
-        <React.Fragment>
+        <ShadowWrapperContainer>
             <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <StyledContainer>
                     {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
@@ -150,7 +150,7 @@ const MyBooking = (props) => {
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
-        </React.Fragment>
+        </ShadowWrapperContainer>
     )
 }
 export default MyBooking;
