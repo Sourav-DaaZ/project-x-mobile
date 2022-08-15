@@ -7,6 +7,7 @@ import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate } from '../../../store/actions';
+import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -15,42 +16,29 @@ import {
   SubmitButton,
   InputView,
   StyledScrollView,
+  StyledInlineInput,
+  StyledText,
+  StyledInlineInputContainer,
+  StyledImageBackground,
+  StyledCardCover,
   InputWrapper,
 
 } from './style';
-import SingleCat from '../../category/categoryList/singleCat';
-import { launchImageLibrary } from 'react-native-image-picker';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { launchImageLibrary } from 'react-native-image-picker';
 
-const AdminUpdateCategory = (props) => {
+const EditApplication = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
+  const authStore = useSelector((state) => state.auth, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
-  const [image, setImage] = useState(props.route.params?.data?.images ? props.route.params?.data?.images : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg');
+  const [image, setImage] = useState(props.route.params?.image ? props.route.params.image : [null]);
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
+  const [userVisible, setUserVisible] = useState(props.route.params.data.visible);
   const [data, setData] = useState({
     controls: {
-      category_name: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'category_name',
-          text: 'Category Name*',
-          placeholder: 'Enter category name',
-        },
-        value: props.route.params?.data?.category_name ? props.route.params.data.category_name : '',
-        validation: {
-          required: true,
-        },
-        valid: props.route.params?.data?.category_name ? true : false,
-        errors: '',
-        className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
-      },
       description: {
         elementType: 'input',
         elementConfig: {
@@ -58,16 +46,35 @@ const AdminUpdateCategory = (props) => {
           text: 'Description*',
           placeholder: 'Enter your description',
         },
-        value: props.route.params?.data?.description ? props.route.params.data.description : '',
+        value: props.route.params.data.details ? props.route.params.data.details : '',
         validation: {
           required: true,
         },
-        valid: props.route.params?.data?.description ? true : false,
+        valid: props.route.params.data.details ? true : false,
         errors: '',
         className: [],
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />,
           <Feather name="check-circle" color="green" size={20} />,
+        ],
+      },
+      price: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'price',
+          text: 'Expected Price',
+          placeholder: 'Enter Expected Price',
+        },
+        value: props.route.params.data.expectedPrice ? props.route.params.data.expectedPrice.toString() : '',
+        validation: {
+          required: false,
+          isNumeric: true
+        },
+        valid: true,
+        errors: '',
+        className: [],
+        icons: [
+          <FontAwesome name="user-o" color="#05375a" size={20} />,
         ],
       }
     },
@@ -111,7 +118,7 @@ const AdminUpdateCategory = (props) => {
     }
   };
 
-  const createCategory = () => {
+  const applicationFnc = () => {
     let isValid = [];
     formElementsArray.map(
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
@@ -123,51 +130,15 @@ const AdminUpdateCategory = (props) => {
       }))
     } else {
       const requestData = {
-        id: props.route.params?.data?._id,
-        category_name: data.controls.category_name.value,
-        description: data.controls.description.value,
+        application_id: props.route.params.data._id,
+        details: data.controls.description.value,
+        expectedPrice: Number(data.controls.price.value),
+        visible: userVisible,
         images: image
       }
       setLoader(true);
-      InsideAuthApi()
-        .createCategoryApi(requestData)
-        .then((res) => {
-          setLoader(false);
-          dispatch(SnackbarUpdate({
-            type: 'success',
-            msg: res.message
-          }));
-          props.navigation.goBack();
-        })
-        .catch((err) => {
-          setLoader(false);
-          dispatch(SnackbarUpdate({
-            type: 'error',
-            msg: err?.message
-          }))
-        });
-    }
-  }
-  const editCategory = () => {
-    let isValid = [];
-    formElementsArray.map(
-      (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
-    );
-    if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
-        type: 'error',
-        msg: validation.validateField()
-      }))
-    } else {
-      const requestData = {
-
-        category_name: data.controls.category_name.value,
-        description: data.controls.description.value,
-        images: image
-      }
-      setLoader(true);
-      InsideAuthApi()
-        .editCategoryApi(requestData)
+      InsideAuthApi(authStore)
+        .updateApplicationApi(requestData)
         .then((res) => {
           setLoader(false);
           dispatch(SnackbarUpdate({
@@ -198,7 +169,7 @@ const AdminUpdateCategory = (props) => {
     };
     try {
       const result = await launchImageLibrary(options);
-      setImage("data:image/png;base64," + result.assets[0].base64);
+      setImage(['data:image/png;base64,' + result.assets[0].base64]);
     } catch (e) {
       console.log(e)
     }
@@ -217,12 +188,14 @@ const AdminUpdateCategory = (props) => {
     <ShadowWrapperContainer none>
       <StyledScrollView>
         <TouchableOpacity onPress={uploadImg}>
-          <SingleCat img={image} name={data.controls.category_name.value} />
+          <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+            <StyledCardCover source={{ uri: image && image[0] ? + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+          </StyledImageBackground>
         </TouchableOpacity>
         <InputWrapper>
           <InputView>
             {formElementsArray?.map((x, index) => (
-              <Input
+              x.id !== 'otp' && <Input
                 key={index}
                 title={x.config?.elementConfig?.text}
                 placeholder={x.config?.elementConfig?.placeholder}
@@ -240,8 +213,20 @@ const AdminUpdateCategory = (props) => {
               />
             ))}
           </InputView>
-          <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editCategory : createCategory : null}>
-            {props.route.params?.data?._id ? "Edit Category" : "Create Category"}
+
+          <StyledInlineInputContainer>
+            <StyledInlineInput>
+              <StyledText>User Visibility</StyledText>
+              <Input
+                ele={'switch'}
+                color={colors.mainByColor}
+                value={userVisible}
+                onChange={() => setUserVisible(!userVisible)}
+              />
+            </StyledInlineInput>
+          </StyledInlineInputContainer>
+          <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? applicationFnc : null}>
+            Edit Application
           </SubmitButton>
         </InputWrapper>
       </StyledScrollView>
@@ -249,4 +234,4 @@ const AdminUpdateCategory = (props) => {
   );
 };
 
-export default AdminUpdateCategory;
+export default EditApplication;

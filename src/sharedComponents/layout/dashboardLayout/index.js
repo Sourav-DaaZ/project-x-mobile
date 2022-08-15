@@ -32,6 +32,7 @@ const DashboardLayout = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [detailsShow, setDetailsShow] = useState(false);
     const [updatePopup, setUpdatePopup] = useState(null);
+    const [detailsData, setDetailsData] = useState(null);
 
     useEffect(() => {
         if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
@@ -80,6 +81,7 @@ const DashboardLayout = (props) => {
         InsideAuthApi(authStore)
             .detailsApi()
             .then((res) => {
+                setDetailsData(res.data);
                 dispatch(detailsUpdate({
                     id: res.data.user ? res.data.user : '',
                     name: res.data.name ? res.data.name : '',
@@ -110,8 +112,8 @@ const DashboardLayout = (props) => {
                         <UpdateButton mode="outlined" onPress={() => setDetailsShow(false)}>
                             <CancelText>Cancel</CancelText>
                         </UpdateButton>
-                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => {
-                            props.navigation.navigate(Routes.updateDetails);
+                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} disabled={detailsData === null} mode="contained" onPress={() => {
+                            props.navigation.navigate(Routes.updateDetails, { data: detailsData });
                             setDetailsShow(false);
                         }}>
                             Details

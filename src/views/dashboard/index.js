@@ -12,7 +12,7 @@ import {
     StyledScrollView
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
-import SingleCategory from '../categoryList/singleCat';
+import SingleCategory from '../category/categoryList/singleCat';
 import Routes from '../../constants/routeConst';
 import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Input from '../../sharedComponents/input';

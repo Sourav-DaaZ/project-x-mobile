@@ -5,7 +5,7 @@ import {
     StyledScrollView
 } from './style';
 
-import SingleCategory from '../../categoryList/singleCat';
+import SingleCategory from '../../category/categoryList/singleCat';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
