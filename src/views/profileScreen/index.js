@@ -46,6 +46,7 @@ import defaultValue from '../../constants/defaultValue';
 import ListItem from '../../sharedComponents/listItem';
 import { dateFormat, timeFormat } from '../../utils';
 import InsideAuthApi from '../../services/inSideAuth';
+import { View } from 'react-native-animatable';
 
 const ProfileScreen = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -134,35 +135,42 @@ const ProfileScreen = (props) => {
 
     return (
         showLoader ? <Loader /> : <ShadowWrapperContainer none>
-            <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <ImageWrapper>
-                    <StyledImage>
-                        <Avatar.Image
-                            source={{
-                                uri:
-                                    data.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
-                            }}
-                            size={120}
-                        />
-                    </StyledImage>
-                </ImageWrapper>
-                <StyledProfileView>
-                    <StyledTitle>{data?.name}</StyledTitle>
-                    <StyledParagraph>{data?.category?.category_name + (data?.subCategory ? `( ${data?.subCategory} )` : '')}</StyledParagraph>
-                </StyledProfileView>
-                <StyledReviewProfile>
-                    <StyledCenter>
-                        <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
-                    </StyledCenter>
-                    <StyledCenter>
-                        <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
-                    </StyledCenter>
-                    {props.route.params?.id && props.route.params.id !== detailsStore.id ? <StyledCenter>
-                        <TouchableOpacity onPress={() => props.navigation.navigate(Routes.userChat, { id: props.route.params.id })}>
-                            <Fontisto style={{ color: colors.mainColor }} name='messenger' size={30} />
-                        </TouchableOpacity>
-                    </StyledCenter> : null}
-                </StyledReviewProfile>
+            <StyledScrollView
+                stickyHeaderIndices={[1]}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ flexGrow: 1 }}>
+                <React.Fragment>
+                    <ImageWrapper>
+                        <StyledImage>
+                            <Avatar.Image
+                                source={{
+                                    uri:
+                                        data.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
+                                }}
+                                size={120}
+                            />
+                        </StyledImage>
+                    </ImageWrapper>
+                    <StyledProfileView>
+                        <StyledTitle>{data?.name}</StyledTitle>
+                        {data?.category?.category_name ? <StyledParagraph>{data?.category?.category_name + (data?.subCategory ? ` (${data?.subCategory})` : '')}</StyledParagraph> : null}
+                        {data?.contactAddress ? <StyledParagraph>{data.contactAddress}</StyledParagraph> : null}
+                        {data?.contactNumber ? <StyledParagraph>Phone: {data.contactNumber}</StyledParagraph> : null}
+                    </StyledProfileView>
+                    <StyledReviewProfile>
+                        <StyledCenter>
+                            <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
+                        </StyledCenter>
+                        <StyledCenter>
+                            <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
+                        </StyledCenter>
+                        {props.route.params?.id && props.route.params.id !== detailsStore.id ? <StyledCenter>
+                            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.userChat, { id: props.route.params.id })}>
+                                <Fontisto style={{ color: colors.mainColor }} name='messenger' size={30} />
+                            </TouchableOpacity>
+                        </StyledCenter> : null}
+                    </StyledReviewProfile>
+                </React.Fragment>
                 <StyledContainer>
                     <BottomShadow>
                         <StyledViewButton>

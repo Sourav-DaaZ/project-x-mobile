@@ -24,10 +24,12 @@ import { openUrl } from '../../utils';
 import { CustomHeader } from '../../routes/custom';
 import logoImg from '../../assets/images/logo.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { FAB } from 'react-native-paper';
 
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
@@ -73,7 +75,7 @@ const Dashboard = (props) => {
     }, [isFocused, refreshing])
 
     return (
-        <DashboardLayout fab={true} {...props} category={category} refreshing={refreshing}>
+        <DashboardLayout {...props} category={category} refreshing={refreshing}>
             <StyledScrollView
                 stickyHeaderIndices={[1]}
                 showsVerticalScrollIndicator={false}
@@ -131,7 +133,19 @@ const Dashboard = (props) => {
                     </View>
                 </ShadowWrapperContainer>}
             </StyledScrollView>
-        </DashboardLayout >
+            {authStore.access_token && authStore.access_token !== '' ? <FAB
+                style={{
+                    position: 'absolute',
+                    margin: 16,
+                    right: 0,
+                    bottom: 30,
+                    backgroundColor: colors.mainColor
+                }}
+                icon="plus"
+                label='Post'
+                onPress={() => props.navigation.navigate(Routes.createPost, { categories: category })}
+            /> : null}
+        </DashboardLayout>
     )
 };
 

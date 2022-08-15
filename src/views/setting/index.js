@@ -33,7 +33,7 @@ const Setting = (props) => {
   const onLoginOut = () => {
     InsideAuthApi()
       .logout()
-      .then(async(res) => {
+      .then(async (res) => {
         await AsyncStorage.removeItem('token');
         dispatch(detailsUpdate({
           id: '',
@@ -47,7 +47,7 @@ const Setting = (props) => {
           refresh_token: ''
         }));
       })
-      .catch(async(err) => {
+      .catch(async (err) => {
         await AsyncStorage.removeItem('token');
         dispatch(detailsUpdate({
           id: '',
@@ -69,20 +69,14 @@ const Setting = (props) => {
         .detailsApi()
         .then((res) => {
           setShowLoader(false);
-          if(res.data.type === 'admin'){
-            setData(res.data)
-          }else if (res.data && res.data.name && res.data.category && res.data.category_preference) {
-            dispatch(detailsUpdate({
-              id: res.data.user,
-              name: res.data.name,
-              gender: res.data.gender,
-              userCat: res.data.category,
-              expectedCat: res.data.category_preference,
-            }))
-            setData(res.data)
-          } else {
-            props.navigation.navigate(Routes.updateDetails, { logedin: false })
-          }
+          dispatch(detailsUpdate({
+            id: res.data.user ? res.data.user : '',
+            name: res.data.name ? res.data.name : '',
+            gender: res.data.gender ? res.data.gender : '',
+            userCat: res.data.category ? res.data.category : '',
+            expectedCat: res.data.categoryPreference ? res.data.categoryPreference : [],
+          }))
+          setData(res.data)
         })
         .catch((err) => {
           setShowLoader(false);
@@ -150,19 +144,19 @@ const Setting = (props) => {
                 <StyledSemiTitle>My Tags</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { logedin: true, image: data?.images })}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, {data: data})}>
               <StyledLeftContainer>
                 <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
                 <StyledSemiTitle>Details Update</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myBooking, { logedin: true, image: data?.images })}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myBooking)}>
               <StyledLeftContainer>
                 <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
                 <StyledSemiTitle>My Booking</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myReview, { logedin: true, image: data?.images })}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myReview)}>
               <StyledLeftContainer>
                 <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
                 <StyledSemiTitle>My Review</StyledSemiTitle>

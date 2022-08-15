@@ -153,11 +153,11 @@ const SingleCategory = (props) => {
                     {banner.length > 0 ? <Banner data={banner} /> : null}
                 </StyledBannerWrapper>
                 <BottomShadow small>
-                    {authStore.access_token && authStore.access_token !== '' ? <StyledViewButton>
+                    <StyledViewButton>
                         {GlobalButton(globalPost, 'Post', () => setGlobalPost(true))}
                         {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
                         {GlobalButton(globalPost && !globalPost, 'Global', () => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id }))}
-                    </StyledViewButton> : null}
+                    </StyledViewButton>
                 </BottomShadow>
                 {globalPost && data.map((x, i) =>
                     <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />

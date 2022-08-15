@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Platform, StatusBar } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -10,10 +10,18 @@ import { detailsUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
 import {
     DashboardOuterView,
+    SplashTitle,
+    LoginDescription,
+    ButtonWrapper,
+    UpdateButton,
+    CancelText
 } from './style';
 import Routes from '../../../constants/routeConst';
 import { useIsFocused } from '@react-navigation/native';
 import { ShadowWrapperContainer } from '../../bottomShadow';
+import Modal from '../../modal';
+import OutsideAuthApi from '../../../services/outSideAuth';
+import defaultValue from '../../../constants/defaultValue';
 
 const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -22,6 +30,8 @@ const DashboardLayout = (props) => {
     const isFocused = useIsFocused();
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
+    const [detailsShow, setDetailsShow] = useState(false);
+    const [updatePopup, setUpdatePopup] = useState(null);
 
     useEffect(() => {
         if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
@@ -36,6 +46,13 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
+        OutsideAuthApi()
+            .appConfigApi()
+            .then((res) => {
+                setUpdatePopup(res.data);
+            }).catch((x) => {
+                console.log(x);
+            })
     }, []);
 
     useEffect(() => {
@@ -61,16 +78,15 @@ const DashboardLayout = (props) => {
         InsideAuthApi(authStore)
             .detailsApi()
             .then((res) => {
-                if (res.data && res.data.name && res.data.category && res.data.category_preference) {
-                    dispatch(detailsUpdate({
-                        id: res.data.user,
-                        name: res.data.name,
-                        gender: res.data.gender,
-                        userCat: res.data.category,
-                        expectedCat: res.data.category_preference,
-                    }))
-                } else {
-                    props.navigation.navigate(Routes.updateDetails, { logedin: false })
+                dispatch(detailsUpdate({
+                    id: res.data.user ? res.data.user : '',
+                    name: res.data.name ? res.data.name : '',
+                    gender: res.data.gender ? res.data.gender : '',
+                    userCat: res.data.category ? res.data.category : '',
+                    expectedCat: res.data.categoryPreference ? res.data.categoryPreference : [],
+                }))
+                if (!(res.data && res.data.name && res.data.category && res.data.categoryPreference)) {
+                    setDetailsShow(true);
                 }
             })
             .catch((err) => {
@@ -85,18 +101,29 @@ const DashboardLayout = (props) => {
             <DashboardOuterView>
                 <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
                 {props.children}
-                {props.fab && authStore.access_token && authStore.access_token !== '' ? <FAB
-                    style={{
-                        position: 'absolute',
-                        margin: 16,
-                        right: 0,
-                        bottom: 30,
-                        backgroundColor: colors.mainColor
-                    }}
-                    icon="plus"
-                    label='Post'
-                    onPress={() => props.navigation.navigate(Routes.createPost, { categories: props.category })}
-                /> : null}
+                <Modal show={detailsShow} onClose={() => setDetailsShow(false)}>
+                    <SplashTitle>Details Alert!</SplashTitle>
+                    <LoginDescription>Please update your details.</LoginDescription>
+                    <ButtonWrapper>
+                        <UpdateButton mode="outlined" onPress={() => setDetailsShow(false)}>
+                            <CancelText>Cancel</CancelText>
+                        </UpdateButton>
+                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => {
+                            props.navigation.navigate(Routes.updateDetails);
+                            setDetailsShow(false);
+                        }}>
+                            Details
+                        </UpdateButton>
+                    </ButtonWrapper>
+                </Modal>
+                {updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS] ? <Modal show={updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS]} onClose={!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? () => setUpdatePopup(null) : null}>
+                    <SplashTitle critical={defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]}>Update Alert!</SplashTitle>
+                    <LoginDescription mode="contained">{updatePopup.updateDetails[Platform.OS]}</LoginDescription>
+                    <ButtonWrapper>
+                        {!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? <UpdateButton mode="outlined"><CancelText>cancel</CancelText></UpdateButton> : null}
+                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} full={defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]} mode="contained">Update</UpdateButton>
+                    </ButtonWrapper>
+                </Modal> : null}
             </DashboardOuterView>
         </ShadowWrapperContainer>
     );

@@ -22,6 +22,8 @@ const Input = (props) => {
               placeholder={props.placeholder}
               style={props.style}
               autoFocus={props.autoFocus}
+              multiline={props.multiline ? props.multiline : false}
+              numberOfLines={props.multiline ? 3 : 1}
               placeholderTextColor={colors.textLight}
               keyboardType={props.keyNum ? "numeric" : null}
               onChangeText={(val) => props.onInputChange(val, props.type)}

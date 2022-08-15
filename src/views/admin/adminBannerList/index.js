@@ -59,7 +59,7 @@ const AdminBannerList = (props) => {
 
     return (
 
-        showLoader ? <Loader /> : <ShadowWrapperContainer>
+        showLoader ? <Loader /> : <ShadowWrapperContainer none>
             <StyledScrollView none>
                 {data.map((x, i) => <View style={{
                     display: 'flex',

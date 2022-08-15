@@ -31,7 +31,7 @@ const NotificationScreen = (props) => {
 
     const apiCall = (pageCount) => {
         OutsideAuthApi()
-            .myNotificationApi(`?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}&category_preference=${JSON.stringify(detailsStore.expectedCat)}&page=${pageCount}`)
+            .myNotificationApi(`?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}&categoryPreference=${JSON.stringify(detailsStore.expectedCat)}&page=${pageCount}`)
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;

@@ -7,30 +7,24 @@ import validation from '../../constants/validationMsg';
 import InsideAuthApi from '../../services/inSideAuth';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, detailsUpdate, tokenUpdate } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Routes from '../../constants/routeConst';
-import logoImg from '../../assets/images/logo.png';
-import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import {
   SubmitButton,
   InputView,
   StyledScrollView,
-  StyledInlineInput,
-  StyledText,
   WrapperImage,
-  StyledLgout,
   StyledInlineInputContainer,
-  StyledInput
+  StyledInput,
+  BodyWrapper
 } from './style';
 import { Avatar } from 'react-native-paper';
-import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
-import { CustomHeader } from '../../routes/custom';
+import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
 const UpdateDetails = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -44,26 +38,26 @@ const UpdateDetails = (props) => {
     { label: 'Female', value: 'female' }
   ]);
   const [categoryArr, setCategoryArr] = useState([]);
-  const [gender, setGender] = useState(detailsStore.gender !== '' ? detailsStore.gender : '');
-  const [category, setCategory] = useState(detailsStore.userCat !== '' ? detailsStore.userCat._id : '');
-  const [tergetCategory, setTergetCategory] = useState(detailsStore.expectedCat !== [] ? detailsStore.expectedCat : []);
+  const [gender, setGender] = useState(props.route.params?.data?.gender ? props.route.params.data.gender : '');
+  const [category, setCategory] = useState(props.route.params?.data?.category?._id ? props.route.params.data.category._id : '');
+  const [tergetCategory, setTergetCategory] = useState(props.route.params?.data?.categoryPreference ? props.route.params.data.categoryPreference : []);
   const [openTergetCategory, setOpenTergetCategory] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
-  const [image, setImage] = useState(props.route.params?.image ? props.route.params.image : null);
+  const [image, setImage] = useState(props.route.params?.data?.images ? props.route.params.data.images : null);
   const [data, setData] = useState({
     controls: {
       name: {
         elementType: 'input',
         elementConfig: {
           type: 'name',
-          text: 'Name',
+          text: 'Name*',
           placeholder: 'Enter your title',
         },
-        value: detailsStore.name,
+        value: props.route.params?.data?.name ? props.route.params.data.name : '',
         validation: {
-          required: true
+          required: props.route.params?.data?.name ? true : false
         },
         valid: detailsStore.name !== '',
         errors: '',
@@ -73,7 +67,60 @@ const UpdateDetails = (props) => {
           <Feather name="check-circle" color="green" size={20} />,
         ],
       },
-    },
+      contactNumber: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'contactNumber',
+          text: 'Contact Number',
+          placeholder: 'Enter your Contact Number',
+        },
+        value: props.route.params?.data?.contactNumber ? props.route.params.data.contactNumber : '',
+        validation: {
+          required: false,
+          isNumeric: true
+        },
+        valid: props.route.params?.data?.contactNumber ? true : false,
+        errors: '',
+        className: [],
+        icons: [
+          <FontAwesome name="user-o" color="#05375a" size={20} />,
+          <Feather name="check-circle" color="green" size={20} />,
+        ],
+      },
+      contactAddress: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'contactAddress',
+          text: 'Contact Address',
+          placeholder: 'Enter your Contact Address',
+        },
+        value: props.route.params?.data?.contactAddress ? props.route.params.data.contactAddress : '',
+        validation: {
+          required: false,
+          multiline: true
+        },
+        valid: props.route.params?.data?.contactAddress ? true : false,
+        errors: '',
+        className: [],
+        icons: [],
+      },
+      subCategory: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'subCategory',
+          text: 'Sub-category',
+          placeholder: 'Enter your Sub-Category',
+        },
+        value: props.route.params?.data?.subCategory ? props.route.params.data.subCategory : '',
+        validation: {
+          required: false,
+        },
+        valid: props.route.params?.data?.subCategory ? true : false,
+        errors: '',
+        className: [],
+        icons: [],
+      }
+    }
   });
 
   useEffect(() => {
@@ -99,7 +146,7 @@ const UpdateDetails = (props) => {
 
   const onInputChange = (val, type) => {
     let varVal = {};
-    if (!validate(val, { required: true })) {
+    if (type !== 'contactAddress' && type !== 'contactAddress' && !validate(val, { required: true })) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
           [type]: updateObject(data.controls[type], {
@@ -110,23 +157,12 @@ const UpdateDetails = (props) => {
         }),
       });
       setData(varVal);
-    } else if (type === 'price' && !validate(val, { isNumeric: true })) {
+    } else if (type === 'contactNumber' && !validate(val, { isNumeric: true })) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
           [type]: updateObject(data.controls[type], {
             value: val,
             errors: validation.validateField('price'),
-            valid: false,
-          }),
-        }),
-      });
-      setData(varVal);
-    } else if (type === 'password' && !validate(val, { password: true })) {
-      varVal = updateObject(data, {
-        controls: updateObject(data.controls, {
-          [type]: updateObject(data.controls[type], {
-            value: val,
-            errors: validation.validateField('password'),
             valid: false,
           }),
         }),
@@ -163,8 +199,11 @@ const UpdateDetails = (props) => {
       setLoading(true);
       const requestData = {
         name: data.controls.name.value,
+        contactNumber: data.controls.contactNumber.value,
+        contactAddress: data.controls.contactAddress.value,
+        subCategory: data.controls.subCategory.value,
         category: category,
-        category_preference: tergetCategory,
+        categoryPreference: tergetCategory,
         gender: gender,
         images: image
       }
@@ -186,39 +225,6 @@ const UpdateDetails = (props) => {
           }))
         });
     }
-  }
-
-  const onLoginOut = () => {
-    InsideAuthApi(authStore)
-      .logout()
-      .then(async (res) => {
-        dispatch(detailsUpdate({
-          id: '',
-          name: '',
-          gender: '',
-          userCat: '',
-          expectedCat: [],
-        }))
-        dispatch(tokenUpdate({
-          access_token: '',
-          refresh_token: ''
-        }));
-        await AsyncStorage.removeItem('token');
-      })
-      .catch(async (err) => {
-        dispatch(tokenUpdate({
-          access_token: '',
-          refresh_token: ''
-        }));
-        dispatch(detailsUpdate({
-          id: '',
-          name: '',
-          gender: '',
-          userCat: '',
-          expectedCat: [],
-        }))
-        await AsyncStorage.removeItem('token');
-      });
   }
 
   const uploadImg = async () => {
@@ -248,18 +254,14 @@ const UpdateDetails = (props) => {
   }
 
   return (
-    <ShadowWrapperContainer>
-      <BottomShadow>
-        <CustomHeader
-          left={props.route.params?.logedin ? <Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => props.navigation.goBack()} /> : null}
-          logo={<Image source={logoImg} />}
-        />
-      </BottomShadow>
+    <StyledScrollView>
       <WrapperImage>
         <TouchableOpacity style={{ zIndex: 9 }} onPress={uploadImg}>
           <Avatar.Image size={120} source={{ uri: image ? image : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />
         </TouchableOpacity>
-        <StyledScrollView style={{ flex: 1 }}>
+      </WrapperImage>
+      <ShadowWrapperContainer>
+        <BodyWrapper>
           <InputView>
             {formElementsArray?.map((x, index) => (
               <Input
@@ -272,6 +274,7 @@ const UpdateDetails = (props) => {
                 class={x.config?.className}
                 type={x.config?.elementConfig?.type}
                 keyNum={x.config?.validation?.isNumeric}
+                multiline={x.config?.validation?.multiline}
                 isValid={x.config?.valid}
                 validation={x.config?.validation}
                 errorMsg={x.config?.errors}
@@ -285,7 +288,7 @@ const UpdateDetails = (props) => {
               <Input
                 ele='select'
                 open={openCategory}
-                title={'My Category'}
+                title={'My Category*'}
                 value={category}
                 items={categoryArr}
                 placeholder={'Select Category'}
@@ -333,7 +336,7 @@ const UpdateDetails = (props) => {
               <Input
                 ele='select'
                 open={openTergetCategory}
-                title={'Interested Category'}
+                title={'Interested Category*'}
                 value={tergetCategory}
                 items={categoryArr}
                 multiple={true}
@@ -358,14 +361,9 @@ const UpdateDetails = (props) => {
           <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} onPress={!loading ? editDetailsFnc : null}>
             Save
           </SubmitButton>
-          {!props.route.params?.logedin ? <TouchableOpacity style={{
-            marginTop: 20
-          }} onPress={onLoginOut}>
-            <StyledLgout>{"Logout"}</StyledLgout>
-          </TouchableOpacity> : null}
-        </StyledScrollView>
-      </WrapperImage>
-    </ShadowWrapperContainer>
+        </BodyWrapper>
+      </ShadowWrapperContainer>
+    </StyledScrollView>
   );
 };
 

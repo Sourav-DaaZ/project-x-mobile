@@ -219,7 +219,12 @@ export function AuthRouters(props) {
         name={Routes.updateDetails}
         component={UpdateDetails}
         options={({ navigation }) => ({
-          headerShown: false
+          header: () => <BottomShadow>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
+              logo={<Image source={logoImg} />}
+            />
+          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createPost}

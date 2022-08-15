@@ -81,7 +81,7 @@ const MyBooking = (props) => {
     }
 
     return (
-        <ShadowWrapperContainer>
+        <ShadowWrapperContainer none>
             <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <StyledContainer>
                     {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
