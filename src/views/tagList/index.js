@@ -28,29 +28,26 @@ const TagList = (props) => {
 
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            setShowLoader(true);
-            OutsideAuthApi()
-                .tagListApi(`?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}`)
-                .then((res) => {
-                    if (res.data) {
-                        let secure = [];
-                        let notSecure = [];
-                        res.data?.map((x) => x.secure ? secure.push(x) : notSecure.push(x))
-                        setStag(secure);
-                        setNtag(notSecure);
-                    }
-                    setShowLoader(false);
-                })
-                .catch((err) => {
-                    setShowLoader(false);
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err?.message
-                    }));
-                });
-        })
-        return unsubscribe;
+        setShowLoader(true);
+        OutsideAuthApi()
+            .tagListApi(`?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}`)
+            .then((res) => {
+                if (res.data) {
+                    let secure = [];
+                    let notSecure = [];
+                    res.data?.map((x) => x.secure ? secure.push(x) : notSecure.push(x))
+                    setStag(secure);
+                    setNtag(notSecure);
+                }
+                setShowLoader(false);
+            })
+            .catch((err) => {
+                setShowLoader(false);
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err?.message
+                }));
+            });
     }, []);
 
 

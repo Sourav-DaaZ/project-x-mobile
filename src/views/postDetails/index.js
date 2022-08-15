@@ -20,7 +20,7 @@ import { Menu, Divider, Avatar } from 'react-native-paper';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { ThemeContext } from 'styled-components';
-import { SnackbarUpdate, loader } from '../../store/actions';
+import { SnackbarUpdate } from '../../store/actions';
 import OutsideAuthApi from '../../services/outSideAuth';
 import InsideAuthApi from '../../services/inSideAuth';
 import Routes from '../../constants/routeConst';
@@ -39,23 +39,20 @@ const PostDetails = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            dispatch(loader(true));
-            OutsideAuthApi()
-                .getPostDetailsApi(props.route.params?.id)
-                .then((res) => {
-                    setData(res.data);
-                    setShowLoader(false)
-                })
-                .catch((err) => {
-                    dispatch(SnackbarUpdate({
-                        type: 'error',
-                        msg: err?.message
-                    }));
-                    setShowLoader(false)
-                });
-        })
-        return () => unsubscribe
+        setShowLoader(true);
+        OutsideAuthApi()
+            .getPostDetailsApi(props.route.params?.id)
+            .then((res) => {
+                setData(res.data);
+                setShowLoader(false)
+            })
+            .catch((err) => {
+                dispatch(SnackbarUpdate({
+                    type: 'error',
+                    msg: err?.message
+                }));
+                setShowLoader(false)
+            });
     }, [])
 
     const deletePost = () => {

@@ -44,7 +44,7 @@ const SingleCategory = (props) => {
         select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
     )
 
-    const apiCall = (globalPost, pageCount) => {
+    const apiCall = (pageCount) => {
         if (globalPost) {
             const requestData = `?category_id=${props.route.params?.data._id}&lat=${detailsStore.location.lat}&long=${detailsStore.location.long}&gender=${detailsStore.gender}&page=${pageCount}`
             OutsideAuthApi()
@@ -107,7 +107,7 @@ const SingleCategory = (props) => {
         setShowLoader(true);
         setDataLoader(true);
         setPage(0);
-        apiCall(globalPost, 0);
+        apiCall(0);
         bannerData();
     }, [globalPost, refreshing])
 
@@ -143,7 +143,7 @@ const SingleCategory = (props) => {
 
     return (
         <ShadowWrapperContainer none>
-            {showLoader ? <Loader /> : <StyledHorizontalScrollView
+            <StyledHorizontalScrollView
                 showsHorizontalScrollIndicator={false}
                 stickyHeaderIndices={[1]}
                 refreshControl={
@@ -159,19 +159,21 @@ const SingleCategory = (props) => {
                         {GlobalButton(globalPost && !globalPost, 'Global', () => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id }))}
                     </StyledViewButton>
                 </BottomShadow>
-                {globalPost && data.map((x, i) =>
-                    <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
-                )}
-                {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
-                    <StyledUserWrapper>
-                        <ListItem
-                            title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
-                            description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
-                            image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user && x.user.images && x.userInfo.images[0] ? x.userInfo.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
-                    </StyledUserWrapper>
-                </TouchableOpacity>)}
-                {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
-            </StyledHorizontalScrollView>}
+                {showLoader ? <Loader /> : <React.Fragment>
+                    {globalPost && data.map((x, i) =>
+                        <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                    )}
+                    {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
+                        <StyledUserWrapper>
+                            <ListItem
+                                title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
+                                description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
+                                image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user && x.user.images && x.userInfo.images[0] ? x.userInfo.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
+                        </StyledUserWrapper>
+                    </TouchableOpacity>)}
+                    {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
+                </React.Fragment>}
+            </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',

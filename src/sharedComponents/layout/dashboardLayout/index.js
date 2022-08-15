@@ -46,13 +46,15 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-        OutsideAuthApi()
-            .appConfigApi()
-            .then((res) => {
-                setUpdatePopup(res.data);
-            }).catch((x) => {
-                console.log(x);
-            })
+        if (updatePopup === null) {
+            OutsideAuthApi()
+                .appConfigApi()
+                .then((res) => {
+                    setUpdatePopup(res.data);
+                }).catch((x) => {
+                    console.log(x);
+                })
+        }
     }, []);
 
     useEffect(() => {
