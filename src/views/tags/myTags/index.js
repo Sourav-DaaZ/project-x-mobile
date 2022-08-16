@@ -40,7 +40,7 @@ const MyTags = (props) => {
                 setShowLoader(false);
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }));
             });
     }
@@ -65,7 +65,7 @@ const MyTags = (props) => {
                 setShowMenu(null);
                 useDispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }));
             });
     }

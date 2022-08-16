@@ -56,7 +56,7 @@ const LoginLayout = (props) => {
                         .catch((err) => {
                             dispatch(SnackbarUpdate({
                                 type: 'error',
-                                msg: err?.message
+                                msg: err?.message ? err.message : ''
                             }))
                         });
                 }).catch((e) => {

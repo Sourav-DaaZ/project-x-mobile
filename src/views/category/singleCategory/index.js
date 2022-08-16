@@ -24,6 +24,7 @@ import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/
 import Loader from '../../../sharedComponents/loader';
 import Banner from '../../../sharedComponents/banner';
 import { openUrl } from '../../../utils';
+import defaultValue from '../../../constants/defaultValue';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -52,12 +53,16 @@ const SingleCategory = (props) => {
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
+                        if (res.data instanceof Array) {
                         varData = varData.concat(res.data)
+                    } else {
+                        varData = varData.push(res.data)
+                    }
                         setData(varData);
                     } else {
                         setData(res.data);
                     }
-                    if (res.data && res.data.length === 0) {
+                    if (res.data && res.data.length < defaultValue.paginationLength) {
                         setDataLoader(false)
                     }
                     setShowLoader(false);
@@ -66,7 +71,7 @@ const SingleCategory = (props) => {
                     if (err.message) {
                         dispatch(SnackbarUpdate({
                             type: 'error',
-                            msg: err?.message
+                            msg: err?.message ? err.message : ''
                         }));
                     }
                     setShowLoader(false);
@@ -78,12 +83,16 @@ const SingleCategory = (props) => {
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
+                        if (res.data instanceof Array) {
                         varData = varData.concat(res.data)
+                    } else {
+                        varData = varData.push(res.data)
+                    };
                         setData(varData);
                     } else {
                         setData(res.data);
                     }
-                    if (res.data && res.data.length === 0) {
+                    if (res.data && res.data.length < defaultValue.paginationLength) {
                         setDataLoader(false)
                     }
                     setShowLoader(false);
@@ -92,7 +101,7 @@ const SingleCategory = (props) => {
                     if (err.message) {
                         dispatch(SnackbarUpdate({
                             type: 'error',
-                            msg: err?.message
+                            msg: err?.message ? err.message : ''
                         }));
                     }
                     setShowLoader(false);
@@ -114,7 +123,7 @@ const SingleCategory = (props) => {
     useEffect(() => {
         if (page !== 0) {
             // setBanner([]);
-            apiCall(globalPost, page)
+            apiCall(page)
             // bannerData()
         }
     }, [page])
@@ -136,7 +145,7 @@ const SingleCategory = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }));
             })
     }
@@ -168,7 +177,7 @@ const SingleCategory = (props) => {
                             <ListItem
                                 title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
                                 description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
-                                image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user && x.user.images && x.userInfo.images[0] ? x.userInfo.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
+                                image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user?.userInfo?.images ? x.user.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
                         </StyledUserWrapper>
                     </TouchableOpacity>)}
                     {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}

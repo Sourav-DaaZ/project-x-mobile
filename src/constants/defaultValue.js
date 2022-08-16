@@ -1,6 +1,7 @@
 const defaultValue = {
     debuggingMode: false,
     otpLength: 4,
+    paginationLength: 3,
     bookingStatus: ["requested", "confirmed", "rejected", "cancelled"],
     appVersion: {
         android: 1.0,

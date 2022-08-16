@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { io } from "socket.io-client";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { View, TouchableOpacity, RefreshControl} from 'react-native';
+import { View, TouchableOpacity, RefreshControl } from 'react-native';
 import {
     StyledSafeAreaView,
     StyledScrollView,
@@ -23,6 +23,7 @@ import { timeFormat, dateFormat } from '../../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
+import defaultValue from '../../../constants/defaultValue';
 
 const ApplicationChat = (props) => {
     const scrollViewRef = useRef();
@@ -86,7 +87,7 @@ const ApplicationChat = (props) => {
             } else {
                 setChats(data.data);
             }
-            if (data.data && data.data.length === 0) {
+            if (data.data && data.data.length < defaultValue.paginationLength) {
                 setDataLoader(false)
             }
         }));
@@ -94,11 +95,13 @@ const ApplicationChat = (props) => {
 
     useEffect(() => {
         socket.on('receivedMessage', (data) => {
-            console.warn(data)
-            const varChat = [...chats, data.data]
-            setChats(varChat);
-            setInputValue('');
-            scrollViewRef.current.scrollToEnd({ animated: true })
+            if (data?.data?.user !== detailsStore.id) {
+                let varChat = chats;
+                let varChats = varChat.concat(data.data);
+                setChats(varChats);
+                setInputValue('');
+                scrollViewRef.current?.scrollToEnd({ animated: true })
+            }
         });
     }, [socket]);
 

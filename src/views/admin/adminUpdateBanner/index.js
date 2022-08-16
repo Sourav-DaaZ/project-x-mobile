@@ -130,7 +130,7 @@ const AdminUpdateBanner = (props) => {
         setLoader(false);
         dispatch(SnackbarUpdate({
           type: 'error',
-          msg: err?.message
+          msg: err?.message ? err.message : ''
         }));
       });
   }, []);
@@ -201,7 +201,7 @@ const AdminUpdateBanner = (props) => {
           setLoader(false);
           dispatch(SnackbarUpdate({
             type: 'error',
-            msg: err?.message
+            msg: err?.message ? err.message : ''
           }))
         });
     }
@@ -245,7 +245,7 @@ const AdminUpdateBanner = (props) => {
           setLoader(false);
           dispatch(SnackbarUpdate({
             type: 'error',
-            msg: err?.message
+            msg: err?.message ? err.message : ''
           }))
         });
     }

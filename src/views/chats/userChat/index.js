@@ -23,6 +23,7 @@ import { timeFormat, dateFormat } from '../../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
+import defaultValue from '../../../constants/defaultValue';
 
 const UserChat = (props) => {
     const scrollViewRef = useRef();
@@ -35,8 +36,17 @@ const UserChat = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const socket = io(API.baseUrls[API.currentEnv] + API.noAuthUrls.ChatSocket);
 
+    const sortArrayForChat = (arr) => {
+        if (arr && arr.length > 0 && arr[0] !== arr[1]) {
+            const sortArr = arr.sort();
+            return sortArr[0] + sortArr[1];
+        } else {
+            return null
+        }
+    }
+
     const onLeave = () => {
-        const room = [detailsStore.id, props.route.params.id];
+        const room = sortArrayForChat([detailsStore.id, props.route.params.id]);
         socket.emit('close', room, (error) => {
             console.warn(error);
             socket.disconnect();
@@ -87,21 +97,21 @@ const UserChat = (props) => {
             } else {
                 setChats(data.data);
             }
-            if (data.data && data.data.length === 0) {
+            if (data.data && data.data.length < defaultValue.paginationLength) {
                 setDataLoader(false)
             }
         }));
     }, [page])
 
-    useEffect(() => {
-        socket.on('receivedMessage', (data) => {
-            console.warn(data)
-            const varChat = [...chats, data.data]
-            setChats(varChat);
+    socket.on('receivedMessage', (data) => {
+        if (data?.data?.user !== detailsStore.id) {
+            let varChat = chats;
+            let varChats = varChat.concat(data.data);
+            setChats(varChats);
             setInputValue('');
-            scrollViewRef.current.scrollToEnd({ animated: true })
-        });
-    }, [socket]);
+            scrollViewRef.current?.scrollToEnd({ animated: true })
+        }
+    });
 
     const changeInput = () => {
         if (inputValue.trim().length > 0) {
@@ -110,8 +120,9 @@ const UserChat = (props) => {
                 if (data?.error) {
                     console.warn(data.error);
                 }
-                const varChat = [...chats, data.data]
-                setChats(varChat);
+                let varChat = chats;
+                let varChats = varChat.concat(data.data);
+                setChats(varChats);
                 setInputValue('');
                 scrollViewRef.current.scrollToEnd({ animated: true })
             });

@@ -145,7 +145,7 @@ const EditTags = (props) => {
           setLoader(false);
           dispatch(SnackbarUpdate({
             type: 'error',
-            msg: err?.message
+            msg: err?.message ? err.message : ''
           }))
         });
     }

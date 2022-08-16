@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import LoginLayout from '../../sharedComponents/layout/loginLayout';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
@@ -9,7 +9,7 @@ import Modal from '../../sharedComponents/modal';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
 import { SnackbarUpdate, tokenUpdate } from '../../store/actions';
-
+import { debounce } from "lodash";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -183,32 +183,7 @@ const Register = (props) => {
         }),
       });
       setData(varVal);
-      OutsideAuthApi()
-        .userIdCheckApi(requestData)
-        .then((res) => {
-          varVal = updateObject(data, {
-            controls: updateObject(data.controls, {
-              userId: updateObject(data.controls.userId, {
-                errors: '',
-                value: val,
-                valid: true,
-              }),
-            }),
-          });
-          setData(varVal);
-        })
-        .catch((err) => {
-          varVal = updateObject(data, {
-            controls: updateObject(data.controls, {
-              userId: updateObject(data.controls.userId, {
-                errors: err.message,
-                value: val,
-                valid: false,
-              }),
-            }),
-          });
-          setData(varVal);
-        });
+      onChangeUserID(requestData, val);
     } else {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
@@ -222,6 +197,35 @@ const Register = (props) => {
       setData(varVal);
     }
   };
+
+  const onChangeUserID = useCallback(debounce((requestData, val) => {
+    OutsideAuthApi()
+      .userIdCheckApi(requestData)
+      .then((res) => {
+        let varVal = updateObject(data, {
+          controls: updateObject(data.controls, {
+            userId: updateObject(data.controls.userId, {
+              errors: '',
+              value: val,
+              valid: true,
+            }),
+          }),
+        });
+        setData(varVal);
+      })
+      .catch((err) => {
+        let varVal = updateObject(data, {
+          controls: updateObject(data.controls, {
+            userId: updateObject(data.controls.userId, {
+              errors: err.message,
+              value: val,
+              valid: false,
+            }),
+          }),
+        });
+        setData(varVal);
+      });
+  }, 700), [])
 
   const registerFnc = () => {
     let isValid = [];
@@ -265,7 +269,7 @@ const Register = (props) => {
           .catch((err) => {
             dispatch(SnackbarUpdate({
               type: 'error',
-              msg: err?.message
+              msg: err?.message ? err.message : ''
             }))
           });
       } else {

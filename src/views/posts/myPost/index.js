@@ -11,6 +11,7 @@ import { SnackbarUpdate, loader } from '../../../store/actions';
 import Routes from '../../../constants/routeConst';
 import { ThemeContext } from 'styled-components';
 import Loader from '../../../sharedComponents/loader';
+import defaultValue from '../../../constants/defaultValue';
 
 const MyPost = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -28,12 +29,16 @@ const MyPost = (props) => {
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;
-                    varData = varData.concat(res.data)
+                    if (res.data instanceof Array) {
+                        varData = varData.concat(res.data)
+                    } else {
+                        varData = varData.push(res.data)
+                    }
                     setData(varData);
                 } else {
                     setData(res.data);
                 }
-                if (res.data && res.data.length === 0) {
+                if (res.data && res.data.length < defaultValue.paginationLength) {
                     setDataLoader(false)
                 }
                 setShowLoader(false);
@@ -41,7 +46,7 @@ const MyPost = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }));
                 setShowLoader(false);
             });

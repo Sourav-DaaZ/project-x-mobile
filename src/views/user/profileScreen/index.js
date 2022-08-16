@@ -74,7 +74,7 @@ const ProfileScreen = (props) => {
                 setShowLoader(false);
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }))
             });
     }, [])
@@ -100,7 +100,7 @@ const ProfileScreen = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }))
             })
     }
@@ -121,7 +121,7 @@ const ProfileScreen = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }))
             })
     }

@@ -13,6 +13,7 @@ import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
 import { dateFormat } from '../../../utils';
 import { TouchableOpacity } from 'react-native';
+import defaultValue from '../../../constants/defaultValue';
 
 const Review = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -29,12 +30,16 @@ const Review = (props) => {
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
+                        if (res.data instanceof Array) {
                         varData = varData.concat(res.data)
+                    } else {
+                        varData = varData.push(res.data)
+                    }
                         setData(varData);
                     } else {
                         setData(res.data);
                     }
-                    if (res.data && res.data.length === 0) {
+                    if (res.data && res.data.length < defaultValue.paginationLength) {
                         setDataLoader(false)
                     }
                     setLoading(false);
@@ -42,7 +47,7 @@ const Review = (props) => {
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
-                        msg: err?.message
+                        msg: err?.message ? err.message : ''
                     }));
                     setLoading(false);
                 });
@@ -52,12 +57,16 @@ const Review = (props) => {
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
+                        if (res.data instanceof Array) {
                         varData = varData.concat(res.data)
+                    } else {
+                        varData = varData.push(res.data)
+                    }
                         setData(varData);
                     } else {
                         setData(res.data);
                     }
-                    if (res.data && res.data.length === 0) {
+                    if (res.data && res.data.length < defaultValue.paginationLength) {
                         setDataLoader(false)
                     }
                     setLoading(false);
@@ -65,7 +74,7 @@ const Review = (props) => {
                 .catch((err) => {
                     dispatch(SnackbarUpdate({
                         type: 'error',
-                        msg: err?.message
+                        msg: err?.message ? err.message : ''
                     }));
                     setLoading(false);
                 });

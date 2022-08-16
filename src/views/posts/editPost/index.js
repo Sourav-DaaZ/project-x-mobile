@@ -131,7 +131,7 @@ const EditPost = (props) => {
         setShowLoader(false);
         dispatch(SnackbarUpdate({
           type: 'error',
-          msg: err?.message
+          msg: err?.message ? err.message : ''
         }));
       });
   }, []);
@@ -223,7 +223,7 @@ const EditPost = (props) => {
           setLoading(false);
           dispatch(SnackbarUpdate({
             type: 'error',
-            msg: err?.message
+            msg: err?.message ? err.message : ''
           }))
         });
     }

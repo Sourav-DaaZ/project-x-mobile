@@ -206,7 +206,7 @@ const EditDetails = (props) => {
           dispatch(loader(false));
           dispatch(SnackbarUpdate({
             type: 'error',
-            msg: err?.message
+            msg: err?.message ? err.message : ''
           }))
         });
     }

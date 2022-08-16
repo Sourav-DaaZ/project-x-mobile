@@ -16,6 +16,7 @@ import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
 import { SnackbarUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
+import defaultValue from '../../../constants/defaultValue';
 
 const ChatScreen = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -35,12 +36,16 @@ const ChatScreen = (props) => {
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;
-                    varData = varData.concat(res.data)
+                    if (res.data instanceof Array) {
+                        varData = varData.concat(res.data)
+                    } else {
+                        varData = varData.push(res.data)
+                    }
                     setData(varData);
                 } else {
                     setData(res.data);
                 }
-                if (res.data && res.data.length === 0) {
+                if (res.data && res.data.length < defaultValue.paginationLength) {
                     setDataLoader(false)
                 }
                 setShowLoader(false);
@@ -49,7 +54,7 @@ const ChatScreen = (props) => {
                 setShowLoader(false);
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message && err?.message.length ? err.message : ''
                 }));
             });
     }
@@ -70,7 +75,7 @@ const ChatScreen = (props) => {
 
     return (
         showLoader ? <Loader /> : <StyledScrollView>
-            {data.map((x, i) => (
+            {data?.map((x, i) => (
                 <TouchableOpacity key={i} style={{ borderBottom: '2px solid blue' }} onPress={() => props.navigation.navigate(Routes.userChat, { id: detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?._id : x.receiver_user_id?._id })}>
                     <ListItem
                         title={(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId)}

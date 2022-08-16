@@ -15,6 +15,7 @@ import Loader from '../../../sharedComponents/loader';
 import { ThemeContext } from 'styled-components';
 import { dateFormat, timeFormat } from '../../../utils';
 import { TouchableOpacity, View } from 'react-native';
+import defaultValue from '../../../constants/defaultValue';
 
 const Booking = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -37,12 +38,16 @@ const Booking = (props) => {
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;
-                    varData = varData.concat(res.data)
+                    if (res.data instanceof Array) {
+                        varData = varData.concat(res.data)
+                    } else {
+                        varData = varData.push(res.data)
+                    }
                     setData(varData);
                 } else {
                     setData(res.data);
                 }
-                if (res.data && res.data.length === 0) {
+                if (res.data && res.data.length < defaultValue.paginationLength) {
                     setDataLoader(false)
                 }
                 setLoading(false);
@@ -50,7 +55,7 @@ const Booking = (props) => {
             .catch((err) => {
                 dispatch(SnackbarUpdate({
                     type: 'error',
-                    msg: err?.message
+                    msg: err?.message ? err.message : ''
                 }));
                 setLoading(false);
             });

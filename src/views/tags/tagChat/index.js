@@ -23,6 +23,7 @@ import { timeFormat, dateFormat } from '../../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
+import defaultValue from '../../../constants/defaultValue';
 
 const TagChat = (props) => {
     const scrollViewRef = useRef();
@@ -86,21 +87,21 @@ const TagChat = (props) => {
             } else {
                 setChats(data.data);
             }
-            if (data.data && data.data.length === 0) {
+            if (data.data && data.data.length < defaultValue.paginationLength) {
                 setDataLoader(false)
             }
         }));
     }, [page])
 
-    useEffect(() => {
-        socket.on('receivedMessage', (data) => {
-            console.warn(data)
-            const varChat = [...chats, data.data]
-            setChats(varChat);
+    socket.on('receivedMessage', (data) => {
+        if (data?.data?.user !== detailsStore.id) {
+            let varChat = chats;
+            let varChats = varChat.concat(data.data);
+            setChats(varChats);
             setInputValue('');
-            scrollViewRef.current.scrollToEnd({ animated: true })
-        });
-    }, [socket]);
+            scrollViewRef.current?.scrollToEnd({ animated: true })
+        }
+    });
 
     const changeInput = () => {
         if (inputValue.trim().length > 0) {
@@ -109,7 +110,8 @@ const TagChat = (props) => {
                 if (data?.error) {
                     console.warn(data.error);
                 }
-                const varChat = [...chats, data.data]
+                let varChat = chats;
+                varChat = varChat.concat(data.data)
                 setChats(varChat);
                 setInputValue('');
                 scrollViewRef.current.scrollToEnd({ animated: true })

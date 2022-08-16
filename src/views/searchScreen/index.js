@@ -1,21 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import { ThemeContext } from 'styled-components';
-import { List, Avatar } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native';
+import { debounce } from "lodash";
+
 import {
     StyledScrollView,
     StyledWrapperBody,
     StyledChip,
     StyledWrapper,
     StyledOptiondWrapper,
-    StyledWrapperList
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../store/actions';
 import { validate } from '../../utils';
 import Routes from '../../constants/routeConst';
-import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import Input from '../../sharedComponents/input';
 import ListItem from '../../sharedComponents/listItem';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
@@ -35,27 +34,31 @@ const SearchScreen = (props) => {
         } else if (text.length > 1 && validate(text, { isAlphaNumeric: true })) {
             setSearchQuery(text);
             setData([])
-            if (lflag) {
-                OutsideAuthApi()
-                    .searchPostApi(text)
-                    .then((res) => {
-                        setData(res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });
-            } else {
-                OutsideAuthApi()
-                    .searchUserApi(text)
-                    .then((res) => {
-                        setData(res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });
-            }
+            onApicall(text, lflag);
         }
     }
+
+    const onApicall = useCallback(debounce((text, lflag) => {
+        if (lflag) {
+            OutsideAuthApi()
+                .searchPostApi(text)
+                .then((res) => {
+                    setData(res.data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        } else {
+            OutsideAuthApi()
+                .searchUserApi(text)
+                .then((res) => {
+                    setData(res.data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        }
+    }, 700), [])
 
     return (
         <ShadowWrapperContainer none>
@@ -83,7 +86,7 @@ const SearchScreen = (props) => {
                 <StyledScrollView>
                     {flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })}>
                         <ListItem
-                            title={x.message ? x.message : ''}
+                            title={x.title ? x.title : ''}
                             description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
                             image={<Avatar.Image style={{ margin: 5 }} size={60} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg" }} />} />
                     </TouchableOpacity>)}
