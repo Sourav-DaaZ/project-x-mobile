@@ -6,7 +6,7 @@ import { updateObject, validate } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import OutsideAuthApi from '../../../services/outSideAuth';
 
@@ -129,7 +129,7 @@ const EditPost = (props) => {
       })
       .catch((err) => {
         setShowLoader(false);
-        dispatch(SnackbarUpdate({
+        dispatch(snackbarUpdate({
           type: 'error',
           msg: err?.message ? err.message : ''
         }));
@@ -192,7 +192,7 @@ const EditPost = (props) => {
     );
     isValid.push(category.length > 0);
     if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -213,7 +213,7 @@ const EditPost = (props) => {
         .updatePost(requestData)
         .then((res) => {
           setLoading(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'success',
             msg: res.message
           }));
@@ -221,7 +221,7 @@ const EditPost = (props) => {
         })
         .catch((err) => {
           setLoading(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'error',
             msg: err?.message ? err.message : ''
           }))

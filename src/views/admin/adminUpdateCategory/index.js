@@ -6,7 +6,7 @@ import { updateObject, validate } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -117,7 +117,7 @@ const AdminUpdateCategory = (props) => {
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
     );
     if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -133,7 +133,7 @@ const AdminUpdateCategory = (props) => {
         .createCategoryApi(requestData)
         .then((res) => {
           setLoader(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'success',
             msg: res.message
           }));
@@ -141,7 +141,7 @@ const AdminUpdateCategory = (props) => {
         })
         .catch((err) => {
           setLoader(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'error',
             msg: err?.message ? err.message : ''
           }))
@@ -154,7 +154,7 @@ const AdminUpdateCategory = (props) => {
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
     );
     if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -170,7 +170,7 @@ const AdminUpdateCategory = (props) => {
         .editCategoryApi(requestData)
         .then((res) => {
           setLoader(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'success',
             msg: res.message
           }));
@@ -178,7 +178,7 @@ const AdminUpdateCategory = (props) => {
         })
         .catch((err) => {
           setLoader(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'error',
             msg: err?.message ? err.message : ''
           }))

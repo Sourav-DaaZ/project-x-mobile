@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
@@ -7,7 +7,7 @@ import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { launchImageLibrary } from 'react-native-image-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -21,10 +21,15 @@ import {
   WrapperImage,
   StyledInlineInputContainer,
   StyledInput,
-  BodyWrapper
+  BodyWrapper,
+  StyledViewButton,
+  StyledButtonActive,
+  StyledTouchableOpacity,
+  StyledButtonView
 } from './style';
 import { Avatar } from 'react-native-paper';
-import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { debounce } from 'lodash';
 
 const UpdateDetails = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -45,7 +50,27 @@ const UpdateDetails = (props) => {
   const [loading, setLoading] = useState(false);
   const [openGender, setOpenGender] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+  const [globalDetails, setGlobalDetails] = useState(true);
   const [image, setImage] = useState(props.route.params?.data?.images ? props.route.params.data.images : null);
+  const [userId, setUserId] = useState({
+    elementType: 'input',
+    elementConfig: {
+      type: 'name',
+      text: 'Name*',
+      placeholder: 'Enter your title',
+    },
+    value: props.route.params?.data?.userId ? props.route.params.data.userId : '',
+    validation: {
+      required: props.route.params?.data?.userId ? true : false
+    },
+    valid: detailsStore.name !== '',
+    errors: '',
+    className: [],
+    icons: [
+      <FontAwesome name="user-o" color="#05375a" size={20} />,
+      <Feather name="check-circle" color="green" size={20} />,
+    ],
+  })
   const [data, setData] = useState({
     controls: {
       name: {
@@ -137,7 +162,7 @@ const UpdateDetails = (props) => {
         setCategoryArr(data);
       })
       .catch((err) => {
-        dispatch(SnackbarUpdate({
+        dispatch(snackbarUpdate({
           type: 'error',
           msg: err?.message ? err.message : ''
         }));
@@ -181,6 +206,53 @@ const UpdateDetails = (props) => {
       setData(varVal);
     }
   };
+  const onIdChange = (val, type) => {
+    let varVal = {};
+    if (!validate(val, { required: true })) {
+      varVal = updateObject(data, {
+        controls: updateObject(data.controls, {
+          [type]: updateObject(data.controls[type], {
+            value: val,
+            errors: validation.requiredField(),
+            valid: false,
+          }),
+        }),
+      });
+      setData(varVal);
+    } else {
+      varVal = updateObject(userId, {
+        errors: '',
+        value: val,
+        valid: true,
+      });
+      setUserId(varVal);
+      onChangeUserID(val)
+    }
+  };
+
+  const onChangeUserID = useCallback(debounce((val) => {
+    const requestData = {
+      "userId": val
+    }
+    OutsideAuthApi()
+      .userIdCheckApi(requestData)
+      .then((res) => {
+        let varVal = updateObject(userId, {
+          errors: '',
+          value: val,
+          valid: true,
+        });
+        setUserId(varVal);
+      })
+      .catch((err) => {
+        let varVal = updateObject(userId, {
+          errors: err.message,
+          value: val,
+          valid: false,
+        });
+        setUserId(varVal);
+      });
+  }, 700), [])
 
   const editDetailsFnc = () => {
     let isValid = [];
@@ -191,7 +263,7 @@ const UpdateDetails = (props) => {
     isValid.push(tergetCategory.length > 0);
     isValid.push(gender.length > 0);
     if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -211,7 +283,7 @@ const UpdateDetails = (props) => {
         .updateDetailsApi(requestData)
         .then((res) => {
           setLoading(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'success',
             msg: res.message
           }));
@@ -219,7 +291,40 @@ const UpdateDetails = (props) => {
         })
         .catch((err) => {
           setLoading(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
+            type: 'error',
+            msg: err?.message ? err.message : ''
+          }))
+        });
+    }
+  }
+
+  const editId = () => {
+    let isValid = [];
+    isValid.push(userId.value.length > 0 && userId.valid);
+    if (isValid.includes(false)) {
+      dispatch(snackbarUpdate({
+        type: 'error',
+        msg: validation.validateField()
+      }))
+    } else {
+      setLoading(true);
+      const requestData = {
+        userId: userId.value
+      }
+      InsideAuthApi(authStore)
+        .changeUseridApi(requestData)
+        .then((res) => {
+          setLoading(false);
+          dispatch(snackbarUpdate({
+            type: 'success',
+            msg: res.message
+          }));
+          props.navigation.navigate(Routes.home);
+        })
+        .catch((err) => {
+          setLoading(false);
+          dispatch(snackbarUpdate({
             type: 'error',
             msg: err?.message ? err.message : ''
           }))
@@ -253,14 +358,24 @@ const UpdateDetails = (props) => {
     });
   }
 
+  const GlobalButton = (select, text, onPress) => (
+    select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+  )
+
   return (
     <StyledScrollView>
+      <BottomShadow>
+        <StyledViewButton>
+          {GlobalButton(globalDetails, 'Details', () => setGlobalDetails(true))}
+          {GlobalButton(!globalDetails, 'Cred', () => setGlobalDetails(false))}
+        </StyledViewButton>
+      </BottomShadow>
       <WrapperImage>
         <TouchableOpacity style={{ zIndex: 9 }} onPress={uploadImg}>
           <Avatar.Image size={120} source={{ uri: image ? image : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />
         </TouchableOpacity>
       </WrapperImage>
-      <ShadowWrapperContainer>
+      {globalDetails ? <ShadowWrapperContainer>
         <BodyWrapper>
           <InputView>
             {formElementsArray?.map((x, index) => (
@@ -362,7 +477,31 @@ const UpdateDetails = (props) => {
             Save
           </SubmitButton>
         </BodyWrapper>
-      </ShadowWrapperContainer>
+      </ShadowWrapperContainer> : <ShadowWrapperContainer>
+        <BodyWrapper>
+          <InputView>
+            <Input
+              title={userId.elementConfig?.text}
+              placeholder={userId.elementConfig?.placeholder}
+              onInputChange={onIdChange}
+              onSubmit={() => Keyboard.dismiss()}
+              value={userId.value}
+              class={userId.className}
+              type={userId.elementConfig?.type}
+              keyNum={userId.validation?.isNumeric}
+              multiline={userId.validation?.multiline}
+              isValid={userId.valid}
+              validation={userId.validation}
+              errorMsg={userId.errors}
+              icons={userId.icons}
+              ele={userId.elementType}
+            />
+          </InputView>
+        </BodyWrapper>
+        <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loading} onPress={!loading ? editId : null}>
+          Save
+        </SubmitButton>
+      </ShadowWrapperContainer>}
     </StyledScrollView>
   );
 };

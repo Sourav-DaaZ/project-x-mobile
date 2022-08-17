@@ -32,7 +32,7 @@ export const ShadowWrapperContainer = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
     return (
         <React.Fragment>
-            <SnackBar text={authStore.message.msg} type={authStore.message.type} />
+            {!props.noSnack?<SnackBar text={authStore.message.msg} type={authStore.message.type} />:null}
             {props.none ? <StyledView>
                 {props.children}
             </StyledView> : <StyledContainer style={props.style} animation={props.animation ? props.animation : 'flipInX'}>

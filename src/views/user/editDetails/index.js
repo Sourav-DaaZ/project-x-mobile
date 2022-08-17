@@ -6,7 +6,7 @@ import { updateObject, validate } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, loader } from '../../../store/actions';
+import { snackbarUpdate, loader } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -174,7 +174,7 @@ const EditDetails = (props) => {
     );
     isValid.push(category.length > 0);
     if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -196,7 +196,7 @@ const EditDetails = (props) => {
         .createPost(requestData)
         .then((res) => {
           dispatch(loader(false));
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'success',
             msg: res.message
           }));
@@ -204,7 +204,7 @@ const EditDetails = (props) => {
         })
         .catch((err) => {
           dispatch(loader(false));
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'error',
             msg: err?.message ? err.message : ''
           }))

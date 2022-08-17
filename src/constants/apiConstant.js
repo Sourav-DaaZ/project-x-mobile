@@ -33,6 +33,7 @@ export const API = {
     bookingListForAll: '/booking_list_for_all',
     refreshToken: '/refresh_token',
     getBanner: '/get_banner',
+    firebaseToken: '/firebase_token',
   },
   authUrls: {
     createCategory: '/create_category',
@@ -60,5 +61,6 @@ export const API = {
     editBooking: '/edit_booking',
     editReview: '/edit_review',
     myChatList: '/my_chat_list',
+    changeUserid: 'change_userid'
   },
 };

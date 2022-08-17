@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import InsideAuthApi from '../../../services/inSideAuth';
-import { detailsUpdate, SnackbarUpdate, tokenUpdate } from '../../../store/actions';
+import { detailsUpdate, snackbarUpdate, tokenUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -65,6 +65,7 @@ const Setting = (props) => {
 
   useEffect(() => {
     if (authStore.access_token !== '' && isFocused) {
+      setShowLoader(true);
       InsideAuthApi()
         .detailsApi()
         .then((res) => {
@@ -85,8 +86,8 @@ const Setting = (props) => {
   }, [isFocused])
 
   return (
-    showLoader ? <Loader /> : <DashboardLayout {...props}>
-      <ShadowWrapperContainer>
+    <DashboardLayout {...props}>
+      {showLoader ? <Loader /> : <ShadowWrapperContainer noSnack>
         <WrapperContainer>
           {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: detailsStore.id })}>
             <StyledProfileView>
@@ -144,7 +145,7 @@ const Setting = (props) => {
                 <StyledSemiTitle>My Tags</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, {data: data})}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { data: data })}>
               <StyledLeftContainer>
                 <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
                 <StyledSemiTitle>Details Update</StyledSemiTitle>
@@ -184,7 +185,7 @@ const Setting = (props) => {
             </TouchableOpacity>
           </StyledProfile> : null}
         </WrapperContainer>
-      </ShadowWrapperContainer>
+      </ShadowWrapperContainer>}
     </DashboardLayout>
   )
 }

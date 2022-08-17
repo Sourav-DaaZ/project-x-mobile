@@ -21,7 +21,7 @@ import {
 } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 
 import Routes from '../../../constants/routeConst';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
@@ -67,7 +67,7 @@ const MyBooking = (props) => {
                 setAddNotes('');
             })
             .catch((err) => {
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }))

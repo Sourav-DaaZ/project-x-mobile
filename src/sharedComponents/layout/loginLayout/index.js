@@ -3,7 +3,7 @@ import { StatusBar, View, TouchableOpacity } from 'react-native';
 import logoImg from '../../../assets/images/logo.png';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { SnackbarUpdate, tokenUpdate } from '../../../store/actions';
+import { snackbarUpdate, tokenUpdate } from '../../../store/actions';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import {
     LoginContainer,
@@ -54,7 +54,7 @@ const LoginLayout = (props) => {
                             }))
                         })
                         .catch((err) => {
-                            dispatch(SnackbarUpdate({
+                            dispatch(snackbarUpdate({
                                 type: 'error',
                                 msg: err?.message ? err.message : ''
                             }))

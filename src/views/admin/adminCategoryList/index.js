@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 
 import Routes from '../../../constants/routeConst';
 import Loader from '../../../sharedComponents/loader';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import { FAB } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 
@@ -35,7 +35,7 @@ const AdminCategoryList = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }));

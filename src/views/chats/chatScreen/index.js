@@ -14,7 +14,7 @@ import DashboardLayout from '../../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../../constants/routeConst';
 import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
 import defaultValue from '../../../constants/defaultValue';
 
@@ -52,7 +52,7 @@ const ChatScreen = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message && err?.message.length ? err.message : ''
                 }));

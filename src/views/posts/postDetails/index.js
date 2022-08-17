@@ -20,7 +20,7 @@ import { Menu, Divider, Avatar } from 'react-native-paper';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { ThemeContext } from 'styled-components';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import InsideAuthApi from '../../../services/inSideAuth';
 import Routes from '../../../constants/routeConst';
@@ -47,7 +47,7 @@ const PostDetails = (props) => {
                 setShowLoader(false)
             })
             .catch((err) => {
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }));
@@ -65,7 +65,7 @@ const PostDetails = (props) => {
             .updatePost(requestData)
             .then((res) => {
                 setShowLoader(false)
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'success',
                     msg: res.message
                 }));
@@ -74,7 +74,7 @@ const PostDetails = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false)
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }))

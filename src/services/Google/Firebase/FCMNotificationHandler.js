@@ -1,6 +1,9 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routs from '../../../constants/routeConst';
+import ReduxStore from '../../../store';
+import { fTokenUpdate } from '../../../store/actions';
+const { dispatch } = ReduxStore;
 
 export async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
@@ -19,7 +22,7 @@ async function GetFCMToken() {
         try {
             fcmToken = await messaging().getToken();
             if (fcmToken) {
-                console.log(fcmToken, "//TODO send to server");
+                dispatch(fTokenUpdate(fcmToken))
                 await AsyncStorage.setItem("fcmToken", fcmToken);
             }
         }
@@ -29,6 +32,7 @@ async function GetFCMToken() {
 
     }
     else {
+        dispatch(fTokenUpdate(fcmToken))
         console.log("Token is present!");
     }
 }

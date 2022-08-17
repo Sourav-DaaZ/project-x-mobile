@@ -15,7 +15,7 @@ import DashboardHeader from '../../dashboard/header';
 import { FAB, Menu } from 'react-native-paper';
 import Loader from '../../../sharedComponents/loader';
 import InsideAuthApi from '../../../services/inSideAuth';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 
 const MyTags = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -38,7 +38,7 @@ const MyTags = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }));
@@ -63,7 +63,7 @@ const MyTags = (props) => {
             })
             .catch((err) => {
                 setShowMenu(null);
-                useDispatch(SnackbarUpdate({
+                useDispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }));

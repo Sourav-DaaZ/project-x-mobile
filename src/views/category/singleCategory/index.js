@@ -17,7 +17,7 @@ import OutsideAuthApi from '../../../services/outSideAuth';
 import Card from '../../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import Routes from '../../../constants/routeConst';
 import ListItem from '../../../sharedComponents/listItem';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
@@ -69,7 +69,7 @@ const SingleCategory = (props) => {
                 })
                 .catch((err) => {
                     if (err.message) {
-                        dispatch(SnackbarUpdate({
+                        dispatch(snackbarUpdate({
                             type: 'error',
                             msg: err?.message ? err.message : ''
                         }));
@@ -99,7 +99,7 @@ const SingleCategory = (props) => {
                 })
                 .catch((err) => {
                     if (err.message) {
-                        dispatch(SnackbarUpdate({
+                        dispatch(snackbarUpdate({
                             type: 'error',
                             msg: err?.message ? err.message : ''
                         }));
@@ -143,7 +143,7 @@ const SingleCategory = (props) => {
                 setBanner(varData);
             })
             .catch((err) => {
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }));

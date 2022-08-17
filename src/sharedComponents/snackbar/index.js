@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Snackbar } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../store/actions';
+import { snackbarUpdate } from '../../store/actions';
 
 const SnackBar = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -16,7 +16,7 @@ const SnackBar = (props) => {
     }, [props.text])
 
     const onClose = () => {
-        dispatch(SnackbarUpdate({
+        dispatch(snackbarUpdate({
             type: '',
             msg: ''
         }));

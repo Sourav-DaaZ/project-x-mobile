@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 
 import Routes from '../../../constants/routeConst';
 import Loader from '../../../sharedComponents/loader';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 
 const CategoryList = (props) => {
     const isFocused = useIsFocused();
@@ -37,7 +37,7 @@ const CategoryList = (props) => {
                 .catch((err) => {
                     if (isMounted) {
                         setShowLoader(false);
-                        dispatch(SnackbarUpdate({
+                        dispatch(snackbarUpdate({
                             type: 'error',
                             msg: err?.message ? err.message : ''
                         }));

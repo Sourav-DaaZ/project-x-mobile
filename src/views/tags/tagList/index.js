@@ -14,7 +14,7 @@ import Routes from '../../../constants/routeConst';
 import DashboardHeader from '../../dashboard/header';
 import { FAB } from 'react-native-paper';
 import Loader from '../../../sharedComponents/loader';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 
 const TagList = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -43,7 +43,7 @@ const TagList = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }));

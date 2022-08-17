@@ -316,6 +316,19 @@ const InsideAuthApi = (authStore) => {
                 data: data
             })
         },
+        async changeUseridApi(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            return axiosObj({
+                url: API.authUrls.changeUserid,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
+        },
         async logout() {
             const token = await getAccessToken();
             const defaultHeaders = {

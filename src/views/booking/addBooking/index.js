@@ -6,7 +6,7 @@ import { validate, dateFormat, timeFormat } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate} from '../../../store/actions';
+import { snackbarUpdate} from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -41,7 +41,7 @@ const AddBooking = (props) => {
   const createBookFnc = () => {
     console.log(description);
     if (!validate(description, { required: true })) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -58,7 +58,7 @@ const AddBooking = (props) => {
         .addBookingApi(requestData)
         .then((res) => {
           setLoader(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'success',
             msg: res.message
           }));
@@ -66,7 +66,7 @@ const AddBooking = (props) => {
         })
         .catch((err) => {
           setLoader(false);
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'error',
             msg: err?.message ? err.message : ''
           }))

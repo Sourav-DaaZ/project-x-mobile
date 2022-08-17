@@ -58,7 +58,7 @@ const AdminUpdateCategory = React.lazy(() => import('../views/admin/adminUpdateC
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export function AuthRouters(props) {
+const AuthRouters = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
 
@@ -219,12 +219,11 @@ export function AuthRouters(props) {
         name={Routes.updateDetails}
         component={UpdateDetails}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
+          header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
               logo={<Image source={logoImg} />}
             />
-          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createPost}
@@ -471,4 +470,4 @@ export function AuthRouters(props) {
   );
 }
 
-
+export default  AuthRouters;

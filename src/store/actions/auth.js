@@ -22,9 +22,16 @@ export const tokenUpdate = (data) => {
     };
 };
 
-export const SnackbarUpdate = (data) => {
+export const snackbarUpdate = (data) => {
     return {
         type: actionTypes.SNACK_BAR,
+        data: data
+    };
+};
+
+export const fTokenUpdate = (data) => {
+    return {
+        type: actionTypes.F_TOKEN_UPDATE,
         data: data
     };
 };

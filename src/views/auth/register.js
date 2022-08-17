@@ -8,7 +8,7 @@ import validation from '../../constants/validationMsg';
 import Modal from '../../sharedComponents/modal';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, tokenUpdate } from '../../store/actions';
+import { snackbarUpdate, tokenUpdate } from '../../store/actions';
 import { debounce } from "lodash";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -241,7 +241,7 @@ const Register = (props) => {
       ),
     );
     if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -267,7 +267,7 @@ const Register = (props) => {
             setModalShow(true);
           })
           .catch((err) => {
-            dispatch(SnackbarUpdate({
+            dispatch(snackbarUpdate({
               type: 'error',
               msg: err?.message ? err.message : ''
             }))

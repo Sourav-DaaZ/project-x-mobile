@@ -155,6 +155,14 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders },
                 data: data
             })
+        },
+        firebaseTokenCall(data) {
+            return axiosObj({
+                url: API.noAuthUrls.firebaseToken,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: data
+            })
         }
     }
 }

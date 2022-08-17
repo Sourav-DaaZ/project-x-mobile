@@ -10,7 +10,8 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { handleDynamicLink } from '../services/google/deepLinkingHandler';
 import SplashScreen from '../views/splashScreen';
 
-const AuthenticationRoutes = React.lazy(() => import('./authRouters').then(module => ({ default: module.AuthRouters })));
+import AuthRouters from './authRouters';
+import Loader from '../sharedComponents/loader';
 
 function Routs(props) {
   const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -26,8 +27,8 @@ function Routs(props) {
   const fetchCredentials = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('token') || "{}");
     dispatch(tokenUpdate({
-      access_token: data.access_token,
-      refresh_token: data.refresh_token
+      access_token: data.access_token ? data.access_token : '',
+      refresh_token: data.refresh_token ? data.refresh_token : ''
     }));
   }
 
@@ -56,7 +57,7 @@ function Routs(props) {
       <SplashScreen />
     }>
       <NavigationContainer ref={navigationRef}>
-        <AuthenticationRoutes {...props} islogin={authStore.access_token && authStore.access_token !== ''} />
+        {authStore.access_token !== null && authStore.firebase_token !== null ? <AuthRouters {...props} islogin={authStore.access_token && authStore.access_token !== ''} /> : <Loader />}
       </NavigationContainer>
     </React.Suspense >
   );

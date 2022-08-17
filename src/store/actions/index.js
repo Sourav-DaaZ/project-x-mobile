@@ -1,7 +1,8 @@
 export {
    loader,
    tokenUpdate,
-   SnackbarUpdate
+   snackbarUpdate,
+   fTokenUpdate
 } from './auth';
 
 export {

@@ -2,8 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../utils';
 
 export const initialState = {
-  firebase_token: '',
-  access_token: '',
+  firebase_token: null,
+  access_token: null,
   refresh_token: '',
   loading: false,
   message: {
@@ -29,9 +29,15 @@ const tokenUpdate = (state, action) => {
   }
 };
 
-const SnackbarUpdate = (state, action) => {
+const snackbarUpdate = (state, action) => {
   return updateObject(state, {
     message: action.data,
+  });
+};
+
+const fTokenUpdate = (state, action) => {
+  return updateObject(state, {
+    firebase_token: action.data,
   });
 };
 
@@ -42,7 +48,9 @@ const AuthReducer = (state = initialState, action = { type: '' }) => {
     case actionTypes.TOKEN_UPDATE:
       return tokenUpdate(state, action);
     case actionTypes.SNACK_BAR:
-      return SnackbarUpdate(state, action);
+      return snackbarUpdate(state, action);
+    case actionTypes.F_TOKEN_UPDATE:
+      return fTokenUpdate(state, action);
     default:
       return state;
   }

@@ -6,6 +6,7 @@ export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const SNACK_BAR = 'SNACK_BAR';
 
+export const F_TOKEN_UPDATE = 'FIREBASE_TOKEN_UPDATE';
 export const TOKEN_UPDATE = 'REFRESH_TOKEN_UPDATE';
 export const LOCATION = 'LOCATION';
 export const DETAILS = 'DETAILS';

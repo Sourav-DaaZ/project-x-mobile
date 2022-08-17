@@ -29,7 +29,7 @@ import {
 } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import Review from './review';
 
 import Routes from '../../../constants/routeConst';
@@ -72,7 +72,7 @@ const ProfileScreen = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }))
@@ -98,7 +98,7 @@ const ProfileScreen = (props) => {
                 setAddNotes('');
             })
             .catch((err) => {
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }))
@@ -119,7 +119,7 @@ const ProfileScreen = (props) => {
                 setAddNotes('');
             })
             .catch((err) => {
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }))

@@ -7,7 +7,7 @@ import InsideAuthApi from '../../../services/inSideAuth';
 import Card from '../../../sharedComponents/card';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
@@ -45,7 +45,7 @@ const Review = (props) => {
                     setLoading(false);
                 })
                 .catch((err) => {
-                    dispatch(SnackbarUpdate({
+                    dispatch(snackbarUpdate({
                         type: 'error',
                         msg: err?.message ? err.message : ''
                     }));
@@ -72,7 +72,7 @@ const Review = (props) => {
                     setLoading(false);
                 })
                 .catch((err) => {
-                    dispatch(SnackbarUpdate({
+                    dispatch(snackbarUpdate({
                         type: 'error',
                         msg: err?.message ? err.message : ''
                     }));

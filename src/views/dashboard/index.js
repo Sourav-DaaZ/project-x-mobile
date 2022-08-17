@@ -17,7 +17,6 @@ import Routes from '../../constants/routeConst';
 import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Input from '../../sharedComponents/input';
 import Loader from '../../sharedComponents/loader';
-import { SnackbarUpdate } from '../../store/actions';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import Banner from '../../sharedComponents/banner';
 import { openUrl } from '../../utils';
@@ -25,6 +24,7 @@ import { CustomHeader } from '../../routes/custom';
 import logoImg from '../../assets/images/logo.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FAB } from 'react-native-paper';
+import InsideAuthApi from '../../services/inSideAuth';
 
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -41,38 +41,105 @@ const Dashboard = (props) => {
     const handleInnerPressIn = () => setOuterScrollViewScrollEnabled(false);
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
 
-    useEffect(() => {
-        if (isFocused) {
-            setShowLoader(true);
-            OutsideAuthApi()
-                .categoryListApi()
-                .then((res) => {
-                    setShowLoader(false);
-                    setCategory(res.data);
-                })
-                .catch((err) => {
-                    setShowLoader(false);
-                })
-            OutsideAuthApi()
-                .getBannerApi('?banner_for=main')
-                .then((res) => {
-                    setShowLoader(false);
-                    let varData = [];
-                    res.data?.map((x, i) => {
-                        varData.push({
-                            key: x._id,
-                            img: x.image,
-                            onPress: () => openUrl(x.link)
-                        })
+    const apiCall = () => {
+        setShowLoader(true);
+        OutsideAuthApi()
+            .categoryListApi()
+            .then((res) => {
+                setShowLoader(false);
+                setCategory(res.data);
+            })
+            .catch((err) => {
+                setShowLoader(false);
+            })
+        OutsideAuthApi()
+            .getBannerApi('?banner_for=main')
+            .then((res) => {
+                setShowLoader(false);
+                let varData = [];
+                res.data?.map((x, i) => {
+                    varData.push({
+                        key: x._id,
+                        img: x.image,
+                        onPress: () => openUrl(x.link)
                     })
-                    setBanner(varData);
                 })
-                .catch((err) => {
-                    setShowLoader(false);
+                setBanner(varData);
+            })
+            .catch((err) => {
+                setShowLoader(false);
+            })
+    }
+
+    useEffect(() => {
+        if (detailsStore.location.loat !== 0 && detailsStore.location.long !== 0) {
+            const requestParam = {
+                token: authStore.firebase_token,
+                user_id: detailsStore.id,
+                location: detailsStore.location
+            }
+            OutsideAuthApi()
+                .firebaseTokenCall(requestParam)
+                .then(() => {
+
+                }).catch((e) => {
+                    console.log(e)
                 })
         }
-        setRefreshing(false);
-    }, [isFocused, refreshing])
+    }, [authStore.firebase_token, detailsStore.id])
+
+    useEffect(() => {
+        apiCall()
+    }, [refreshing])
+
+    useEffect(() => {
+        if (refreshing) {
+            apiCall()
+        }
+        setRefreshing(false)
+    }, [refreshing])
+
+    useEffect(() => {
+        if (authStore.access_token !== '') {
+            apiCallWithToken();
+        }
+    }, [authStore.access_token, props.refreshing]);
+
+
+    const apiCallWithToken = () => {
+        const varData = {
+            lat: detailsStore.location.lat,
+            long: detailsStore.location.long
+        }
+        InsideAuthApi()
+            .updateLocationApi(varData)
+            .then((res) => {
+
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        InsideAuthApi()
+            .detailsApi()
+            .then((res) => {
+                setDetailsData(res.data);
+                dispatch(detailsUpdate({
+                    id: res.data.user ? res.data.user : '',
+                    name: res.data.name ? res.data.name : '',
+                    gender: res.data.gender ? res.data.gender : '',
+                    userCat: res.data.category ? res.data.category : '',
+                    expectedCat: res.data.categoryPreference ? res.data.categoryPreference : [],
+                }))
+                if (!(res.data && res.data.name && res.data.category && res.data.categoryPreference)) {
+                    setDetailsShow(true);
+                }
+            })
+            .catch((err) => {
+                if (err.error_code === "E-520") {
+                    props.navigation.navigate(Routes.updateDetails, { logedin: false })
+                }
+            });
+    };
 
     return (
         <DashboardLayout {...props} category={category} refreshing={refreshing}>
@@ -111,7 +178,7 @@ const Dashboard = (props) => {
                 <StyledBannerWrapper>
                     {banner.length > 0 ? <Banner data={banner} /> : null}
                 </StyledBannerWrapper>
-                {showLoader ? <Loader /> : <ShadowWrapperContainer>
+                {showLoader ? <Loader /> : <ShadowWrapperContainer noSnack>
                     <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
                     <View style={{ flexDirection: "row" }}>
                         <StyledHorizontalScrollView style={{ height: "100%" }} horizontal showsHorizontalScrollIndicator={false}>

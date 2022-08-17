@@ -17,7 +17,7 @@ import {
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { ThemeContext } from 'styled-components';
-import { SnackbarUpdate } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
 import Routes from '../../../constants/routeConst';
 import Loader from '../../../sharedComponents/loader';
@@ -46,7 +46,7 @@ const ApplicationDetails = (props) => {
                     setShowLoader(false);
                 })
                 .catch((err) => {
-                    dispatch(SnackbarUpdate({
+                    dispatch(snackbarUpdate({
                         type: 'error',
                         msg: err?.message ? err.message : ''
                     }));
@@ -66,7 +66,7 @@ const ApplicationDetails = (props) => {
             .updatePost(requestData)
             .then((res) => {
                 setLoading(false);
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'success',
                     msg: res.message
                 }));
@@ -75,7 +75,7 @@ const ApplicationDetails = (props) => {
             })
             .catch((err) => {
                 setLoading(false);
-                dispatch(SnackbarUpdate({
+                dispatch(snackbarUpdate({
                     type: 'error',
                     msg: err?.message ? err.message : ''
                 }))
