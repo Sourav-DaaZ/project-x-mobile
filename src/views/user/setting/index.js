@@ -86,7 +86,7 @@ const Setting = (props) => {
   }, [isFocused])
 
   return (
-    <DashboardLayout {...props}>
+    <DashboardLayout {...props} blockDetails>
       {showLoader ? <Loader /> : <ShadowWrapperContainer noSnack>
         <WrapperContainer>
           {authStore.access_token && authStore.access_token !== '' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: detailsStore.id })}>

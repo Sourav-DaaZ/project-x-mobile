@@ -58,6 +58,36 @@ const DashboardLayout = (props) => {
         }
     }, [isFocused]);
 
+    useEffect(() => {
+        if (authStore.access_token !== '' && !props.blockDetails) {
+            apiCallWithToken();
+        }
+    }, [authStore.access_token, props.refreshing]);
+
+
+    const apiCallWithToken = () => {
+        InsideAuthApi()
+            .detailsApi()
+            .then((res) => {
+                setDetailsData(res.data);
+                dispatch(detailsUpdate({
+                    id: res.data.user ? res.data.user : '',
+                    name: res.data.name ? res.data.name : '',
+                    gender: res.data.gender ? res.data.gender : '',
+                    userCat: res.data.category ? res.data.category : '',
+                    expectedCat: res.data.categoryPreference ? res.data.categoryPreference : [],
+                }))
+                if (!(res.data && res.data.name && res.data.category && res.data.categoryPreference)) {
+                    setDetailsShow(true);
+                }
+            })
+            .catch((err) => {
+                if (err.error_code === "E-520") {
+                    props.navigation.navigate(Routes.updateDetails, { logedin: false })
+                }
+            });
+    };
+
     return (
         <ShadowWrapperContainer none>
             <DashboardOuterView>
