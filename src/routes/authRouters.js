@@ -318,23 +318,21 @@ const AuthRouters = (props) => {
         name={Routes.createReview}
         component={CreateReview}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
+          header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
               logo={<Image source={logoImg} />}
             />
-          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.editReview}
         component={EditReview}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
+          header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => navigation.goBack()} />}
               logo={<Image source={logoImg} />}
             />
-          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.addTag}
@@ -470,4 +468,4 @@ const AuthRouters = (props) => {
   );
 }
 
-export default  AuthRouters;
+export default AuthRouters;

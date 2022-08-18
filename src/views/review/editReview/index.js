@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
 import defaultValue from '../../../constants/defaultValue';
@@ -19,9 +19,12 @@ import {
   StyledScrollView,
   StyledInlineInput,
   StyledText,
-  StyledInlineInputContainer
+  StyledInlineInputContainer,
+  StyledImageBackground,
+  StyledCardCover
 } from './style';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const EditReview = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -32,6 +35,7 @@ const EditReview = (props) => {
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
+  const [image, setImage] = useState(props.route.params.data?.image ? props.route.params.data.image : '');
   const [isPublic, setIsPublic] = useState(props.route.params.data?.isPublic ? props.route.params.data.isPublic : true);
   const [data, setData] = useState({
     controls: {
@@ -95,7 +99,7 @@ const EditReview = (props) => {
     }
   };
 
-  const applicationFnc = () => {
+  const editFnc = () => {
     let isValid = [];
     formElementsArray.map(
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
@@ -107,9 +111,10 @@ const EditReview = (props) => {
       }))
     } else {
       const requestData = {
-        "isPublic": isPublic,
-        "description": data.controls.description.value,
-        "id": props.route.params.data?._id
+        id: props.route.params.data?._id,
+        isPublic: isPublic,
+        description: data.controls.description.value,
+        image: image
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -132,7 +137,23 @@ const EditReview = (props) => {
     }
   }
 
-
+  const uploadImg = async () => {
+    const options = {
+      includeBase64: true,
+      maxWidth: 200,
+      quality: .5,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    try {
+      const result = await launchImageLibrary(options);
+      setImage('data:image/png;base64,' + result.assets[0].base64);
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   for (let key in data.controls) {
     formElementsArray.push({
@@ -143,7 +164,12 @@ const EditReview = (props) => {
 
 
   return (
-    <ShadowWrapperContainer>
+    <ShadowWrapperContainer none>
+      <TouchableOpacity onPress={uploadImg}>
+        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image ? image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+          <StyledCardCover source={{ uri: image ? image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+        </StyledImageBackground>
+      </TouchableOpacity>
       <StyledScrollView>
         <InputView>
           {formElementsArray?.map((x, index) => (
@@ -177,7 +203,7 @@ const EditReview = (props) => {
             />
           </StyledInlineInput>
         </StyledInlineInputContainer>
-        <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? applicationFnc : null}>
+        <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? editFnc : null}>
           Edit Review
         </SubmitButton>
       </StyledScrollView>

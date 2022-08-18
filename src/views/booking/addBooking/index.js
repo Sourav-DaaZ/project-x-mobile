@@ -6,7 +6,7 @@ import { validate, dateFormat, timeFormat } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { snackbarUpdate} from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -17,8 +17,6 @@ import {
   InputView,
   StyledScrollView,
   StyledInlineInput,
-  StyledText,
-  StyledInlineInputContainer
 } from './style';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 
@@ -47,7 +45,7 @@ const AddBooking = (props) => {
       }))
     } else {
       const requestData = {
-        user_id: detailsStore.id,
+        user_id: props.route.params?.id ? props.route.params.id : '',
         description: description,
         startDate: startDate,
         endDate: endDate,
@@ -138,7 +136,7 @@ const AddBooking = (props) => {
         mode={open === 3 ? "time" : "date"}
         open={open > 0 && open < 4}
         date={new Date()}
-        minimumDate={open !== 3 ? startDate : null}
+        minimumDate={open === 1 ? new Date : open === 2 ? startDate : null}
         onConfirm={(date) => {
           console.log(date)
           if (open == 1) {

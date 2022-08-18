@@ -31,10 +31,10 @@ const Review = (props) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
                         if (res.data instanceof Array) {
-                        varData = varData.concat(res.data)
-                    } else {
-                        varData = varData.push(res.data)
-                    }
+                            varData = varData.concat(res.data)
+                        } else {
+                            varData = varData.push(res.data)
+                        }
                         setData(varData);
                     } else {
                         setData(res.data);
@@ -58,10 +58,10 @@ const Review = (props) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
                         if (res.data instanceof Array) {
-                        varData = varData.concat(res.data)
-                    } else {
-                        varData = varData.push(res.data)
-                    }
+                            varData = varData.concat(res.data)
+                        } else {
+                            varData = varData.push(res.data)
+                        }
                         setData(varData);
                     } else {
                         setData(res.data);
@@ -103,6 +103,7 @@ const Review = (props) => {
                     props.setModalShow(true);
                 }}>
                     <Card
+                        images={x.image ? x.image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'}
                         profile={
                             <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(x.createdAt) + ` (${x.isPublic ? 'public' : 'private'})`} />
                         }

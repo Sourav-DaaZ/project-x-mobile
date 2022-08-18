@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
 import { updateObject, validate } from '../../../utils';
@@ -18,9 +18,12 @@ import {
   StyledScrollView,
   StyledInlineInput,
   StyledText,
-  StyledInlineInputContainer
+  StyledInlineInputContainer,
+  StyledImageBackground,
+  StyledCardCover
 } from './style';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const CreateReview = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -32,6 +35,7 @@ const CreateReview = (props) => {
 
   const [loader, setLoader] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
+  const [image, setImage] = useState('');
   const [data, setData] = useState({
     controls: {
       description: {
@@ -94,7 +98,7 @@ const CreateReview = (props) => {
     }
   };
 
-  const applicationFnc = () => {
+  const reviewFnc = () => {
     let isValid = [];
     formElementsArray.map(
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
@@ -106,10 +110,12 @@ const CreateReview = (props) => {
       }))
     } else {
       const requestData = {
-        "isPublic": isPublic,
-        "description": data.controls.description.value,
-        "user_id": props.route.params.id,
-        "token": authStore.firebase_token
+        isPublic: isPublic,
+        description: data.controls.description.value,
+        user_id: props.route.params?.id ? props.route.params.id : '',
+        sender_id: detailsStore.id,
+        token: authStore.firebase_token,
+        image: image
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -132,6 +138,23 @@ const CreateReview = (props) => {
     }
   }
 
+  const uploadImg = async () => {
+    const options = {
+      includeBase64: true,
+      maxWidth: 200,
+      quality: .5,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    try {
+      const result = await launchImageLibrary(options);
+      setImage('data:image/png;base64,' + result.assets[0].base64);
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
 
   for (let key in data.controls) {
@@ -143,7 +166,12 @@ const CreateReview = (props) => {
 
 
   return (
-    <ShadowWrapperContainer>
+    <ShadowWrapperContainer none>
+      <TouchableOpacity onPress={uploadImg}>
+        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image ? image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+          <StyledCardCover source={{ uri: image ? image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+        </StyledImageBackground>
+      </TouchableOpacity>
       <StyledScrollView>
         <InputView>
           {formElementsArray?.map((x, index) => (
@@ -177,7 +205,7 @@ const CreateReview = (props) => {
             />
           </StyledInlineInput>
         </StyledInlineInputContainer>
-        <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? applicationFnc : null}>
+        <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? reviewFnc : null}>
           Create Review
         </SubmitButton>
       </StyledScrollView>

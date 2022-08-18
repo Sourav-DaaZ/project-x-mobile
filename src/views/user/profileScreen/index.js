@@ -191,7 +191,7 @@ const ProfileScreen = (props) => {
                 }}
                 icon="plus"
                 label={globalPost === 'booking' ? 'Book' : globalPost === 'review' ? 'Review' : ''}
-                onPress={() => { globalPost === 'booking' ? props.navigation.navigate(Routes.createBooking) : globalPost === 'review' ? props.navigation.navigate(Routes.createReview, { id: data.user }) : null }}
+                onPress={() => { globalPost === 'booking' ? props.navigation.navigate(Routes.createBooking, { id: data.user }) : globalPost === 'review' ? props.navigation.navigate(Routes.createReview, { id: data.user }) : null }}
             /> : null}
             {popupData._id && globalPost === 'booking' ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
