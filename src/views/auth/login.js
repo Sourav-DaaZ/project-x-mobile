@@ -9,7 +9,7 @@ import Modal from '../../sharedComponents/modal';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { SnackbarUpdate, tokenUpdate } from '../../store/actions';
+import { snackbarUpdate, tokenUpdate } from '../../store/actions';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -170,7 +170,7 @@ const Login = (props) => {
       ),
     );
     if (isValid.includes(false)) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -197,7 +197,7 @@ const Login = (props) => {
             setModalShow(true);
           })
           .catch((err) => {
-            dispatch(SnackbarUpdate({
+            dispatch(snackbarUpdate({
               type: 'error',
               msg: err?.message ? err.message : ''
             }))
@@ -240,7 +240,7 @@ const Login = (props) => {
       ...(!validate(data.controls.email.value, { email: true }) && { "userId": data.controls.email.value })
     }
     if (!data.controls.email.valid) {
-      dispatch(SnackbarUpdate({
+      dispatch(snackbarUpdate({
         type: 'error',
         msg: validation.validateField()
       }))
@@ -248,13 +248,13 @@ const Login = (props) => {
       OutsideAuthApi()
         .requestForChangePassword(requestData)
         .then((res) => {
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'success',
             msg: res.message
           }))
         })
         .catch((err) => {
-          dispatch(SnackbarUpdate({
+          dispatch(snackbarUpdate({
             type: 'error',
             msg: err?.message ? err.message : ''
           }))

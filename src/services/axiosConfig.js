@@ -2,6 +2,8 @@ import axios from 'axios';
 import { API } from '../constants/apiConstant';
 import validation from '../constants/validationMsg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CryptoJS from "crypto-js";
+import defaultValue from '../constants/defaultValue'
 import ReduxStore from '../store';
 import { tokenUpdate } from '../store/actions';
 const { dispatch } = ReduxStore;
@@ -26,6 +28,11 @@ const axiosObj = (info) => {
 
   const interceptor = AxiosInstance.interceptors.response.use(
     (response) => {
+      if (response.data && response.data.data && response.data.data?.encritption) {
+        const bytes = CryptoJS.AES.decrypt(response.data.data.data.toString(), defaultValue.apiEncryptionSecret);
+        const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        return { data: decryptedData };
+      }
       return response.data;
     },
     async (error) => {
@@ -38,6 +45,10 @@ const axiosObj = (info) => {
             .then(async response => {
               tokenData.access_token = response.data.data.access_token;
               await AsyncStorage.setItem('token', JSON.stringify(tokenData));
+              dispatch(tokenUpdate({
+                access_token: response.data.data.access_token,
+                refresh_token: tokenData.refresh_token
+              }))
               error.response.config.headers['Authorization'] = 'Bearer ' + response.data.data.access_token;
               return await axios(error.response.config)
                 .then(fResponse => {

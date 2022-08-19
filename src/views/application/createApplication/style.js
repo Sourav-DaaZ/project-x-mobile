@@ -25,8 +25,11 @@ export const InputView = styled(View)`
 export const StyledScrollView = styled(ScrollView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     margin-top: -20px;
-    padding: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    margin-horizontal: 20px;
     padding-top: 0px;
+    border-radius: 10px;
 `;
 
 export const StyledInlineInput = styled(View)`

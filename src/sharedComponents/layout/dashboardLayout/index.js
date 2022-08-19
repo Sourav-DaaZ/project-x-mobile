@@ -108,12 +108,12 @@ const DashboardLayout = (props) => {
                         </UpdateButton>
                     </ButtonWrapper>
                 </Modal>
-                {updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS] ? <Modal show={updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup.buildVersion[Platform.OS]} onClose={!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? () => setUpdatePopup(null) : null}>
-                    <SplashTitle critical={defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]}>Update Alert!</SplashTitle>
+                {updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup?.buildVersion[Platform.OS] ? <Modal show={updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup?.buildVersion[Platform.OS]} onClose={!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? () => setUpdatePopup(null) : null}>
+                    <SplashTitle critical={defaultValue.appVersion[Platform.OS] < updatePopup?.minBuildVersion[Platform.OS]}>Update Alert!</SplashTitle>
                     <LoginDescription mode="contained">{updatePopup.updateDetails[Platform.OS]}</LoginDescription>
                     <ButtonWrapper>
-                        {!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? <UpdateButton mode="outlined"><CancelText>cancel</CancelText></UpdateButton> : null}
-                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} full={defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]} mode="contained">Update</UpdateButton>
+                        {!(defaultValue?.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? <UpdateButton mode="outlined"><CancelText>cancel</CancelText></UpdateButton> : null}
+                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} full={defaultValue.appVersion[Platform.OS] < updatePopup?.minBuildVersion[Platform.OS]} mode="contained">Update</UpdateButton>
                     </ButtonWrapper>
                 </Modal> : null}
             </DashboardOuterView>

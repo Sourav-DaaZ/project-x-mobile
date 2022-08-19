@@ -59,12 +59,9 @@ const ApplicationList = (props) => {
     }
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            setData([]);
-            setShowLoader(true);
-            apiCall(0)
-        })
-        return () => unsubscribe
+        setData([]);
+        setShowLoader(true);
+        apiCall(0)
     }, [])
 
     useEffect(() => {
@@ -77,7 +74,7 @@ const ApplicationList = (props) => {
         showLoader ? <Loader /> :
             <StyledHorizontalScrollView>
                 {data && data.map((x, i) =>
-                    <Card key={i} title={x.details} icon={<StyledCardIcon name='chatbox-outline' />} onIconPress={() => props.navigation.navigate(Routes.appChat, { id: x._id, name: x.details })} onViewPress={() => props.navigation.navigate(Routes.applicationDetails, { id: x._id })} />
+                    <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.details} icon={<StyledCardIcon name='chatbox-outline' />} onIconPress={() => props.navigation.navigate(Routes.appChat, { id: x._id, name: x.details })} onViewPress={() => props.navigation.navigate(Routes.applicationDetails, { id: x._id })} />
                 )}
                 {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
             </StyledHorizontalScrollView>

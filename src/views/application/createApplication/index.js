@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
 import { updateObject, validate } from '../../../utils';
@@ -34,6 +34,7 @@ const CreateApplication = (props) => {
 
   const [loader, setLoader] = useState(false);
   const [userVisible, setUserVisible] = useState(true);
+  const [image, setImage] = useState(['']);
   const [data, setData] = useState({
     controls: {
       description: {
@@ -149,7 +150,7 @@ const CreateApplication = (props) => {
         details: data.controls.description.value,
         expectedPrice: Number(data.controls.price.value),
         userVisible: userVisible,
-        images: []
+        images: image
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -183,13 +184,13 @@ const CreateApplication = (props) => {
 
 
   return (
-    <ShadowWrapperContainer>
-      <StyledScrollView style={{ flex: 1 }}>
-        <TouchableOpacity onPress={uploadImg}>
-          <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
-            <StyledCardCover source={{ uri: image && image[0] ? + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
-          </StyledImageBackground>
-        </TouchableOpacity>
+    <ShadowWrapperContainer none>
+      <TouchableOpacity onPress={uploadImg}>
+        <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image && image[0] ? image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
+          <StyledCardCover source={{ uri: image && image[0] ? + image[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
+        </StyledImageBackground>
+      </TouchableOpacity>
+      <StyledScrollView>
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input
