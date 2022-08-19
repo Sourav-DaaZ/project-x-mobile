@@ -28,8 +28,11 @@ const MyTags = (props) => {
     const [showLoader, setShowLoader] = useState(false);
 
     const apiCall = () => {
+        const varParam = {
+            user: detailsStore.id
+        }
         OutsideAuthApi()
-            .tagListApi(`?user=${detailsStore.id}`)
+            .tagListApi(varParam)
             .then((res) => {
                 if (res.data) {
                     setTag(res.data)

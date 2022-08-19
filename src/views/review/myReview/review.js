@@ -23,8 +23,11 @@ const Review = (props) => {
     const [dataLoader, setDataLoader] = useState(true);
 
     const apiCall = (pageCount) => {
+        const varParam = {
+            page: pageCount
+        }
         InsideAuthApi(authStore)
-            .getReviewApi('?page=' + pageCount)
+            .getReviewApi(varParam)
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;

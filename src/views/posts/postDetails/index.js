@@ -39,9 +39,12 @@ const PostDetails = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        const varParam = {
+            post_id: props.route.params?.id ? props.route.params.id : ''
+        }
         setShowLoader(true);
         OutsideAuthApi()
-            .getPostDetailsApi(props.route.params?.id)
+            .getPostDetailsApi(varParam)
             .then((res) => {
                 setData(res.data);
                 setShowLoader(false)

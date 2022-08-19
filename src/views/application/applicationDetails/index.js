@@ -38,22 +38,22 @@ const ApplicationDetails = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            InsideAuthApi(authStore)
-                .getApplicationDetailsApi(props.route.params?.id)
-                .then((res) => {
-                    setData(res.data);
-                    setShowLoader(false);
-                })
-                .catch((err) => {
-                    dispatch(snackbarUpdate({
-                        type: 'error',
-                        msg: err?.message ? err.message : ''
-                    }));
-                    setShowLoader(false);
-                });
-        })
-        return () => unsubscribe
+        const varParam = {
+            application_id: props.route.params?.id ? props.route.params.id : ''
+        }
+        InsideAuthApi(authStore)
+            .getApplicationDetailsApi(varParam)
+            .then((res) => {
+                setData(res.data);
+                setShowLoader(false);
+            })
+            .catch((err) => {
+                dispatch(snackbarUpdate({
+                    type: 'error',
+                    msg: err?.message ? err.message : ''
+                }));
+                setShowLoader(false);
+            });
     }, [])
 
     const deletePost = () => {

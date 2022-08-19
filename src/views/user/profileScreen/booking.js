@@ -26,17 +26,20 @@ const Booking = (props) => {
     const [dataLoader, setDataLoader] = useState(true);
 
     const apiCall = (pageCount) => {
+        const varParam = {
+            page: pageCount
+        }
         if (props.myUser) {
             InsideAuthApi(authStore)
-                .bookingListApi(`?page=${pageCount}`)
+                .bookingListApi(varParam)
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
                         if (res.data instanceof Array) {
-                        varData = varData.concat(res.data)
-                    } else {
-                        varData = varData.push(res.data)
-                    }
+                            varData = varData.concat(res.data)
+                        } else {
+                            varData = varData.push(res.data)
+                        }
                         setData(varData);
                     } else {
                         setData(res.data);
@@ -54,16 +57,20 @@ const Booking = (props) => {
                     setLoading(false);
                 });
         } else {
+            const varParam = {
+                id: props.route.params?.id ? props.route.params.id : '',
+                page: pageCount
+            }
             OutsideAuthApi()
-                .bookingListForAllApi(`?id=${props.route.params?.id}&page=${pageCount}`)
+                .bookingListForAllApi(varParam)
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
                         if (res.data instanceof Array) {
-                        varData = varData.concat(res.data)
-                    } else {
-                        varData = varData.push(res.data)
-                    }
+                            varData = varData.concat(res.data)
+                        } else {
+                            varData = varData.push(res.data)
+                        }
                         setData(varData);
                     } else {
                         setData(res.data);

@@ -42,6 +42,9 @@ const Dashboard = (props) => {
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
 
     const apiCall = () => {
+        const paramData = {
+            banner_for: 'main',
+        }
         setShowLoader(true);
         OutsideAuthApi()
             .categoryListApi()
@@ -53,7 +56,7 @@ const Dashboard = (props) => {
                 setShowLoader(false);
             })
         OutsideAuthApi()
-            .getBannerApi('?banner_for=main')
+            .getBannerApi(paramData)
             .then((res) => {
                 setShowLoader(false);
                 let varData = [];
@@ -100,10 +103,10 @@ const Dashboard = (props) => {
     }, [refreshing])
 
     useEffect(() => {
-        if (authStore.access_token !== '') {
+        if (authStore.access_token !== '' && detailsStore.location.lat !== 0) {
             apiCallWithToken();
         }
-    }, [authStore.access_token, props.refreshing]);
+    }, [authStore.access_token, detailsStore.location, props.refreshing]);
 
 
     const apiCallWithToken = () => {

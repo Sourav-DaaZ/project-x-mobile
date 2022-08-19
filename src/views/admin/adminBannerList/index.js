@@ -29,32 +29,32 @@ const AdminBannerList = (props) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            OutsideAuthApi()
-                .getBannerApi('?banner_for=all')
-                .then((res) => {
-                    setShowLoader(false);
-                    let varData = [];
-                    res.data?.map((x, i) => {
-                        varData.push([{
-                            key: x._id,
-                            img: x.image,
-                            onPress: () => openUrl(x.link),
-                            onLongPress: () => props.navigation.navigate(Routes.adminBannerUpdate, { data: x })
-                        }])
-                    })
-                    setData(varData);
+        const paramData = {
+            banner_for: 'all'
+        }
+        OutsideAuthApi()
+            .getBannerApi(paramData)
+            .then((res) => {
+                setShowLoader(false);
+                let varData = [];
+                res.data?.map((x, i) => {
+                    varData.push([{
+                        key: x._id,
+                        img: x.image,
+                        onPress: () => openUrl(x.link),
+                        onLongPress: () => props.navigation.navigate(Routes.adminBannerUpdate, { data: x })
+                    }])
                 })
-                .catch((err) => {
-                    setShowLoader(false);
-                    dispatch(snackbarUpdate({
-                        type: 'error',
-                        msg: err?.message ? err.message : ''
-                    }));
-                    setShowMsg(err.message)
-                });
-        })
-        return () => unsubscribe;
+                setData(varData);
+            })
+            .catch((err) => {
+                setShowLoader(false);
+                dispatch(snackbarUpdate({
+                    type: 'error',
+                    msg: err?.message ? err.message : ''
+                }));
+                setShowMsg(err.message)
+            });
     }, [])
 
     return (

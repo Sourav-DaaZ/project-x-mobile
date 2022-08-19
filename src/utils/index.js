@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Linking } from "react-native";
+import CryptoJS from "crypto-js";
+import defaultValue from '../constants/defaultValue'
 
 export const updateObject = (oldObject, updatedProperties) => {
   return {
@@ -101,16 +103,34 @@ export const calDistance = (lat1, lon1, lat2, lon2) => {
   return d;
 }
 
-export const queryStringBulder = () => {
+const queryStringBulder = (obj) => {
   let str = [];
-  for (const p in obj) {
-    if (obj.hasOwnProperty(p)) {
-      let k = prefix ? prefix + "[" + p + "]" : p,
-        v = obj[p];
-      str.push((v !== null && typeof v === "object") ?
-        serialize(v, k) :
-        encodeURIComponent(k) + "=" + encodeURIComponent(v));
+  for (let p in obj)
+    if (obj.hasOwnProperty(p) && p !== null && p !== '') {
+      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
     }
-  }
   return str.join("&");
 }
+
+export const apiEncryptionData = (data, isParam) => {
+  const cipherDoc = CryptoJS.AES.encrypt(JSON.stringify(data), defaultValue.apiEncryptionSecret).toString();
+  const varData = {
+    data: cipherDoc,
+    encritption: true
+  }
+  if (isParam) {
+    if (defaultValue.apiEncryption) {
+      return '?' + queryStringBulder(varData)
+    } else {
+      return '?' + queryStringBulder(data)
+    }
+  } else {
+    if (defaultValue.apiEncryption) {
+      return varData
+    } else {
+      return data
+    }
+  }
+}
+
+export { queryStringBulder };

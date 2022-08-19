@@ -28,9 +28,13 @@ const TagList = (props) => {
 
 
     useEffect(() => {
+        const varParam = {
+            lat: detailsStore.location.lat,
+            long: detailsStore.location.long
+        }
         setShowLoader(true);
         OutsideAuthApi()
-            .tagListApi(`?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}`)
+            .tagListApi(varParam)
             .then((res) => {
                 if (res.data) {
                     let secure = [];

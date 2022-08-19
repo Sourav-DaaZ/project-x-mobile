@@ -1,5 +1,7 @@
 import axiosObj from './axiosConfig';
 import { API } from '../constants/apiConstant';
+import CryptoJS from "crypto-js";
+import { apiEncryptionData } from '../utils';
 
 const OutsideAuthApi = () => {
     const defaultHeaders = {
@@ -17,43 +19,48 @@ const OutsideAuthApi = () => {
             })
         },
         loginApi(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.login,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData
             })
         },
         verifyOtp(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.otpVerify,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData
             })
         },
         requestForChangePassword(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.requestForChangePassword,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData
             })
         },
         registerUserApi(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.registerUser,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData
             })
         },
         userIdCheckApi(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.userIdCheck,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData
             })
         },
         categoryListApi() {
@@ -63,54 +70,61 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
-        searchPostApi(data) {
+        searchPostApi(param) {
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.noAuthUrls.searchPost + '?search=' + data,
+                url: API.noAuthUrls.searchPost + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         getPostsApi(param) {
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.noAuthUrls.getPosts + param,
+                url: API.noAuthUrls.getPosts + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders },
             })
         },
         tagListApi(param) {
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.noAuthUrls.tagList + param,
+                url: API.noAuthUrls.tagList + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
-        getPostDetailsApi(id) {
+        getPostDetailsApi(param) {
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.noAuthUrls.getPostDetails + `?post_id=${id}`,
+                url: API.noAuthUrls.getPostDetails + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         allUserApi(param) {
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.noAuthUrls.allUser + param,
+                url: API.noAuthUrls.allUser + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         searchUserApi(param) {
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.noAuthUrls.searchUser + "?search=" + param,
+                url: API.noAuthUrls.searchUser + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         socialLoginApi(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.socialLogin,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         appConfigApi() {
@@ -121,47 +135,53 @@ const OutsideAuthApi = () => {
             })
         },
         myNotificationApi(param) {
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.noAuthUrls.myNotification + param,
+                url: API.noAuthUrls.myNotification + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         getReviewForOtherApi(param) {
+            let varData = apiEncryptionData(param, true)
             return axiosObj({
-                url: API.noAuthUrls.getReviewForOther + param,
+                url: API.noAuthUrls.getReviewForOther + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         bookingListForAllApi(param) {
+            let varData = apiEncryptionData(param, true)
             return axiosObj({
-                url: API.noAuthUrls.bookingListForAll + param,
+                url: API.noAuthUrls.bookingListForAll + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         getBannerApi(param) {
+            let varData = apiEncryptionData(param, true)
             return axiosObj({
-                url: API.noAuthUrls.getBanner + param,
+                url: API.noAuthUrls.getBanner + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
         refreshTokenCall(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.refreshToken,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         firebaseTokenCall(data) {
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.noAuthUrls.firebaseToken,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         }
     }

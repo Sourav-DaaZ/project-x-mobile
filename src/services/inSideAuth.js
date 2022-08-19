@@ -1,6 +1,7 @@
 import axiosObj from './axiosConfig';
 import { API } from '../constants/apiConstant';
 import { getAccessToken } from '../utils';
+import { apiEncryptionData } from '../utils';
 
 const InsideAuthApi = (authStore) => {
     // const defaultHeaders = {
@@ -30,11 +31,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.updateDetails,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async createPost(data) {
@@ -43,11 +45,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.createPost,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData,
             })
         },
         async updatePost(data) {
@@ -56,11 +59,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.updatePost,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData,
             })
         },
         async createApplicationApi(data) {
@@ -69,11 +73,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.createApplication,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData,
             })
         },
         async updateApplicationApi(data) {
@@ -82,33 +87,36 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.updateApplication,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data,
+                data: varData,
             })
         },
-        async getAllApplicationsApi(id) {
+        async getAllApplicationsApi(param) {
             const token = await getAccessToken();
             const defaultHeaders = {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.authUrls.getAllApplications + id,
+                url: API.authUrls.getAllApplications + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
         },
-        async getApplicationDetailsApi(id) {
+        async getApplicationDetailsApi(param) {
             const token = await getAccessToken();
             const defaultHeaders = {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.authUrls.getApplicationDetails + "?application_id=" + id,
+                url: API.authUrls.getApplicationDetails + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
@@ -119,8 +127,9 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.authUrls.getMyPost + param,
+                url: API.authUrls.getMyPost + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
@@ -131,8 +140,9 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.authUrls.getReview + param,
+                url: API.authUrls.getReview + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders }
             })
@@ -143,11 +153,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.createReview,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async updateLocationApi(data) {
@@ -156,11 +167,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.updateLocation,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async addTagApi(data) {
@@ -169,23 +181,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.addTag,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
-            })
-        },
-        async tagActionApi(param) {
-            const token = await getAccessToken();
-            const defaultHeaders = {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token?.access_token
-            };
-            return axiosObj({
-                url: API.authUrls.tagAction + param,
-                method: 'POST',
-                headers: { ...defaultHeaders },
+                data: varData
             })
         },
         async editTagApi(data) {
@@ -194,11 +195,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.editTag,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async bookingListApi(param) {
@@ -207,8 +209,9 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.authUrls.bookingList + param,
+                url: API.authUrls.bookingList + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders },
             })
@@ -219,11 +222,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.addBooking,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async editBookinggApi(data) {
@@ -232,11 +236,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.editBooking,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async editReviewApi(data) {
@@ -245,11 +250,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.editReview,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async myChatListApi(param) {
@@ -258,8 +264,9 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(param, true);
             return axiosObj({
-                url: API.authUrls.myChatList + param,
+                url: API.authUrls.myChatList + varData,
                 method: 'GET',
                 headers: { ...defaultHeaders },
             })
@@ -270,11 +277,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.createCategory,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async editCategoryApi(data) {
@@ -283,11 +291,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.editCategory,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async bannerAddApi(data) {
@@ -296,11 +305,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.bannerAdd,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async bannerUpdateApi(data) {
@@ -309,11 +319,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.bannerUpdate,
                 method: 'PATCH',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async changeUseridApi(data) {
@@ -322,11 +333,12 @@ const InsideAuthApi = (authStore) => {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token?.access_token
             };
+            const varData = apiEncryptionData(data);
             return axiosObj({
                 url: API.authUrls.changeUserid,
                 method: 'POST',
                 headers: { ...defaultHeaders },
-                data: data
+                data: varData
             })
         },
         async logout() {

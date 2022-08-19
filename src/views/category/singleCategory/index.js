@@ -47,17 +47,23 @@ const SingleCategory = (props) => {
 
     const apiCall = (pageCount) => {
         if (globalPost) {
-            const requestData = `?category_id=${props.route.params?.data._id}&lat=${detailsStore.location.lat}&long=${detailsStore.location.long}&gender=${detailsStore.gender}&page=${pageCount}`
+            const requestData = {
+                category_id: props.route.params?.data._id ? props.route.params.data._id : '',
+                lat: detailsStore.location.lat,
+                long: detailsStore.location.long,
+                gender: detailsStore.gender,
+                page: pageCount
+            }
             OutsideAuthApi()
                 .getPostsApi(requestData)
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
                         if (res.data instanceof Array) {
-                        varData = varData.concat(res.data)
-                    } else {
-                        varData = varData.push(res.data)
-                    }
+                            varData = varData.concat(res.data)
+                        } else {
+                            varData = varData.push(res.data)
+                        }
                         setData(varData);
                     } else {
                         setData(res.data);
@@ -77,17 +83,22 @@ const SingleCategory = (props) => {
                     setShowLoader(false);
                 });
         } else {
-            const requestData = `?lat=${detailsStore.location.lat}&long=${detailsStore.location.long}&category=${props.route.params.data._id}&page=${pageCount}`
+            const requestData = {
+                lat: detailsStore.location.lat,
+                long: detailsStore.location.long,
+                category: props.route.params?.data?._id ? props.route.params.data._id : '',
+                page: pageCount
+            }
             OutsideAuthApi()
                 .allUserApi(requestData)
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
                         if (res.data instanceof Array) {
-                        varData = varData.concat(res.data)
-                    } else {
-                        varData = varData.push(res.data)
-                    };
+                            varData = varData.concat(res.data)
+                        } else {
+                            varData = varData.push(res.data)
+                        };
                         setData(varData);
                     } else {
                         setData(res.data);
@@ -129,8 +140,14 @@ const SingleCategory = (props) => {
     }, [page])
 
     const bannerData = () => {
+        const paramData = {
+            banner_for: 'category',
+            category: props.route.params?.data._id ? props.route.params.data._id : '',
+            lat: detailsStore.location.lat,
+            long: detailsStore.location.long
+        }
         OutsideAuthApi()
-            .getBannerApi(`?banner_for=category&category=${props.route.params?.data._id}&lat=${detailsStore.location.lat}&long=${detailsStore.location.long}`)
+            .getBannerApi(paramData)
             .then((res) => {
                 let varData = [];
                 res.data?.map((x, i) => {

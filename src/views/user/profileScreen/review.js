@@ -24,9 +24,12 @@ const Review = (props) => {
     const [dataLoader, setDataLoader] = useState(true);
 
     const apiCall = (pageCount) => {
+        const varParam = {
+            page: pageCount
+        }
         if (props.myUser) {
             InsideAuthApi(authStore)
-                .getReviewApi(`?page=${pageCount}`)
+                .getReviewApi(varParam)
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;
@@ -52,8 +55,13 @@ const Review = (props) => {
                     setLoading(false);
                 });
         } else {
+            const varParam = {
+                user_id: props.route.params?.id ? props.route.params.id : '',
+                token: authStore.firebase_token,
+                page: pageCount
+            }
             OutsideAuthApi()
-                .getReviewForOtherApi(`?user_id=${props.route.params?.id}&token=${authStore.firebase_token}&page=${pageCount}`)
+                .getReviewForOtherApi(varParam)
                 .then((res) => {
                     if (res.data && pageCount > 0) {
                         let varData = data;

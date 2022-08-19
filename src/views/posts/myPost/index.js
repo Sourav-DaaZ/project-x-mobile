@@ -24,8 +24,11 @@ const MyPost = (props) => {
     const [showLoader, setShowLoader] = useState(false);
 
     const apiCall = (pageCount) => {
+        const varParam = {
+            page: page
+        }
         InsideAuthApi(authStore)
-            .getMyPostApi(`?page=${page}`)
+            .getMyPostApi(varParam)
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;

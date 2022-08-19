@@ -31,8 +31,11 @@ const ChatScreen = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
 
     const apiCall = (pageCount) => {
+        const varParam = {
+            page: pageCount
+        }
         InsideAuthApi()
-            .myChatListApi('?page=' + pageCount)
+            .myChatListApi(varParam)
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;

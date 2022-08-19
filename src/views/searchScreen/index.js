@@ -40,8 +40,11 @@ const SearchScreen = (props) => {
 
     const onApicall = useCallback(debounce((text, lflag) => {
         if (lflag) {
+            const varParam = {
+                search: text
+            }
             OutsideAuthApi()
-                .searchPostApi(text)
+                .searchPostApi(varParam)
                 .then((res) => {
                     setData(res.data)
                 })
@@ -49,8 +52,11 @@ const SearchScreen = (props) => {
                     console.log(err)
                 });
         } else {
+            const varParam = {
+                search: text
+            }
             OutsideAuthApi()
-                .searchUserApi(text)
+                .searchUserApi(varParam)
                 .then((res) => {
                     setData(res.data)
                 })

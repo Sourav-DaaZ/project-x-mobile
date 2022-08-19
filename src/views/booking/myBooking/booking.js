@@ -29,12 +29,19 @@ const Booking = (props) => {
 
 
     const apiCall = (pageCount) => {
-        let param = `?myBooking=true&page=${pageCount}`
+        let varParam = {
+            myBooking: true,
+            page: pageCount
+        }
         if (props.bookingType) {
-            param = `?myBooking=true&past=true&page=${pageCount}`
+            varParam = {
+                myBooking: true,
+                past: true,
+                page: pageCount
+            }
         }
         InsideAuthApi(authStore)
-            .bookingListApi(param)
+            .bookingListApi(varParam)
             .then((res) => {
                 if (res.data && pageCount > 0) {
                     let varData = data;
