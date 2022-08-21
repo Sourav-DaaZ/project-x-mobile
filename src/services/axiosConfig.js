@@ -2,10 +2,9 @@ import axios from 'axios';
 import { API } from '../constants/apiConstant';
 import validation from '../constants/validationMsg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CryptoJS from "crypto-js";
-import defaultValue from '../constants/defaultValue'
 import ReduxStore from '../store';
 import { tokenUpdate } from '../store/actions';
+import { apiDecryptionData } from '../utils'
 const { dispatch } = ReduxStore;
 
 const axiosObj = (info) => {
@@ -29,8 +28,7 @@ const axiosObj = (info) => {
   const interceptor = AxiosInstance.interceptors.response.use(
     (response) => {
       if (response.data && response.data.data && response.data.data?.encritption) {
-        const bytes = CryptoJS.AES.decrypt(response.data.data.data.toString(), defaultValue.apiEncryptionSecret);
-        const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        const decryptedData = apiDecryptionData(response.data.data);
         return { data: decryptedData };
       }
       return response.data;

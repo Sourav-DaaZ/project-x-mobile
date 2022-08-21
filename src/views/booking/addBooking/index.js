@@ -37,7 +37,6 @@ const AddBooking = (props) => {
   const [description, setDescription] = useState('');
 
   const createBookFnc = () => {
-    console.log(description);
     if (!validate(description, { required: true })) {
       dispatch(snackbarUpdate({
         type: 'error',
@@ -138,7 +137,6 @@ const AddBooking = (props) => {
         date={new Date()}
         minimumDate={open === 1 ? new Date : open === 2 ? startDate : null}
         onConfirm={(date) => {
-          console.log(date)
           if (open == 1) {
             setStartDate(date);
             setEndDate(date);

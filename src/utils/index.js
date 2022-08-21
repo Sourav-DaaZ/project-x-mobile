@@ -133,4 +133,14 @@ export const apiEncryptionData = (data, isParam) => {
   }
 }
 
+export const apiDecryptionData = (data) => {
+  if (data.encritption && data.data) {
+    const bytes = CryptoJS.AES.decrypt(data.data.toString(), defaultValue.apiEncryptionSecret);
+    const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    return decryptedData;
+  } else {
+    return data
+  }
+}
+
 export { queryStringBulder };

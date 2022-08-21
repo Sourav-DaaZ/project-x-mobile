@@ -35,7 +35,6 @@ const EditBooking = (props) => {
   const [description, setDescription] = useState(props.route.params?.data?.description ? props.route.params.data.description : '');
 
   const editBookFnc = () => {
-    console.log(description);
     if (!validate(description, { required: true })) {
       dispatch(snackbarUpdate({
         type: 'error',
@@ -136,7 +135,6 @@ const EditBooking = (props) => {
         date={open === 3 ? time : startDate}
         minimumDate={open !== 3 ? startDate : null}
         onConfirm={(date) => {
-          console.log(date)
           if (open == 1) {
             setStartDate(date);
             setEndDate(date);

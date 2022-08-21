@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { io } from "socket.io-client";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { View, TouchableOpacity, RefreshControl, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import {
     StyledSafeAreaView,
     StyledScrollView,
@@ -19,7 +19,7 @@ import {
     HeaderText
 } from './style';
 import { API } from '../../../constants/apiConstant';
-import { timeFormat, dateFormat } from '../../../utils';
+import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData } from '../../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
@@ -37,24 +37,28 @@ const TagChat = (props) => {
     const socket = io(API.baseUrls[API.currentEnv] + API.noAuthUrls.tagSocket);
 
     const onLeave = () => {
-        socket.emit('close', props.route.params.id, (error) => {
+        const varParam = {
+            room: props.route.params.id
+        }
+        socket.emit('close', varParam, (error) => {
             console.warn(error);
             socket.disconnect();
         });
     }
 
     useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            const room = props.route.params.id;
+        const varParam = apiEncryptionData({
+            room: props.route.params.id
+        });
 
-            socket.emit('join', room, ((data) => {
-                if (data.error) {
-                    console.warn(data.error);
-                }
-                setChats(data.data);
-            }));
-        })
-        return () => { unsubscribe; onLeave() }
+        socket.emit('join', varParam, ((qData) => {
+            const data = apiDecryptionData(qData);
+            if (data.error) {
+                console.warn(data.error);
+            }
+            setChats(data.data);
+        }));
+        return () => { onLeave() }
     }, [])
 
     const [refreshing, setRefreshing] = React.useState(false);
@@ -75,8 +79,12 @@ const TagChat = (props) => {
     }, []);
 
     useEffect(() => {
-        const room = props.route.params.id;
-        socket.emit('loadData', room, page, ((data) => {
+        const varParam = apiEncryptionData({
+            room: props.route?.params?.id ? props.route.params.id : '',
+            page: page
+        })
+        socket.emit('loadData', varParam, ((qData) => {
+            const data = apiDecryptionData(qData);
             if (data.error) {
                 console.warn(data.error);
             }
@@ -93,7 +101,8 @@ const TagChat = (props) => {
         }));
     }, [page])
 
-    socket.on('receivedMessage', (data) => {
+    socket.on('receivedMessage', (qData) => {
+        const data = apiDecryptionData(qData);
         if (data?.data?.user !== detailsStore.id) {
             let varChat = chats;
             let varChats = varChat.concat(data.data);
@@ -105,8 +114,13 @@ const TagChat = (props) => {
 
     const changeInput = () => {
         if (inputValue.trim().length > 0) {
-            const room = props.route.params.id;
-            socket.emit('sendMessage', room, detailsStore.id, inputValue, (data) => {
+            const varParam = apiEncryptionData({
+                room: props.route?.params?.id ? props.route.params.id : '',
+                msg: inputValue,
+                user_id: detailsStore.id
+            })
+            socket.emit('sendMessage', varParam, (qData) => {
+                const data = apiDecryptionData(qData);
                 if (data?.error) {
                     console.warn(data.error);
                 }
@@ -130,11 +144,7 @@ const TagChat = (props) => {
             <StyledScrollView
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
-                ref={scrollViewRef}
-                // onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }>
+                ref={scrollViewRef}>
                 {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
                 {chats?.map((x, i) => (
                     <WrapperView key={i}>

@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { io } from "socket.io-client";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { View, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import {
     StyledSafeAreaView,
     StyledScrollView,
@@ -19,14 +19,12 @@ import {
     HeaderText
 } from './style';
 import { API } from '../../../constants/apiConstant';
-import { timeFormat, dateFormat } from '../../../utils';
+import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData } from '../../../utils';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
 import defaultValue from '../../../constants/defaultValue';
-import OutsideAuth from '../../../services/outSideAuth'
-import { tokenUpdate, snackbarUpdate } from '../../../store/actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { snackbarUpdate } from '../../../store/actions';
 
 const ApplicationChat = (props) => {
     const scrollViewRef = useRef();
@@ -47,56 +45,34 @@ const ApplicationChat = (props) => {
     });
 
     const onLeave = () => {
-        socket.emit('close', props.route.params.id, (error) => {
+        const varParam = {
+            room: props.route.params.id
+        }
+        socket.emit('close', varParam, (error) => {
             console.warn(error);
             socket.disconnect();
         });
     }
 
-    const onAuthExpire = (data) => {
-        const varParam = { refresh_token: authStore?.refresh_token ? authStore.refresh_token : '' };
-        OutsideAuth()
-            .refreshTokenCall(varParam)
-            .then(async (res) => {
-                dispatch(tokenUpdate({
-                    access_token: res.data.access_token,
-                    refresh_token: authStore.refresh_token
-                }))
-                setChats(data);
-                setIsAuth(true);
-                const tokenData = JSON.parse(await AsyncStorage.getItem('token') || '{}');
-                tokenData.access_token = res.data.access_token;
-                await AsyncStorage.setItem('token', JSON.stringify(tokenData));
-            })
-            .catch((er) => {
+    useEffect(() => {
+        const varParam = apiEncryptionData({
+            room: props.route.params.id
+        });
+        socket.emit('join', varParam, ((qData) => {
+            const data = apiDecryptionData(qData);
+            if (data.error) {
                 dispatch(snackbarUpdate({
                     type: 'error',
-                    msg: er.message
+                    msg: data.error
                 }))
+                console.warn(e);
                 onLeave();
-            })
-    }
-
-    useEffect(() => {
-        const unsubscribe = props.navigation.addListener("focus", () => {
-            const room = props.route.params.id;
-            socket.emit('join', room, ((data) => {
-                if (data.error_code === 401) {
-                    onAuthExpire(data.data)
-                } else if (data.error) {
-                    dispatch(snackbarUpdate({
-                        type: 'error',
-                        msg: data.error
-                    }))
-                    console.warn(e);
-                    onLeave();
-                } else {
-                    setIsAuth(true);
-                    setChats(data.data);
-                }
-            }));
-        })
-        return () => { unsubscribe; onLeave() }
+            } else {
+                setIsAuth(true);
+                setChats(data.data);
+            }
+        }));
+        return () => { onLeave() }
     }, [])
 
     const [refreshing, setRefreshing] = React.useState(false);
@@ -117,8 +93,12 @@ const ApplicationChat = (props) => {
     }, []);
 
     useEffect(() => {
-        const room = props.route.params.id;
-        socket.emit('loadData', room, page, ((data) => {
+        const varParam = apiEncryptionData({
+            room: props.route?.params?.id ? props.route.params.id : '',
+            page: page
+        })
+        socket.emit('loadData', varParam, ((qData) => {
+            const data = apiDecryptionData(qData);
             if (data.error) {
                 console.warn(data.error);
             }
@@ -136,7 +116,8 @@ const ApplicationChat = (props) => {
     }, [page])
 
     useEffect(() => {
-        socket.on('receivedMessage', (data) => {
+        socket.on('receivedMessage', (qData) => {
+            const data = apiDecryptionData(qData);
             if (data?.data?.user !== detailsStore.id) {
                 let varChat = chats;
                 let varChats = varChat.concat(data.data);
@@ -149,8 +130,13 @@ const ApplicationChat = (props) => {
 
     const changeInput = () => {
         if (inputValue.trim().length > 0) {
-            const room = props.route.params.id;
-            socket.emit('sendMessage', room, detailsStore.id, inputValue, (data) => {
+            const varParam = apiEncryptionData({
+                room: props.route?.params?.id ? props.route.params.id : '',
+                user_id: detailsStore.id,
+                msg: inputValue
+            })
+            socket.emit('sendMessage', varParam, (qData) => {
+                const data = apiDecryptionData(qData);
                 if (data?.error) {
                     console.warn(data.error);
                 }
@@ -174,11 +160,7 @@ const ApplicationChat = (props) => {
                 <StyledScrollView
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
-                    ref={scrollViewRef}
-                    // onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                    }>
+                    ref={scrollViewRef}>
                     {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
                     {chats?.map((x, i) => (
                         <WrapperView key={i}>
