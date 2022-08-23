@@ -18,7 +18,9 @@ function Routs(props) {
   if (Platform.OS === "android") {
     FCMNotificationHandler.backgroundNotification();
     FCMNotificationHandler.requestUserPermission();
-    FCMNotificationHandler.NotifinationListener(navigationRef);
+  }
+  if(Platform.OS === 'android' && navigationRef.isReady()){
+    // FCMNotificationHandler.NotifinationListener(navigationRef);
   }
 
   const fetchCredentials = async () => {

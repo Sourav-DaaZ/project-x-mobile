@@ -19,7 +19,7 @@ import {
     HeaderText
 } from './style';
 import { API } from '../../../constants/apiConstant';
-import { timeFormat, dateFormat } from '../../../utils';
+import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData } from '../../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
@@ -46,8 +46,10 @@ const UserChat = (props) => {
     }
 
     const onLeave = () => {
-        const room = sortArrayForChat([detailsStore.id, props.route.params.id]);
-        socket.emit('close', room, (error) => {
+        const varParam = {
+            users: sortArrayForChat([detailsStore.id, props.route.params.id])
+        }
+        socket.emit('close', varParam, (error) => {
             console.warn(error);
             socket.disconnect();
         });
@@ -55,9 +57,12 @@ const UserChat = (props) => {
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener("focus", () => {
-            const room = [detailsStore.id, props.route.params.id];
+            const varParam = apiEncryptionData({
+                users: [detailsStore.id, props.route.params.id],
 
-            socket.emit('join', room, ((data) => {
+            })
+            socket.emit('join', varParam, ((qData) => {
+                const data = apiDecryptionData(qData);
                 if (data.error) {
                     console.warn(data.error);
                 }
@@ -85,8 +90,12 @@ const UserChat = (props) => {
     }, []);
 
     useEffect(() => {
-        const room = [detailsStore.id, props.route.params.id];
-        socket.emit('loadData', room, page, ((data) => {
+        const varParam = apiEncryptionData({
+            users: [detailsStore.id, props.route.params.id],
+            page: page
+        })
+        socket.emit('loadData', varParam, ((qData) => {
+            const data = apiDecryptionData(qData);
             if (data.error) {
                 console.warn(data.error);
             }
@@ -103,7 +112,8 @@ const UserChat = (props) => {
         }));
     }, [page])
 
-    socket.on('receivedMessage', (data) => {
+    socket.on('receivedMessage', (qData) => {
+        const data = apiDecryptionData(qData);
         if (data?.data?.user !== detailsStore.id) {
             let varChat = chats;
             let varChats = varChat.concat(data.data);
@@ -115,8 +125,14 @@ const UserChat = (props) => {
 
     const changeInput = () => {
         if (inputValue.trim().length > 0) {
-            const room = [detailsStore.id, props.route.params.id];
-            socket.emit('sendMessage', room, detailsStore.id, inputValue, (data) => {
+            const varParam = apiEncryptionData({
+                users: [detailsStore.id, props.route.params.id],
+                msg: inputValue,
+                my_id: detailsStore.id,
+                user_id: props.route.params.id
+            })
+            socket.emit('sendMessage', varParam, (qData) => {
+                const data = apiDecryptionData(qData);
                 if (data?.error) {
                     console.warn(data.error);
                 }

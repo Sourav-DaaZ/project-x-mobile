@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routs from '../../../constants/routeConst';
 import ReduxStore from '../../../store';
 import { fTokenUpdate } from '../../../store/actions';
+import Routes from '../../../constants/routeConst';
 const { dispatch } = ReduxStore;
 
 export async function requestUserPermission() {
@@ -36,14 +37,18 @@ async function GetFCMToken() {
         console.log("Token is present!");
     }
 }
-export const NotifinationListener = (navigationRef) => {
+export const NotifinationListener = (navigation) => {
     messaging().onNotificationOpenedApp(remoteMessage => {
         console.log(
             'Notification caused app to open from background state:',
             remoteMessage.data,
         );
         if (remoteMessage.data && remoteMessage.data.route) {
-            navigationRef.current?.navigate(Routs[remoteMessage.data.route], { id: remoteMessage.data.id })
+            if (remoteMessage.data.id) {
+                navigation.navigate(Routes[remoteMessage.data.route], { id: remoteMessage.data.id })
+            } else {
+                navigation.navigate(Routes[remoteMessage.data.route])
+            }
         }
     });
 
@@ -55,6 +60,13 @@ export const NotifinationListener = (navigationRef) => {
                     'Notification caused app to open from quit state:',
                     remoteMessage.notification,
                 );
+                if (remoteMessage.data && remoteMessage.data.route) {
+                    if (remoteMessage.data.id) {
+                        navigation.navigate(Routes[remoteMessage.data.route], { id: remoteMessage.data.id })
+                    } else {
+                        navigation.navigate(Routes[remoteMessage.data.route])
+                    }
+                }
                 //setInitialRoute( remoteMessage.data.type ); // e.g. "Settings"
             }
             //setLoading( false );

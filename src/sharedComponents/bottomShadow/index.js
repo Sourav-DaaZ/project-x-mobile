@@ -9,6 +9,7 @@ import { StyledContainer, StyledView } from './style';
 import { useSelector, shallowEqual } from 'react-redux';
 import SnackBar from '../snackbar';
 import { handleDynamicLink, handleOnloadDynamicLink } from '../../services/google/deepLinkingHandler';
+import * as FCMNotificationHandler from "../../services/google/firebase/FCMNotificationHandler";
 
 
 export const BottomShadow = (props) => {
@@ -42,6 +43,9 @@ export const ShadowWrapperContainer = (props) => {
             return () => unsubscribe();
         }
     }, [])
+    if (Platform.OS === "android" && props.navigation) {
+        FCMNotificationHandler.NotifinationListener(props.navigation);
+    }
 
     return (
         <React.Fragment>

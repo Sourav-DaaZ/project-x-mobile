@@ -36,7 +36,7 @@ export const handleOnloadDynamicLink = (navigation) => {
             if (link?.url) {
                 const url = quaryData(link.url);
                 if (url.page && url.id) {
-                    navigation.navigate('PostDetails', { id: url.id });
+                    navigation.navigate(url.page, { id: url.id });
                 } else if (url.page) {
                     navigation.navigate(url.page);
                 }
