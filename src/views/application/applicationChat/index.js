@@ -149,7 +149,7 @@ const ApplicationChat = (props) => {
     }
 
     return (
-        <ShadowWrapperContainer none>
+        <ShadowWrapperContainer none {...props}>
             <StyledSafeAreaView>
                 <BottomShadow>
                     <CustomHeader

@@ -85,7 +85,7 @@ const PostDetails = (props) => {
     }
 
     return (
-        showLoader ? <Loader /> : <ShadowWrapperContainer none>
+        showLoader ? <Loader /> : <ShadowWrapperContainer none {...props}>
             <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
                 <StyledCardCover source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />
             </StyledImageBackground>

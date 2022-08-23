@@ -166,7 +166,7 @@ const CreateReview = (props) => {
 
 
   return (
-    <ShadowWrapperContainer none>
+    <ShadowWrapperContainer none {...props}>
       <TouchableOpacity onPress={uploadImg}>
         <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: image ? image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
           <StyledCardCover source={{ uri: image ? image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }} resizeMode='contain' />

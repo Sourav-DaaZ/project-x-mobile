@@ -5,11 +5,7 @@ import {
     StyledScrollView
 } from './style';
 
-import SingleCategory from './singleCat';
 import OutsideAuthApi from '../../../services/outSideAuth';
-import DashboardLayout from '../../../sharedComponents/layout/dashboardLayout';
-import { useIsFocused } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
 
 import Routes from '../../../constants/routeConst';
 import Loader from '../../../sharedComponents/loader';
@@ -59,7 +55,7 @@ const AdminBannerList = (props) => {
 
     return (
 
-        showLoader ? <Loader /> : <ShadowWrapperContainer none>
+        showLoader ? <Loader /> : <ShadowWrapperContainer none {...props}>
             <StyledScrollView none>
                 {data.map((x, i) => <View style={{
                     display: 'flex',

@@ -279,7 +279,7 @@ const AdminUpdateBanner = (props) => {
 
 
   return (
-    <ShadowWrapperContainer none>
+    <ShadowWrapperContainer none {...props}>
       <StyledScrollView>
         <Banner data={[{
           img: image,

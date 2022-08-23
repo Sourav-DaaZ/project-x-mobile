@@ -74,7 +74,7 @@ const MyTags = (props) => {
     }
 
     return (
-        showLoader ? <Loader /> : <DashboardLayout {...props} fab={false}>
+        showLoader ? <Loader /> : <DashboardLayout {...props}>
             <StyledScrollView>
                 <WrapperView animation='zoomIn'>
                     <DashboardHeader text='My Tags' />

@@ -143,4 +143,15 @@ export const apiDecryptionData = (data) => {
   }
 }
 
+export const quaryData = (dataUrl) => {
+  const paramArr = dataUrl.slice(dataUrl.indexOf('?') + 1).split('&');
+  const params = {};
+  paramArr.map(param => {
+    const [key, val] = param.split('=');
+    params[key] = decodeURIComponent(val);
+  })
+  return params;
+
+}
+
 export { queryStringBulder };

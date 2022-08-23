@@ -68,7 +68,7 @@ const MyReview = (props) => {
     }
 
     return (
-        <ShadowWrapperContainer none>
+        <ShadowWrapperContainer none {...props}>
             <Review {...props} colors={colors} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
             {popupData._id ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native'
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -6,10 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { tokenUpdate } from '../store/actions';
 import * as FCMNotificationHandler from "../services/google/firebase/FCMNotificationHandler";
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { handleDynamicLink } from '../services/google/deepLinkingHandler';
 import SplashScreen from '../views/splashScreen';
-
 import AuthRouters from './authRouters';
 import Loader from '../sharedComponents/loader';
 
@@ -34,29 +31,14 @@ function Routs(props) {
 
   useEffect(() => {
     fetchCredentials();
-    if (Platform.OS === "android") {
-      dynamicLinks()
-        .getInitialLink()
-        .then(link => {
-          console.log(link)
-        });
-    }
   }, [])
-
-  useEffect(() => {
-    if (Platform.OS === "android") {
-      const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
-      // When the component is unmounted, remove the listener
-      return () => unsubscribe();
-    }
-  }, []);
 
 
   return (
     <React.Suspense fallback={
       <SplashScreen />
     }>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer>
         {authStore.access_token !== null && authStore.firebase_token !== null ? <AuthRouters {...props} islogin={authStore.access_token && authStore.access_token !== ''} /> : <Loader />}
       </NavigationContainer>
     </React.Suspense >

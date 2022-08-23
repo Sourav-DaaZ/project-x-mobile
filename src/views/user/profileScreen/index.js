@@ -133,7 +133,7 @@ const ProfileScreen = (props) => {
     }
 
     return (
-        showLoader ? <Loader /> : <ShadowWrapperContainer none>
+        showLoader ? <Loader /> : <ShadowWrapperContainer none {...props}>
             <StyledScrollView
                 stickyHeaderIndices={[1]}
                 showsVerticalScrollIndicator={false}

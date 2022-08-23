@@ -149,7 +149,7 @@ const AddTags = (props) => {
 
 
   return (
-    <ShadowWrapperContainer>
+    <ShadowWrapperContainer {...props}>
       <StyledScrollView>
         <InputView>
           {formElementsArray?.map((x, index) => (

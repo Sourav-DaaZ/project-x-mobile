@@ -223,7 +223,7 @@ const EditDetails = (props) => {
 
 
   return (
-    <ShadowWrapperContainer none>
+    <ShadowWrapperContainer none {...props}>
       <StyledScrollView style={{ flex: 1 }}>
         <InputView>
           {formElementsArray?.map((x, index) => (

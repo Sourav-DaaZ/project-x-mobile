@@ -89,7 +89,7 @@ const DashboardLayout = (props) => {
     };
 
     return (
-        <ShadowWrapperContainer none>
+        <ShadowWrapperContainer none {...props}>
             <DashboardOuterView>
                 <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
                 {props.children}

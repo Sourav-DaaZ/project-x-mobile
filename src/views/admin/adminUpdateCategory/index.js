@@ -214,7 +214,7 @@ const AdminUpdateCategory = (props) => {
 
 
   return (
-    <ShadowWrapperContainer none>
+    <ShadowWrapperContainer none {...props}>
       <StyledScrollView>
         <TouchableOpacity onPress={uploadImg}>
           <SingleCat img={image} name={data.controls.category_name.value} />

@@ -73,7 +73,7 @@ const AddBooking = (props) => {
 
 
   return (
-    <ShadowWrapperContainer>
+    <ShadowWrapperContainer {...props}>
       <StyledScrollView>
         <InputView>
           <Input

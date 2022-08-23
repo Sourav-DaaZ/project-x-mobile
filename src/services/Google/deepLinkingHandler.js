@@ -1,4 +1,5 @@
 import dynamicLinks from '@react-native-firebase/dynamic-links';
+import { quaryData } from '../../utils';
 
 export const generateLink = async (shortLink, param, value) => {
     const url = await dynamicLinks().buildShortLink({
@@ -14,11 +15,46 @@ export const generateLink = async (shortLink, param, value) => {
         },
         domainUriPrefix: 'https://projectxmobile.com',
     });
-    console.log(url);
-    // return url;
+    return url;
 }
 
-export  const handleDynamicLink = link => {
-    // Handle dynamic link inside your own application
-    console.log(link)
-  };
+export const handleDynamicLink = (link, navigation) => {
+    if (link?.url) {
+        const url = quaryData(link.url);
+        if (url.page && url.id) {
+            navigation?.navigate('PostDetails', { id: url.id });
+        } else if (url.page) {
+            navigation?.navigate(url.page);
+        }
+    }
+};
+
+export const handleOnloadDynamicLink = (navigation) => {
+    dynamicLinks()
+        .getInitialLink()
+        .then(link => {
+            if (link?.url) {
+                const url = quaryData(link.url);
+                if (url.page && url.id) {
+                    navigation.navigate('PostDetails', { id: url.id });
+                } else if (url.page) {
+                    navigation.navigate(url.page);
+                }
+            }
+        });
+};
+
+export const buildLink = async (dataUrl) => {
+    const link = await dynamicLinks().buildShortLink({
+        link: dataUrl,
+        domainUriPrefix: 'https://projectxmobile.page.link',
+        android: {
+            packageName: 'com.projectxmobile',
+        },
+        navigation: {
+            forcedRedirectEnabled: true,
+        },
+    }, dynamicLinks.ShortLinkType.UNGUESSABLE);
+
+    return link;
+}

@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar, FAB } from 'react-native-paper';
 import { TouchableOpacity, RefreshControl } from 'react-native';
+import Share from 'react-native-share';
 import {
     StyledHorizontalScrollView,
     StyledViewButton,
@@ -23,8 +24,9 @@ import ListItem from '../../../sharedComponents/listItem';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Loader from '../../../sharedComponents/loader';
 import Banner from '../../../sharedComponents/banner';
-import { openUrl } from '../../../utils';
+import { openUrl, queryStringBulder } from '../../../utils';
 import defaultValue from '../../../constants/defaultValue';
+import { buildLink } from '../../../services/google/deepLinkingHandler';
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -167,8 +169,30 @@ const SingleCategory = (props) => {
             })
     }
 
+    const onShare = async (page, id) => {
+        const varParam = {
+            page: page,
+            id: id
+        }
+        const url = 'https://projectxmobile.com/?' + queryStringBulder(varParam)
+        const longUrl = await buildLink(url);
+        console.log(longUrl)
+        const options = {
+            title: "Sharing link",
+            message: longUrl,
+            // url: "data:image/png;base64,",
+        }
+        Share.open(options)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                err && console.log(err);
+            });
+    }
+
     return (
-        <ShadowWrapperContainer none>
+        <ShadowWrapperContainer none {...props}>
             <StyledHorizontalScrollView
                 showsHorizontalScrollIndicator={false}
                 stickyHeaderIndices={[1]}
@@ -187,7 +211,7 @@ const SingleCategory = (props) => {
                 </BottomShadow>
                 {showLoader ? <Loader /> : <React.Fragment>
                     {globalPost && data.map((x, i) =>
-                        <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => console.log('hi')} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                        <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => onShare(Routes.postDetails, x._id)} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                     )}
                     {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
                         <StyledUserWrapper>

@@ -82,7 +82,7 @@ const NotificationScreen = (props) => {
 
 
     return (
-        <DashboardLayout {...props} fab={false} refreshFnc={() => setRefreshing(!refreshing)}>
+        <DashboardLayout {...props} refreshFnc={() => setRefreshing(!refreshing)}>
 
             {showLoader ? <Loader /> : <StyledScrollView>
                 {data.map((x, i) => (

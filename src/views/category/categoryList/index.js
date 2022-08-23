@@ -52,7 +52,7 @@ const CategoryList = (props) => {
 
 
     return (
-        <DashboardLayout {...props} fab={false}>
+        <DashboardLayout {...props}>
             {showLoader ? <Loader /> : <StyledScrollView>
                 {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
             </StyledScrollView>}
