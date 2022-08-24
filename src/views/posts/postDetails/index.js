@@ -27,12 +27,14 @@ import Routes from '../../../constants/routeConst';
 import Loader from '../../../sharedComponents/loader';
 import ListItem from '../../../sharedComponents/listItem'
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { useIsFocused } from '@react-navigation/native';
 
 const PostDetails = (props) => {
     const [data, setData] = useState({});
     const [showMenu, setShowMenu] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
     const themeContext = useContext(ThemeContext);
+    const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
@@ -56,7 +58,7 @@ const PostDetails = (props) => {
                 }));
                 setShowLoader(false)
             });
-    }, [])
+    }, [isFocused])
 
     const deletePost = () => {
         const requestData = {

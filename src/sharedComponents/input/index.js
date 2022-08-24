@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker, StyledSwitch, StyledSearchbar } from './style';
 import { ThemeContext } from 'styled-components';
+import { View } from 'react-native';
 const Input = (props) => {
   const [dot, setDot] = React.useState(true);
   const themeContext = useContext(ThemeContext);
@@ -12,7 +13,7 @@ const Input = (props) => {
   switch (props.ele) {
     case 'input':
       inputElement = (
-        <React.Fragment>
+        <View style={props.styleContainer}>
           <StyledTitle>{props.title}</StyledTitle>
           <StyledInputView
             style={props.styleView}>
@@ -37,12 +38,12 @@ const Input = (props) => {
             {props.isValid ? (props.icons ? props.icons[1] : null) : null}
           </StyledInputView>
           {props.errorMsg !== '' ? <StyledError>{props.errorMsg}</StyledError> : null}
-        </React.Fragment>
+        </View>
       );
       break;
     case 'password':
       inputElement = (
-        <React.Fragment>
+        <View style={props.styleContainer}>
           <StyledTitle>{props.title}</StyledTitle>
           <StyledInputView
             style={props.styleView}>
@@ -66,12 +67,12 @@ const Input = (props) => {
             />
           </StyledInputView>
           {props.errorMsg !== '' ? <StyledError>{props.errorMsg}</StyledError> : null}
-        </React.Fragment>
+        </View>
       );
       break;
     case 'select':
       inputElement = (
-        <React.Fragment>
+        <View style={props.styleContainer}>
           <StyledTitle>{props.title}</StyledTitle>
           <StyledPicker
             key={props.placeholder}
@@ -92,7 +93,7 @@ const Input = (props) => {
             setItems={props.setItems}
             placeholder={props.placeholder}
           />
-        </React.Fragment>)
+        </View>)
       break;
     case 'switch':
       inputElement = (

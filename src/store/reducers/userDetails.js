@@ -5,6 +5,7 @@ export const initialState = {
   id: '',
   name: '',
   gender: '',
+  age: 0,
   userCat: '',
   expectedCat: [],
   location: {
@@ -24,6 +25,7 @@ const detailsUpdate = (state, action) => {
     id: action.data.id,
     name: action.data.name,
     gender: action.data.gender,
+    age: action.data.age,
     userCat: action.data.userCat,
     expectedCat: action.data.expectedCat,
     profileImg: action.data.profileImg,

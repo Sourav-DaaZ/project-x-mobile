@@ -54,6 +54,7 @@ const SingleCategory = (props) => {
                 lat: detailsStore.location.lat,
                 long: detailsStore.location.long,
                 gender: detailsStore.gender,
+                age: detailsStore.age,
                 page: pageCount
             }
             OutsideAuthApi()

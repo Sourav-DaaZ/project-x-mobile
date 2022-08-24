@@ -59,13 +59,13 @@ const EditPost = (props) => {
           text: 'Title',
           placeholder: 'Enter your title',
         },
-        value: props.route.params.data.title ? props.route.params.data.title : '',
+        value: props.route.params?.data?.title ? props.route.params.data.title : '',
         validation: {
           required: true
         },
-        valid: props.route.params.data.title ? true : false,
+        valid: props.route.params?.data?.title ? true : false,
         errors: '',
-        className: [],
+        className: { width: '100%' },
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />,
           <Feather name="check-circle" color="green" size={20} />,
@@ -78,13 +78,13 @@ const EditPost = (props) => {
           text: 'Description',
           placeholder: 'Enter your description',
         },
-        value: props.route.params.data.message ? props.route.params.data.message : '',
+        value: props.route.params?.data?.message ? props.route.params.data.message : '',
         validation: {
           required: true,
         },
-        valid: props.route.params.data.message ? true : false,
+        valid: props.route.params?.data?.message ? true : false,
         errors: '',
-        className: [],
+        className: { width: '100%' },
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />,
           <Feather name="check-circle" color="green" size={20} />,
@@ -97,16 +97,56 @@ const EditPost = (props) => {
           text: 'Expected Price',
           placeholder: 'Enter Expected Price',
         },
-        value: props.route.params.data.expectedPrice ? props.route.params.data.expectedPrice.toString() : '',
+        value: props.route.params?.data?.expectedPrice ? props.route.params.data.expectedPrice.toString() : '',
         validation: {
           required: false,
           isNumeric: true
         },
         valid: true,
         errors: '',
-        className: [],
+        className: { width: '100%' },
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />
+        ],
+      },
+      minAge: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'minAge',
+          text: 'Min Age',
+          placeholder: 'Enter Min Age',
+        },
+        value: props.route.params?.data?.minAge !== undefined ? props.route.params.data.minAge.toString() : '',
+        validation: {
+          required: true,
+          isNumeric: true
+        },
+        valid: props.route.params?.data?.minAge !== undefined ? true : false,
+        errors: '',
+        className: { width: '48%', marginRight: '1%' },
+        icons: [
+          <FontAwesome name="user-o" color="#05375a" size={20} />,
+          <Feather name="check-circle" color="green" size={20} />,
+        ],
+      },
+      maxAge: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'maxAge',
+          text: 'Max Age',
+          placeholder: 'Enter Max Age',
+        },
+        value: props.route.params?.data?.maxAge ? props.route.params.data.maxAge.toString() : '',
+        validation: {
+          required: true,
+          isNumeric: true
+        },
+        valid: props.route.params?.data?.maxAge ? true : false,
+        errors: '',
+        className: { width: '48%', marginLeft: '1%' },
+        icons: [
+          <FontAwesome name="user-o" color="#05375a" size={20} />,
+          <Feather name="check-circle" color="green" size={20} />,
         ],
       }
     },
@@ -203,7 +243,9 @@ const EditPost = (props) => {
         category_id: props.route.params.category ? props.route.params.category.id : category,
         title: data.controls.title.value,
         message: data.controls.description.value,
-        expectedPrice: Number(data.controls.price.value),
+        minAge: Number(data.controls.minAge.value),
+        maxAge: Number(data.controls.maxAge.value),
+        ...data.controls.price.value !== '' && { expectedPrice: Number(data.controls.price.value) },
         isPublic: isPublic,
         genderSpecific: gender,
         visible: userVisible,
@@ -274,7 +316,7 @@ const EditPost = (props) => {
                 onInputChange={onInputChange}
                 onSubmit={() => Keyboard.dismiss()}
                 value={x.config?.value}
-                class={x.config?.className}
+                styleContainer={x.config?.className}
                 type={x.config?.elementConfig?.type}
                 keyNum={x.config?.validation?.isNumeric}
                 isValid={x.config?.valid}

@@ -59,7 +59,7 @@ const DashboardLayout = (props) => {
     }, [isFocused]);
 
     useEffect(() => {
-        if (authStore.access_token !== '' && !props.blockDetails) {
+        if (authStore.access_token !== '' && !props.blockDetails && detailsStore.id === '') {
             apiCallWithToken();
         }
     }, [authStore.access_token, props.refreshing]);
@@ -74,6 +74,7 @@ const DashboardLayout = (props) => {
                     id: res.data.user ? res.data.user : '',
                     name: res.data.name ? res.data.name : '',
                     gender: res.data.gender ? res.data.gender : '',
+                    age: res.data.age ? res.data.age : 0,
                     userCat: res.data.category ? res.data.category : '',
                     expectedCat: res.data.categoryPreference ? res.data.categoryPreference : [],
                 }))

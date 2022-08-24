@@ -144,6 +144,23 @@ const UpdateDetails = (props) => {
         errors: '',
         className: [],
         icons: [],
+      },
+      age: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'age',
+          text: 'Age',
+          placeholder: 'Enter your age',
+        },
+        value: props.route.params?.data?.age ? props.route.params.data.age.toString() : '',
+        validation: {
+          required: false,
+          isNumeric: true
+        },
+        valid: props.route.params?.data?.age ? true : false,
+        errors: '',
+        className: [],
+        icons: [],
       }
     }
   });
@@ -188,6 +205,17 @@ const UpdateDetails = (props) => {
           [type]: updateObject(data.controls[type], {
             value: val,
             errors: validation.validateField('price'),
+            valid: false,
+          }),
+        }),
+      });
+      setData(varVal);
+    } else if ((type === 'age' && !validate(val, { isNumeric: true }) && !Number(data.controls.age.value) >= 0)) {
+      varVal = updateObject(data, {
+        controls: updateObject(data.controls, {
+          [type]: updateObject(data.controls[type], {
+            value: val,
+            errors: validation.validateField('age'),
             valid: false,
           }),
         }),
@@ -274,6 +302,7 @@ const UpdateDetails = (props) => {
         contactNumber: data.controls.contactNumber.value,
         contactAddress: data.controls.contactAddress.value,
         subCategory: data.controls.subCategory.value,
+        age: Number(data.controls.age.value),
         category: category,
         categoryPreference: tergetCategory,
         gender: gender,

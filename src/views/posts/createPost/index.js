@@ -66,7 +66,7 @@ const CreatePost = (props) => {
         },
         valid: false,
         errors: '',
-        className: [],
+        className: { width: '100%' },
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />,
           <Feather name="check-circle" color="green" size={20} />,
@@ -85,7 +85,7 @@ const CreatePost = (props) => {
         },
         valid: false,
         errors: '',
-        className: [],
+        className: { width: '100%' },
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />,
           <Feather name="check-circle" color="green" size={20} />,
@@ -103,9 +103,49 @@ const CreatePost = (props) => {
           required: true,
           isNumeric: true
         },
+        valid: true,
+        errors: '',
+        className: { width: '100%' },
+        icons: [
+          <FontAwesome name="user-o" color="#05375a" size={20} />,
+          <Feather name="check-circle" color="green" size={20} />,
+        ],
+      },
+      minAge: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'minAge',
+          text: 'Min Age',
+          placeholder: 'Enter Min Age',
+        },
+        value: '',
+        validation: {
+          required: true,
+          isNumeric: true
+        },
         valid: false,
         errors: '',
-        className: [],
+        className: { width: '48%', marginRight: '1%' },
+        icons: [
+          <FontAwesome name="user-o" color="#05375a" size={20} />,
+          <Feather name="check-circle" color="green" size={20} />,
+        ],
+      },
+      maxAge: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'maxAge',
+          text: 'Max Age',
+          placeholder: 'Enter Max Age',
+        },
+        value: '',
+        validation: {
+          required: true,
+          isNumeric: true
+        },
+        valid: false,
+        errors: '',
+        className: { width: '48%', marginLeft: '1%' },
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />,
           <Feather name="check-circle" color="green" size={20} />,
@@ -142,7 +182,7 @@ const CreatePost = (props) => {
 
   const onInputChange = (val, type) => {
     let varVal = {};
-    if (!validate(val, { required: true })) {
+    if (type !== 'price' && !validate(val, { required: true })) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
           [type]: updateObject(data.controls[type], {
@@ -153,7 +193,7 @@ const CreatePost = (props) => {
         }),
       });
       setData(varVal);
-    } else if (type === 'price' && !validate(val, { isNumeric: true })) {
+    } else if (type === 'price' && val.length > 0 && !validate(val, { isNumeric: true })) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
           [type]: updateObject(data.controls[type], {
@@ -164,12 +204,12 @@ const CreatePost = (props) => {
         }),
       });
       setData(varVal);
-    } else if (type === 'password' && !validate(val, { password: true })) {
+    } else if ((type === 'maxAge' && !validate(val, { isNumeric: true }) && val >= 0) || (type === 'minAge' && !validate(val, { isNumeric: true }))) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
           [type]: updateObject(data.controls[type], {
             value: val,
-            errors: validation.validateField('password'),
+            errors: validation.validateField('age'),
             valid: false,
           }),
         }),
@@ -206,7 +246,9 @@ const CreatePost = (props) => {
         category_id: props.route.params.category ? props.route.params.category.id : category,
         title: data.controls.title.value,
         message: data.controls.description.value,
-        expectedPrice: Number(data.controls.price.value),
+        minAge: Number(data.controls.minAge.value),
+        maxAge: Number(data.controls.maxAge.value),
+        ...data.controls.price.value !== '' && { expectedPrice: Number(data.controls.price.value) },
         isPublic: isPublic,
         genderSpecific: gender,
         userVisible: userVisible,
@@ -274,12 +316,12 @@ const CreatePost = (props) => {
               {formElementsArray?.map((x, index) => (
                 x.id !== 'otp' && <Input
                   key={index}
+                  styleContainer={x.config?.className}
                   title={x.config?.elementConfig?.text}
                   placeholder={x.config?.elementConfig?.placeholder}
                   onInputChange={onInputChange}
                   onSubmit={() => Keyboard.dismiss()}
                   value={x.config?.value}
-                  class={x.config?.className}
                   type={x.config?.elementConfig?.type}
                   keyNum={x.config?.validation?.isNumeric}
                   isValid={x.config?.valid}

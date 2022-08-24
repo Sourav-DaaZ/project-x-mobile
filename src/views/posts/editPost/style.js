@@ -17,7 +17,9 @@ export const SubmitButton = styled(Button)`
 export const InputView = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     margin-bottom: ${height * .01}px;
-    min-height: ${height * .25}px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     width: 100%;
 `;
