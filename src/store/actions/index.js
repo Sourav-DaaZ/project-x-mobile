@@ -9,3 +9,7 @@ export {
    location,
    detailsUpdate
 } from './userDetails';
+
+export {
+   configUpdate,
+} from './config';

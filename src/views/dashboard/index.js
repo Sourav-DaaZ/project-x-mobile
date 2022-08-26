@@ -9,7 +9,8 @@ import {
     StyledHorizontalScrollView,
     StyledSearchbarView,
     StyledBannerWrapper,
-    StyledScrollView
+    StyledScrollView,
+    StyledChip
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import SingleCategory from '../category/categoryList/singleCat';
@@ -35,8 +36,10 @@ const Dashboard = (props) => {
     const dispatch = useDispatch();
     const [outerScrollViewScrollEnabled, setOuterScrollViewScrollEnabled] = useState(true);
     const [showLoader, setShowLoader] = useState(false);
+    const [tagLoader, setTagLoader] = useState(false);
     const [category, setCategory] = useState([]);
     const [banner, setBanner] = useState([]);
+    const [saveTag, setSaveTag] = useState({});
     const [refreshing, setRefreshing] = useState(false);
     const handleInnerPressIn = () => setOuterScrollViewScrollEnabled(false);
     const handleInnerPressOut = () => setOuterScrollViewScrollEnabled(true);
@@ -46,6 +49,7 @@ const Dashboard = (props) => {
             banner_for: 'main',
         }
         setShowLoader(true);
+        setTagLoader(true);
         OutsideAuthApi()
             .categoryListApi()
             .then((res) => {
@@ -54,6 +58,15 @@ const Dashboard = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
+            })
+        InsideAuthApi()
+            .getSaveTagApi()
+            .then((res) => {
+                setTagLoader(false);
+                setSaveTag(res.data);
+            })
+            .catch((err) => {
+                setTagLoader(false);
             })
         OutsideAuthApi()
             .getBannerApi(paramData)
@@ -75,7 +88,7 @@ const Dashboard = (props) => {
     }
 
     useEffect(() => {
-        if (detailsStore.location.loat !== 0 && detailsStore.location.long !== 0) {
+        if (detailsStore.location.loat !== 0 && detailsStore.location.long !== 0 && isFocused) {
             const requestParam = {
                 token: authStore.firebase_token,
                 user_id: detailsStore.id,
@@ -92,21 +105,16 @@ const Dashboard = (props) => {
     }, [authStore.firebase_token, detailsStore.id])
 
     useEffect(() => {
-        apiCall()
-    }, [refreshing])
-
-    useEffect(() => {
-        if (refreshing) {
-            apiCall()
+        if (isFocused && !refreshing) {
+            apiCall();
         }
-        setRefreshing(false)
     }, [refreshing])
 
     useEffect(() => {
-        if (authStore.access_token !== '' && detailsStore.location.lat !== 0) {
+        if (authStore.access_token !== '' && detailsStore.location.lat !== 0 && isFocused && !refreshing) {
             apiCallWithToken();
         }
-    }, [authStore.access_token, detailsStore.location, props.refreshing]);
+    }, [authStore.access_token, detailsStore.location, refreshing]);
 
 
     const apiCallWithToken = () => {
@@ -124,13 +132,20 @@ const Dashboard = (props) => {
             });
     };
 
+    const refreshFnc = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 200);
+    }
+
     return (
-        <DashboardLayout {...props} category={category} refreshing={refreshing}>
+        <DashboardLayout {...props} refreshing={refreshing}>
             <StyledScrollView
                 stickyHeaderIndices={[1]}
                 showsVerticalScrollIndicator={false}
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
+                    <RefreshControl refreshing={refreshing} onRefresh={refreshFnc} />
                 }
             >
                 <CustomHeader
@@ -182,6 +197,14 @@ const Dashboard = (props) => {
                         </StyledHorizontalScrollView>
                     </View>
                 </ShadowWrapperContainer>}
+                {tagLoader ? <Loader /> : saveTag.tags && saveTag.tags.length > 0 ? <ShadowWrapperContainer noSnack>
+                    <DashboardHeader text='Save Tag' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
+                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                        {saveTag.tags.map((x, i) => <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            {x.tag_name}
+                        </StyledChip>)}
+                    </View>
+                </ShadowWrapperContainer> : null}
             </StyledScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{

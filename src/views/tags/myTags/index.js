@@ -5,7 +5,12 @@ import { ThemeContext } from 'styled-components';
 import {
     StyledScrollView,
     StyledChip,
-    WrapperView
+    WrapperView,
+    SplashTitle,
+    LoginDescription,
+    ButtonWrapper,
+    UpdateButton,
+    CancelText
 } from './style';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import OutsideAuthApi from '../../../services/outSideAuth';
@@ -16,6 +21,7 @@ import { FAB, Menu } from 'react-native-paper';
 import Loader from '../../../sharedComponents/loader';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { snackbarUpdate } from '../../../store/actions';
+import Modal from '../../../sharedComponents/modal';
 
 const MyTags = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -23,9 +29,12 @@ const MyTags = (props) => {
     const dispatch = useDispatch();
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
-    const [Tag, setTag] = useState([]);
+    const [tag, setTag] = useState([]);
+    const [saveTag, setSaveTag] = useState([]);
     const [showMenu, setShowMenu] = useState(null);
+    const [showSavedMenu, setShowSavedMenu] = useState(null);
     const [showLoader, setShowLoader] = useState(false);
+    const [tagLoader, setTagLoader] = useState(false);
 
     const apiCall = () => {
         const varParam = {
@@ -46,10 +55,20 @@ const MyTags = (props) => {
                     msg: err?.message ? err.message : ''
                 }));
             });
+        InsideAuthApi()
+            .getSaveTagApi()
+            .then((res) => {
+                setTagLoader(false);
+                setSaveTag(res.data);
+            })
+            .catch((err) => {
+                setTagLoader(false);
+            })
     }
 
     useEffect(() => {
         setShowLoader(true);
+        setTagLoader(true);
         apiCall();
     }, []);
 
@@ -72,25 +91,46 @@ const MyTags = (props) => {
                 }));
             });
     }
+    const onDeleteSaveTag = (id) => {
+        const varParam = {
+            tag_id: id,
+            isDeleted: false
+        }
+        InsideAuthApi()
+            .saveTagApi(varParam)
+            .then((res) => {
+                setShowSavedMenu(null);
+                apiCall();
+            })
+            .catch((err) => {
+                dispatch(snackbarUpdate({
+                    type: 'error',
+                    msg: err?.message ? err.message : ''
+                }));
+            })
+    }
 
     return (
-        showLoader ? <Loader /> : <DashboardLayout {...props}>
+        <DashboardLayout {...props}>
             <StyledScrollView>
-                <WrapperView animation='zoomIn'>
+                {showLoader ? <Loader /> : <WrapperView animation='zoomIn'>
                     <DashboardHeader text='My Tags' />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>{Tag.map((x, i) =>
-                        <Menu
-                            key={i}
-                            visible={showMenu === i}
-                            onDismiss={() => setShowMenu(null)}
-                            anchor={<StyledChip accessibilityLabel={x.details} onLongPress={() => setShowMenu(i)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                        {tag.map((x, i) =>
+                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={() => setShowMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                                 {x.tag_name}
-                            </StyledChip>}
-                        >
-                            <Menu.Item onPress={() => onDelete(x._id)} title="Delete" />
-                        </Menu>
-                    )}</View>
-                </WrapperView>
+                            </StyledChip>)}
+                    </View>
+                </WrapperView>}
+                {tagLoader ? <Loader /> : <WrapperView animation='zoomIn'>
+                    <DashboardHeader text='Saved Tags' />
+                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                        {saveTag.tags && saveTag.tags.length > 0 ? saveTag.tags.map((x, i) =>
+                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={() => setShowSavedMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                                {x.tag_name}
+                            </StyledChip>) : null}
+                    </View>
+                </WrapperView>}
             </StyledScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
@@ -104,6 +144,30 @@ const MyTags = (props) => {
                 label='Tag'
                 onPress={() => props.navigation.navigate(Routes.addTag)}
             /> : null}
+            <Modal show={showMenu !== null} onClose={() => setShowMenu(null)}>
+                <SplashTitle>Delete Tags!</SplashTitle>
+                <LoginDescription>Are You Want to Delete this tag?</LoginDescription>
+                <ButtonWrapper>
+                    <UpdateButton mode="outlined" onPress={() => setShowMenu(null)}>
+                        <CancelText>Cancel</CancelText>
+                    </UpdateButton>
+                    <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => onDelete(showMenu)}>
+                        delete
+                    </UpdateButton>
+                </ButtonWrapper>
+            </Modal>
+            <Modal show={showSavedMenu !== null} onClose={() => setShowSavedMenu(null)}>
+                <SplashTitle>Delete Tags!</SplashTitle>
+                <LoginDescription>Are You Want to Delete this tag?</LoginDescription>
+                <ButtonWrapper>
+                    <UpdateButton mode="outlined" onPress={() => setShowSavedMenu(null)}>
+                        <CancelText>Cancel</CancelText>
+                    </UpdateButton>
+                    <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => onDeleteSaveTag(showSavedMenu)}>
+                        delete
+                    </UpdateButton>
+                </ButtonWrapper>
+            </Modal>
         </DashboardLayout>
     )
 }

@@ -23,32 +23,24 @@ const CategoryList = (props) => {
 
 
     useEffect(() => {
-        let isMounted = true;
         if (isFocused) {
             setShowLoader(true);
             OutsideAuthApi()
                 .categoryListApi()
                 .then((res) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        setCategory(res.data);
-                    }
+                    setShowLoader(false);
+                    setCategory(res.data);
                 })
                 .catch((err) => {
-                    if (isMounted) {
-                        setShowLoader(false);
-                        dispatch(snackbarUpdate({
-                            type: 'error',
-                            msg: err?.message ? err.message : ''
-                        }));
-                        setShowMsg(err.message)
-                    }
+                    setShowLoader(false);
+                    dispatch(snackbarUpdate({
+                        type: 'error',
+                        msg: err?.message ? err.message : ''
+                    }));
+                    setShowMsg(err.message)
                 });
         }
-        return () => {
-            isMounted = true
-        }
-    }, [isFocused]);
+    }, []);
 
 
     return (

@@ -6,7 +6,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import { location } from '../../../store/actions';
 import { useDispatch } from 'react-redux';
-import { detailsUpdate } from '../../../store/actions';
+import { detailsUpdate, configUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
 import {
     DashboardOuterView,
@@ -30,6 +30,7 @@ const DashboardLayout = (props) => {
     const isFocused = useIsFocused();
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
+    const configStore = useSelector((state) => state.config, shallowEqual);
     const [detailsShow, setDetailsShow] = useState(false);
     const [updatePopup, setUpdatePopup] = useState(null);
     const [detailsData, setDetailsData] = useState(null);
@@ -47,10 +48,11 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-        if (updatePopup === null) {
+        if (configStore.appConfig === null) {
             OutsideAuthApi()
                 .appConfigApi()
                 .then((res) => {
+                    dispatch(configUpdate(res.data))
                     setUpdatePopup(res.data);
                 }).catch((x) => {
                     console.log(x);

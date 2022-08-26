@@ -10,3 +10,5 @@ export const F_TOKEN_UPDATE = 'FIREBASE_TOKEN_UPDATE';
 export const TOKEN_UPDATE = 'REFRESH_TOKEN_UPDATE';
 export const LOCATION = 'LOCATION';
 export const DETAILS = 'DETAILS';
+
+export const APP_CONFIG_UPDATE = 'APP_CONFIG_UPDATE';

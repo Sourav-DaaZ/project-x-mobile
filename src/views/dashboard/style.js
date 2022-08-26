@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { Dimensions, ScrollView, View, Image } from 'react-native';
-import { Headline } from 'react-native-paper';
+import { Chip, Headline } from 'react-native-paper';
 
 const { width, height } = Dimensions.get('screen');
 const width_logo = width * .6;
@@ -43,4 +43,8 @@ export const StyledBannerWrapper = styled(View)`
 
 export const StyledScrollView = styled(ScrollView)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
+`;
+
+export const StyledChip = styled(Chip)`
+    margin-right: 20px;
 `;

@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.105:5000/api',
+    dev: 'http://192.168.0.104:5000/api',
     // dev: 'https://yarifi-backend.herokuapp.com/api',
     qa: '',
     uat: '',
@@ -55,6 +55,8 @@ export const API = {
     updateLocation: '/update_location',
     addTag: '/add_tag',
     editTag: '/edit_tag',
+    saveTag: '/save_tag',
+    getSaveTag: '/get_save_tag',
     bookingList: '/booking_list',
     addBooking: '/add_booking',
     editBooking: '/edit_booking',

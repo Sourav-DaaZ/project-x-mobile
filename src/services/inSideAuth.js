@@ -203,6 +203,31 @@ const InsideAuthApi = (authStore) => {
                 data: varData
             })
         },
+        async saveTagApi(param) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            const varData = apiEncryptionData(param, true);
+            return axiosObj({
+                url: API.authUrls.saveTag + varData,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+            })
+        },
+        async getSaveTagApi() {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            return axiosObj({
+                url: API.authUrls.getSaveTag,
+                method: 'GET',
+                headers: { ...defaultHeaders },
+            })
+        },
         async bookingListApi(param) {
             const token = await getAccessToken();
             const defaultHeaders = {
