@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import { View } from 'react-native';
+import { RefreshControl, View } from 'react-native';
 import { ThemeContext } from 'styled-components';
 
 import {
@@ -35,6 +35,7 @@ const TagList = (props) => {
     const [nTag, setNtag] = useState([]);
     const [showLoader, setShowLoader] = useState('');
     const [showMenu, setShowMenu] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
 
 
     useEffect(() => {
@@ -42,27 +43,36 @@ const TagList = (props) => {
             lat: detailsStore.location.lat,
             long: detailsStore.location.long
         }
-        setShowLoader(true);
-        OutsideAuthApi()
-            .tagListApi(varParam)
-            .then((res) => {
-                if (res.data) {
-                    let secure = [];
-                    let notSecure = [];
-                    res.data?.map((x) => x.secure ? secure.push(x) : notSecure.push(x))
-                    setStag(secure);
-                    setNtag(notSecure);
-                }
-                setShowLoader(false);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                dispatch(snackbarUpdate({
-                    type: 'error',
-                    msg: err?.message ? err.message : ''
-                }));
-            });
-    }, [isFocused]);
+        if (!refreshing) {
+            setShowLoader(true);
+            OutsideAuthApi()
+                .tagListApi(varParam)
+                .then((res) => {
+                    if (res.data) {
+                        let secure = [];
+                        let notSecure = [];
+                        res.data?.map((x) => x.secure ? secure.push(x) : notSecure.push(x))
+                        setStag(secure);
+                        setNtag(notSecure);
+                    }
+                    setShowLoader(false);
+                })
+                .catch((err) => {
+                    setShowLoader(false);
+                    dispatch(snackbarUpdate({
+                        type: 'error',
+                        msg: err?.message ? err.message : ''
+                    }));
+                });
+        }
+    }, [isFocused, refreshing]);
+
+    const refreshFnc = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 200);
+    }
 
     const onSaveTag = (id) => {
         const varParam = {
@@ -88,7 +98,12 @@ const TagList = (props) => {
 
     return (
         showLoader ? <Loader /> : <DashboardLayout {...props}>
-            <StyledScrollView>
+            <StyledScrollView
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={refreshFnc} />
+                }
+            >
                 {sTag.length > 0 ? <WrapperView animation='zoomIn'>
                     <DashboardHeader text='Verified Tags' />
                     <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>

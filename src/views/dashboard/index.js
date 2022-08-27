@@ -49,7 +49,6 @@ const Dashboard = (props) => {
             banner_for: 'main',
         }
         setShowLoader(true);
-        setTagLoader(true);
         OutsideAuthApi()
             .categoryListApi()
             .then((res) => {
@@ -58,15 +57,6 @@ const Dashboard = (props) => {
             })
             .catch((err) => {
                 setShowLoader(false);
-            })
-        InsideAuthApi()
-            .getSaveTagApi()
-            .then((res) => {
-                setTagLoader(false);
-                setSaveTag(res.data);
-            })
-            .catch((err) => {
-                setTagLoader(false);
             })
         OutsideAuthApi()
             .getBannerApi(paramData)
@@ -122,6 +112,7 @@ const Dashboard = (props) => {
             lat: detailsStore.location.lat,
             long: detailsStore.location.long
         }
+        setTagLoader(true);
         InsideAuthApi()
             .updateLocationApi(varData)
             .then((res) => {
@@ -130,6 +121,15 @@ const Dashboard = (props) => {
             .catch((err) => {
                 console.log(err);
             });
+        InsideAuthApi()
+            .getSaveTagApi()
+            .then((res) => {
+                setTagLoader(false);
+                setSaveTag(res.data);
+            })
+            .catch((err) => {
+                setTagLoader(false);
+            })
     };
 
     const refreshFnc = () => {

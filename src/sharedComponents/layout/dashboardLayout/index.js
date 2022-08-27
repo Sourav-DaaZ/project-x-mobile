@@ -36,7 +36,7 @@ const DashboardLayout = (props) => {
     const [detailsData, setDetailsData] = useState(null);
 
     useEffect(() => {
-        if (detailsStore.location.lat === 0 && detailsStore.location.long === 0) {
+        if (detailsStore.location.lat === 0 && detailsStore.location.long === 0 && !props.refreshing) {
             Geolocation.getCurrentPosition(({ coords }) => {
                 const varData = {
                     lat: coords.latitude,
@@ -48,7 +48,7 @@ const DashboardLayout = (props) => {
                 { enableHighAccuracy: true, timeout: 20000 }
             );
         }
-        if (configStore.appConfig === null) {
+        if (configStore.appConfig === null && !props.refreshing) {
             OutsideAuthApi()
                 .appConfigApi()
                 .then((res) => {
@@ -58,7 +58,7 @@ const DashboardLayout = (props) => {
                     console.log(x);
                 })
         }
-    }, [isFocused]);
+    }, [isFocused, props.refreshing]);
 
     useEffect(() => {
         if (authStore.access_token !== '' && !props.blockDetails && detailsStore.id === '') {

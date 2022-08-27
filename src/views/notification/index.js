@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity } from 'react-native';
 import {
     StyledButtonLoadMore,
     StyledScrollView,
@@ -66,7 +66,7 @@ const NotificationScreen = (props) => {
     }
 
     useEffect(() => {
-        if (isFocused) {
+        if (isFocused && !refreshing) {
             setShowLoader(true);
             setPage(0);
             setDataLoader(true);
@@ -80,11 +80,22 @@ const NotificationScreen = (props) => {
         }
     }, [page])
 
+     const refreshFnc = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 200);
+    }
+
 
     return (
-        <DashboardLayout {...props} refreshFnc={() => setRefreshing(!refreshing)}>
-
-            {showLoader ? <Loader /> : <StyledScrollView>
+        <DashboardLayout {...props}>
+            {showLoader ? <Loader /> : <StyledScrollView
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={refreshFnc} />
+                }
+            >
                 {data.map((x, i) => (
                     <TouchableOpacity key={i} style={{ borderBottom: '2px solid blue' }} onPress={() => props.navigation.navigate(Routes[x.data.route], { id: x.data.id })}>
                         <ListItem

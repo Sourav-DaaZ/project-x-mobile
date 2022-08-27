@@ -11,6 +11,7 @@ const Routes = {
     setting: 'Setting',
     access: 'Access',
     login: 'Login',
+    forgotPassword: 'ForgotPassword',
     register: 'Register',
     updateDetails: 'UpdateDetails',
     createPost: 'CreatePost',

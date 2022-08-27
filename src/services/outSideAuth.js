@@ -54,6 +54,15 @@ const OutsideAuthApi = () => {
                 data: varData
             })
         },
+        changePasswordApi(data) {
+            const varData = apiEncryptionData(data);
+            return axiosObj({
+                url: API.noAuthUrls.changePassword,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: varData
+            })
+        },
         userIdCheckApi(data) {
             const varData = apiEncryptionData(data);
             return axiosObj({

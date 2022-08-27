@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.104:5000/api',
+    dev: 'http://192.168.0.107:5000/api',
     // dev: 'https://yarifi-backend.herokuapp.com/api',
     qa: '',
     uat: '',
@@ -13,6 +13,7 @@ export const API = {
     requestForChangePassword: '/request_for_change_password',
     userIdCheck: '/user_id_check',
     registerUser: '/register_user',
+    changePassword: '/change_password',
     userDetails: '/user_details',
     categoryList: '/category_list',
     searchPost: '/search_post',

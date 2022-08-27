@@ -39,6 +39,7 @@ const ChatScreen = React.lazy(() => import('../views/chats/chatScreen'));
 const Camera = React.lazy(() => import('../views/camera'));
 const TagList = React.lazy(() => import('../views/tags/tagList'));
 const Login = React.lazy(() => import('../views/auth/login'));
+const ForgotPassword = React.lazy(() => import('../views/auth/forgotPassword'));
 const Register = React.lazy(() => import('../views/auth/register'));
 const AccessScreen = React.lazy(() => import('../views/access'));
 const NotificationScreen = React.lazy(() => import('../views/notification'));
@@ -166,6 +167,12 @@ const AuthRouters = (props) => {
               logo={<Image source={logoImg} />}
             />
           </BottomShadow>
+        })} />
+      <Stack.Screen
+        name={Routes.forgotPassword}
+        component={ForgotPassword}
+        options={() => ({
+          headerShown: false
         })} />
       {!props.islogin ? <Stack.Screen
         name={Routes.login}

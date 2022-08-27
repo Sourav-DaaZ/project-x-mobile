@@ -1,6 +1,6 @@
 const defaultValue = {
     debuggingMode: false,
-    otpLength: 4,
+    otpLength: 6,
     paginationLength: 3,
     apiEncryption: false,
     apiEncryptionSecret: 'secret',

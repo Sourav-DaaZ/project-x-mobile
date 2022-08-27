@@ -15,6 +15,7 @@ import {
     StyledImageBackground
 } from './style';
 import { TouchableOpacity } from 'react-native';
+import Share from 'react-native-share';
 
 import { Menu, Divider, Avatar } from 'react-native-paper';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -28,6 +29,8 @@ import Loader from '../../../sharedComponents/loader';
 import ListItem from '../../../sharedComponents/listItem'
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { useIsFocused } from '@react-navigation/native';
+import { queryStringBulder } from '../../../utils';
+import { buildLink } from '../../../services/google/deepLinkingHandler';
 
 const PostDetails = (props) => {
     const [data, setData] = useState({});
@@ -86,6 +89,39 @@ const PostDetails = (props) => {
             });
     }
 
+    const onShare = async (page, id) => {
+        const varParam = {
+            page: page,
+            id: id
+        }
+        const url = 'https://projectxmobile.com/?' + queryStringBulder(varParam)
+        const longUrl = await buildLink(url);
+
+        const options = {
+            title: "Sharing link",
+            message: longUrl,
+        }
+        Share.open(options)
+            .then((res) => {
+                console.log(res);
+                setShowMenu(false);
+            })
+            .catch((err) => {
+                setShowMenu(false);
+                err && console.log(err);
+            });
+    }
+
+    const onApply = () => {
+        if (data.length === 0 || detailsStore.id === '') {
+            props.navigation.navigate(Routes.login)
+        } else if (detailsStore.id === data.owner?.user) {
+            props.navigation.navigate(Routes.applicationList, { id: data._id })
+        } else {
+            props.navigation.navigate(Routes.createApplication, { id: data._id })
+        }
+    }
+
     return (
         showLoader ? <Loader /> : <ShadowWrapperContainer none {...props}>
             <StyledImageBackground resizeMode='cover' blurRadius={10} source={{ uri: data.images && data.images[0] ? data.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg' }}>
@@ -106,21 +142,23 @@ const PostDetails = (props) => {
                     <StyledCardParagraph>{data?.message}</StyledCardParagraph>
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' disabled={data.length === 0 || detailsStore.id === ''} onPress={() => detailsStore.id === data.owner?.user ? props.navigation.navigate(Routes.applicationList, { id: data._id }) : props.navigation.navigate(Routes.createApplication, { id: data._id })}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
-                    {detailsStore.id === data.owner?.user ? <TouchableOpacity onPress={() => setShowMenu(true)}>
+                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={() => onApply}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
+                    <TouchableOpacity onPress={() => setShowMenu(true)}>
                         <Menu
                             visible={showMenu}
                             onDismiss={() => setShowMenu(false)}
                             anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
                         >
-                            <Menu.Item onPress={() => {
+                            {detailsStore.id === data.owner?.user ? <Menu.Item onPress={() => {
                                 props.navigation.navigate(Routes.editPost, { data: data, image: data.images })
                                 setShowMenu(false);
-                            }} title="Edit Post" />
-                            <Divider />
-                            <Menu.Item onPress={deletePost} title="Delete Post" />
+                            }} title="Edit Post" /> : null}
+                            {detailsStore.id === data.owner?.user ? <Divider /> : null}
+                            {detailsStore.id === data.owner?.user ? <Menu.Item onPress={deletePost} title="Delete Post" /> : null}
+                            {detailsStore.id === data.owner?.user ? <Divider /> : null}
+                            <Menu.Item onPress={onShare} title="Share" />
                         </Menu>
-                    </TouchableOpacity> : null}
+                    </TouchableOpacity>
                 </StyledCardAction>
             </StyledCard>
         </ShadowWrapperContainer>

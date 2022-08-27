@@ -57,7 +57,7 @@ const CreatePost = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'title',
-          text: 'Title',
+          text: 'Title*',
           placeholder: 'Enter your title',
         },
         value: '',
@@ -67,29 +67,24 @@ const CreatePost = (props) => {
         valid: false,
         errors: '',
         className: { width: '100%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       },
       description: {
         elementType: 'input',
         elementConfig: {
           type: 'description',
-          text: 'Description',
+          text: 'Description*',
           placeholder: 'Enter your description',
         },
         value: '',
         validation: {
           required: true,
+          multiline: true
         },
         valid: false,
         errors: '',
         className: { width: '100%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       },
       price: {
         elementType: 'input',
@@ -108,14 +103,13 @@ const CreatePost = (props) => {
         className: { width: '100%' },
         icons: [
           <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
         ],
       },
       minAge: {
         elementType: 'input',
         elementConfig: {
           type: 'minAge',
-          text: 'Min Age',
+          text: 'Min Age*',
           placeholder: 'Enter Min Age',
         },
         value: '',
@@ -126,16 +120,13 @@ const CreatePost = (props) => {
         valid: false,
         errors: '',
         className: { width: '48%', marginRight: '1%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       },
       maxAge: {
         elementType: 'input',
         elementConfig: {
           type: 'maxAge',
-          text: 'Max Age',
+          text: 'Max Age*',
           placeholder: 'Enter Max Age',
         },
         value: '',
@@ -146,10 +137,7 @@ const CreatePost = (props) => {
         valid: false,
         errors: '',
         className: { width: '48%', marginLeft: '1%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       }
     },
   });
@@ -324,6 +312,7 @@ const CreatePost = (props) => {
                   value={x.config?.value}
                   type={x.config?.elementConfig?.type}
                   keyNum={x.config?.validation?.isNumeric}
+                  multiline={x.config?.validation?.multiline}
                   isValid={x.config?.valid}
                   validation={x.config?.validation}
                   errorMsg={x.config?.errors}

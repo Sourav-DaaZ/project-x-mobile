@@ -84,7 +84,7 @@ const ChatScreen = (props) => {
                         title={(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId)}
                         description={x?.comments ? x.comments[0]?.msg : ''}
                         smallDescription={timeFormat(x?.updatedAt)}
-                        image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: detailsStore.id !== x.sender_user_id._id ? x.sender_user_id.userInfo.images : x.receiver_user_id.userInfo.images }} />}
+                        image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: detailsStore.id !== x.sender_user_id._id ? (x.sender_user_id?.userInfo?.images ? x.sender_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') : (x.receiver_user_id?.userInfo?.images ? x.receiver_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') }} />}
                     />
                 </TouchableOpacity>
             ))}

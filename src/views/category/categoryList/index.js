@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity } from 'react-native';
 
 import {
     StyledScrollView
@@ -20,10 +20,11 @@ const CategoryList = (props) => {
     const [category, setCategory] = useState([]);
     const dispatch = useDispatch();
     const [showLoader, setShowLoader] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
 
 
     useEffect(() => {
-        if (isFocused) {
+        if (isFocused && !refreshing) {
             setShowLoader(true);
             OutsideAuthApi()
                 .categoryListApi()
@@ -40,12 +41,24 @@ const CategoryList = (props) => {
                     setShowMsg(err.message)
                 });
         }
-    }, []);
+    }, [isFocused, refreshing]);
+
+    const refreshFnc = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 200);
+    }
 
 
     return (
         <DashboardLayout {...props}>
-            {showLoader ? <Loader /> : <StyledScrollView>
+            {showLoader ? <Loader /> : <StyledScrollView
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={refreshFnc} />
+                }
+            >
                 {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
             </StyledScrollView>}
         </DashboardLayout>
