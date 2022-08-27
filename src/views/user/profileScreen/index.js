@@ -41,7 +41,7 @@ import Modal from '../../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
 import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat, timeFormat } from '../../../utils';
@@ -55,29 +55,33 @@ const ProfileScreen = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const [data, setData] = useState([]);
     const [popupData, setPopupData] = useState({});
-    const [showLoader, setShowLoader] = useState(true);
+    const [showLoader, setShowLoader] = useState(false);
     const [globalPost, setGlobalPost] = useState('booking');
     const [modalShow, setModalShow] = useState(true);
     const [addNotes, setAddNotes] = useState('');
     const [showNotes, setShowNotes] = useState(false);
     const [showStatusMenu, setShowStatusMenu] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
-        OutsideAuthApi()
-            .userDetailsApi(`?user_id=${props.route.params?.id}`)
-            .then((res) => {
-                setShowLoader(false);
-                setData(res.data);
-            })
-            .catch((err) => {
-                setShowLoader(false);
-                dispatch(snackbarUpdate({
-                    type: 'error',
-                    msg: err?.message ? err.message : ''
-                }))
-            });
-    }, [])
+        if (!refreshing) {
+            setShowLoader(true);
+            OutsideAuthApi()
+                .userDetailsApi(`?user_id=${props.route.params?.id}`)
+                .then((res) => {
+                    setShowLoader(false);
+                    setData(res.data);
+                })
+                .catch((err) => {
+                    setShowLoader(false);
+                    dispatch(snackbarUpdate({
+                        type: 'error',
+                        msg: err?.message ? err.message : ''
+                    }))
+                });
+        }
+    }, [refreshing])
 
     const GlobalButton = (select, text, onPress) => (
         select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
@@ -132,11 +136,21 @@ const ProfileScreen = (props) => {
         setShowNotes(false);
     }
 
+    const refreshFnc = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 200);
+    }
+
     return (
         showLoader ? <Loader /> : <ShadowWrapperContainer none {...props}>
             <StyledScrollView
                 stickyHeaderIndices={[1]}
                 showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={refreshFnc} />
+                }
                 contentContainerStyle={{ flexGrow: 1 }}>
                 <React.Fragment>
                     <ImageWrapper>

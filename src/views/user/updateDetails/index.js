@@ -392,8 +392,8 @@ const UpdateDetails = (props) => {
   )
 
   return (
-    <StyledScrollView>
-      <BottomShadow>
+    <StyledScrollView stickyHeaderIndices={[0]}>
+      <BottomShadow small>
         <StyledViewButton>
           {GlobalButton(globalDetails, 'Details', () => setGlobalDetails(true))}
           {GlobalButton(!globalDetails, 'Cred', () => setGlobalDetails(false))}
