@@ -41,24 +41,38 @@ const axiosObj = (info) => {
           const data = { refresh_token: tokenData?.refresh_token ? tokenData.refresh_token : '' };
           return await axios.post(API.baseUrls[API.currentEnv] + API.noAuthUrls.refreshToken, data)
             .then(async response => {
-              tokenData.access_token = response.data.data.access_token;
+              let resData = response.data;
+              if (response.data && response.data.data && response.data.data?.encritption) {
+                const decryptedData = apiDecryptionData(response.data.data);
+                resData = { data: decryptedData };
+              }
+              tokenData.access_token = resData.data.data.access_token;
               await AsyncStorage.setItem('token', JSON.stringify(tokenData));
               dispatch(tokenUpdate({
-                access_token: response.data.data.access_token,
+                access_token: resData.data.data.access_token,
                 refresh_token: tokenData.refresh_token
               }))
               error.response.config.headers['Authorization'] = 'Bearer ' + response.data.data.access_token;
               return await axios(error.response.config)
                 .then(fResponse => {
-                  return fResponse.data
+                  if (fResponse.data && fResponse.data.data && fResponse.data.data?.encritption) {
+                    const decryptedData = apiDecryptionData(fResponse.data.data);
+                    return { data: decryptedData };
+                  } else if (fResponse?.data) {
+                    return Promise.reject(fResponse.data);
+                  } else {
+                    return Promise.reject(error);
+                  }
                 })
-                .catch(async error => {
-                  await AsyncStorage.removeItem('token');
-                  dispatch(tokenUpdate({
-                    access_token: '',
-                    refresh_token: ''
-                  }))
-                  return await Promise.reject({ message: validation.generaleError });
+                .catch(error => {
+                  if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
+                    const decryptedData = apiDecryptionData(error.response.data.data);
+                    return Promise.reject({ data: decryptedData });
+                  } else if (error?.response?.data) {
+                    return Promise.reject(error.response.data);
+                  } else {
+                    return Promise.reject(error);
+                  }
                 });
             }).catch(async error => {
               await AsyncStorage.removeItem('token');
@@ -69,14 +83,20 @@ const axiosObj = (info) => {
               return await Promise.reject({ message: validation.generaleError });
             });
         } else {
-          if (error?.response?.data) {
+          if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
+            const decryptedData = apiDecryptionData(error.response.data.data);
+            return Promise.reject({ data: decryptedData });
+          } else if (error?.response?.data) {
             return Promise.reject(error.response.data);
           } else {
             return Promise.reject(error);
           }
         }
       } else {
-        if (error?.response?.data) {
+        if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
+          const decryptedData = apiDecryptionData(error.response.data.data);
+          return Promise.reject({ data: decryptedData });
+        } else if (error?.response?.data) {
           return Promise.reject(error.response.data);
         } else {
           return Promise.reject(error);

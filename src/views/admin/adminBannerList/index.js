@@ -16,11 +16,13 @@ import { FAB } from 'react-native-paper';
 import { View } from 'react-native-animatable';
 import { openUrl } from '../../../utils';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { useIsFocused } from '@react-navigation/native';
 
 
 const AdminBannerList = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const isFocused = useIsFocused();
     const [showLoader, setShowLoader] = useState('');
     const [data, setData] = useState([]);
 
@@ -51,7 +53,7 @@ const AdminBannerList = (props) => {
                 }));
                 setShowMsg(err.message)
             });
-    }, [])
+    }, [isFocused])
 
     return (
 
@@ -66,19 +68,19 @@ const AdminBannerList = (props) => {
                     flexWrap: 'wrap'
                 }} key={i}><Banner data={x} /></View>)}
 
-                <FAB
-                    style={{
-                        position: 'absolute',
-                        margin: 16,
-                        right: 0,
-                        bottom: 30,
-                        backgroundColor: colors.mainColor
-                    }}
-                    icon="plus"
-                    label='Banner'
-                    onPress={() => props.navigation.navigate(Routes.adminBannerUpdate)}
-                />
             </StyledScrollView>
+            <FAB
+                style={{
+                    position: 'absolute',
+                    margin: 16,
+                    right: 0,
+                    bottom: 30,
+                    backgroundColor: colors.mainColor
+                }}
+                icon="plus"
+                label='Banner'
+                onPress={() => props.navigation.navigate(Routes.adminBannerUpdate)}
+            />
         </ShadowWrapperContainer>
     )
 }

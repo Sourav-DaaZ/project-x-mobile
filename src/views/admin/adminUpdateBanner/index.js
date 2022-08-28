@@ -206,7 +206,7 @@ const AdminUpdateBanner = (props) => {
         });
     }
   }
-  const editBannerFnc = () => {
+  const editBannerFnc = (isDeleted) => {
     let isValid = [];
     formElementsArray.map(
       (x) => x.config.valid ? isValid.push(true) : isValid.push(false)
@@ -222,6 +222,7 @@ const AdminUpdateBanner = (props) => {
       const requestData = {
         id: props.route.params?.data?._id,
         ...category !== '' && { category: category },
+        ...isDeleted && { isDeleted: true },
         link: data.controls.link.value,
         banner_for: bannerFor,
         location: {
@@ -350,6 +351,9 @@ const AdminUpdateBanner = (props) => {
               setItems={setCategoryArr}
             />
           </InputView>
+          {props.route.params?.data?._id ? <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? () => editBannerFnc(true) : null}>
+            Delete Banner
+          </SubmitButton> : null}
           <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editBannerFnc : createBannerFnc : null}>
             {props.route.params?.data?._id ? 'Edit Banner' : 'Create Banner'}
           </SubmitButton>
