@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.108:5000/api',
+    dev: 'http://192.168.0.103:5000/api',
     // dev: 'https://yarifi-backend.herokuapp.com/api',
     qa: '',
     uat: '',

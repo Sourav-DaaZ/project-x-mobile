@@ -6,13 +6,15 @@
  * @flow strict-local
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Routs from './routes';
 
-import { Provider, useStore } from 'react-redux';
+import { Provider } from 'react-redux';
 import Store from './store';
 import { Provider as PaperProvider } from 'react-native-paper';
 import GlobalThemeProvider from './contextProviders/globalThemeProvider';
+import ErrorBoundary from 'react-native-error-boundary';
+import ErrorHandeler from './views/errorHandeler';
 
 if (__DEV__) {
   import('./reactotronConfig').then(() => console.log('Reactotron Configured'));
@@ -24,7 +26,9 @@ const App = () => {
     <Provider store={Store}>
       <GlobalThemeProvider>
         <PaperProvider>
-          <Routs />
+          <ErrorBoundary FallbackComponent={ErrorHandeler}>
+            <Routs />
+          </ErrorBoundary>
         </PaperProvider>
       </GlobalThemeProvider>
     </Provider>

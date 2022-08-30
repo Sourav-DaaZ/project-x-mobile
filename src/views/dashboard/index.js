@@ -53,7 +53,8 @@ const Dashboard = (props) => {
             .categoryListApi()
             .then((res) => {
                 setShowLoader(false);
-                setCategory(res.data);
+                // setCategory(res.data);
+                setCategory({});
             })
             .catch((err) => {
                 setShowLoader(false);

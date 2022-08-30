@@ -40,6 +40,7 @@ const Routes = {
     createBooking: 'CreateBooking',
     editBooking: 'EditBooking',
     chatList: 'ChatList',
+    onError: 'OnError',
 }
 
 export default Routes;

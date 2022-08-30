@@ -13,12 +13,14 @@ import Routes from '../../../constants/routeConst';
 import { ThemeContext } from 'styled-components';
 import Loader from '../../../sharedComponents/loader';
 import defaultValue from '../../../constants/defaultValue';
+import { useIsFocused } from '@react-navigation/native';
 
 const ApplicationList = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const dispatch = useDispatch();
+    const isFocused = useIsFocused();
     const [data, setData] = useState([]);
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
@@ -29,10 +31,10 @@ const ApplicationList = (props) => {
             post_id: props.route.params?.id ? props.route.params.id : '',
             page: pageCount
         }
+        setShowLoader(true);
         InsideAuthApi(authStore)
             .getAllApplicationsApi(varParam)
             .then((res) => {
-                console.log(res.data);
                 if (res.data && pageCount > 0) {
                     let varData = data;
                     if (res.data instanceof Array) {
@@ -60,9 +62,8 @@ const ApplicationList = (props) => {
 
     useEffect(() => {
         setData([]);
-        setShowLoader(true);
         apiCall(0)
-    }, [])
+    }, [isFocused])
 
     useEffect(() => {
         if (page > 0) {

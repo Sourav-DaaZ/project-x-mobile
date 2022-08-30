@@ -41,10 +41,10 @@ const axiosObj = (info) => {
           const data = { refresh_token: tokenData?.refresh_token ? tokenData.refresh_token : '' };
           return await axios.post(API.baseUrls[API.currentEnv] + API.noAuthUrls.refreshToken, data)
             .then(async response => {
-              let resData = response.data;
+              let resData = response;
               if (response.data && response.data.data && response.data.data?.encritption) {
                 const decryptedData = apiDecryptionData(response.data.data);
-                resData = { data: decryptedData };
+                resData.data = { data: decryptedData };
               }
               tokenData.access_token = resData.data.data.access_token;
               await AsyncStorage.setItem('token', JSON.stringify(tokenData));
@@ -93,6 +93,7 @@ const axiosObj = (info) => {
           }
         }
       } else {
+        console.log(error);
         if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
           const decryptedData = apiDecryptionData(error.response.data.data);
           return Promise.reject({ data: decryptedData });
