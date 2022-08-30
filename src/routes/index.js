@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native'
-import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
@@ -9,13 +9,10 @@ import * as FCMNotificationHandler from "../services/google/firebase/FCMNotifica
 import SplashScreen from '../views/splashScreen';
 import AuthRouters from './authRouters';
 import Loader from '../sharedComponents/loader';
-import Routes from '../constants/routeConst';
-const navigationRef = React.createRef()
 
 function Routs(props) {
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const dispatch = useDispatch();
-  const [explode, setExplode] = React.useState(false)
 
   if (Platform.OS === "android") {
     FCMNotificationHandler.backgroundNotification();
@@ -34,19 +31,11 @@ function Routs(props) {
     fetchCredentials();
   }, [])
 
-  const onErrorPress = () => {
-    navigationRef.current?.navigate(Routes.dashboard);
-  }
-  const onErrorRedirect = () => {
-    setExplode(false)
-  }
-
-
   return (
     <React.Suspense fallback={
       <SplashScreen />
     }>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer>
         {authStore.access_token !== null && authStore.firebase_token !== null ? <AuthRouters {...props} islogin={authStore.access_token && authStore.access_token !== ''} /> : <Loader />}
       </NavigationContainer>
     </React.Suspense >
