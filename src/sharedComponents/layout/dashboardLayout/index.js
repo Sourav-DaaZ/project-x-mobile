@@ -44,8 +44,8 @@ const DashboardLayout = (props) => {
                 }
                 dispatch(location(varData));
             },
-                (error) => props.navigation.navigate(Routes.access, { type: 'Location' }),
-                { enableHighAccuracy: true, timeout: 20000 }
+                (error) => props.navigation.navigate(Routes.access, { type: 'Location', err: error }),
+                // { enableHighAccuracy: true, timeout: 20000 }
             );
         }
         if (configStore.appConfig === null && !props.refreshing) {

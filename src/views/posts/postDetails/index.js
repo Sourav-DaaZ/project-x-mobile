@@ -143,7 +143,7 @@ const PostDetails = (props) => {
                     <StyledCardParagraph>{data?.message}</StyledCardParagraph>
                 </StyledCardContent>
                 <StyledCardAction>
-                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={() => onApply}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
+                    <StyledCardButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onApply}>{detailsStore.id === data.owner?.user ? 'View' : 'Apply'}</StyledCardButton>
                     <TouchableOpacity onPress={() => setShowMenu(true)}>
                         <Menu
                             visible={showMenu}

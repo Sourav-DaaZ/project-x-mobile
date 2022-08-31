@@ -22,6 +22,7 @@ const AccessScreen = (props) => {
       />
       <SplashTitle>{props.route.params.type} Access ERROR!</SplashTitle>
       <SplashDescription>Please give your {props.route.params.type} access for better performance.</SplashDescription>
+      {props.route?.params?.err ? <SplashDescription>error: {props.route.params.err.toString()}</SplashDescription> : null}
       <SplashButton labelStyle={{ color: colors.backgroundColor }} mode='contained' circular onPress={() => props.navigation.goBack()}>
         Try Again
       </SplashButton>
