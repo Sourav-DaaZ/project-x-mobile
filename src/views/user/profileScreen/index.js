@@ -44,7 +44,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { RefreshControl, TouchableOpacity } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
 import ListItem from '../../../sharedComponents/listItem';
-import { dateFormat, timeFormat } from '../../../utils';
+import { dateFormat, openUrl, timeFormat } from '../../../utils';
 import InsideAuthApi from '../../../services/inSideAuth';
 
 const ProfileScreen = (props) => {
@@ -171,12 +171,16 @@ const ProfileScreen = (props) => {
                         {data?.contactNumber ? <StyledParagraph>Phone: {data.contactNumber}</StyledParagraph> : null}
                     </StyledProfileView>
                     <StyledReviewProfile>
-                        <StyledCenter>
-                            <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
-                        </StyledCenter>
-                        <StyledCenter>
-                            <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
-                        </StyledCenter>
+                        <TouchableOpacity onPress={() => openUrl(data?.user_socials?.fb_link ? data.user_socials.fb_link : '')}>
+                            <StyledCenter>
+                                <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
+                            </StyledCenter>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => openUrl(data?.user_socials?.insta_link ? data.user_socials.insta_link : '')}>
+                            <StyledCenter>
+                                <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
+                            </StyledCenter>
+                        </TouchableOpacity>
                         {props.route.params?.id && props.route.params.id !== detailsStore.id ? <StyledCenter>
                             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.userChat, { id: props.route.params.id })}>
                                 <Fontisto style={{ color: colors.mainColor }} name='messenger' size={30} />

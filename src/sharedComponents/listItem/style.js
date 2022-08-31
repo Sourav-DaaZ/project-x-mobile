@@ -36,3 +36,10 @@ export const StyledParagraph = styled(Paragraph)`
     font-weight: 400;
     margin-bottom: 0px;
 `;
+
+export const StyledParagraphBold = styled(Paragraph)`
+    color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
+    font-weight: 800;
+    font-size: ${width * .04}px;
+    margin-bottom: 0px;
+`;

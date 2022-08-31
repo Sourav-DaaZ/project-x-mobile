@@ -10,7 +10,6 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import { timeFormat } from '../../../utils'
 
-import DashboardLayout from '../../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../../constants/routeConst';
 import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
@@ -22,7 +21,6 @@ const ChatScreen = (props) => {
     const themeContext = useContext(ThemeContext);
     const dispatch = useDispatch();
     const [showLoader, setShowLoader] = useState(false);
-    const [refreshing, setRefreshing] = useState(false);
     const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
     const [data, setData] = useState([]);
@@ -83,6 +81,7 @@ const ChatScreen = (props) => {
                     <ListItem
                         title={(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId)}
                         description={x?.comments ? x.comments[0]?.msg : ''}
+                        descriptionBold={x?.viewList && x.viewList.length > 0 && !x.viewList.includes(detailsStore.id) ? x?.comments ? x.comments[0]?.msg : '' : null}
                         smallDescription={timeFormat(x?.updatedAt)}
                         image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: detailsStore.id !== x.sender_user_id._id ? (x.sender_user_id?.userInfo?.images ? x.sender_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') : (x.receiver_user_id?.userInfo?.images ? x.receiver_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') }} />}
                     />

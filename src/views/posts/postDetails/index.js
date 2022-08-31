@@ -89,7 +89,7 @@ const PostDetails = (props) => {
             });
     }
 
-    const onShare = async (page, id) => {
+    const onShare = async (page, id, image, title) => {
         const varParam = {
             page: page,
             id: id
@@ -98,8 +98,9 @@ const PostDetails = (props) => {
         const longUrl = await buildLink(url);
 
         const options = {
-            title: "Sharing link",
-            message: longUrl,
+            title: 'post:' + title,
+            subject: 'post:' + title,
+            message: title + ', click this link: ' + longUrl,
         }
         Share.open(options)
             .then((res) => {
@@ -156,7 +157,7 @@ const PostDetails = (props) => {
                             {detailsStore.id === data.owner?.user ? <Divider /> : null}
                             {detailsStore.id === data.owner?.user ? <Menu.Item onPress={deletePost} title="Delete Post" /> : null}
                             {detailsStore.id === data.owner?.user ? <Divider /> : null}
-                            <Menu.Item onPress={onShare} title="Share" />
+                            <Menu.Item onPress={()=>onShare(Routes.postDetails, data._id, data.images && data.images[0] ? data.images[0] : null, data.title)} title="Share" />
                         </Menu>
                     </TouchableOpacity>
                 </StyledCardAction>

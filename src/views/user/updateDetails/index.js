@@ -161,6 +161,38 @@ const UpdateDetails = (props) => {
         errors: '',
         className: [],
         icons: [],
+      },
+      facebook: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'facebook',
+          text: 'Facebook Link',
+          placeholder: 'Enter Facebook Link',
+        },
+        value: props.route.params?.data?.user_socials?.fb_link ? props.route.params.data.user_socials.fb_link : '',
+        validation: {
+          required: false,
+        },
+        valid: true,
+        errors: '',
+        className: [],
+        icons: [],
+      },
+      insta: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'insta',
+          text: 'Instagram Link',
+          placeholder: 'Enter Instagram Link',
+        },
+        value: props.route.params?.data?.user_socials?.insta_link ? props.route.params.data.user_socials.insta_link : '',
+        validation: {
+          required: false,
+        },
+        valid: true,
+        errors: '',
+        className: [],
+        icons: [],
       }
     }
   });
@@ -188,7 +220,7 @@ const UpdateDetails = (props) => {
 
   const onInputChange = (val, type) => {
     let varVal = {};
-    if (type !== 'contactAddress' && type !== 'contactAddress' && !validate(val, { required: true })) {
+    if (type !== 'contactAddress' && type !== 'contactAddress' && type !== 'facebook' && type !== 'insta' && !validate(val, { required: true })) {
       varVal = updateObject(data, {
         controls: updateObject(data.controls, {
           [type]: updateObject(data.controls[type], {
@@ -302,6 +334,8 @@ const UpdateDetails = (props) => {
         contactNumber: data.controls.contactNumber.value,
         contactAddress: data.controls.contactAddress.value,
         subCategory: data.controls.subCategory.value,
+        fb_link: data.controls.facebook.value,
+        insta_link: data.controls.insta.value,
         age: Number(data.controls.age.value),
         category: category,
         categoryPreference: tergetCategory,

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
-import { StyledProfileView, StyledTitle, StyledParagraph } from './style';
+import { StyledProfileView, StyledTitle, StyledParagraph, StyledParagraphBold } from './style';
 
 
 export default ListItem = (props) => {
@@ -13,7 +13,8 @@ export default ListItem = (props) => {
             {props.image}
             <View style={{ marginLeft: 10 }}>
                 {props.title ? <StyledTitle>{props.title}</StyledTitle> : null}
-                {props.description ? <StyledParagraph>{props.description}</StyledParagraph> : null}
+                {!props.descriptionBold && props.description ? <StyledParagraph>{props.description}</StyledParagraph> : null}
+                {props.descriptionBold ? <StyledParagraphBold>{props.descriptionBold}</StyledParagraphBold> : null}
                 {props.smallDescription ? <StyledParagraph>{props.smallDescription}</StyledParagraph> : null}
             </View>
         </StyledProfileView>

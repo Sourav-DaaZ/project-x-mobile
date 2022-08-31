@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar, FAB } from 'react-native-paper';
-import { TouchableOpacity, RefreshControl } from 'react-native';
+import { TouchableOpacity, RefreshControl, Platform } from 'react-native';
 import Share from 'react-native-share';
 import {
     StyledHorizontalScrollView,
@@ -24,7 +24,7 @@ import ListItem from '../../../sharedComponents/listItem';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Loader from '../../../sharedComponents/loader';
 import Banner from '../../../sharedComponents/banner';
-import { openUrl, queryStringBulder } from '../../../utils';
+import { calDistance, openUrl, queryStringBulder } from '../../../utils';
 import defaultValue from '../../../constants/defaultValue';
 import { buildLink } from '../../../services/google/deepLinkingHandler';
 
@@ -170,18 +170,17 @@ const SingleCategory = (props) => {
             })
     }
 
-    const onShare = async (page, id) => {
+    const onShare = async (page, id, image, title) => {
         const varParam = {
             page: page,
             id: id
         }
         const url = 'https://projectxmobile.com/?' + queryStringBulder(varParam)
         const longUrl = await buildLink(url);
-        console.log(longUrl)
         const options = {
-            title: "Sharing link",
-            message: longUrl,
-            // url: "data:image/png;base64,",
+            title: 'post:' + title,
+            subject: 'post:' + title,
+            message: title + ', click this link: ' + longUrl
         }
         Share.open(options)
             .then((res) => {
@@ -212,13 +211,14 @@ const SingleCategory = (props) => {
                 </BottomShadow>
                 {showLoader ? <Loader /> : <React.Fragment>
                     {globalPost && data.map((x, i) =>
-                        <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => onShare(Routes.postDetails, x._id)} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                        <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => onShare(Routes.postDetails, x._id, x.images && x.images[0] ? x.images[0] : null, x.title)} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                     )}
                     {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
                         <StyledUserWrapper>
                             <ListItem
                                 title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
                                 description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
+                                smallDescription={detailsStore.location.lat && detailsStore.location.long && x?.location?.coordinates ? calDistance(x.location.coordinates[0], x.location.coordinates[1], detailsStore.location.lat, detailsStore.location.long).toString() + ' Km' : null}
                                 image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user?.userInfo?.images ? x.user.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
                         </StyledUserWrapper>
                     </TouchableOpacity>)}

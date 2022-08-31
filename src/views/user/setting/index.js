@@ -18,6 +18,7 @@ import Routes from '../../../constants/routeConst';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Loader from '../../../sharedComponents/loader';
 import { useIsFocused } from '@react-navigation/native';
+import { openUrl } from '../../../utils';
 
 const Setting = (props) => {
   const dispatch = useDispatch();
@@ -120,12 +121,16 @@ const Setting = (props) => {
             </StyledProfileView>
           </TouchableOpacity>}
           {authStore.access_token && authStore.access_token !== '' ? <StyledProfileView style={{ justifyContent: 'space-around' }}>
-            <StyledCenter>
-              <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
-            </StyledCenter>
-            <StyledCenter>
-              <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
-            </StyledCenter>
+            <TouchableOpacity onPress={() => openUrl(data?.user_socials?.fb_link ? data.user_socials.fb_link : '')}>
+              <StyledCenter>
+                <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
+              </StyledCenter>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => openUrl(data?.user_socials?.insta_link ? data.user_socials.insta_link : '')}>
+              <StyledCenter>
+                <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
+              </StyledCenter>
+            </TouchableOpacity>
           </StyledProfileView> : null}
           {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>

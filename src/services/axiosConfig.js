@@ -58,11 +58,8 @@ const axiosObj = (info) => {
                   if (fResponse.data && fResponse.data.data && fResponse.data.data?.encritption) {
                     const decryptedData = apiDecryptionData(fResponse.data.data);
                     return { data: decryptedData };
-                  } else if (fResponse?.data) {
-                    return Promise.reject(fResponse.data);
-                  } else {
-                    return Promise.reject(error);
                   }
+                  return fResponse.data;
                 })
                 .catch(error => {
                   if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {

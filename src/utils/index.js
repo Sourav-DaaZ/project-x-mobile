@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Linking } from "react-native";
+import { Alert, Linking } from "react-native";
 import CryptoJS from "crypto-js";
 import defaultValue from '../constants/defaultValue'
 
@@ -79,15 +79,27 @@ export const getAccessToken = async () => {
 }
 
 export const openUrl = async (url) => {
-  const supported = await Linking.openURL(url);
-  if (supported) {
-    // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-    // by some browser in the mobile
-    await Linking.openURL(url);
-  } else {
+  try {
+    const supported = await Linking.openURL(url);
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Invalid Url: ${url}`);
+    }
+  } catch (e) {
     Alert.alert(`Invalid Url: ${url}`);
   }
 };
+
+const disLogic = (val) => {
+  if (val < 1) {
+    return '< 1';
+  } else {
+    return val;
+  }
+}
 
 export const calDistance = (lat1, lon1, lat2, lon2) => {
   var R = 6371; // km (change this constant to get miles)
@@ -98,9 +110,10 @@ export const calDistance = (lat1, lon1, lat2, lon2) => {
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
-  if (d > 1) return Math.round(d);
-  else if (d <= 1) return Math.round(d);
-  return d;
+  console.log(d)
+  if (d > 1) return disLogic(Math.round(d));
+  else if (d <= 1) return disLogic(Math.round(d));
+  return disLogic(d);
 }
 
 const queryStringBulder = (obj) => {

@@ -36,7 +36,7 @@ function Routs(props) {
       <SplashScreen />
     }>
       <NavigationContainer>
-        {authStore.access_token !== null && authStore.firebase_token !== null ? <AuthRouters {...props} islogin={authStore.access_token && authStore.access_token !== ''} /> : <Loader />}
+        {authStore.access_token !== null && (authStore.firebase_token !== null || Platform.OS === 'ios') ? <AuthRouters {...props} islogin={authStore.access_token && authStore.access_token !== ''} /> : <Loader />}
       </NavigationContainer>
     </React.Suspense >
   );
