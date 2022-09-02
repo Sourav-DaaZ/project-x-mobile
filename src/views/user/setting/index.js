@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import InsideAuthApi from '../../../services/inSideAuth';
-import { detailsUpdate, snackbarUpdate, tokenUpdate } from '../../../store/actions';
+import { detailsUpdate, tokenUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -36,13 +36,6 @@ const Setting = (props) => {
       .logout()
       .then(async (res) => {
         await AsyncStorage.removeItem('token');
-        dispatch(detailsUpdate({
-          id: '',
-          name: '',
-          gender: '',
-          userCat: '',
-          expectedCat: [],
-        }))
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''
@@ -50,13 +43,6 @@ const Setting = (props) => {
       })
       .catch(async (err) => {
         await AsyncStorage.removeItem('token');
-        dispatch(detailsUpdate({
-          id: '',
-          name: '',
-          gender: '',
-          userCat: '',
-          expectedCat: [],
-        }))
         dispatch(tokenUpdate({
           access_token: '',
           refresh_token: ''

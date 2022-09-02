@@ -185,13 +185,12 @@ const Dashboard = (props) => {
                                 onPressOut={handleInnerPressOut}
                             >
                                 <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                                    {category?.map((x, i) => detailsStore.expectedCat?.length > 0 && detailsStore.expectedCat.includes(x._id) ?
+                                    {category?.map((x, i) => detailsStore.expectedCat?.length > 0 && authStore.access_token !== '' && detailsStore.expectedCat.includes(x._id) ?
                                         <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}>
                                             <SingleCategory name={x.category_name} img={x.images} />
-                                        </TouchableOpacity> : detailsStore.expectedCat?.length === 0 ?
-                                            <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}>
-                                                <SingleCategory name={x.category_name} img={x.images} />
-                                            </TouchableOpacity> : null)}
+                                        </TouchableOpacity> : <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}>
+                                            <SingleCategory name={x.category_name} img={x.images} />
+                                        </TouchableOpacity>)}
                                 </View>
                             </TouchableWithoutFeedback>
                         </StyledHorizontalScrollView>
