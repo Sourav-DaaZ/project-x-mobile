@@ -113,14 +113,14 @@ const UserChat = (props) => {
     }, [page])
 
     socket.on('receivedMessage', (qData) => {
+        setInputValue('');
         const data = apiDecryptionData(qData);
-        if (data?.data?.user !== detailsStore.id) {
-            let varChat = chats;
-            let varChats = varChat.concat(data.data);
-            setChats(varChats);
-            setInputValue('');
-            scrollViewRef.current?.scrollToEnd({ animated: true })
-        }
+        let varChat = chats;
+        varChat.shift();
+        let varChats = varChat.concat(data.data);
+        console.log(data.data)
+        setChats(varChats);
+        scrollViewRef.current?.scrollToEnd({ animated: true })
     });
 
     const changeInput = () => {
@@ -134,13 +134,8 @@ const UserChat = (props) => {
             socket.emit('sendMessage', varParam, (qData) => {
                 const data = apiDecryptionData(qData);
                 if (data?.error) {
-                    console.warn(data.error);
+                    console.error(data.error);
                 }
-                let varChat = chats;
-                let varChats = varChat.concat(data.data);
-                setChats(varChats);
-                setInputValue('');
-                scrollViewRef.current.scrollToEnd({ animated: true })
             });
         }
     }

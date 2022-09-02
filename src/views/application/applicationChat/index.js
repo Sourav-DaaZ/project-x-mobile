@@ -115,18 +115,15 @@ const ApplicationChat = (props) => {
         }));
     }, [page])
 
-    useEffect(() => {
-        socket.on('receivedMessage', (qData) => {
-            const data = apiDecryptionData(qData);
-            if (data?.data?.user !== detailsStore.id) {
-                let varChat = chats;
-                let varChats = varChat.concat(data.data);
-                setChats(varChats);
-                setInputValue('');
-                scrollViewRef.current?.scrollToEnd({ animated: true })
-            }
-        });
-    }, [socket]);
+    socket.on('receivedMessage', (qData) => {
+        setInputValue('');
+        const data = apiDecryptionData(qData);
+        let varChat = chats;
+        varChat.shift();
+        let varChats = varChat.concat(data.data);
+        setChats(varChats);
+        scrollViewRef.current?.scrollToEnd({ animated: true })
+    });
 
     const changeInput = () => {
         if (inputValue.trim().length > 0) {
@@ -140,10 +137,6 @@ const ApplicationChat = (props) => {
                 if (data?.error) {
                     console.warn(data.error);
                 }
-                const varChat = [...chats, data.data]
-                setChats(varChat);
-                setInputValue('');
-                scrollViewRef.current.scrollToEnd({ animated: true })
             });
         }
     }

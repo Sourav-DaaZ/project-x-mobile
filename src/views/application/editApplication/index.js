@@ -160,7 +160,8 @@ const EditApplication = (props) => {
   const uploadImg = async () => {
     const options = {
       includeBase64: true,
-      maxWidth: 200,
+      maxWidth: 700,
+      maxHeight: 700,
       quality: .5,
       storageOptions: {
         skipBackup: true,

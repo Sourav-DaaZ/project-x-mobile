@@ -22,6 +22,7 @@ import { ShadowWrapperContainer } from '../../bottomShadow';
 import Modal from '../../modal';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import defaultValue from '../../../constants/defaultValue';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DashboardLayout = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -44,8 +45,8 @@ const DashboardLayout = (props) => {
                 }
                 dispatch(location(varData));
             },
-                (error) => props.navigation.navigate(Routes.access, { type: 'Location', err: error }),
-                // { enableHighAccuracy: true, timeout: 20000 }
+                (error) => props.navigation.navigate(Routes.access, { type: 'Location', err: error.message }),
+                { enableHighAccuracy: false, timeout: 20000 }
             );
         }
         if (configStore.appConfig === null && !props.refreshing) {
@@ -72,14 +73,16 @@ const DashboardLayout = (props) => {
             .detailsApi()
             .then((res) => {
                 setDetailsData(res.data);
-                dispatch(detailsUpdate({
+                const varData = {
                     id: res.data.user ? res.data.user : '',
                     name: res.data.name ? res.data.name : '',
                     gender: res.data.gender ? res.data.gender : '',
                     age: res.data.age ? res.data.age : 0,
                     userCat: res.data.category ? res.data.category : '',
                     expectedCat: res.data.categoryPreference ? res.data.categoryPreference : [],
-                }))
+                }
+                dispatch(detailsUpdate(varData));
+                AsyncStorage.setItem('userData', JSON.stringify(varData));
                 if (!(res.data && res.data.name && res.data.category && res.data.categoryPreference)) {
                     setDetailsShow(true);
                 }

@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { tokenUpdate } from '../store/actions';
+import { tokenUpdate, detailsUpdate } from '../store/actions';
 import * as FCMNotificationHandler from "../services/google/firebase/FCMNotificationHandler";
 import SplashScreen from '../views/splashScreen';
 import AuthRouters from './authRouters';
@@ -21,9 +21,18 @@ function Routs(props) {
 
   const fetchCredentials = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('token') || "{}");
+    const userData = JSON.parse(await AsyncStorage.getItem('userData') || "{}");
     dispatch(tokenUpdate({
       access_token: data.access_token ? data.access_token : '',
       refresh_token: data.refresh_token ? data.refresh_token : ''
+    }));
+    dispatch(detailsUpdate({
+      id: userData.id ? userData.id : '',
+      name: userData.name ? userData.name : '',
+      gender: userData.gender ? userData.gender : '',
+      age: userData.age ? userData.age : 0,
+      userCat: userData.userCat ? userData.userCat : '',
+      expectedCat: userData.expectedCat ? userData.expectedCat : [],
     }));
   }
 

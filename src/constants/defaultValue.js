@@ -2,7 +2,7 @@ const defaultValue = {
     debuggingMode: false,
     otpLength: 6,
     paginationLength: 3,
-    apiEncryption: false,
+    apiEncryption: true,
     apiEncryptionSecret: 'secret',
     bookingStatus: ["requested", "confirmed", "rejected", "cancelled"],
     appVersion: {

@@ -25,9 +25,12 @@ async function GetFCMToken() {
             if (fcmToken) {
                 dispatch(fTokenUpdate(fcmToken))
                 await AsyncStorage.setItem("fcmToken", fcmToken);
+            } else {
+                dispatch(fTokenUpdate(''))
             }
         }
         catch (error) {
+            dispatch(fTokenUpdate(''))
             console.error("[ERROR]", error);
         }
 
