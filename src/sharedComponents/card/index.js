@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     StyledCard,
     StyledCardContent,
@@ -11,13 +11,17 @@ import {
 } from './style';
 import { ThemeContext } from 'styled-components';
 import * as Animatable from 'react-native-animatable';
+import { TouchableOpacity } from 'react-native';
+import ImagePreview from '../imagePreview'
 
 const CardComponent = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const [show, setShow] = useState(false);
+
     return (
         <Animatable.View animation='bounceIn'>
-            {props.images ? <StyledCardCover source={{ uri: props.images }} /> : null}
+            {props.images ? <TouchableOpacity onPress={() => setShow(true)}><StyledCardCover source={{ uri: props.images }} /></TouchableOpacity> : null}
             <StyledCard style={{ marginTop: !props.images ? 20 : -20 }}>
                 {props.profile}
                 <StyledCardContent>
@@ -31,6 +35,7 @@ const CardComponent = (props) => {
                     {props.actionItem}
                 </StyledCardAction>
             </StyledCard>
+            <ImagePreview show={show} images={[{ url: props.images }]} setShowFalse={() => setShow(false)} />
         </Animatable.View>
     )
 };

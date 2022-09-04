@@ -16,32 +16,36 @@ import {
     StyledButtonLoadMore,
     StyledTimeView,
     WrapperView,
-    HeaderText
+    HeaderText,
+    StyledSmallImage,
+    StyledRemove,
+    StyledImage
 } from './style';
 import { API } from '../../../constants/apiConstant';
 import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData } from '../../../utils';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { useSelector, shallowEqual } from 'react-redux';
+import { BottomShadow } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
 import defaultValue from '../../../constants/defaultValue';
-import { snackbarUpdate } from '../../../store/actions';
+import { launchImageLibrary } from 'react-native-image-picker';
+import ImagePreview from '../../../sharedComponents/imagePreview';
 
 const ApplicationChat = (props) => {
     const scrollViewRef = useRef();
-    const dispatch = useDispatch()
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [inputValue, setInputValue] = useState('');
     const [chats, setChats] = useState([]);
+    const [newChat, setNewChat] = useState({});
     const [dataLoader, setDataLoader] = useState(true);
-    const [isAuth, setIsAuth] = useState(false);
     const [page, setPage] = useState(0);
-    const authStore = useSelector((state) => state.auth, shallowEqual);
-    const detailsStore = useSelector((state) => state.details, shallowEqual);
+    const [image, setImage] = useState('');
+    const [loader, setLoader] = useState(false);
+    const [newChatloader, setNewChatloader] = useState(false);
+    const [show, setShow] = useState('');
     const socket = io(API.baseUrls[API.currentEnv] + API.noAuthUrls.postSocket, {
-        auth: {
-            token: authStore.access_token
-        }
+        reconnectionDelayMax: 10000,
     });
 
     const onLeave = () => {
@@ -61,48 +65,39 @@ const ApplicationChat = (props) => {
         socket.emit('join', varParam, ((qData) => {
             const data = apiDecryptionData(qData);
             if (data.error) {
-                dispatch(snackbarUpdate({
-                    type: 'error',
-                    msg: data.error
-                }))
-                console.warn(e);
-                onLeave();
-            } else {
-                setIsAuth(true);
-                setChats(data.data);
+                console.warn(data.error);
             }
+            setChats(data.data);
+            scrollViewRef.current.scrollToEnd({ animated: true })
         }));
         return () => { onLeave() }
     }, [])
 
-    const [refreshing, setRefreshing] = React.useState(false);
-
-    const wait = (timeout) => {
-        return new Promise((resolve) => setTimeout(resolve, timeout));
-    };
-
     useEffect(() => {
-        scrollViewRef.current.scrollToEnd({ animated: true })
-    }, [])
+        if (newChat.time) {
+            const varData = newChat;
+            let varChat = chats;
+            varChat.shift();
+            varChat.push(varData);
+            setChats(varChat);
+            setNewChatloader(false);
+        }
+        scrollViewRef.current?.scrollToEnd({ animated: true })
+    }, [newChat])
 
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        wait(1000).then(() => {
-            setRefreshing(false);
-        });
-    }, []);
-
-    useEffect(() => {
+    const onChangePage = () => {
+        const vPage = page + 1;
+        setPage(page + 1);
         const varParam = apiEncryptionData({
             room: props.route?.params?.id ? props.route.params.id : '',
-            page: page
+            page: vPage
         })
         socket.emit('loadData', varParam, ((qData) => {
             const data = apiDecryptionData(qData);
             if (data.error) {
                 console.warn(data.error);
             }
-            if (data.data && page > 0) {
+            if (data.data && vPage > 0) {
                 let varData = data.data;
                 varData = varData.concat(chats)
                 setChats(varData);
@@ -113,77 +108,114 @@ const ApplicationChat = (props) => {
                 setDataLoader(false)
             }
         }));
-    }, [page])
-
-    socket.on('receivedMessage', (qData) => {
-        setInputValue('');
-        const data = apiDecryptionData(qData);
-        let varChat = chats;
-        varChat.shift();
-        let varChats = varChat.concat(data.data);
-        setChats(varChats);
-        scrollViewRef.current?.scrollToEnd({ animated: true })
-    });
+    }
 
     const changeInput = () => {
-        if (inputValue.trim().length > 0) {
-            const varParam = apiEncryptionData({
-                room: props.route?.params?.id ? props.route.params.id : '',
-                user_id: detailsStore.id,
-                msg: inputValue
-            })
-            socket.emit('sendMessage', varParam, (qData) => {
-                const data = apiDecryptionData(qData);
-                if (data?.error) {
-                    console.warn(data.error);
-                }
-            });
+        setLoader(true);
+        const varParam = apiEncryptionData({
+            room: props.route?.params?.id ? props.route.params.id : '',
+            msg: inputValue,
+            image: image,
+            user_id: detailsStore.id
+        })
+        socket.emit('sendMessage', varParam, (qData) => {
+            const data = apiDecryptionData(qData);
+            if (data?.error) {
+                console.error(data.error);
+            }
+            if (data?.success) {
+                setImage('');
+                setInputValue('');
+            }
+            setLoader(false);
+        });
+    }
+
+    const uploadImg = async () => {
+        const options = {
+            includeBase64: true,
+            maxWidth: 500,
+            maxHeight: 500,
+            quality: .5,
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+
+        try {
+            const result = await launchImageLibrary(options);
+            setImage('data:image/png;base64,' + result.assets[0].base64);
+        } catch (e) {
+            console.log(e)
         }
     }
 
+    socket.on('receivedMessage', (qData) => {
+        setNewChatloader(true);
+        const data = apiDecryptionData(qData);
+        setNewChat(data.data);
+    });
+
+    const chatUI = (x, i, load) => {
+        return (<WrapperView key={i}>
+            {i === 0 && x.time ? <StyledTimeView>{dateFormat(x.time, undefined)}</StyledTimeView> : dateFormat(x.time, chats[i - 1]?.time) ? <StyledTimeView>{dateFormat(x.time, chats[i - 1]?.time)}</StyledTimeView> : null}
+            {x?.user === detailsStore.id ? <StyledMyChatView>
+                {x.image ? <TouchableOpacity onPress={() => setShow(x.image)}>
+                    <StyledImage source={{ uri: x.image }} />
+                </TouchableOpacity> : null}
+                <StyledMyChatViewText>{x.msg}</StyledMyChatViewText>
+                <StyledClock style={{ right: 0 }}>{timeFormat(x.time)}</StyledClock>
+            </StyledMyChatView> : <StyledUserChatView>
+                {x.image ? <TouchableOpacity onPress={() => setShow(x.image)}>
+                    <StyledImage source={{ uri: x.image }} />
+                </TouchableOpacity> : null}
+                <StyledUserChatViewText>{x.msg}</StyledUserChatViewText>
+                <StyledClock style={{ left: 0 }}>{timeFormat(x.time)}</StyledClock>
+            </StyledUserChatView>}
+            {load && i === load ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text'>Loading</StyledButtonLoadMore> : null}
+        </WrapperView>)
+    }
+
     return (
-        <ShadowWrapperContainer none {...props}>
-            <StyledSafeAreaView>
-                <BottomShadow>
-                    <CustomHeader
-                        left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => props.navigation.goBack()} />}
-                        logo={<HeaderText>{props.route.params?.name}</HeaderText>}
-                    />
-                </BottomShadow>
-                <StyledScrollView
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                    ref={scrollViewRef}>
-                    {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
-                    {chats?.map((x, i) => (
-                        <WrapperView key={i}>
-                            {i === 0 ? <StyledTimeView>{dateFormat(x.time, undefined)}</StyledTimeView> : dateFormat(x.time, chats[i - 1].time) ? <StyledTimeView>{dateFormat(x.time, chats[i - 1].time)}</StyledTimeView> : null}
-                            {x?.user === detailsStore.id ? <StyledMyChatView>
-                                <StyledMyChatViewText>{x.msg}</StyledMyChatViewText>
-                                <StyledClock style={{ right: 0 }}>{timeFormat(x.time)}</StyledClock>
-                            </StyledMyChatView> : <StyledUserChatView>
-                                <StyledUserChatViewText>{x.msg}</StyledUserChatViewText>
-                                <StyledClock style={{ left: 0 }}>{timeFormat(x.time)}</StyledClock>
-                            </StyledUserChatView>}
-                        </WrapperView>
-                    ))}
-                </StyledScrollView>
-                {isAuth ? <StyledInputView>
-                    <View style={{ width: '85%' }}>
-                        <StyledInput ele='input' styleView={{
-                            backgroundColor: colors.mainColor,
-                            borderBottomWidth: 0
-                        }}
-                            value={inputValue}
-                            onInputChange={(val) => setInputValue(val)}
-                        />
-                    </View>
-                    <TouchableOpacity onPress={changeInput}>
-                        <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20, marginTop: 10 }} />
+        <StyledSafeAreaView>
+            <BottomShadow>
+                <CustomHeader
+                    left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => props.navigation.goBack()} />}
+                    logo={<HeaderText>{props.route.params?.name}</HeaderText>}
+                />
+            </BottomShadow>
+            <StyledScrollView
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                ref={scrollViewRef}>
+                {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={onChangePage}>Load More</StyledButtonLoadMore> : null}
+                {newChatloader ? chats?.map((x, i) => chatUI(x, i, chats.length - 1)) : chats?.map((x, i) => chatUI(x, i))}
+            </StyledScrollView>
+            <StyledInputView>
+                {image !== '' ? <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <StyledSmallImage source={{ uri: image }} />
+                    <TouchableOpacity onPress={() => setImage('')}>
+                        <StyledRemove labelStyle={{ color: colors.mainByColor }} mode='text'>Remove</StyledRemove>
                     </TouchableOpacity>
-                </StyledInputView> : null}
-            </StyledSafeAreaView>
-        </ShadowWrapperContainer>
+                </View> : null}
+                <View style={{ width: '85%' }}>
+                    <StyledInput ele='input' styleView={{
+                        backgroundColor: colors.mainColor,
+                        borderBottomWidth: 0
+                    }}
+                        value={inputValue}
+                        onInputChange={(val) => setInputValue(val)}
+                    />
+                </View>
+                {(inputValue !== '' || image !== '') ? <TouchableOpacity onPress={!loader ? changeInput : null} style={{ width: '15%', opacity: loader ? .5 : 1 }}>
+                    <Ionicons name='send' size={35} style={{ color: colors.mainByColor, marginLeft: 10, marginTop: 10 }} />
+                </TouchableOpacity> : <TouchableOpacity onPress={!loader ? uploadImg : null} style={{ width: '15%', opacity: loader ? .5 : 1 }}>
+                    <Ionicons name='md-add-circle-sharp' size={40} style={{ color: colors.mainByColor, marginLeft: 10, marginTop: 10 }} />
+                </TouchableOpacity>}
+            </StyledInputView>
+            <ImagePreview show={show !== ''} images={[{ url: show }]} setShowFalse={() => setShow('')} />
+        </StyledSafeAreaView>
     )
 }
 export default ApplicationChat;

@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions, SafeAreaView, ScrollView, View, Text} from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView, View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 import Input from '../../../sharedComponents/input';
 import Button from '../../../sharedComponents/button';
@@ -36,7 +36,7 @@ export const StyledInputView = styled(View)`
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 `;
@@ -104,4 +104,22 @@ export const StyledClock = styled(Text)`
 
 export const StyledButtonLoadMore = styled(Button)`
     width: 100%;
+`;
+
+export const StyledSmallImage = styled(Image)`
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    margin-bottom: -10px;
+`;
+export const StyledImage = styled(Image)`
+    width: 150px;
+    height: 150px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+`;
+
+export const StyledRemove = styled(Button)`
+    margin-top: 20px;
+    margin-bottom: -10px;
 `;
