@@ -21,7 +21,7 @@ import Review from './review';
 import Routes from '../../../constants/routeConst';
 import Modal from '../../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat } from '../../../utils';
 import InsideAuthApi from '../../../services/inSideAuth';
@@ -99,11 +99,12 @@ const MyReview = (props) => {
                     {showNotes && popupData.comment?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
                 </StyledNotesView>
                 <StyledInputView>
-                    <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                        borderBottomWidth: 0,
-                        backgroundColor: colors.mainColor,
-                        width: "90%"
-                    }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
+                    <View style={{ width: "85%" }}>
+                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
+                            borderBottomWidth: 0,
+                            backgroundColor: colors.mainColor,
+                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
+                    </View>
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity onPress={() => onReviewEdit(popupData._id, addNotes)}>
                         <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20 }} />
                     </TouchableOpacity> : null}

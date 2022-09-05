@@ -149,7 +149,7 @@ export const StyledButtonActive = styled(Button)`
 export const StyledInput = styled(Input)`
     padding-left: 20px;
     padding-right: 20px;
-    margin-top: 0px;
+    margin-top: -40px;
     border-radius: 30px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
 `;

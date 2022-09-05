@@ -74,10 +74,12 @@ const TagChat = (props) => {
     }, [])
 
     useEffect(() => {
-        if (newChat.time) {
+        if (newChat?.time) {
             const varData = newChat;
             let varChat = chats;
-            varChat.shift();
+            if (varChat.length >= defaultValue.paginationChatLength) {
+                varChat.shift();
+            }
             varChat.push(varData);
             setChats(varChat);
             setNewChatloader(false);

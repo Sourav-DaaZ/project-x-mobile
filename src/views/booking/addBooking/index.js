@@ -132,7 +132,7 @@ const AddBooking = (props) => {
       </StyledScrollView>
       <DatePicker
         modal
-        mode={open === 3 ? "time" : "date"}
+        mode={open === 3 ? "time" : "datetime"}
         open={open > 0 && open < 4}
         date={new Date()}
         minimumDate={open === 1 ? new Date : open === 2 ? startDate : null}

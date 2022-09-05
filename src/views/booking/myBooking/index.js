@@ -28,7 +28,7 @@ import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/
 import Booking from './booking';
 import Modal from '../../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
 import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat, timeFormat } from '../../../utils';
@@ -140,11 +140,12 @@ const MyBooking = (props) => {
                     {showNotes && popupData.notes?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
                 </StyledNotesView>
                 <StyledInputView>
-                    <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                        borderBottomWidth: 0,
-                        backgroundColor: colors.mainColor,
-                        width: "90%"
-                    }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
+                    <View style={{ width: "85%" }}>
+                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
+                            borderBottomWidth: 0,
+                            backgroundColor: colors.mainColor,
+                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
+                    </View>
                     {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity onPress={() => onEdit(popupData._id, null, addNotes)}>
                         <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20 }} />
                     </TouchableOpacity> : null}

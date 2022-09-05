@@ -69,8 +69,8 @@ const ProfileScreen = (props) => {
             OutsideAuthApi()
                 .userDetailsApi(`?user_id=${props.route.params?.id}`)
                 .then((res) => {
-                    setShowLoader(false);
                     setData(res.data);
+                    setShowLoader(false);
                 })
                 .catch((err) => {
                     setShowLoader(false);
@@ -141,7 +141,7 @@ const ProfileScreen = (props) => {
             setRefreshing(false);
         }, 200);
     }
-
+    
     return (
         showLoader ? <Loader /> : <ShadowWrapperContainer none {...props}>
             <StyledScrollView

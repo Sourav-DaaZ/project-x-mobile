@@ -61,11 +61,12 @@ const axiosObj = (info) => {
       return response.data;
     },
     async (error) => {
-      if ((error.config && error.response && error.response.status === 401)) {
+      const originalRequest = error.config;
+      if ((error.config && error.response && error.response.status === 401 && !originalRequest._retry)) {
+        originalRequest._retry = true;
         const tokenData = JSON.parse(await AsyncStorage.getItem('token') || '{}');
         if (tokenData && tokenData.refresh_token) {
           try {
-            AxiosInstance.interceptors.response.eject(interceptor);
             const data = { refresh_token: tokenData?.refresh_token ? tokenData.refresh_token : '' };
             return await axios.post(API.baseUrls[API.currentEnv] + API.noAuthUrls.refreshToken, data)
               .then(async response => {
@@ -80,15 +81,8 @@ const axiosObj = (info) => {
                   access_token: resData.data.data.access_token,
                   refresh_token: tokenData.refresh_token
                 }))
-                error.response.config.headers['Authorization'] = 'Bearer ' + response.data.data.access_token;
-                return await axios(error.response.config)
-                  .then(fResponse => {
-                    if (fResponse.data && fResponse.data.data && fResponse.data.data?.encritption) {
-                      const decryptedData = apiDecryptionData(fResponse.data.data);
-                      return { data: decryptedData };
-                    }
-                    return fResponse.data;
-                  })
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data.access_token;
+                return axiosApiInstance(originalRequest);
               })
           } catch (error) {
             await errorMsg(error, Promise)

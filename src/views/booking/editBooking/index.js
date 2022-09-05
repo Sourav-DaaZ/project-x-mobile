@@ -130,12 +130,13 @@ const EditBooking = (props) => {
       </StyledScrollView>
       <DatePicker
         modal
-        mode={open === 3 ? "time" : "date"}
+        mode={open === 3 ? "time" : "datetime"}
         open={open > 0 && open < 4}
         date={open === 3 ? time : startDate}
-        minimumDate={open !== 3 ? startDate : null}
+        minimumDate={open === 1 ? new Date() : open === 2 ? startDate : null}
         onConfirm={(date) => {
           if (open == 1) {
+            console.log(date)
             setStartDate(date);
             setEndDate(date);
           } else if (open == 2) {
