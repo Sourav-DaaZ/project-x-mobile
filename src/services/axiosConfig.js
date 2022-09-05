@@ -25,6 +25,33 @@ const axiosObj = (info) => {
     },
   );
 
+  const errorMsg = async (error, Promise) => {
+    if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
+      const decryptedData = apiDecryptionData(error.response.data.data);
+      if (decryptedData.error_code === 'E-534') {
+        await AsyncStorage.removeItem('token');
+        dispatch(tokenUpdate({
+          access_token: '',
+          refresh_token: ''
+        }))
+        return Promise.reject({ message: validation.generaleError });
+      } else {
+        return Promise.reject({ data: decryptedData });
+      }
+    } else if (error?.response?.data?.error_code === 'E-534') {
+      await AsyncStorage.removeItem('token');
+      dispatch(tokenUpdate({
+        access_token: '',
+        refresh_token: ''
+      }))
+      return Promise.reject({ message: validation.generaleError });
+    } else if (error?.response?.data) {
+      return Promise.reject(error.response.data);
+    } else {
+      return Promise.reject(error);
+    }
+  }
+
   const interceptor = AxiosInstance.interceptors.response.use(
     (response) => {
       if (response.data && response.data.data && response.data.data?.encritption) {
@@ -37,69 +64,40 @@ const axiosObj = (info) => {
       if ((error.config && error.response && error.response.status === 401)) {
         const tokenData = JSON.parse(await AsyncStorage.getItem('token') || '{}');
         if (tokenData && tokenData.refresh_token) {
-          AxiosInstance.interceptors.response.eject(interceptor);
-          const data = { refresh_token: tokenData?.refresh_token ? tokenData.refresh_token : '' };
-          return await axios.post(API.baseUrls[API.currentEnv] + API.noAuthUrls.refreshToken, data)
-            .then(async response => {
-              let resData = response;
-              if (response.data && response.data.data && response.data.data?.encritption) {
-                const decryptedData = apiDecryptionData(response.data.data);
-                resData.data = { data: decryptedData };
-              }
-              tokenData.access_token = resData.data.data.access_token;
-              await AsyncStorage.setItem('token', JSON.stringify(tokenData));
-              dispatch(tokenUpdate({
-                access_token: resData.data.data.access_token,
-                refresh_token: tokenData.refresh_token
-              }))
-              error.response.config.headers['Authorization'] = 'Bearer ' + response.data.data.access_token;
-              return await axios(error.response.config)
-                .then(fResponse => {
-                  if (fResponse.data && fResponse.data.data && fResponse.data.data?.encritption) {
-                    const decryptedData = apiDecryptionData(fResponse.data.data);
-                    return { data: decryptedData };
-                  }
-                  return fResponse.data;
-                })
-                .catch(error => {
-                  if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
-                    const decryptedData = apiDecryptionData(error.response.data.data);
-                    return Promise.reject({ data: decryptedData });
-                  } else if (error?.response?.data) {
-                    return Promise.reject(error.response.data);
-                  } else {
-                    return Promise.reject(error);
-                  }
-                });
-            }).catch(async error => {
-              await AsyncStorage.removeItem('token');
-              dispatch(tokenUpdate({
-                access_token: '',
-                refresh_token: ''
-              }))
-              return await Promise.reject({ message: validation.generaleError });
-            });
-        } else {
-          if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
-            const decryptedData = apiDecryptionData(error.response.data.data);
-            return Promise.reject({ data: decryptedData });
-          } else if (error?.response?.data) {
-            return Promise.reject(error.response.data);
-          } else {
-            return Promise.reject(error);
+          try {
+            AxiosInstance.interceptors.response.eject(interceptor);
+            const data = { refresh_token: tokenData?.refresh_token ? tokenData.refresh_token : '' };
+            return await axios.post(API.baseUrls[API.currentEnv] + API.noAuthUrls.refreshToken, data)
+              .then(async response => {
+                let resData = response;
+                if (response.data && response.data.data && response.data.data?.encritption) {
+                  const decryptedData = apiDecryptionData(response.data.data);
+                  resData.data = { data: decryptedData };
+                }
+                tokenData.access_token = resData.data.data.access_token;
+                await AsyncStorage.setItem('token', JSON.stringify(tokenData));
+                dispatch(tokenUpdate({
+                  access_token: resData.data.data.access_token,
+                  refresh_token: tokenData.refresh_token
+                }))
+                error.response.config.headers['Authorization'] = 'Bearer ' + response.data.data.access_token;
+                return await axios(error.response.config)
+                  .then(fResponse => {
+                    if (fResponse.data && fResponse.data.data && fResponse.data.data?.encritption) {
+                      const decryptedData = apiDecryptionData(fResponse.data.data);
+                      return { data: decryptedData };
+                    }
+                    return fResponse.data;
+                  })
+              })
+          } catch (error) {
+            await errorMsg(error, Promise)
           }
+        } else {
+          await errorMsg(error, Promise)
         }
       } else {
-        console.log(error);
-        if (error.response && error.response.data && error.response.data.data && error.response.data.data?.encritption) {
-          const decryptedData = apiDecryptionData(error.response.data.data);
-          return Promise.reject({ data: decryptedData });
-        } else if (error?.response?.data) {
-          return Promise.reject(error.response.data);
-        } else {
-          return Promise.reject(error);
-        }
-
+        await errorMsg(error, Promise)
       }
     }
   );

@@ -98,13 +98,13 @@ const Dashboard = (props) => {
         if (isFocused && !refreshing) {
             apiCall();
         }
-    }, [refreshing])
+    }, [isFocused, refreshing])
 
     useEffect(() => {
         if (authStore.access_token !== '' && detailsStore.location.lat !== 0 && isFocused && !refreshing) {
             apiCallWithToken();
         }
-    }, [authStore.access_token, detailsStore.location, refreshing]);
+    }, [isFocused, authStore.access_token, detailsStore.location, refreshing]);
 
 
     const apiCallWithToken = () => {

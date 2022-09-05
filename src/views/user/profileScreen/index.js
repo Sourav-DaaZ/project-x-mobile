@@ -13,7 +13,6 @@ import {
     StyledReviewProfile,
     StyledImage,
     StyledScrollView,
-    StyledContainer,
     StyledButtonActive,
     StyledTouchableOpacity,
     StyledButtonView,
@@ -41,7 +40,7 @@ import Modal from '../../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { RefreshControl, TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity, View } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
 import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat, openUrl, timeFormat } from '../../../utils';
@@ -181,23 +180,21 @@ const ProfileScreen = (props) => {
                                 <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
                             </StyledCenter>
                         </TouchableOpacity>
-                        {props.route.params?.id && props.route.params.id !== detailsStore.id ? <StyledCenter>
-                            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.userChat, { id: props.route.params.id })}>
+                        {!(props.route.params?.id === detailsStore.id) ? <StyledCenter>
+                            <TouchableOpacity onPress={() => { authStore.access_token !== '' && props.route.params?.id && props.route.params.id !== detailsStore.id ? props.navigation.navigate(Routes.userChat, { id: props.route.params.id }) : props.navigation.navigate(Routes.login) }}>
                                 <Fontisto style={{ color: colors.mainColor }} name='messenger' size={30} />
                             </TouchableOpacity>
                         </StyledCenter> : null}
                     </StyledReviewProfile>
                 </React.Fragment>
-                <StyledContainer>
-                    <BottomShadow>
-                        <StyledViewButton>
-                            {GlobalButton(globalPost === 'booking', 'Booking', () => setGlobalPost('booking'))}
-                            {GlobalButton(globalPost === 'review', 'Review', () => setGlobalPost('review'))}
-                        </StyledViewButton>
-                    </BottomShadow>
-                    {globalPost === 'booking' ? <Booking {...props} colors={colors} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
-                    {globalPost === 'review' ? <Review {...props} colors={colors} myUser={data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
-                </StyledContainer>
+                <BottomShadow small>
+                    <StyledViewButton>
+                        {GlobalButton(globalPost === 'booking', 'Booking', () => setGlobalPost('booking'))}
+                        {GlobalButton(globalPost === 'review', 'Review', () => setGlobalPost('review'))}
+                    </StyledViewButton>
+                </BottomShadow>
+                {globalPost === 'booking' ? <Booking {...props} colors={colors} myUser={authStore.access_token !== '' && data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
+                {globalPost === 'review' ? <Review {...props} colors={colors} myUser={authStore.access_token !== '' && data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
             </StyledScrollView>
             {props.route.params && props.route.params.id !== detailsStore.id ? <FAB
                 style={{
@@ -258,11 +255,12 @@ const ProfileScreen = (props) => {
                     {showNotes && popupData.notes?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
                 </StyledNotesView>
                 <StyledInputView>
-                    <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                        borderBottomWidth: 0,
-                        backgroundColor: colors.mainColor,
-                        width: "90%"
-                    }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
+                    <View style={{ width: "85%" }}>
+                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
+                            borderBottomWidth: 0,
+                            backgroundColor: colors.mainColor,
+                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
+                    </View>
                     {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity onPress={() => onEdit(popupData._id, null, addNotes)}>
                         <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20 }} />
                     </TouchableOpacity> : null}
@@ -297,11 +295,12 @@ const ProfileScreen = (props) => {
                     {showNotes && popupData.comment?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
                 </StyledNotesView>
                 <StyledInputView>
-                    <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                        borderBottomWidth: 0,
-                        backgroundColor: colors.mainColor,
-                        width: "90%"
-                    }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
+                    <View style={{ width: "85%" }}>
+                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
+                            borderBottomWidth: 0,
+                            backgroundColor: colors.mainColor,
+                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
+                    </View>
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity onPress={() => onReviewEdit(popupData._id, addNotes)}>
                         <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20 }} />
                     </TouchableOpacity> : null}

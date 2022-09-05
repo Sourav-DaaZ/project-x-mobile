@@ -10,8 +10,7 @@ const width_logo = width * .6;
 
 
 export const StyledScrollView = styled(ScrollView)`
-    flex: 1;
-    margin-horizontal: 10px;
+    flex: 1; 
     margin-bottom: 10px;
 `;
 
@@ -47,9 +46,6 @@ export const StyledReviewProfile = styled(View)`
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-`;
-export const StyledContainer = styled(View)`
-   flex: 1
 `;
 
 export const StyledTitle = styled(Title)`
@@ -90,10 +86,8 @@ export const ImageWrapper = styled(View)`
     margin-top: 40px;
 `;
 
-export const StyledHorizontalScrollView = styled(ScrollView)`
+export const StyledHorizontalScrollView = styled(View)`
     background: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
-    display: flex;
-    flex: 1
 `;
 
 export const StyledViewButton = styled(View)`
@@ -151,7 +145,7 @@ export const StyledButtonActive = styled(Button)`
 export const StyledInput = styled(Input)`
     padding-left: 20px;
     padding-right: 20px;
-    margin-top: 0px;
+    margin-top: -40px;
     border-radius: 30px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
 `;
@@ -171,8 +165,8 @@ export const StyledInputView = styled(View)`
     display: flex;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
+    display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
 `;

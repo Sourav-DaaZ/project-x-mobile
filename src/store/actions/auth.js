@@ -19,7 +19,8 @@ export const loader = (loading) => {
 
 export const tokenUpdate = (data) => {
     AsyncStorage.setItem('token', JSON.stringify(data));
-    if(data.access_token === ''){
+    if (data.access_token === '') {
+        AsyncStorage.removeItem('userData');
         dispatch(detailsUpdate({
             id: '',
             name: '',
