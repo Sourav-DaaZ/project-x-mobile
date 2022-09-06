@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar, FAB } from 'react-native-paper';
 import { TouchableOpacity, RefreshControl, Platform } from 'react-native';
@@ -54,7 +54,7 @@ const SingleCategory = (props) => {
                 lat: detailsStore.location.lat,
                 long: detailsStore.location.long,
                 gender: detailsStore.gender,
-                age: detailsStore.age,
+                ...detailsStore.age > 0 && { age: detailsStore.age },
                 page: pageCount
             }
             OutsideAuthApi()
@@ -65,7 +65,7 @@ const SingleCategory = (props) => {
                         if (res.data instanceof Array) {
                             varData = varData.concat(res.data)
                         } else {
-                            varData = varData.push(res.data)
+                            varData.push(res.data)
                         }
                         setData(varData);
                     } else {
@@ -100,7 +100,7 @@ const SingleCategory = (props) => {
                         if (res.data instanceof Array) {
                             varData = varData.concat(res.data)
                         } else {
-                            varData = varData.push(res.data)
+                            varData.push(res.data)
                         };
                         setData(varData);
                     } else {
@@ -123,24 +123,6 @@ const SingleCategory = (props) => {
         }
         setRefreshing(false);
     }
-
-    useEffect(() => {
-        setData([]);
-        setBanner([]);
-        setShowLoader(true);
-        setDataLoader(true);
-        setPage(0);
-        apiCall(0);
-        bannerData();
-    }, [globalPost, refreshing])
-
-    useEffect(() => {
-        if (page !== 0) {
-            // setBanner([]);
-            apiCall(page)
-            // bannerData()
-        }
-    }, [page])
 
     const bannerData = () => {
         const paramData = {
@@ -170,6 +152,33 @@ const SingleCategory = (props) => {
             })
     }
 
+    useMemo(() => {
+        if (!refreshing) {
+            setData([]);
+            setBanner([]);
+            setShowLoader(true);
+            setDataLoader(true);
+            setPage(0);
+            apiCall(0);
+            bannerData();
+        }
+    }, [globalPost, refreshing])
+
+    useMemo(() => {
+        if (page !== 0) {
+            // setBanner([]);
+            apiCall(page)
+            // bannerData()
+        }
+    }, [page])
+
+    const refreshFnc = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 200);
+    }
+
     const onShare = async (page, id, image, title) => {
         const varParam = {
             page: page,
@@ -197,7 +206,7 @@ const SingleCategory = (props) => {
                 showsHorizontalScrollIndicator={false}
                 stickyHeaderIndices={[1]}
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
+                    <RefreshControl refreshing={refreshing} onRefresh={refreshFnc} />
                 }>
                 <StyledBannerWrapper>
                     {banner.length > 0 ? <Banner data={banner} /> : null}
@@ -241,4 +250,4 @@ const SingleCategory = (props) => {
     )
 };
 
-export default SingleCategory;
+export default React.memo(SingleCategory);

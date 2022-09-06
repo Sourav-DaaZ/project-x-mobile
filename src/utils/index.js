@@ -110,7 +110,6 @@ export const calDistance = (lat1, lon1, lat2, lon2) => {
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
-  console.log(d)
   if (d > 1) return disLogic(Math.round(d));
   else if (d <= 1) return disLogic(Math.round(d));
   return disLogic(d);
@@ -119,7 +118,7 @@ export const calDistance = (lat1, lon1, lat2, lon2) => {
 const queryStringBulder = (obj) => {
   let str = [];
   for (let p in obj)
-    if (obj.hasOwnProperty(p) && p !== null && p !== '') {
+    if (obj.hasOwnProperty(p) && p !== null && obj[p] !== '') {
       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
     }
   return str.join("&");

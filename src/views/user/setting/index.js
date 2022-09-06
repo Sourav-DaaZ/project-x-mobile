@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import {
   Avatar
@@ -50,7 +50,7 @@ const Setting = (props) => {
       });
   }
 
-  useEffect(() => {
+  useMemo(() => {
     if (authStore.access_token !== '' && isFocused) {
       setShowLoader(true);
       InsideAuthApi()
@@ -184,4 +184,4 @@ const Setting = (props) => {
   )
 }
 
-export default Setting;
+export default React.memo(Setting);

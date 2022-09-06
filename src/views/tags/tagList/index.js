@@ -38,7 +38,7 @@ const TagList = (props) => {
     const [refreshing, setRefreshing] = useState(false);
 
 
-    useEffect(() => {
+    useMemo(() => {
         const varParam = {
             lat: detailsStore.location.lat,
             long: detailsStore.location.long
@@ -153,4 +153,4 @@ const TagList = (props) => {
         </DashboardLayout >
     )
 }
-export default TagList;
+export default React.memo(TagList);

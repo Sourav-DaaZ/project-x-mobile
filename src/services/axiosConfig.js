@@ -52,7 +52,7 @@ const axiosObj = (info) => {
     }
   }
 
-  const interceptor = AxiosInstance.interceptors.response.use(
+  AxiosInstance.interceptors.response.use(
     (response) => {
       if (response.data && response.data.data && response.data.data?.encritption) {
         const decryptedData = apiDecryptionData(response.data.data);
@@ -81,8 +81,8 @@ const axiosObj = (info) => {
                   access_token: resData.data.data.access_token,
                   refresh_token: tokenData.refresh_token
                 }))
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data.access_token;
-                return axiosApiInstance(originalRequest);
+                originalRequest.headers['Authorization'] = 'Bearer ' + response.data.data.access_token;
+                return await AxiosInstance(originalRequest);
               })
           } catch (error) {
             await errorMsg(error, Promise)

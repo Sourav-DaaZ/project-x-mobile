@@ -3,7 +3,7 @@ const defaultValue = {
     otpLength: 6,
     paginationLength: 5,
     paginationChatLength: 10,
-    apiEncryption: false,
+    apiEncryption: true,
     apiEncryptionSecret: 'secret',
     bookingStatus: ["requested", "confirmed", "rejected", "cancelled"],
     appVersion: {

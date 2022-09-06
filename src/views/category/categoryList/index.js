@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { RefreshControl, TouchableOpacity } from 'react-native';
 
 import {
@@ -23,7 +23,7 @@ const CategoryList = (props) => {
     const [refreshing, setRefreshing] = useState(false);
 
 
-    useEffect(() => {
+    useMemo(() => {
         if (isFocused && !refreshing) {
             setShowLoader(true);
             OutsideAuthApi()
@@ -64,4 +64,4 @@ const CategoryList = (props) => {
         </DashboardLayout>
     )
 }
-export default CategoryList;
+export default React.memo(CategoryList);

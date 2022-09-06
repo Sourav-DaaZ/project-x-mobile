@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar } from 'react-native-paper';
 import { RefreshControl, TouchableOpacity } from 'react-native';
@@ -45,7 +45,7 @@ const NotificationScreen = (props) => {
                     if (res.data instanceof Array) {
                         varData = varData.concat(res.data)
                     } else {
-                        varData = varData.push(res.data)
+                        varData.push(res.data)
                     }
                     setData(varData);
                 } else {
@@ -65,7 +65,7 @@ const NotificationScreen = (props) => {
             });
     }
 
-    useEffect(() => {
+    useMemo(() => {
         if (isFocused && !refreshing) {
             setShowLoader(true);
             setPage(0);
@@ -74,13 +74,13 @@ const NotificationScreen = (props) => {
         }
     }, [isFocused, refreshing])
 
-    useEffect(() => {
+    useMemo(() => {
         if (page > 0) {
             apiCall(page)
         }
     }, [page])
 
-     const refreshFnc = () => {
+    const refreshFnc = () => {
         setRefreshing(true);
         setTimeout(() => {
             setRefreshing(false);
@@ -110,4 +110,4 @@ const NotificationScreen = (props) => {
         </DashboardLayout>
     )
 }
-export default NotificationScreen;
+export default React.memo(NotificationScreen);

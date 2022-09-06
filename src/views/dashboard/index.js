@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import { View, TouchableWithoutFeedback, TouchableOpacity, Image, RefreshControl } from 'react-native';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
@@ -77,36 +77,6 @@ const Dashboard = (props) => {
             })
     }
 
-    useEffect(() => {
-        if (detailsStore.location.loat !== 0 && detailsStore.location.long !== 0 && isFocused) {
-            const requestParam = {
-                token: authStore.firebase_token,
-                user_id: detailsStore.id,
-                location: detailsStore.location
-            }
-            OutsideAuthApi()
-                .firebaseTokenCall(requestParam)
-                .then(() => {
-
-                }).catch((e) => {
-                    console.log(e)
-                })
-        }
-    }, [authStore.firebase_token, detailsStore.id])
-
-    useEffect(() => {
-        if (isFocused && !refreshing) {
-            apiCall();
-        }
-    }, [isFocused, refreshing])
-
-    useEffect(() => {
-        if (authStore.access_token !== '' && detailsStore.location.lat !== 0 && isFocused && !refreshing) {
-            apiCallWithToken();
-        }
-    }, [isFocused, authStore.access_token, detailsStore.location, refreshing]);
-
-
     const apiCallWithToken = () => {
         const varData = {
             lat: detailsStore.location.lat,
@@ -131,6 +101,35 @@ const Dashboard = (props) => {
                 setTagLoader(false);
             })
     };
+
+    useMemo(() => {
+        if (detailsStore.location.loat !== 0 && detailsStore.location.long !== 0 && isFocused) {
+            const requestParam = {
+                token: authStore.firebase_token,
+                user_id: detailsStore.id,
+                location: detailsStore.location
+            }
+            OutsideAuthApi()
+                .firebaseTokenCall(requestParam)
+                .then(() => {
+
+                }).catch((e) => {
+                    console.log(e)
+                })
+        }
+    }, [authStore.firebase_token, detailsStore.id])
+
+    useMemo(() => {
+        if (isFocused && !refreshing) {
+            apiCall();
+        }
+    }, [isFocused, refreshing])
+
+    useMemo(() => {
+        if (authStore.access_token !== '' && detailsStore.location.lat !== 0 && isFocused && !refreshing) {
+            apiCallWithToken();
+        }
+    }, [isFocused, authStore.access_token, detailsStore.location, refreshing]);
 
     const refreshFnc = () => {
         setRefreshing(true);
@@ -221,4 +220,4 @@ const Dashboard = (props) => {
     )
 };
 
-export default Dashboard;
+export default React.memo(Dashboard);

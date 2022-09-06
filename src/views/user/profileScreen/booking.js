@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     StyledButtonLoadMore,
     StyledHorizontalScrollView,
@@ -38,7 +38,7 @@ const Booking = (props) => {
                         if (res.data instanceof Array) {
                             varData = varData.concat(res.data)
                         } else {
-                            varData = varData.push(res.data)
+                            varData.push(res.data)
                         }
                         setData(varData);
                     } else {
@@ -69,7 +69,7 @@ const Booking = (props) => {
                         if (res.data instanceof Array) {
                             varData = varData.concat(res.data)
                         } else {
-                            varData = varData.push(res.data)
+                            varData.push(res.data)
                         }
                         setData(varData);
                     } else {
@@ -90,7 +90,7 @@ const Booking = (props) => {
         }
     }
 
-    useEffect(() => {
+    useMemo(() => {
         setData([]);
         setLoading(true);
         setPage(0);
@@ -98,7 +98,7 @@ const Booking = (props) => {
         apiCall(0);
     }, [props.modalShow])
 
-    useEffect(() => {
+    useMemo(() => {
         if (page > 0) {
             apiCall(page)
         }
@@ -131,4 +131,4 @@ const Booking = (props) => {
     )
 };
 
-export default Booking;
+export default React.memo(Booking);

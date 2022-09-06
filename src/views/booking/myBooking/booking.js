@@ -48,7 +48,7 @@ const Booking = (props) => {
                     if (res.data instanceof Array) {
                         varData = varData.concat(res.data)
                     } else {
-                        varData = varData.push(res.data)
+                        varData.push(res.data)
                     }
                     setData(varData);
                 } else {

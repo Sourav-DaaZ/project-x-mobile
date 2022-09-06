@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import {
     Avatar,
     Divider,
@@ -63,7 +63,7 @@ const ProfileScreen = (props) => {
     const [showMenu, setShowMenu] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    useEffect(() => {
+    useMemo(() => {
         if (!refreshing) {
             setShowLoader(true);
             OutsideAuthApi()
@@ -141,7 +141,7 @@ const ProfileScreen = (props) => {
             setRefreshing(false);
         }, 200);
     }
-    
+
     return (
         showLoader ? <Loader /> : <ShadowWrapperContainer none {...props}>
             <StyledScrollView
@@ -309,4 +309,4 @@ const ProfileScreen = (props) => {
         </ShadowWrapperContainer>
     )
 }
-export default ProfileScreen;
+export default React.memo(ProfileScreen);
