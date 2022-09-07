@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef, useEffect, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import { io } from "socket.io-client";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -24,7 +24,7 @@ import {
 import { API } from '../../../constants/apiConstant';
 import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData } from '../../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
-import { BottomShadow } from '../../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
 import defaultValue from '../../../constants/defaultValue';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -59,6 +59,7 @@ const UserChat = (props) => {
     }
 
     useEffect(() => {
+        console.log(detailsStore.id, props.route.params.id);
         const varParam = {
             users: [detailsStore.id, (props.route.params?.id ? props.route.params.id : '')]
         }
@@ -67,13 +68,14 @@ const UserChat = (props) => {
             if (data.error) {
                 console.warn(data.error);
             }
+            console.log(data.data)
             setChats(data.data);
             scrollViewRef.current.scrollToEnd({ animated: true })
         }));
         return () => { onLeave() }
     }, [])
 
-    useEffect(() => {
+    useMemo(() => {
         if (newChat?.time) {
             const varData = newChat;
             let varChat = chats;
@@ -192,8 +194,10 @@ const UserChat = (props) => {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 ref={scrollViewRef}>
-                {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={onChangePage}>Load More</StyledButtonLoadMore> : null}
-                {newChatloader ? chats?.map((x, i) => chatUI(x, i, chats.length - 1)) : chats?.map((x, i) => chatUI(x, i))}
+                <ShadowWrapperContainer none>
+                    {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={onChangePage}>Load More</StyledButtonLoadMore> : null}
+                    {newChatloader ? chats?.map((x, i) => chatUI(x, i, chats.length - 1)) : chats?.map((x, i) => chatUI(x, i))}
+                </ShadowWrapperContainer>
             </StyledScrollView>
             <StyledInputView>
                 {image !== '' ? <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>

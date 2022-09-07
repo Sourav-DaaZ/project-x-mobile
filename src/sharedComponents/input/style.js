@@ -11,12 +11,12 @@ export const StyledInputView = styled(View)`
     border-bottom-width: 1.5px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     border-bottomColor: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
-    padding-bottom: ${Platform.OS === 'ios' ? '10px' : 0};
+    padding-bottom: ${Platform.OS === 'ios' ? height * .01 : 0};
 `;
 
 export const StyledInputElement = styled(TextInput)`
     flex: 1;
-    margin-top: ${Platform.OS === 'ios' ? 0 : '-15px'};
+    margin-top: ${Platform.OS === 'ios' ? 0 : - (height * .015)}px;
     font-size: ${height * .02}px;
     padding-left: 10px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};

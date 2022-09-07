@@ -196,7 +196,7 @@ const Dashboard = (props) => {
                     </View>
                 </ShadowWrapperContainer>}
                 {tagLoader ? <Loader /> : saveTag.tags && saveTag.tags.length > 0 ? <ShadowWrapperContainer noSnack>
-                    <DashboardHeader text='Save Tag' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
+                    <DashboardHeader text='Save Tag' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.myTag)} goNext={<AntDesign name='rightcircle' size={25} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
                     <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
                         {saveTag.tags.map((x, i) => <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                             {x.tag_name}

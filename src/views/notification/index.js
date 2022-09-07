@@ -101,7 +101,7 @@ const NotificationScreen = (props) => {
                         <ListItem
                             title={(x.data.userVisible && x.created_by.userInfo ? x.created_by.userInfo.name.toLowerCase() + ': ' : "") + (x.data.title ? x.data.title : '')}
                             description={timeFormat(x.createdAt)}
-                            image={x.data.userVisible && x.created_by.userInfo ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.images && x.data.userVisible ? x.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} /> : null}
+                            image={x.data.userVisible && x.created_by.userInfo ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x?.created_by?.userInfo?.images && x.data.userVisible ? x.created_by.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} /> : null}
                         />
                     </TouchableOpacity>
                 ))}

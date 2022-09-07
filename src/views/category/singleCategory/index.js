@@ -35,16 +35,18 @@ const SingleCategory = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
     const [globalPost, setGlobalPost] = useState(true);
-    const [data, setData] = useState([]);
+    const [postData, setPostData] = useState([]);
+    const [userData, setUserData] = useState([]);
     const [banner, setBanner] = useState([]);
-    const [showLoader, setShowLoader] = useState(false);
+    const [showPostLoader, setPostShowLoader] = useState(false);
+    const [showUserLoader, setUserShowLoader] = useState(false);
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
 
 
     const GlobalButton = (select, text, onPress) => (
-        select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
+        select ? <StyledButtonActive onPress={onPress}><StyledButtonView invert>{text}</StyledButtonView></StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
     )
 
     const apiCall = (pageCount) => {
@@ -67,14 +69,14 @@ const SingleCategory = (props) => {
                         } else {
                             varData.push(res.data)
                         }
-                        setData(varData);
+                        setPostData(varData);
                     } else {
-                        setData(res.data);
+                        setPostData(res.data);
                     }
                     if (res.data && res.data.length < defaultValue.paginationLength) {
                         setDataLoader(false)
                     }
-                    setShowLoader(false);
+                    setPostShowLoader(false);
                 })
                 .catch((err) => {
                     if (err.message) {
@@ -83,7 +85,7 @@ const SingleCategory = (props) => {
                             msg: err?.message ? err.message : ''
                         }));
                     }
-                    setShowLoader(false);
+                    setPostShowLoader(false);
                 });
         } else {
             const requestData = {
@@ -102,14 +104,14 @@ const SingleCategory = (props) => {
                         } else {
                             varData.push(res.data)
                         };
-                        setData(varData);
+                        setUserData(varData);
                     } else {
-                        setData(res.data);
+                        setUserData(res.data);
                     }
                     if (res.data && res.data.length < defaultValue.paginationLength) {
                         setDataLoader(false)
                     }
-                    setShowLoader(false);
+                    setUserShowLoader(false);
                 })
                 .catch((err) => {
                     if (err.message) {
@@ -118,7 +120,7 @@ const SingleCategory = (props) => {
                             msg: err?.message ? err.message : ''
                         }));
                     }
-                    setShowLoader(false);
+                    setUserShowLoader(false);
                 });
         }
         setRefreshing(false);
@@ -151,24 +153,22 @@ const SingleCategory = (props) => {
                 }));
             })
     }
-
+    useEffect(() => {
+        bannerData();
+    }, [refreshing])
     useMemo(() => {
         if (!refreshing) {
-            setData([]);
-            setBanner([]);
-            setShowLoader(true);
+            setPostShowLoader(true);
+            setUserShowLoader(true);
             setDataLoader(true);
             setPage(0);
             apiCall(0);
-            bannerData();
         }
     }, [globalPost, refreshing])
 
     useMemo(() => {
         if (page !== 0) {
-            // setBanner([]);
             apiCall(page)
-            // bannerData()
         }
     }, [page])
 
@@ -218,21 +218,20 @@ const SingleCategory = (props) => {
                         {GlobalButton(globalPost && !globalPost, 'Global', () => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id }))}
                     </StyledViewButton>
                 </BottomShadow>
-                {showLoader ? <Loader /> : <React.Fragment>
-                    {globalPost && data.map((x, i) =>
-                        <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => onShare(Routes.postDetails, x._id, x.images && x.images[0] ? x.images[0] : null, x.title)} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
-                    )}
-                    {!globalPost && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
-                        <StyledUserWrapper>
-                            <ListItem
-                                title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
-                                description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
-                                smallDescription={detailsStore.location.lat && detailsStore.location.long && x?.location?.coordinates ? calDistance(x.location.coordinates[0], x.location.coordinates[1], detailsStore.location.lat, detailsStore.location.long).toString() + ' Km' : null}
-                                image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.user?.userInfo?.images ? x.user.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
-                        </StyledUserWrapper>
-                    </TouchableOpacity>)}
-                    {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
-                </React.Fragment>}
+
+                {globalPost ? showPostLoader ? <Loader /> : postData.map((x, i) =>
+                    <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => onShare(Routes.postDetails, x._id, x.images && x.images[0] ? x.images[0] : null, x.title)} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                ) : null}
+                {!globalPost ? showUserLoader ? <Loader /> : userData.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
+                    <StyledUserWrapper>
+                        <ListItem
+                            title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
+                            description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
+                            smallDescription={detailsStore.location.lat && detailsStore.location.long && x?.location?.coordinates ? calDistance(x.location.coordinates[0], x.location.coordinates[1], detailsStore.location.lat, detailsStore.location.long).toString() + ' Km' : null}
+                            image={<Avatar.Image style={{ margin: 5 }} size={50} source={{ uri: x.user?.userInfo?.images ? x.user.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
+                    </StyledUserWrapper>
+                </TouchableOpacity>) : null}
+                {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
             </StyledHorizontalScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{

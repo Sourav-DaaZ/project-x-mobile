@@ -10,10 +10,10 @@ export const StyledProfileView = styled(Animatable.View)`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px;
+    padding: ${height * .015}px ${width * .03}px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-bottom: 15px;
+    margin-bottom: ${height * .015}px;
     border-radius: 10px;
 `;
 
@@ -27,7 +27,6 @@ export const StyledTitle = styled(Paragraph)`
 export const StyledSemiTitle = styled(Title)`
     font-size: ${height * .02}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
-    letter-spacing: 1px;
     font-weight: 500;
 `;
 

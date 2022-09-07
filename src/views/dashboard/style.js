@@ -3,7 +3,6 @@ import { Dimensions, ScrollView, View, Image } from 'react-native';
 import { Chip, Headline } from 'react-native-paper';
 
 const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
@@ -15,8 +14,8 @@ export const StyledHeaderView = styled(View)`
     flex-direction: row; 
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    margin-bottom: ${height * .01}px;
+    padding-bottom: ${height * .01}px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
 `;
@@ -27,15 +26,15 @@ export const StyledHeaderHeadline = styled(Headline)`
 `;
 
 export const StyledSearchbarView = styled(View)`
-    padding-top: 20px;
-    margin-horizontal: 20px;
-    margin-bottom: 30px;
+    padding-top: ${height * .02}px;
+    margin-horizontal: ${width * .035}px;
+    margin-bottom: ${height * .03}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 export const StyledBannerWrapper = styled(View)`
-    margin-bottom: 15px;
-    margin-horizontal: 10px;
-    width: ${width - 20}px;
+    margin-bottom: ${height * .015}px;
+    margin-horizontal: ${width * .03}px;
+    width: ${width - (width * .06)}px;
     overflow: hidden;
     display: flex;
     flex: 1;
@@ -46,5 +45,5 @@ export const StyledScrollView = styled(ScrollView)`
 `;
 
 export const StyledChip = styled(Chip)`
-    margin-right: 20px;
+    margin-right: ${width * .03}px;
 `;

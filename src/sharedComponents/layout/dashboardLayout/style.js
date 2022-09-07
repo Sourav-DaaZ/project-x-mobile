@@ -16,7 +16,7 @@ export const DashboardOuterView = styled(SafeAreaView)`
 
 export const StyledFullImg = styled(Image)`
     width: 100%;
-    height: 150px;
+    height: ${height * .2}px;
 `;
 
 export const StyledScrollView = styled(ScrollView)`
@@ -27,7 +27,7 @@ export const LoginDescription = styled(Text)`
     font-size: ${width * .038}px;
     font-weight: 600;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: ${height * .02}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
 `;
 
@@ -42,7 +42,7 @@ export const ButtonWrapper = styled(View)`
     display: flex;
     flex-Direction: row;
     flex: 1;
-    margin-horizontal: 20px;
+    margin-horizontal: ${width * .03}px;
     justify-content: space-between;
 `;
 
@@ -51,8 +51,8 @@ export const UpdateButton = styled(Button)`
     background-color: ${(props) => props.mode !== 'outlined' ? props.theme.colors[props.theme.baseColor].mainColor : props.theme.colors[props.theme.baseColor].backgroundColor};
     border-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     border-width: 1px;
-    margin-top: 10px;
-    margin-bottom: 60px;
+    margin-top: ${height * .01}px;
+    margin-bottom: ${height * .08}px;
 `;
 
 export const CancelText = styled(Text)`

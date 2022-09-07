@@ -10,8 +10,8 @@ export const StyledTabView = styled(View)`
     flex-Direction: row;
     justify-content: space-around;
     align-items: center;
-    padding: 10px 5px;
-    border-top-width: 1px;
+    padding: ${height * .015}px ${width * .015}px;
+    border-top-width: ${height * .005}px;
     border-top-color:  ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
@@ -25,13 +25,13 @@ export const StyledHeaderView = styled(SafeAreaView)`
 `;
 
 export const StyledEachHeaderView = styled(View)`
-    padding: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    padding: ${height * .010}px ${width * .015}px;
+    margin-right: ${width * .010}px;
+    margin-bottom: ${height * .010}px;
 `;
 
 export const StyledCercularBorder = styled(View)`
-    padding: ${height * .015}px;
+    padding: ${width * .04}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
     border-radius: 50px;
 `;
@@ -39,12 +39,12 @@ export const StyledCercularBorder = styled(View)`
 export const StyledCercularByBorder = styled(View)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     border-radius: 50px;
-    padding: ${height * .015}px;
+    padding: ${width * .04}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
 `;
 
 export const StyledOption = styled(View)`
-    padding: ${height * .015}px;
+    padding: ${width * .04}px;
 `;
 
 export const UpdateButton = styled(Button)`
@@ -60,7 +60,7 @@ export const UpdateTitle = styled(Text)`
     font-weight: bold;
     text-align: center;
     margin-bottom: ${height * .015}px;
-    color: ${(props) => props.critical? props.theme.colors[props.theme.baseColor].errorColor: props.theme.colors[props.theme.baseColor].textDeep}
+    color: ${(props) => props.critical ? props.theme.colors[props.theme.baseColor].errorColor : props.theme.colors[props.theme.baseColor].textDeep}
 `;
 
 export const UpdateDescription = styled(Text)`
@@ -75,11 +75,6 @@ export const CancelText = styled(Text)`
     font-weight: 700;
     text-align: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-`;
-
-export const UpdateWrapper = styled(View)`
-    padding: ${height * .015}px;
-    margin-bottom: ${height * .035}px
 `;
 
 export const ButtonWrapper = styled(View)`

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef, useEffect, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import { io } from "socket.io-client";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -73,7 +73,7 @@ const GlobalChat = (props) => {
         return () => { onLeave() }
     }, [])
 
-    useEffect(() => {
+    useMemo(() => {
         if (newChat?.time) {
             const varData = newChat;
             let varChat = chats;
@@ -220,4 +220,4 @@ const GlobalChat = (props) => {
         </StyledSafeAreaView>
     )
 }
-export default GlobalChat;
+export default React.memo(GlobalChat);

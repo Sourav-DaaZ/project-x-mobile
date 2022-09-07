@@ -5,7 +5,6 @@ import Button from '../../../sharedComponents/button'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import * as Animatable from 'react-native-animatable';
 const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
 
 export const StyledHorizontalScrollView = styled(ScrollView)`
@@ -13,7 +12,7 @@ export const StyledHorizontalScrollView = styled(ScrollView)`
 `;
 
 export const StyledUserWrapper = styled(View)`
-    margin-horizontal: 15px;
+    margin-horizontal: ${width * .04}px;
 `;
 
 export const StyledViewButton = styled(View)`
@@ -29,9 +28,9 @@ export const StyledListView = styled(Animatable.View)`
 export const StyledButtonView = styled(Text)`
     width: 100%;
     text-align: center;
-    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}; 
+    color: ${(props) => props.invert ? props.theme.colors[props.theme.baseColor].backgroundColor : props.theme.colors[props.theme.baseColor].mainByColor}; 
     fontWeight: 600;
-    font-size: 15px;
+    font-size: ${width * .04}px;
     text-transform: uppercase;
 `;
 
@@ -43,15 +42,19 @@ export const StyledTouchableOpacity = styled(TouchableOpacity)`
     align-items: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
-export const StyledButtonActive = styled(Button)`
+export const StyledButtonActive = styled(TouchableOpacity)`
     width: 34%;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}; 
-    border-radius: 0px;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    height: ${height * .07}px
 `;
 
 export const StyledButtonLoadMore = styled(Button)`
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: ${height * .02}px;
 `;
 
 export const StyledCardIcon = styled(Ionicons)`

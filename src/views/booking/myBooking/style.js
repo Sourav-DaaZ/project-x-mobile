@@ -6,7 +6,6 @@ import Input from '../../../sharedComponents/input';
 import Entypo from 'react-native-vector-icons/Entypo'
 
 const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
 
 export const StyledScrollView = styled(ScrollView)`
