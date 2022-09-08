@@ -7,9 +7,9 @@ export const configUpdate = (data) => {
     };
 };
 
-export const fTokenUpdate = (data) => {
+export const navigationUpdate = (data) => {
     return {
-        type: actionTypes.APP_FTOKEN_UPDATE,
+        type: actionTypes.NAVIGATION_UPDATE,
         data: data
     };
 };

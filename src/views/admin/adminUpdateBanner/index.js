@@ -33,6 +33,7 @@ const AdminUpdateBanner = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
+  const detailsStore = useSelector((state) => state.details, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
   const [image, setImage] = useState(props.route.params?.data?.image ? props.route.params.data.image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg');
   const formElementsArray = [];
@@ -75,12 +76,12 @@ const AdminUpdateBanner = (props) => {
           text: 'lat*',
           placeholder: 'Enter lat',
         },
-        value: props.route.params?.data?.location?.coordinates ? props.route.params.data.location.coordinates[0].toString() : '',
+        value: props.route.params?.data?.location?.coordinates ? props.route.params.data.location.coordinates[0].toString() : detailsStore.location.lat.toString(),
         validation: {
           required: true,
           isNumeric: true
         },
-        valid: props.route.params?.data?.location?.coordinates ? true : false,
+        valid: true,
         errors: '',
         className: [],
         icons: [
@@ -95,12 +96,12 @@ const AdminUpdateBanner = (props) => {
           text: 'long*',
           placeholder: 'Enter long',
         },
-        value: props.route.params?.data?.location?.coordinates ? props.route.params.data.location.coordinates[1].toString() : '',
+        value: props.route.params?.data?.location?.coordinates ? props.route.params.data.location.coordinates[1].toString() : detailsStore.location.long.toString(),
         validation: {
           required: true,
           isNumeric: true
         },
-        valid: props.route.params?.data?.location?.coordinates ? true : false,
+        valid: true,
         errors: '',
         className: [],
         icons: [
@@ -355,7 +356,7 @@ const AdminUpdateBanner = (props) => {
           {props.route.params?.data?._id ? <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? () => editBannerFnc(true) : null}>
             Delete Banner
           </SubmitButton> : null}
-          <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? editBannerFnc : createBannerFnc : null}>
+          <SubmitButton mode='contained' labelStyle={{ color: colors.backgroundColor }} loading={loader} onPress={!loader ? props.route.params?.data?._id ? () => editBannerFnc(false) : createBannerFnc : null}>
             {props.route.params?.data?._id ? 'Edit Banner' : 'Create Banner'}
           </SubmitButton>
         </InputWrapper>

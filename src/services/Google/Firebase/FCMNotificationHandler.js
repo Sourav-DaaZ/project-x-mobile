@@ -4,8 +4,21 @@ import Routs from '../../../constants/routeConst';
 import ReduxStore from '../../../store';
 import { fTokenUpdate } from '../../../store/actions';
 import Routes from '../../../constants/routeConst';
+import PushNotification from 'react-native-push-notification';
+import defaultValue from '../../../constants/defaultValue';
 const { dispatch } = ReduxStore;
 
+
+export function createChannel() {
+    PushNotification.createChannel(
+        {
+            channelId: defaultValue.channelID, // (required)
+            channelName: 'My channel',
+            vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
+        },
+        (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+    );
+}
 export async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -16,6 +29,7 @@ export async function requestUserPermission() {
         console.log('Authorization status:', authStatus);
         GetFCMToken();
     }
+
 }
 async function GetFCMToken() {
     let fcmToken = await AsyncStorage.getItem("fcmToken");
@@ -40,7 +54,7 @@ async function GetFCMToken() {
         console.log("Token is present!");
     }
 }
-export const NotifinationListener = (navigation) => {
+export const NotifinationListener = () => {
     messaging().onNotificationOpenedApp(remoteMessage => {
         console.log(
             'Notification caused app to open from background state:',
@@ -48,9 +62,9 @@ export const NotifinationListener = (navigation) => {
         );
         if (remoteMessage.data && remoteMessage.data.route) {
             if (remoteMessage.data.id) {
-                navigation.navigate(Routes[remoteMessage.data.route], { id: remoteMessage.data.id })
+                ReduxStore.getState().config.navigation && ReduxStore.getState().config.navigation(Routes[remoteMessage.data.route], { id: remoteMessage.data.id })
             } else {
-                navigation.navigate(Routes[remoteMessage.data.route])
+                ReduxStore.getState().config.navigation && ReduxStore.getState().config.navigation(Routes[remoteMessage.data.route])
             }
         }
     });
@@ -65,9 +79,9 @@ export const NotifinationListener = (navigation) => {
                 );
                 if (remoteMessage.data && remoteMessage.data.route) {
                     if (remoteMessage.data.id) {
-                        navigation.navigate(Routes[remoteMessage.data.route], { id: remoteMessage.data.id })
+                        ReduxStore.getState().config.navigation && ReduxStore.getState().config.navigation(Routes[remoteMessage.data.route], { id: remoteMessage.data.id })
                     } else {
-                        navigation.navigate(Routes[remoteMessage.data.route])
+                        ReduxStore.getState().config.navigation && ReduxStore.getState().config.navigation(Routes[remoteMessage.data.route])
                     }
                 }
                 //setInitialRoute( remoteMessage.data.type ); // e.g. "Settings"
@@ -76,9 +90,31 @@ export const NotifinationListener = (navigation) => {
         });
 
     messaging().onMessage(async remoteMessage => {
-        console.log("foreground notification", remoteMessage)
+        console.log("foreground notification", remoteMessage);
+        PushNotification.configure({
+            onNotification: function (notification) {
+                console.log("NOTIFICATION:", notification);
+                if (notification.data && notification.data.route) {
+                    if (notification.data.id) {
+                        ReduxStore.getState().config.navigation && ReduxStore.getState().config.navigation(Routes[notification.data.route], { id: notification.data.id })
+                    } else {
+                        ReduxStore.getState().config.navigation && ReduxStore.getState().config.navigation(Routes[notification.data.route])
+                    }
+                }
+            },
+        });
+        PushNotification.localNotification({
+            channelId: defaultValue.channelID,
+            channelName: 'My channel',
+            message: remoteMessage.notification.body,
+            title: remoteMessage.notification.title,
+            data: remoteMessage.data,
+            bigPictureUrl: null,
+            // smallIcon: remoteMessage.notification.android.imageUrl,
+        });
     })
 }
+
 
 export const backgroundNotification = () => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {

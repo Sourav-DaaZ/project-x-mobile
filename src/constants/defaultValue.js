@@ -5,6 +5,7 @@ const defaultValue = {
     paginationChatLength: 10,
     apiEncryption: true,
     apiEncryptionSecret: 'secret',
+    channelID: 'secret123',
     bookingStatus: ["requested", "confirmed", "rejected", "cancelled"],
     appVersion: {
         android: 1.0,

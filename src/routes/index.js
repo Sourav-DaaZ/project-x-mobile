@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Platform } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -7,17 +7,14 @@ import { useDispatch } from 'react-redux';
 import { tokenUpdate, detailsUpdate } from '../store/actions';
 import * as FCMNotificationHandler from "../services/google/firebase/FCMNotificationHandler";
 import SplashScreen from '../views/splashScreen';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AuthRouters from './authRouters';
 import Loader from '../sharedComponents/loader';
+import { handleDynamicLink, handleOnloadDynamicLink } from '../services/google/deepLinkingHandler';
 
 function Routs(props) {
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const dispatch = useDispatch();
-
-  if (Platform.OS === "android") {
-    FCMNotificationHandler.backgroundNotification();
-    FCMNotificationHandler.requestUserPermission();
-  }
 
   const fetchCredentials = async () => {
     const data = JSON.parse(await AsyncStorage.getItem('token') || "{}");
@@ -38,6 +35,15 @@ function Routs(props) {
 
   useEffect(() => {
     fetchCredentials();
+    if (Platform.OS === "android") {
+      FCMNotificationHandler.requestUserPermission();
+      FCMNotificationHandler.backgroundNotification();
+      FCMNotificationHandler.createChannel();
+      handleOnloadDynamicLink();
+      dynamicLinks().onLink((link) => handleOnloadDynamicLink(link));
+      FCMNotificationHandler.NotifinationListener();
+
+    }
   }, [])
 
   return (

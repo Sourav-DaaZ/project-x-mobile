@@ -12,4 +12,5 @@ export {
 
 export {
    configUpdate,
+   navigationUpdate
 } from './config';

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     Platform,
     View,
@@ -9,6 +9,8 @@ import { StyledContainer, StyledView } from './style';
 import SnackBar from '../snackbar';
 import { handleDynamicLink, handleOnloadDynamicLink } from '../../services/google/deepLinkingHandler';
 import * as FCMNotificationHandler from "../../services/google/firebase/FCMNotificationHandler";
+import { useDispatch } from 'react-redux';
+import { navigationUpdate } from '../../store/actions';
 
 
 export const BottomShadow = (props) => {
@@ -32,21 +34,12 @@ export const BottomShadow = (props) => {
 };
 
 export const ShadowWrapperContainer = (props) => {
-    if (!props.noSnack) {
-        useEffect(() => {
-            if (Platform.OS === "android" && props.navigation) {
-                const unsubscribe = dynamicLinks().onLink((link) => handleDynamicLink(link, props.navigation));
-
-                handleOnloadDynamicLink(props.navigation);
-
-                return () => unsubscribe();
-            }
-        }, [])
-
-        if (Platform.OS === "android" && props.navigation) {
-            FCMNotificationHandler.NotifinationListener(props.navigation);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (props.navigation) {
+            dispatch(navigationUpdate(props.navigation.navigate));
         }
-    }
+    }, [props.navigation])
     return (
         <React.Fragment>
             {!props.noSnack ? <SnackBar /> : null}
