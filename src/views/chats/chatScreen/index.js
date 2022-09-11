@@ -20,13 +20,14 @@ import defaultValue from '../../../constants/defaultValue';
 const ChatScreen = (props) => {
     const themeContext = useContext(ThemeContext);
     const dispatch = useDispatch();
-    const [showLoader, setShowLoader] = useState(false);
+    const [showLoader, setShowLoader] = useState(true);
     const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [dataLoader, setDataLoader] = useState(true);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
+    const configStore = useSelector((state) => state.config, shallowEqual);
 
     const apiCall = (pageCount) => {
         const varParam = {
@@ -62,10 +63,9 @@ const ChatScreen = (props) => {
 
     useEffect(() => {
         if (isFocused) {
-            setShowLoader(true);
             apiCall(0)
         }
-    }, [isFocused])
+    }, [isFocused, configStore.chatUpdate])
 
     useEffect(() => {
         if (page > 0) {

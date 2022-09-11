@@ -23,7 +23,7 @@ const CategoryList = (props) => {
     const [refreshing, setRefreshing] = useState(false);
 
 
-    useMemo(() => {
+    useEffect(() => {
         if (isFocused && !refreshing) {
             setShowLoader(true);
             OutsideAuthApi()

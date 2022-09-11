@@ -3,7 +3,8 @@ import { updateObject } from '../../utils';
 
 export const initialState = {
   appConfig: null,
-  navigation: null
+  navigation: null,
+  chatUpdate: ''
 };
 
 const appConfigUpdate = (state, action) => {
@@ -18,6 +19,12 @@ const navigationUpdate = (state, action) => {
   });
 };
 
+const chatUpdate = (state, action) => {
+  return updateObject(state, {
+    chatUpdate: action.data
+  });
+};
+
 
 const DetailsReducer = (state = initialState, action = { type: '' }) => {
   switch (action.type) {
@@ -25,6 +32,8 @@ const DetailsReducer = (state = initialState, action = { type: '' }) => {
       return appConfigUpdate(state, action);
     case actionTypes.NAVIGATION_UPDATE:
       return navigationUpdate(state, action);
+    case actionTypes.CHAT_UPDATE:
+      return chatUpdate(state, action);
     default:
       return state;
   }

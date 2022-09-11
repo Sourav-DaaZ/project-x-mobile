@@ -13,3 +13,10 @@ export const navigationUpdate = (data) => {
         data: data
     };
 };
+
+export const chatUpdate = (data) => {
+    return {
+        type: actionTypes.CHAT_UPDATE,
+        data: data
+    };
+};

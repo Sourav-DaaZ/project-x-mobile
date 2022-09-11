@@ -13,3 +13,4 @@ export const DETAILS = 'DETAILS';
 
 export const APP_CONFIG_UPDATE = 'APP_CONFIG_UPDATE';
 export const NAVIGATION_UPDATE = 'NAVIGATION_UPDATE';
+export const CHAT_UPDATE = 'CHAT_UPDATE';

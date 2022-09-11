@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import {
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import logoImg from '../assets/images/logo.png';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -12,6 +13,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Routes from '../constants/routeConst';
 import { CustomTab, CustomHeader } from './custom';
 import { BottomShadow } from '../sharedComponents/bottomShadow';
+
+const { width, height } = Dimensions.get('screen');
 
 import Dashboard from '../views/dashboard';
 const SingleCategory = React.lazy(() => import('../views/category/singleCategory'));

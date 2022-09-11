@@ -67,7 +67,8 @@ const ApplicationChat = (props) => {
             if (data.error) {
                 console.warn(data.error);
             }
-            setChats(data.data);
+            setPage(data.data?.lastPage ? data.data.lastPage : 0);
+            setChats(data.data?.data ? data.data.data : []);
             scrollViewRef.current.scrollToEnd({ animated: true })
         }));
         return () => { onLeave() }
@@ -77,10 +78,6 @@ const ApplicationChat = (props) => {
         if (newChat?.time) {
             const varData = newChat;
             let varChat = chats;
-            console.log(varChat.length);
-            if (varChat.length >= defaultValue.paginationChatLength) {
-                varChat.shift();
-            }
             varChat.push(varData);
             setChats(varChat);
             setNewChatloader(false);
@@ -89,7 +86,7 @@ const ApplicationChat = (props) => {
     }, [newChat])
 
     const onChangePage = () => {
-        const vPage = page + 1;
+        const vPage = page;
         setPage(page + 1);
         const varParam = apiEncryptionData({
             room: props.route?.params?.id ? props.route.params.id : '',
@@ -100,14 +97,16 @@ const ApplicationChat = (props) => {
             if (data.error) {
                 console.warn(data.error);
             }
-            if (data.data && vPage > 0) {
-                let varData = data.data;
+            if (data.data && data.data.data && vPage > 0) {
+                let varData = data.data.data;
                 varData = varData.concat(chats)
                 setChats(varData);
+                setPage(data.data?.lastPage ? data.data.lastPage : 0);
             } else {
-                setChats(data.data);
+                setChats(data.data?.data ? data.data.data : []);
+                setPage(data.data?.lastPage ? data.data.lastPage : 0);
             }
-            if (data.data && data.data.length < defaultValue.paginationLength) {
+            if (data.data && data.data.lastPage <= 0) {
                 setDataLoader(false)
             }
         }));

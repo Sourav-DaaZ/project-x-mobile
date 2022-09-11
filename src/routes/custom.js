@@ -1,6 +1,8 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Dimensions } from 'react-native';
 import { StyledTabView, StyledCercularBorder, StyledHeaderView, StyledEachHeaderView, StyledOption, StyledCercularByBorder } from './style'
+
+const { width, height } = Dimensions.get('screen');
 
 export const CustomTab = ({ state, descriptors, navigation, colors }) => {
     return (
@@ -10,7 +12,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
                 const isFocused = state.index === index;
                 // const midEle = Math.floor(state.routes.length / 2) !== index;
                 // const icon = options.tabBarIcon(isFocused && midEle || !midEle ? colors.backgroundColor : colors.textDeep, (isFocused && midEle) || (!midEle && !isFocused) ? 25 : 30)
-                const icon = options.tabBarIcon(isFocused ? colors.backgroundColor : colors.mainColor, isFocused ? 25 : 30)
+                const icon = options.tabBarIcon(isFocused ? colors.backgroundColor : colors.mainColor, isFocused ? (width * .06) : (width * .07))
                 const label =
                     options.tabBarLabel !== undefined
                         ? options.tabBarLabel
@@ -65,10 +67,10 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
 export const CustomHeader = (props) => {
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
-            <StyledEachHeaderView style={{ width: 40 }}>
+            <StyledEachHeaderView style={{ width: width * .01 }}>
                 {props.left}
             </StyledEachHeaderView>
-            <StyledEachHeaderView style={{ marginTop: -5 }}>
+            <StyledEachHeaderView style={{ marginTop: -(height * .005) }}>
                 {props.logo}
             </StyledEachHeaderView>
             <StyledEachHeaderView>

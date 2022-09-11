@@ -156,7 +156,8 @@ const SingleCategory = (props) => {
     useEffect(() => {
         bannerData();
     }, [refreshing])
-    useMemo(() => {
+    
+    useEffect(() => {
         if (!refreshing) {
             setPostShowLoader(true);
             setUserShowLoader(true);
@@ -166,7 +167,7 @@ const SingleCategory = (props) => {
         }
     }, [globalPost, refreshing])
 
-    useMemo(() => {
+    useEffect(() => {
         if (page !== 0) {
             apiCall(page)
         }

@@ -2,7 +2,7 @@ const defaultValue = {
     debuggingMode: false,
     otpLength: 6,
     paginationLength: 5,
-    paginationChatLength: 10,
+    paginationChatLength: 3,
     apiEncryption: true,
     apiEncryptionSecret: 'secret',
     channelID: 'secret123',

@@ -68,9 +68,9 @@ const UserChat = (props) => {
             if (data.error) {
                 console.warn(data.error);
             }
-            console.log(data.data)
-            setChats(data.data);
-            scrollViewRef.current.scrollToEnd({ animated: true })
+            setPage(data.data?.lastPage ? data.data.lastPage : 0);
+            setChats(data.data?.data ? data.data.data : []);
+            scrollViewRef.current?.scrollToEnd({ animated: true })
         }));
         return () => { onLeave() }
     }, [])
@@ -79,9 +79,6 @@ const UserChat = (props) => {
         if (newChat?.time) {
             const varData = newChat;
             let varChat = chats;
-            if (varChat.length >= defaultValue.paginationChatLength) {
-                varChat.shift();
-            }
             varChat.push(varData);
             setChats(varChat);
             setNewChatloader(false);
@@ -90,8 +87,7 @@ const UserChat = (props) => {
     }, [newChat])
 
     const onChangePage = () => {
-        const vPage = page + 1;
-        setPage(page + 1);
+        const vPage = page;
         const varParam = apiEncryptionData({
             users: [detailsStore.id, (props.route.params?.id ? props.route.params.id : '')],
             page: vPage
@@ -101,14 +97,16 @@ const UserChat = (props) => {
             if (data.error) {
                 console.warn(data.error);
             }
-            if (data.data && vPage > 0) {
-                let varData = data.data;
+            if (data.data && data.data.data && vPage > 0) {
+                let varData = data.data.data;
                 varData = varData.concat(chats)
                 setChats(varData);
+                setPage(data.data?.lastPage ? data.data.lastPage : 0);
             } else {
-                setChats(data.data);
+                setChats(data.data?.data ? data.data.data : []);
+                setPage(data.data?.lastPage ? data.data.lastPage : 0);
             }
-            if (data.data && data.data.length < defaultValue.paginationLength) {
+            if (data.data && data.data.lastPage <= 0) {
                 setDataLoader(false)
             }
         }));

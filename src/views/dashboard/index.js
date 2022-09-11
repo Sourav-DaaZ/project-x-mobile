@@ -102,7 +102,7 @@ const Dashboard = (props) => {
             })
     };
 
-    useMemo(() => {
+    useEffect(() => {
         if (detailsStore.location.loat !== 0 && detailsStore.location.long !== 0 && isFocused) {
             const requestParam = {
                 token: authStore.firebase_token,
@@ -119,13 +119,13 @@ const Dashboard = (props) => {
         }
     }, [authStore.firebase_token, detailsStore.id])
 
-    useMemo(() => {
+    useEffect(() => {
         if (isFocused && !refreshing) {
             apiCall();
         }
     }, [isFocused, refreshing])
 
-    useMemo(() => {
+    useEffect(() => {
         if (authStore.access_token !== '' && detailsStore.location.lat !== 0 && isFocused && !refreshing) {
             apiCallWithToken();
         }

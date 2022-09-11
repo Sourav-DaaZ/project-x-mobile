@@ -6,6 +6,7 @@ import { fTokenUpdate } from '../../../store/actions';
 import Routes from '../../../constants/routeConst';
 import PushNotification from 'react-native-push-notification';
 import defaultValue from '../../../constants/defaultValue';
+import { chatUpdate } from '../../../store/actions/config';
 const { dispatch } = ReduxStore;
 
 
@@ -112,6 +113,7 @@ export const NotifinationListener = () => {
             bigPictureUrl: null,
             // smallIcon: remoteMessage.notification.android.imageUrl,
         });
+        dispatch(chatUpdate(remoteMessage.notification.body))
     })
 }
 

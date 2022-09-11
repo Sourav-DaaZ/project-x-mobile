@@ -5,9 +5,11 @@ import {
     StyleSheet,
     SafeAreaView,
     TouchableOpacity,
+    Dimensions
 } from 'react-native';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import { Text } from 'react-native-paper';
+const { height, width } = Dimensions.get('screen');
 
 const Header = ({ navigation }) => {
 
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: '#f45b55',
-        height: 70,
+        height: 700,
         borderBottomRightRadius: 20,
         borderBottomLeftRadius: 20,
         flex: 1,
