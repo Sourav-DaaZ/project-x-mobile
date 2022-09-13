@@ -31,6 +31,7 @@ export const StyledButtonView = styled(Text)`
     color: ${(props) => props.invert ? props.theme.colors[props.theme.baseColor].backgroundColor : props.theme.colors[props.theme.baseColor].mainByColor}; 
     fontWeight: 600;
     font-size: ${width * .04}px;
+    line-height: ${width * .04}px;
     text-transform: uppercase;
 `;
 

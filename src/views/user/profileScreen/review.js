@@ -12,8 +12,9 @@ import OutsideAuthApi from '../../../services/outSideAuth';
 import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
 import { dateFormat } from '../../../utils';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Dimensions } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
+const { width, height } = Dimensions.get('screen');
 
 const Review = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -113,7 +114,7 @@ const Review = (props) => {
                     <Card
                         images={x.image ? x.image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'}
                         profile={
-                            <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(x.createdAt) + ` (${x.isPublic ? 'public' : 'private'})`} />
+                            <ListItem topStyle={{ marginBottom: -(height * .01), maxWidth: '90%' }} description={dateFormat(x.createdAt) + ` (${x.isPublic ? 'public' : 'private'})`} />
                         }
                         title={x.description ? x.description : ''}
                     />

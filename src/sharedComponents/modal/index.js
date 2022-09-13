@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { Portal, Modal, Text } from 'react-native-paper';
+import { Dimensions } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-
+const { width, height } = Dimensions.get('screen');
 const ModalComponent = (props) => {
 
     const containerStyle = {
         backgroundColor: 'white',
         position: 'absolute',
-        bottom: -40,
-        with: 40,
+        bottom: -(height * .05),
+        with: '100%',
         left: 0,
         right: 0,
         borderRadius: 30,
-        paddingTop: 40,
+        paddingTop: (height * .05),
         zIndex: 999
     };
 
@@ -22,7 +23,7 @@ const ModalComponent = (props) => {
                 {props.onClose ? <Entypo
                     name="cross"
                     size={25}
-                    style={{ position: 'absolute', right: 15, top: 15 }}
+                    style={{ position: 'absolute', right: (width * .05), top: (height * .02) }}
                     onPress={props.onClose}
                 /> : null}
                 <Text style={{ position: 'absolute', top: -50, left: 30, color: 'white', fontSize: 30 }}>{props.title}</Text>

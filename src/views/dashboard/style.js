@@ -16,12 +16,14 @@ export const StyledHeaderView = styled(View)`
     align-items: center;
     margin-bottom: ${height * .01}px;
     padding-bottom: ${height * .01}px;
-    border-bottom-width: 1px;
+    border-bottom-width: ${height * .001}px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
 `;
 
 export const StyledHeaderHeadline = styled(Headline)`
     font-weight: 600; 
+    font-size: ${width * .06}px;
+    margin-vertical: ${width * .01}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;
 
@@ -46,4 +48,10 @@ export const StyledScrollView = styled(ScrollView)`
 
 export const StyledChip = styled(Chip)`
     margin-right: ${width * .03}px;
+`;
+
+export const StyledImage = styled(Image)`
+    width: ${width * .25}px;
+    height: ${height * .05}px;
+    margin-horizontal: ${width * .003}px;
 `;

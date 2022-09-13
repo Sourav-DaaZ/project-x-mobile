@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import { RefreshControl, View } from 'react-native';
+import { RefreshControl, View, Dimensions } from 'react-native';
 import { ThemeContext } from 'styled-components';
 
 import {
@@ -23,6 +23,8 @@ import { snackbarUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useIsFocused } from '@react-navigation/native';
 import Modal from '../../../sharedComponents/modal';
+
+const { width, height } = Dimensions.get('screen');
 
 const TagList = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -140,9 +142,8 @@ const TagList = (props) => {
                 authStore.access_token && authStore.access_token !== '' ? <FAB
                     style={{
                         position: 'absolute',
-                        margin: 16,
-                        right: 0,
-                        bottom: 30,
+                        right: width * .05,
+                        bottom: height * .03,
                         backgroundColor: colors.mainColor
                     }}
                     icon="plus"

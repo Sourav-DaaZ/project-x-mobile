@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { ThemeContext } from 'styled-components';
 
 import {
@@ -22,6 +22,8 @@ import Loader from '../../../sharedComponents/loader';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { snackbarUpdate } from '../../../store/actions';
 import Modal from '../../../sharedComponents/modal';
+
+const { width, height } = Dimensions.get('screen');
 
 const MyTags = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -135,9 +137,8 @@ const MyTags = (props) => {
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',
-                    margin: 16,
-                    right: 0,
-                    bottom: 30,
+                    right: width * .05,
+                    bottom: height * .03,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"

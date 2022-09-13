@@ -4,7 +4,6 @@ import { Headline, Card, Paragraph } from 'react-native-paper';
 import Button from '../../../sharedComponents/button'
 
 const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
 
 export const StyledScrollView = styled(ScrollView)`
@@ -17,13 +16,16 @@ export const StyledScrollView = styled(ScrollView)`
 
 export const StyledCard = styled(Card)`
     width: ${(width / 2) - 20}px;
-    margin: 5px;
+    margin: ${width * .01}px;
+    margin-left: .5px;
+    margin-right: ${width * .05}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledHeadline = styled(Paragraph)`
     text-align: center; 
-    margin-top: 15px;
+    margin-top: ${height * .02}px;
+    margin-bottom: ${height * .005}px;
     font-size: ${height * .02}px;
     font-weight: 500;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};

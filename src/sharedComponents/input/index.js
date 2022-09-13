@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import { StyledInputElement, StyledInputView, StyledTitle, StyledError, StyledPicker, StyledSwitch, StyledSearchbar } from './style';
 import { ThemeContext } from 'styled-components';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('screen');
+
 const Input = (props) => {
   const [dot, setDot] = React.useState(true);
   const themeContext = useContext(ThemeContext);
@@ -106,6 +109,8 @@ const Input = (props) => {
           ref={props.ref}
           theme={props.theme}
           style={props.style}
+          inputStyle={{ fontSize: width * .05 }}
+          icon={props.icon}
           value={props.value}
           onChangeText={props.onChange}
           placeholder={props.placeholder}

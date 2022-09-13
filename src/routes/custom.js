@@ -67,7 +67,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
 export const CustomHeader = (props) => {
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
-            <StyledEachHeaderView style={{ width: width * .01 }}>
+            <StyledEachHeaderView>
                 {props.left}
             </StyledEachHeaderView>
             <StyledEachHeaderView style={{ marginTop: -(height * .005) }}>

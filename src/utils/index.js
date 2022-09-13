@@ -55,7 +55,7 @@ export const timeFormat = (time) => {
   if (dt.getDate() === new Date().getDate()) {
     return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`
   }
-  return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')} `
+  return `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`
 
 }
 

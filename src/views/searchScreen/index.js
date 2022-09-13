@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Dimensions } from 'react-native';
 import { debounce } from "lodash";
 
 import {
@@ -17,7 +17,10 @@ import { validate } from '../../utils';
 import Routes from '../../constants/routeConst';
 import Input from '../../sharedComponents/input';
 import ListItem from '../../sharedComponents/listItem';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
+
+const { width, height } = Dimensions.get('screen');
 
 const SearchScreen = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -78,6 +81,7 @@ const SearchScreen = (props) => {
                                 placeholder: colors.textLight, text: colors.textDeep
                             }
                         }}
+                        icon={() => <Ionicons name="md-search-sharp" color={colors.textLight} size={width * .07} />}
                         style={{ backgroundColor: colors.backgroundColor }}
                         focus clear onChange={(x) => onTypeFnc(x, flag)} value={searchQuery} />
                 </StyledWrapper>

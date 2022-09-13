@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React, { useContext, useState, useMemo } from 'react';
+import { View, TouchableOpacity, Dimensions } from 'react-native';
 import {
   Avatar
 } from 'react-native-paper';
@@ -19,6 +19,8 @@ import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Loader from '../../../sharedComponents/loader';
 import { useIsFocused } from '@react-navigation/native';
 import { openUrl } from '../../../utils';
+
+const { width, height } = Dimensions.get('screen');
 
 const Setting = (props) => {
   const dispatch = useDispatch();
@@ -90,7 +92,7 @@ const Setting = (props) => {
                   uri:
                     data?.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
                 }}
-                size={70}
+                size={width * .2}
               />
             </StyledProfileView>
           </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(Routes.login)}>

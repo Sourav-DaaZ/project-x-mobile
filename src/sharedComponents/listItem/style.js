@@ -18,14 +18,16 @@ export const StyledProfileView = styled(Animatable.View)`
 `;
 
 export const StyledTitle = styled(Paragraph)`
-    font-size: ${height * .021}px;
+    font-size: ${width * .05}px;
     margin-bottom: 0px;
     font-weight: 700;
+    line-height: ${width * .05}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
 `;
 
 export const StyledSemiTitle = styled(Title)`
-    font-size: ${height * .02}px;
+    font-size: ${width * .05}px;
+    line-height: ${width * .05}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
     font-weight: 500;
 `;
@@ -40,5 +42,6 @@ export const StyledParagraphBold = styled(Paragraph)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
     font-weight: 800;
     font-size: ${width * .04}px;
+    line-height: ${width * .04}px;
     margin-bottom: 0px;
 `;

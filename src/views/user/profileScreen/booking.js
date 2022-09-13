@@ -14,8 +14,9 @@ import OutsideAuthApi from '../../../services/outSideAuth';
 import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
 import { dateFormat, timeFormat } from '../../../utils';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Dimensions } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
+const { width, height } = Dimensions.get('screen');
 
 const Booking = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -114,7 +115,7 @@ const Booking = (props) => {
                 }}>
                     <Card
                         profile={
-                            <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(x.startDate) + (x.endDate ? ' - ' + dateFormat(x.endDate) : '') + (x.reportTime ? ' (' + timeFormat(x.reportTime) + ')' : '')} />
+                            <ListItem topStyle={{ marginBottom: -(height * .01), maxWidth: '90%' }} description={dateFormat(x.startDate) + ' (' + timeFormat(x.startDate) + ')' + (x.endDate ? ' - ' + dateFormat(x.endDate) + ' (' + timeFormat(x.endDate) + ')' : '')} />
                         }
                         title={x.description ? x.description : ''}
                         extraContent={

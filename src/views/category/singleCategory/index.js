@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar, FAB } from 'react-native-paper';
-import { TouchableOpacity, RefreshControl, Platform } from 'react-native';
+import { TouchableOpacity, RefreshControl, Dimensions } from 'react-native';
 import Share from 'react-native-share';
 import {
     StyledHorizontalScrollView,
@@ -27,6 +27,8 @@ import Banner from '../../../sharedComponents/banner';
 import { calDistance, openUrl, queryStringBulder } from '../../../utils';
 import defaultValue from '../../../constants/defaultValue';
 import { buildLink } from '../../../services/google/deepLinkingHandler';
+
+const { width, height } = Dimensions.get('screen');
 
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -237,9 +239,8 @@ const SingleCategory = (props) => {
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',
-                    margin: 16,
-                    right: 0,
-                    bottom: 30,
+                    right: width * .05,
+                    bottom: height * .03,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"

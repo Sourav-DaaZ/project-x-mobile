@@ -17,7 +17,7 @@ export const StyledInputView = styled(View)`
 export const StyledInputElement = styled(TextInput)`
     flex: 1;
     margin-top: ${Platform.OS === 'ios' ? 0 : - (height * .015)}px;
-    font-size: ${height * .02}px;
+    font-size: ${width * .04}px;
     padding-left: 10px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;
@@ -25,7 +25,7 @@ export const StyledInputElement = styled(TextInput)`
 export const StyledTitle = styled(Text)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
     font-weight: 500;
-    font-size: ${height * .02}px;
+    font-size: ${width * .04}px;
     margin-bottom: 10px;
     margin-top: ${height * .03}px;
 `;
@@ -44,5 +44,5 @@ export const StyledSwitch = styled(Switch)`
 `;
 
 export const StyledSearchbar = styled(Searchbar)`
-    
+
 `;

@@ -3,7 +3,6 @@ import { Dimensions, ScrollView, View } from 'react-native';
 import { Paragraph, Title } from 'react-native-paper';
 
 const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
 
 export const StyledProfileView = styled(View)`
@@ -11,14 +10,14 @@ export const StyledProfileView = styled(View)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    margin-bottom: ${height * .01}px;
+    padding-bottom: ${height * .02}px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
 `;
 
 export const StyledProfile = styled(View)`
-    padding-bottom: 20px;
+    padding-bottom: ${height * .01}px;
     border-bottom-width: 1px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
 `;
@@ -46,7 +45,7 @@ export const StyledCenter = styled(View)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-vertical: 10px;
+    padding-vertical: ${height * .01}px;
 `;
 
 export const StyledLeftContainer = styled(View)`
@@ -54,8 +53,8 @@ export const StyledLeftContainer = styled(View)`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-vertical: 10px;
-    margin-bottom: 5px;
+    margin-vertical: ${height * .01}px;
+    margin-bottom: ${height * .005}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight}; 
 `;
 
