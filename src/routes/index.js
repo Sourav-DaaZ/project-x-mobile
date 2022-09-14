@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -10,7 +10,7 @@ import SplashScreen from '../views/splashScreen';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AuthRouters from './authRouters';
 import Loader from '../sharedComponents/loader';
-import { handleDynamicLink, handleOnloadDynamicLink } from '../services/google/deepLinkingHandler';
+import { handleOnloadDynamicLink } from '../services/google/deepLinkingHandler';
 
 function Routs(props) {
   const authStore = useSelector((state) => state.auth, shallowEqual);

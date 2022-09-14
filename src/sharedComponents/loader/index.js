@@ -3,9 +3,11 @@ import * as Animatable from 'react-native-animatable';
 import { ActivityIndicator } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 
-const Loader = (props) => {
+const Loader = () => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
+    const borderRedius = themeContext.borderRedius;
     return (
         <Animatable.View animation='pulse' style={{
             backgroundColor: 'transparent',
@@ -13,14 +15,14 @@ const Loader = (props) => {
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
-            margin: 10
+            margin: spacing.width * 5
         }}>
             <ActivityIndicator style={{
-                padding: 10,
-                borderRadius: 30,
+                padding: spacing.width * 5,
+                borderRadius: borderRedius.round,
                 backgroundColor: colors.backgroundColor,
-                width: 50,
-                height: 50,
+                width: spacing.width * 13,
+                height: spacing.width * 13,
                 shadowColor: colors.shadowColor,
                 shadowOffset: { width: 1, height: 1 },
                 shadowOpacity: 0.6,

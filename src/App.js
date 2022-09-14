@@ -22,13 +22,15 @@ if (__DEV__) {
 }
 
 const App = () => {
+
   React.useEffect(() => {
     SplashScreen.hide();
   }, []);
+
   return (
     <Provider store={Store}>
       <GlobalThemeProvider>
-        <PaperProvider>
+        <PaperProvider >
           <ErrorBoundary FallbackComponent={ErrorHandeler}>
             <Routs />
           </ErrorBoundary>

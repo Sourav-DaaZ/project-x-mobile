@@ -27,6 +27,7 @@ import Banner from '../../../sharedComponents/banner';
 import { calDistance, openUrl, queryStringBulder } from '../../../utils';
 import defaultValue from '../../../constants/defaultValue';
 import { buildLink } from '../../../services/google/deepLinkingHandler';
+import Tabs from '../../../sharedComponents/tab';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -45,11 +46,6 @@ const SingleCategory = (props) => {
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
-
-
-    const GlobalButton = (select, text, onPress) => (
-        select ? <StyledButtonActive onPress={onPress}><StyledButtonView invert>{text}</StyledButtonView></StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
-    )
 
     const apiCall = (pageCount) => {
         if (globalPost) {
@@ -216,9 +212,9 @@ const SingleCategory = (props) => {
                 </StyledBannerWrapper>
                 <BottomShadow small>
                     <StyledViewButton>
-                        {GlobalButton(globalPost, 'Post', () => setGlobalPost(true))}
-                        {GlobalButton(!globalPost, 'Users', () => setGlobalPost(false))}
-                        {GlobalButton(globalPost && !globalPost, 'Global', () => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id }))}
+                        <Tabs select={globalPost} text='Post'  onPress={() => setGlobalPost(true)} />
+                        <Tabs select={!globalPost} text='Users'  onPress={() => setGlobalPost(false)} />
+                        <Tabs select={globalPost && !globalPost} text='Global'  onPress={() => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id })} />
                     </StyledViewButton>
                 </BottomShadow>
 

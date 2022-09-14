@@ -1,38 +1,37 @@
-import { Platform, Dimensions } from 'react-native';
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { View, TextInput, Text } from 'react-native';
 import { Switch } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Searchbar } from 'react-native-paper';
-const { width, height } = Dimensions.get('screen');
 
 export const StyledInputView = styled(View)`
     flex-direction: row;
     border-bottom-width: 1.5px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
     border-bottomColor: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
-    padding-bottom: ${Platform.OS === 'ios' ? height * .01 : 0};
+    padding-bottom: ${(props) => Platform.OS === 'ios' ? props.theme.spacing.height : 0};
 `;
 
 export const StyledInputElement = styled(TextInput)`
     flex: 1;
-    margin-top: ${Platform.OS === 'ios' ? 0 : - (height * .015)}px;
-    font-size: ${width * .04}px;
-    padding-left: 10px;
+    margin-top: ${(props) => Platform.OS === 'ios' ? 0 : - (props.theme.spacing.height)}px;
+    font-size: ${(props) => props.theme.fonts.regular}px;
+    padding-left: ${(props) => props.theme.spacing.width * 2}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;
 
 export const StyledTitle = styled(Text)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
-    font-weight: 500;
-    font-size: ${width * .04}px;
-    margin-bottom: 10px;
-    margin-top: ${height * .03}px;
+    font-weight: ${(props) => props.theme.fontWeight.semiBold};
+    font-size: ${(props) => props.theme.fonts.regular}px;
+    margin-bottom: ${(props) => props.theme.spacing.height}px;
+    margin-top: ${(props) => props.theme.spacing.height * 3}px;
 `;
 
 export const StyledError = styled(Text)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].errorColor};
-    font-weight: 400;
+    font-weight: ${(props) => props.theme.fontWeight.light};
 `;
 
 export const StyledPicker = styled(DropDownPicker)`
@@ -40,7 +39,7 @@ export const StyledPicker = styled(DropDownPicker)`
 `;
 
 export const StyledSwitch = styled(Switch)`
-
+    
 `;
 
 export const StyledSearchbar = styled(Searchbar)`

@@ -24,16 +24,18 @@ import {
 
 import { Profile, LoginManager } from 'react-native-fbsdk-next';
 import SnackBar from '../../snackbar';
+import defaultValue from '../../../constants/defaultValue';
 
 const LoginLayout = (props) => {
     const themeContext = useContext(ThemeContext);
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const dispatch = useDispatch();
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
 
     const onPressGoogle = () => {
         GoogleSignin.configure({
-            androidClientId: '1009154975780-lqus6fegc5ogv16ddrgk5fharjdkievn.apps.googleusercontent.com',
+            androidClientId: defaultValue[defaultValue.env].googleClientID,
             // iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
         });
         GoogleSignin.hasPlayServices().then((hasPlayService) => {
@@ -111,7 +113,7 @@ const LoginLayout = (props) => {
             <StatusBar backgroundColor={colors.mainColor} barStyle="light-content" />
             <SnackBar text={authStore.message.msg} type={authStore.message.type} />
             <LoginSafeView animation='lightSpeedIn'>
-                <LoginBack onPress={() => props.navigation.goBack()}><StyledIonicons name='chevron-back' size={30} /></LoginBack>
+                <LoginBack onPress={() => props.navigation.goBack()}><StyledIonicons name='chevron-back' size={spacing.width * 10} /></LoginBack>
                 <LoginLogo
                     source={logoImg}
                 />
@@ -131,13 +133,13 @@ const LoginLayout = (props) => {
                     <LoginNetworkLogo
                         name="facebook-square"
                         style={{ color: '#4267B2' }}
-                        size={40} />
+                        size={spacing.width * 12} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onPressGoogle}>
                     <LoginNetworkLogo
                         name="google-plus-square"
                         style={{ color: '#db3236' }}
-                        size={40} /></TouchableOpacity>
+                        size={spacing.width * 12} /></TouchableOpacity>
             </LoginNetworkView>
         </LoginContainer>
     )

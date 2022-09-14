@@ -1,38 +1,34 @@
 import styled from 'styled-components/native';
-import { Dimensions, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
 
-import Ionicons from 'react-native-vector-icons/Ionicons'
-
-const { height, width } = Dimensions.get('screen');
-
 
 export const StyledCard = styled(Card)`
-    margin-horizontal: ${width * .06}px;
-    margin-top: -${height * .02}px;
-    margin-bottom: ${height * .02}px;
-    border-radius: 10px;
+    margin-horizontal: ${(props) => props.theme.spacing.width * 6}px;
+    margin-top: -${(props) => props.theme.spacing.height * 2}px;
+    margin-bottom: ${(props) => props.theme.spacing.height * 2}px;
+    border-radius: ${(props) => props.theme.borderRedius.small}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledCardCover = styled(Card.Cover)`
-    height: ${height * .18}px; 
-    width: ${width - (width * .08)}px;
-    margin-left: ${width * .04}px;
-    border-radius: 10px;
+    height: ${(props) => props.theme.spacing.height * 18}px; 
+    width: ${(props) => (props.theme.spacing.width * 100 - (props.theme.spacing.width * 8))}px;
+    margin-left: ${(props) => props.theme.spacing.width * 4}px;
+    border-radius: ${(props) => props.theme.borderRedius.small}px;
 `;
 
 export const StyledCardContent = styled(Card.Content)`
-    margin: ${height * .01}px ${width * .01}px;
+    margin: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
     margin-top: 0px;
-    border-radius: 10px;
+    border-radius: ${(props) => props.theme.borderRedius.small}px;
 `;
 
 export const StyledCardAction = styled(Card.Actions)`
-    margin-left: ${width * .02}px;
-    margin-right: ${width * .01}px;
-    margin-bottom: ${height * .01}px;
+    margin-left: ${(props) => props.theme.spacing.width * 2}px;
+    margin-right: ${(props) => props.theme.spacing.width}px;
+    margin-bottom: ${(props) => props.theme.spacing.height}px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -40,27 +36,27 @@ export const StyledCardAction = styled(Card.Actions)`
 `;
 
 export const StyledCardTitle = styled(Title)`
-    font-size: ${width * .05}px;
-    font-weight: 600;
-    margin-top: ${height * .01}px;
+    font-size: ${(props) => props.theme.fonts.medium}px;
+    font-weight: ${(props) => props.theme.fontWeight.semiBold};
+    margin-top: ${(props) => props.theme.spacing.height}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;
 
 export const StyledCardParagraph = styled(Paragraph)`
-    font-size: ${width * .04}px;
+    font-size: ${(props) => props.theme.fonts.regular}px;
     margin-bottom: 0px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
 `;
 
 export const StyledCardButton = styled(Button)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    width: ${width * .65}px;
-    padding: ${height * .005}px ${width * .2}px;
-    margin-right: ${width * .03}px;
+    width: 80%;
+    padding: ${(props) => props.theme.spacing.height * .1}px ${(props) => props.theme.spacing.width * 10}px;
+    margin-right: 4%;
 `;
 
 export const StyledView = styled(TouchableOpacity)`
-    width: ${width * .15}px;
+    width: 16%;
     display: flex;
     flex-direction: row;
     justify-content: center;

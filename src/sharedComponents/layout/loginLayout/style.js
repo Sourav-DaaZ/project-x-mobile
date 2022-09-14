@@ -7,44 +7,46 @@ import * as Animatable from 'react-native-animatable';
 
 export const LoginContainer = styled(View)`
   flex: 1;
-  backgroundColor: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}
+  background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}
 `;
 export const StyledIonicons = styled(Ionicons)`
   color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}
 `;
 
 export const LoginSafeView = styled(SafeAreaView)`
-  flex: .4;
+  flex: .3;
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
   border-radius: 0px;
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
+  border-bottom-left-radius: ${(props) => props.theme.borderRedius.semi}px;
+  border-bottom-right-radius: ${(props) => props.theme.borderRedius.semi}px;
   position: relative;
 `;
 
 export const LoginLogo = styled(Image)`
-  margin-top: -60px;
-  width: 120px;
+  margin-top: -${(props) => props.theme.spacing.height * 7}px;
+  width: ${(props) => props.theme.spacing.width * 30}px;
+  height: ${(props) => props.theme.spacing.height * 5}px;
 `;
 
 export const LoginBack = styled(TouchableOpacity)`
   position: absolute;
-  left: 30px;
-  top: 25%;
+  left: ${(props) => props.theme.spacing.width * 3}px;
+  margin-top: -${(props) => props.theme.spacing.height * 5}px;
+  top: 50%;
   color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const LoginNetworkLogo = styled(FontAwesome)`
-  margin: 20px;
+  margin: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width * 8}px;
 `;
 
 export const LoginDevider = styled(Animatable.View)`
   flex-direction: row; 
   align-items: center;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: ${(props) => props.theme.spacing.width * 6}px;
+  margin-right: ${(props) => props.theme.spacing.width * 6}px;
 `;
 
 export const LoginDeviderLine = styled(Animatable.View)`
@@ -54,30 +56,28 @@ export const LoginDeviderLine = styled(Animatable.View)`
 `;
 
 export const LoginDeviderText = styled(Animatable.Text)`
-  width: 150px; 
+  width: ${(props) => props.theme.spacing.width * 45}px; 
   text-align: center;
   color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
-  font-weight: bold
+  font-weight: ${(props) => props.theme.fontWeight.bold}
 `;
 
 export const LoginScrollView = styled(Animatable.View)`
-  flex: 1;
+  flex: .8;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
-  margin: 20px;
-  margin-top: -60px;
+  border-radius: ${(props) => props.theme.borderRedius.semi}px;
+  margin: ${(props) => props.theme.spacing.height * 2}px ${(props) => props.theme.spacing.width * 5}px;
+  margin-top: -${(props) => props.theme.spacing.height * 7}px;
   background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor}
 `;
 
 export const LoginNetworkView = styled(Animatable.View)`
-  flex: .2;
-  min-height: 5px;
-  padding: 5px;
+  padding: ${(props) => props.theme.spacing.height * 2}px ${(props) => props.theme.spacing.width}px;
   background-color: white;
-  border-radius: 20px;
-  margin: 20px;
+  border-radius: ${(props) => props.theme.borderRedius.semi}px;
+  margin: ${(props) => props.theme.spacing.height * 2}px ${(props) => props.theme.spacing.width * 5}px;
   display: flex;
   flex-direction: row;
   justify-content: center;

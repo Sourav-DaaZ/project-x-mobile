@@ -1,6 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Linking, Alert } from 'react-native';
-
 import {
     StyledScrollView
 } from './style';
@@ -22,6 +20,7 @@ import { useIsFocused } from '@react-navigation/native';
 const AdminBannerList = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const isFocused = useIsFocused();
     const [showLoader, setShowLoader] = useState('');
     const [data, setData] = useState([]);
@@ -72,9 +71,8 @@ const AdminBannerList = (props) => {
             <FAB
                 style={{
                     position: 'absolute',
-                    margin: 16,
-                    right: 0,
-                    bottom: 30,
+                    right: spacing.width * 5,
+                    bottom: spacing.height * 3,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"

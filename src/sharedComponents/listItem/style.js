@@ -1,47 +1,47 @@
 import styled from 'styled-components/native';
-import { View, Dimensions } from 'react-native';
 import { Paragraph, Title } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
-
-const { width, height } = Dimensions.get('screen');
 
 export const StyledProfileView = styled(Animatable.View)`
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    padding: ${height * .015}px ${width * .03}px;
+    padding: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width * 2}px;
     border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].borderColor};
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-bottom: ${height * .015}px;
-    border-radius: 10px;
+    margin-bottom: ${(props) => props.theme.spacing.height}px;
+    border-radius: ${(props) => props.theme.borderRedius.small}px;
 `;
 
 export const StyledTitle = styled(Paragraph)`
-    font-size: ${width * .05}px;
+    font-size: ${(props) => props.theme.fonts.medium}px;
     margin-bottom: 0px;
-    font-weight: 700;
-    line-height: ${width * .05}px;
+    font-weight: ${(props) => props.theme.fontWeight.boldText};
+    line-height: ${(props) => props.theme.fonts.medium}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
 `;
 
 export const StyledSemiTitle = styled(Title)`
-    font-size: ${width * .05}px;
-    line-height: ${width * .05}px;
+    font-size: ${(props) => props.theme.fonts.regular}px;
+    line-height: ${(props) => props.theme.fonts.regular}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
-    font-weight: 500;
+    font-weight: ${(props) => props.theme.fontWeight.boldText};
 `;
 
 export const StyledParagraph = styled(Paragraph)`
+    font-size: ${(props) => props.theme.fonts.regular}px;
+    line-height: ${(props) => props.theme.fonts.regular}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight}; 
-    font-weight: 400;
+    font-weight: ${(props) => props.theme.fontWeight.light};
+    margin-vertical: ${(props) => props.theme.spacing.height}px;
     margin-bottom: 0px;
 `;
 
 export const StyledParagraphBold = styled(Paragraph)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
-    font-weight: 800;
-    font-size: ${width * .04}px;
-    line-height: ${width * .04}px;
+    font-weight: ${(props) => props.theme.fontWeight.boldText};
+    font-size: ${(props) => props.theme.fonts.regular}px;
+    line-height: ${(props) => props.theme.fonts.regular}px;
     margin-bottom: 0px;
 `;

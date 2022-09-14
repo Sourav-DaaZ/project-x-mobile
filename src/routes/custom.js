@@ -1,10 +1,11 @@
-import React from 'react';
-import { TouchableOpacity, Dimensions } from 'react-native';
-import { StyledTabView, StyledCercularBorder, StyledHeaderView, StyledEachHeaderView, StyledOption, StyledCercularByBorder } from './style'
-
-const { width, height } = Dimensions.get('screen');
+import React, { useContext } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { ThemeContext } from 'styled-components';
+import { StyledTabView, StyledCercularBorder, StyledHeaderView, StyledEachHeaderView, StyledOption } from './style'
 
 export const CustomTab = ({ state, descriptors, navigation, colors }) => {
+    const themeContext = useContext(ThemeContext);
+    const spacing = themeContext.spacing;
     return (
         <StyledTabView>
             {state.routes.map((route, index) => {
@@ -12,7 +13,7 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
                 const isFocused = state.index === index;
                 // const midEle = Math.floor(state.routes.length / 2) !== index;
                 // const icon = options.tabBarIcon(isFocused && midEle || !midEle ? colors.backgroundColor : colors.textDeep, (isFocused && midEle) || (!midEle && !isFocused) ? 25 : 30)
-                const icon = options.tabBarIcon(isFocused ? colors.backgroundColor : colors.mainColor, isFocused ? (width * .06) : (width * .07))
+                const icon = options.tabBarIcon(isFocused ? colors.backgroundColor : colors.mainColor, isFocused ? (spacing.width * 6) : (spacing.width * 7))
                 const label =
                     options.tabBarLabel !== undefined
                         ? options.tabBarLabel
@@ -65,12 +66,14 @@ export const CustomTab = ({ state, descriptors, navigation, colors }) => {
 }
 
 export const CustomHeader = (props) => {
+    const themeContext = useContext(ThemeContext);
+    const spacing = themeContext.spacing;
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
             <StyledEachHeaderView>
                 {props.left}
             </StyledEachHeaderView>
-            <StyledEachHeaderView style={{ marginTop: -(height * .005) }}>
+            <StyledEachHeaderView style={{ marginTop: -(spacing.height * .6) }}>
                 {props.logo}
             </StyledEachHeaderView>
             <StyledEachHeaderView>

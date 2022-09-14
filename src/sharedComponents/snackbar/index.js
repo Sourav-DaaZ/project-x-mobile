@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Snackbar } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { snackbarUpdate } from '../../store/actions';
 
-const SnackBar = (props) => {
+const SnackBar = () => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const authStore = useSelector((state) => state.auth, shallowEqual);

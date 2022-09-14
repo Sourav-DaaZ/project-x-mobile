@@ -26,7 +26,6 @@ import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData } from '..
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
-import defaultValue from '../../../constants/defaultValue';
 import { launchImageLibrary } from 'react-native-image-picker';
 import ImagePreview from '../../../sharedComponents/imagePreview';
 

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
-import { Avatar } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledParagraphBold } from './style';
 

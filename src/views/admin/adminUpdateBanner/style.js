@@ -1,21 +1,17 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, Image, ScrollView, ImageBackground } from 'react-native';
-import { Text } from 'react-native-paper';
+import { View, ScrollView } from 'react-native';
 import Button from '../../../sharedComponents/button'
-
-const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
 
 export const SubmitButton = styled(Button)`
     width: 100%;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    margin-top: 100px
+    margin-top: ${(props) => props.theme.spacing.height * 2}px;
 `;
 
 export const InputView = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-bottom: ${height * .01}px;
+    margin-bottom: ${(props) => props.theme.spacing.height}px;
     justify-content: center;
     width: 100%;
 `;
@@ -25,44 +21,10 @@ export const StyledScrollView = styled(ScrollView)`
     padding-top: 0px;
 `;
 
-export const StyledInlineInput = styled(View)`
-    flex: 1;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-`
-
-export const StyledText = styled(Text)`
-    font-size: 16px;
-    font-weight: 700;
-    color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
-`
-export const StyledInlineInputContainer = styled(View)`
-    flex: 1;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 999;
-    margin-bottom: 20px;
-`
-
-export const StyledImageBackground = styled(ImageBackground)`
-    margin-bottom: -60px;
-`;
-
-export const StyledCardCover = styled(Image)`
-    height: ${height * .35}px; 
-    width: 100%;
-    resizeMode: contain;
-`;
-
 export const InputWrapper = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    margin-horizontal: 10px;
-    padding: 30px;
+    padding: ${(props) => props.theme.spacing.height * 2}px ${(props) => props.theme.spacing.width * 8}px;
     padding-top: 0px;
-    margin: 10px;
-    border-radius: 10px;
+    margin: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
     z-index: 9
 `;

@@ -30,6 +30,7 @@ const ApplicationDetails = (props) => {
     const [data, setData] = useState({});
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [showLoader, setShowLoader] = useState(true);
@@ -89,10 +90,10 @@ const ApplicationDetails = (props) => {
             </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
-                    {data?.created_by?.userId && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data.created_by?._id })}><ListItem image={<Avatar.Image size={50} source={{ uri: data.created_by?.images && data.created_by.images[0] ? data.created_by.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.created_by?.userId} /></TouchableOpacity> : null}
+                    {data?.created_by?.userId && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data.created_by?._id })}><ListItem image={<Avatar.Image size={spacing.width * 15} source={{ uri: data.created_by?.images && data.created_by.images[0] ? data.created_by.images[0] : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.created_by?.userId} /></TouchableOpacity> : null}
                     <StyledInlineContainer>
                         <StyledInlineLeft>
-                            <StyledCardTitle style={{ marginBottom: 5 }}>{data?.details}</StyledCardTitle>
+                            <StyledCardTitle>{data?.details}</StyledCardTitle>
                         </StyledInlineLeft>
                         <StyledInlineRight>
                             {data?.expectedPrice ? <StyledCardTitle style={{ textAlign: 'right' }}>{data.expectedPrice} Rs</StyledCardTitle> : null}
@@ -106,7 +107,7 @@ const ApplicationDetails = (props) => {
                         <Menu
                             visible={showMenu}
                             onDismiss={() => setShowMenu(false)}
-                            anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
+                            anchor={<StyledDotIcon name='dots-three-vertical' />}
                         >
                             <Menu.Item onPress={() => {
                                 props.navigation.navigate(Routes.editApplication, { data: data, image: data.images })

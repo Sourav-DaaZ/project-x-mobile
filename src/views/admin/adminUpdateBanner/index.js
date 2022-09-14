@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Keyboard, TouchableOpacity } from 'react-native';
+import { Keyboard } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
 import { updateObject, validate } from '../../../utils';
@@ -16,13 +16,7 @@ import {
   SubmitButton,
   InputView,
   StyledScrollView,
-  StyledInlineInput,
-  StyledText,
-  StyledInlineInputContainer,
-  StyledImageBackground,
-  StyledCardCover,
   InputWrapper,
-
 } from './style';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { launchImageLibrary } from 'react-native-image-picker';

@@ -1,17 +1,13 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, SafeAreaView } from 'react-native';
-import { Text } from 'react-native-paper';
-import Button from '../sharedComponents/button';
-
-const { width, height } = Dimensions.get('screen');
+import { View, SafeAreaView } from 'react-native';
 
 export const StyledTabView = styled(View)`
     display: flex;
     flex-Direction: row;
     justify-content: space-around;
     align-items: center;
-    padding: ${height * .015}px ${width * .015}px;
-    border-top-width: ${height * .005}px;
+    padding: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
+    border-top-width: 1px;
     border-top-color:  ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
@@ -25,61 +21,24 @@ export const StyledHeaderView = styled(SafeAreaView)`
 `;
 
 export const StyledEachHeaderView = styled(View)`
-    padding: ${height * .010}px ${width * .015}px;
-    margin-right: ${width * .010}px;
-    margin-bottom: ${height * .010}px;
+    padding: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
+    margin-right: ${(props) => props.theme.spacing.width}px;
+    margin-bottom: ${(props) => props.theme.spacing.height}px;
 `;
 
 export const StyledCercularBorder = styled(View)`
-    padding: ${width * .04}px;
+    padding: ${(props) => props.theme.spacing.width * 4}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
-    border-radius: 50px;
+    border-radius: ${(props) => props.theme.borderRedius.round}px;
 `;
 
 export const StyledCercularByBorder = styled(View)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
-    border-radius: 50px;
-    padding: ${width * .04}px;
+    border-radius: ${(props) => props.theme.borderRedius.round}px;
+    padding: ${(props) => props.theme.spacing.width * 4}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
 `;
 
 export const StyledOption = styled(View)`
-    padding: ${width * .04}px;
-`;
-
-export const UpdateButton = styled(Button)`
-    width: ${(props) => props.full ? "100%" : "48%"};
-    background-color: ${(props) => props.mode !== 'outlined' ? props.theme.colors[props.theme.baseColor].mainColor : props.theme.colors[props.theme.baseColor].backgroundColor};
-    border-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    border-width: 1px;
-    margin-bottom: 10px;
-`;
-
-export const UpdateTitle = styled(Text)`
-    font-size: ${width * .1}px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: ${height * .015}px;
-    color: ${(props) => props.critical ? props.theme.colors[props.theme.baseColor].errorColor : props.theme.colors[props.theme.baseColor].textDeep}
-`;
-
-export const UpdateDescription = styled(Text)`
-    font-size: ${width * .038}px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: ${height * .035}px;
-    color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
-`;
-export const CancelText = styled(Text)`
-    font-size: ${width * .038}px;
-    font-weight: 700;
-    text-align: center;
-    color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-`;
-
-export const ButtonWrapper = styled(View)`
-    display: flex;
-    flex-Direction: row;
-    flex: 1;
-    justify-content: space-between;
+    padding: ${(props) => props.theme.spacing.width * 4}px;
 `;

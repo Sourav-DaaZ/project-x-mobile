@@ -1,47 +1,49 @@
-import React, { useCallback, memo, useRef, useState, useEffect, createRef } from "react";
+import React, { useCallback, memo, useRef, useState, useEffect, createRef, useContext } from "react";
 import {
     FlatList,
     View,
-    Dimensions,
     StyleSheet,
     TouchableOpacity,
 } from "react-native";
+import { ThemeContext } from 'styled-components';
 import { StyledImageBackground, StyledCardCover } from './style';
-const { width: windowWidth } = Dimensions.get("window");
-
-const styles = StyleSheet.create({
-    pagination: {
-        position: "absolute",
-        bottom: 8,
-        width: "100%",
-        justifyContent: "center",
-        flexDirection: "row",
-    },
-    paginationDot: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
-        marginHorizontal: 2,
-    },
-    paginationDotActive: { backgroundColor: "lightblue" },
-    paginationDotInactive: { backgroundColor: "gray" },
-
-    carousel: { flex: 1, width: windowWidth, height: 150, flexDirection: 'row' },
-});
 
 
 export default Banner = (props) => {
+    const themeContext = useContext(ThemeContext);
+    const spacing = themeContext.spacing;
+    const colors = themeContext.colors[themeContext.baseColor];
     const [index, setIndex] = useState(-1);
     const indexRef = useRef(index);
     const flatList = createRef();
-    const [slideData, setSlideData] = useState([])
+    const [slideData, setSlideData] = useState([]);
     indexRef.current = index;
+
+    const styles = StyleSheet.create({
+        pagination: {
+            position: "absolute",
+            bottom: 8,
+            width: "100%",
+            justifyContent: "center",
+            flexDirection: "row",
+        },
+        paginationDot: {
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            marginHorizontal: 2,
+        },
+        paginationDotActive: { backgroundColor: colors.backgroundDeepColor },
+        paginationDotInactive: { backgroundColor: colors.textLight },
+    
+        carousel: { flex: 1, width: spacing.width * 100, height: spacing.height * 18, flexDirection: 'row' },
+    });
 
     useEffect(() => {
         setIndex(0);
         setSlideData(props.data)
     }, [props])
-    
+
     const Slide = memo(function Slide({ data }) {
         return (
             <TouchableOpacity onPress={data.fnc} onLongPress={data.longFnc}>
@@ -125,8 +127,8 @@ export default Banner = (props) => {
         getItemLayout: useCallback(
             (_, index) => ({
                 index,
-                length: windowWidth,
-                offset: index * (windowWidth),
+                length: spacing.width * 100,
+                offset: index * (spacing.width * 100),
             }),
             []
         ),

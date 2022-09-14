@@ -10,6 +10,7 @@ const Input = (props) => {
   const [dot, setDot] = React.useState(true);
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
+  const fonts = themeContext.fonts;
 
   let inputElement = null;
 
@@ -109,7 +110,7 @@ const Input = (props) => {
           ref={props.ref}
           theme={props.theme}
           style={props.style}
-          inputStyle={{ fontSize: width * .05 }}
+          inputStyle={{ fontSize: fonts.medium }}
           icon={props.icon}
           value={props.value}
           onChangeText={props.onChange}

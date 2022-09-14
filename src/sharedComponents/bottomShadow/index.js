@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import {
-    Platform,
     View,
     SafeAreaView
 } from 'react-native';
@@ -14,8 +13,9 @@ import { navigationUpdate } from '../../store/actions';
 export const BottomShadow = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     return (
-        <View style={{ overflow: 'hidden', paddingBottom: props.small ? 15 : 40, backgroundColor: colors.backgroundDeepColor, marginBottom: props.small ? 0 : -20 }}>
+        <View style={{ overflow: 'hidden', paddingBottom: props.small ? spacing.height * 2 : spacing.height * 4, backgroundColor: colors.backgroundDeepColor, marginBottom: props.small ? 0 : -(spacing.height * 2) }}>
             <View
                 style={{
                     backgroundColor: colors.backgroundColor,

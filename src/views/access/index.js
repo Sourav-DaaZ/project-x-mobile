@@ -5,7 +5,6 @@ import logoImg from '../../assets/images/logo.png';
 import {
   SplashOuterView,
   SplashLogo,
-  SplashBannerLogo,
   SplashTitle,
   SplashDescription,
   SplashButton
@@ -19,6 +18,7 @@ const AccessScreen = (props) => {
       <StatusBar backgroundColor={colors.backgroundDeepColor} barStyle="dark-content" />
       <SplashLogo
         source={logoImg}
+        resizeMode="contain"
       />
       <SplashTitle>{props.route.params.type} Access ERROR!</SplashTitle>
       <SplashDescription>Please give your {props.route.params.type} access for better performance.</SplashDescription>

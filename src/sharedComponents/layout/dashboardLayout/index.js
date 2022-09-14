@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Platform, StatusBar } from 'react-native';
-import { FAB } from 'react-native-paper';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual } from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';

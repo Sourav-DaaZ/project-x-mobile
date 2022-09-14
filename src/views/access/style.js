@@ -1,10 +1,9 @@
 import styled from 'styled-components/native';
-import { Dimensions,TouchableOpacity, View, Image, ScrollView } from 'react-native';
+import { Dimensions, View, Image } from 'react-native';
 import { Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button'
 
 const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
 
 export const SplashOuterView = styled(View)`
     display: flex;
@@ -12,37 +11,31 @@ export const SplashOuterView = styled(View)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: ${(props) => props.theme.spacing.height * 3}px ${(props) => props.theme.spacing.width * 5}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor};
     height: 100%
 `;
 
 export const SplashLogo = styled(Image)`
-    width: 120px;
-    margin-bottom: ${height * .08}px;
-`;
-
-export const SplashBannerLogo = styled(Image)`
-    width: ${width_logo}px;
-    height: ${width_logo}px;
+    width: ${(props) => props.theme.spacing.width * 30}px;
     margin-bottom: ${height * .08}px;
 `;
 
 export const SplashTitle = styled(Text)`
-    font-size: ${width * .1}px;
-    font-weight: bold;
+    font-size: ${(props) => props.theme.fonts.large}px;
+    font-weight: ${(props) => props.theme.fontWeight.boldText};
     text-align: center;
-    margin-top: 20px;
+    margin-top: ${(props) => props.theme.spacing.height * 2}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}
 `;
 
 export const SplashDescription = styled(Text)`
-    font-size: ${width * .05}px;
-    font-weight: 600;
+    font-size: ${(props) => props.theme.fonts.medium}px;
+    font-weight: ${(props) => props.theme.fontWeight.bold};
     text-align: center;
-    line-height: 30px;
-    margin-bottom: ${height * .1}px;
-    margin-top: ${height * .03}px;
+    line-height: ${(props) => props.theme.spacing.height * 4}px;
+    margin-bottom: ${(props) => props.theme.spacing.height * 10}px;
+    margin-top: ${(props) => props.theme.spacing.height * 3}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
 `;
 
