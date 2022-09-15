@@ -15,7 +15,8 @@ const theme = {
     small: width * .03,
     regular: width * .04,
     medium: width * .05,
-    large: width * .06
+    large: width * .06,
+    veryLarge: width * .1
   },
   fontWeight: {
     light: 400,

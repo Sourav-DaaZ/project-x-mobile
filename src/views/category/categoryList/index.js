@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { RefreshControl, TouchableOpacity } from 'react-native';
+import { RefreshControl, TouchableOpacity, View } from 'react-native';
 
 import {
     StyledScrollView
@@ -59,7 +59,9 @@ const CategoryList = (props) => {
                     <RefreshControl refreshing={refreshing} onRefresh={refreshFnc} />
                 }
             >
-                {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
+                <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                    {category?.map((x, i) => <TouchableOpacity key={i} activeOpacity={1} onPress={() => props.navigation.navigate(Routes.singleCategory, { data: x })}><SingleCategory name={x.category_name} img={x.images} /></TouchableOpacity>)}
+                </View>
             </StyledScrollView>}
         </DashboardLayout>
     )

@@ -15,7 +15,7 @@ export const StyledInputView = styled(View)`
 
 export const StyledInputElement = styled(TextInput)`
     flex: 1;
-    margin-top: ${(props) => Platform.OS === 'ios' ? 0 : - (props.theme.spacing.height)}px;
+    margin-top: ${(props) => Platform.OS === 'ios' ? 0 : - (props.theme.spacing.height * 1.5)}px;
     font-size: ${(props) => props.theme.fonts.regular}px;
     padding-left: ${(props) => props.theme.spacing.width * 2}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};

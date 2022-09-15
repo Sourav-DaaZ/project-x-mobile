@@ -68,7 +68,7 @@ export const StyledImageBackground = styled(ImageBackground)`
 `;
 
 export const StyledCardTitle = styled(Title)`
-    font-size: ${(props) => props.theme.fonts.regular}px;
+    font-size: ${(props) => props.theme.fonts.medium}px;
     font-weight: ${(props) => props.theme.fontWeight.bold};
     margin-top: ${(props) => props.theme.spacing.height * 2}px;
     margin-bottom: 0px;

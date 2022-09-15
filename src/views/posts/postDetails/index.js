@@ -39,6 +39,7 @@ const PostDetails = (props) => {
     const themeContext = useContext(ThemeContext);
     const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
@@ -130,10 +131,10 @@ const PostDetails = (props) => {
             </StyledImageBackground>
             <StyledCard animation='flipInX'>
                 <StyledCardContent>
-                    {data?.owner?._id && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data?.owner?.user })}><ListItem image={<Avatar.Image size={50} source={{ uri: data?.owner?.images ? data.owner.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.owner?.name} /></TouchableOpacity> : null}
+                    {data?.owner?._id && data.visible ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: data?.owner?.user })}><ListItem image={<Avatar.Image size={spacing.width * 15} source={{ uri: data?.owner?.images ? data.owner.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} title={data.owner?.name} /></TouchableOpacity> : null}
                     <StyledInlineContainer>
                         <StyledInlineLeft>
-                            <StyledCardTitle style={{ marginBottom: 5 }}>{data?.title}</StyledCardTitle>
+                            <StyledCardTitle style={{ marginBottom: spacing.height }}>{data?.title}</StyledCardTitle>
                         </StyledInlineLeft>
                         <StyledInlineRight>
                             {data?.expectedPrice ? <StyledCardTitle style={{ textAlign: 'right' }}>{data.expectedPrice} Rs</StyledCardTitle> : null}
@@ -148,7 +149,7 @@ const PostDetails = (props) => {
                         <Menu
                             visible={showMenu}
                             onDismiss={() => setShowMenu(false)}
-                            anchor={<StyledDotIcon name='dots-three-vertical' size={25} />}
+                            anchor={<StyledDotIcon name='dots-three-vertical' />}
                         >
                             {detailsStore.id === data.owner?.user ? <Menu.Item onPress={() => {
                                 props.navigation.navigate(Routes.editPost, { data: data, image: data.images })

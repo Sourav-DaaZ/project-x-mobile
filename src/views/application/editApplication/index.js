@@ -30,6 +30,7 @@ const EditApplication = (props) => {
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const [image, setImage] = useState(props.route.params?.image ? props.route.params.image : [null]);
   const formElementsArray = [];
 
@@ -52,8 +53,8 @@ const EditApplication = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       price: {
@@ -72,7 +73,7 @@ const EditApplication = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
         ],
       }
     },

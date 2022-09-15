@@ -33,6 +33,7 @@ const UserChat = (props) => {
     const scrollViewRef = useRef();
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [inputValue, setInputValue] = useState('');
     const [chats, setChats] = useState([]);
@@ -183,7 +184,7 @@ const UserChat = (props) => {
         <StyledSafeAreaView>
             <BottomShadow>
                 <CustomHeader
-                    left={<Ionicons name="chevron-back" color={colors.iconColor} size={30} onPress={() => props.navigation.goBack()} />}
+                    left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 10} onPress={() => props.navigation.goBack()} />}
                     logo={<HeaderText>{props.route.params?.name}</HeaderText>}
                 />
             </BottomShadow>
@@ -213,9 +214,9 @@ const UserChat = (props) => {
                     />
                 </View>
                 {(inputValue !== '' || image !== '') ? <TouchableOpacity onPress={!loader ? changeInput : null} style={{ width: '15%', opacity: loader ? .5 : 1 }}>
-                    <Ionicons name='send' size={35} style={{ color: colors.mainByColor, marginLeft: 10, marginTop: 10 }} />
+                    <Ionicons name='send' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2, marginTop: spacing.height }} />
                 </TouchableOpacity> : <TouchableOpacity onPress={!loader ? uploadImg : null} style={{ width: '15%', opacity: loader ? .5 : 1 }}>
-                    <Ionicons name='md-add-circle-sharp' size={40} style={{ color: colors.mainByColor, marginLeft: 10, marginTop: 10 }} />
+                    <Ionicons name='md-add-circle-sharp' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2, marginTop: spacing.height }} />
                 </TouchableOpacity>}
             </StyledInputView>
             <ImagePreview show={show !== ''} images={[{ url: show }]} setShowFalse={() => setShow('')} />

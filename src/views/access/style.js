@@ -1,9 +1,7 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import { Text } from 'react-native-paper';
 import Button from '../../sharedComponents/button'
-
-const { width, height } = Dimensions.get('screen');
 
 export const SplashOuterView = styled(View)`
     display: flex;
@@ -18,11 +16,11 @@ export const SplashOuterView = styled(View)`
 
 export const SplashLogo = styled(Image)`
     width: ${(props) => props.theme.spacing.width * 30}px;
-    margin-bottom: ${height * .08}px;
+    margin-bottom: ${(props) => props.theme.spacing.height * 8}px;px;
 `;
 
 export const SplashTitle = styled(Text)`
-    font-size: ${(props) => props.theme.fonts.large}px;
+    font-size: ${(props) => props.theme.fonts.veryLarge}px;
     font-weight: ${(props) => props.theme.fontWeight.boldText};
     text-align: center;
     margin-top: ${(props) => props.theme.spacing.height * 2}px;

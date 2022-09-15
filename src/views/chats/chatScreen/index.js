@@ -23,6 +23,7 @@ const ChatScreen = (props) => {
     const [showLoader, setShowLoader] = useState(true);
     const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [dataLoader, setDataLoader] = useState(true);
@@ -77,13 +78,13 @@ const ChatScreen = (props) => {
     return (
         showLoader ? <Loader /> : <StyledScrollView>
             {data?.map((x, i) => (
-                <TouchableOpacity key={i} style={{ borderBottom: '2px solid blue' }} onPress={() => props.navigation.navigate(Routes.userChat, { id: detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?._id : x.receiver_user_id?._id })}>
+                <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.userChat, { id: detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?._id : x.receiver_user_id?._id })}>
                     <ListItem
                         title={(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId)}
                         description={x?.comments ? x.comments[0]?.msg : ''}
                         descriptionBold={x?.viewList && x.viewList.length > 0 && !x.viewList.includes(detailsStore.id) ? x?.comments ? x.comments[0]?.msg : '' : null}
                         smallDescription={timeFormat(x?.updatedAt)}
-                        image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: detailsStore.id !== x.sender_user_id._id ? (x.sender_user_id?.userInfo?.images ? x.sender_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') : (x.receiver_user_id?.userInfo?.images ? x.receiver_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') }} />}
+                        image={<Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 15} source={{ uri: detailsStore.id !== x.sender_user_id._id ? (x.sender_user_id?.userInfo?.images ? x.sender_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') : (x.receiver_user_id?.userInfo?.images ? x.receiver_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') }} />}
                     />
                 </TouchableOpacity>
             ))}

@@ -48,7 +48,7 @@ export const StyledInlineInputContainer = styled(View)`
     align-items: center;
     position: relative;
     z-index: 999;
-    margin-vertical: ${(props) => props.theme.spacing.height * 1}px;
+    margin-vertical: ${(props) => props.theme.spacing.height}px;
 `
 export const StyledImageBackground = styled(ImageBackground)`
     margin-bottom: -${(props) => props.theme.spacing.height * 2}px;

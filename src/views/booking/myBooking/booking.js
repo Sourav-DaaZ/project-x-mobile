@@ -14,7 +14,7 @@ import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
 import { ThemeContext } from 'styled-components';
 import { dateFormat, timeFormat } from '../../../utils';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
 
 const Booking = (props) => {

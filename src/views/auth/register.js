@@ -23,15 +23,14 @@ import {
   InputView,
   StyledInputOtp,
   StyledViewButton,
-  StyledTouchableOpacity,
-  StyledButtonActive,
-  StyledButtonView,
   StyledForgot
 } from './style';
+import Tabs from '../../sharedComponents/tab';
 
 const Register = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch();
   const [data, setData] = useState({
@@ -52,8 +51,8 @@ const Register = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       email: {
@@ -72,8 +71,8 @@ const Register = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       password: {
@@ -92,8 +91,8 @@ const Register = (props) => {
         valid: false,
         className: [],
         icons: [
-          <FontAwesome name="lock" color="#05375a" size={20} />,
-          <Feather name={'eye-off'} color="gray" size={20} />,
+          <FontAwesome name="lock" color="#05375a" size={spacing.width * 5} />,
+          <Feather name={'eye-off'} color="gray" size={spacing.width * 5} />,
         ],
       },
       otp: {
@@ -113,7 +112,7 @@ const Register = (props) => {
         success: '',
         className: [],
         icons: [
-          <FontAwesome name="lock" color="#05375a" size={20} />,
+          <FontAwesome name="lock" color="#05375a" size={spacing.width * 5} />,
         ],
       },
     },
@@ -313,19 +312,15 @@ const Register = (props) => {
     });
   }
 
-  const GlobalButton = (select, text, onPress) => (
-    select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
-  )
-
   return (
     <LoginLayout {...props}>
       <StyledViewButton>
-        {GlobalButton(false, 'Log In', () => {
+        <Tabs select={false} text='Log In' onPress={() => {
           props.navigation.navigate(Routes.login);
-        })}
-        {GlobalButton(true, 'Register', () => {
+        }} />
+        <Tabs select={true} text='Register' onPress={() => {
           props.navigation.navigate(Routes.register);
-        })}
+        }} />
       </StyledViewButton>
       <LoginOuterView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         <InputView>

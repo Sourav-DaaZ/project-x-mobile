@@ -9,7 +9,6 @@ const DashboardHeader = (props) => {
                 <StyledHeaderHeadline>{props.text}</StyledHeaderHeadline>{props.goNext}
             </StyledHeaderView>
         </TouchableOpacity>
-
     )
 };
 

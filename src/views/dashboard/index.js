@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
-import { View, TouchableWithoutFeedback, TouchableOpacity, RefreshControl, Dimensions } from 'react-native';
+import { View, TouchableWithoutFeedback, TouchableOpacity, RefreshControl } from 'react-native';
 import DashboardLayout from '../../sharedComponents/layout/dashboardLayout';
 import DashboardHeader from './header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -19,7 +19,7 @@ import Routes from '../../constants/routeConst';
 import { BottomShadow, ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 import Input from '../../sharedComponents/input';
 import Loader from '../../sharedComponents/loader';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import Banner from '../../sharedComponents/banner';
 import { openUrl } from '../../utils';
 import { CustomHeader } from '../../routes/custom';
@@ -28,15 +28,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FAB } from 'react-native-paper';
 import InsideAuthApi from '../../services/inSideAuth';
 
-const { width, height } = Dimensions.get('screen');
-
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const isFocused = useIsFocused();
-    const dispatch = useDispatch();
     const [outerScrollViewScrollEnabled, setOuterScrollViewScrollEnabled] = useState(true);
     const [showLoader, setShowLoader] = useState(false);
     const [tagLoader, setTagLoader] = useState(false);
@@ -151,10 +149,10 @@ const Dashboard = (props) => {
                 }
             >
                 <CustomHeader
-                    left={<StyledImage style={{ marginLeft: 10 }} source={logoImg} />}
-                    right={authStore.access_token && authStore.access_token !== '' ? <Ionicons name="md-chatbubble-outline" color={colors.iconColor} size={width * .085} onPress={() => props.navigation.navigate(Routes.chatList)} /> : null}
+                    left={<StyledImage style={{ marginLeft: spacing.width * 2 }} source={logoImg} />}
+                    right={authStore.access_token && authStore.access_token !== '' ? <Ionicons name="md-chatbubble-outline" color={colors.iconColor} size={spacing.width * 8} onPress={() => props.navigation.navigate(Routes.chatList)} /> : null}
                 />
-                <View style={{ marginTop: -20 }}>
+                <View style={{ marginTop: - spacing.height * 2 }}>
                     <BottomShadow small>
                         <StyledSearchbarView>
                             <TouchableOpacity activeOpacity={1} onPress={() => props.navigation.navigate(Routes.search)}>
@@ -168,7 +166,7 @@ const Dashboard = (props) => {
                                     }}
                                     style={{ backgroundColor: colors.backgroundColor }}
                                     value={''}
-                                    icon={() => <Ionicons name="md-search-sharp" color={colors.textLight} size={width * .07} />}
+                                    icon={() => <Ionicons name="md-search-sharp" color={colors.textLight} size={spacing.width * 7} />}
                                     editable={false}
                                     onFocus={() => props.navigation.navigate(Routes.search)}
                                 />
@@ -180,7 +178,7 @@ const Dashboard = (props) => {
                     {banner.length > 0 ? <Banner data={banner} /> : null}
                 </StyledBannerWrapper>
                 {showLoader ? <Loader /> : <ShadowWrapperContainer noSnack>
-                    <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={width * .07} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
+                    <DashboardHeader text='Category' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.category)} goNext={<AntDesign name='rightcircle' size={spacing.width * 7} style={{ color: colors.mainByColor, marginBottom: -spacing.height }} />} />
                     <View style={{ flexDirection: "row" }}>
                         <StyledHorizontalScrollView style={{ height: "100%" }} horizontal showsHorizontalScrollIndicator={false}>
                             <TouchableWithoutFeedback
@@ -200,8 +198,8 @@ const Dashboard = (props) => {
                     </View>
                 </ShadowWrapperContainer>}
                 {tagLoader ? <Loader /> : saveTag.tags && saveTag.tags.length > 0 ? <ShadowWrapperContainer noSnack>
-                    <DashboardHeader text='Save Tag' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.myTag)} goNext={<AntDesign name='rightcircle' size={width * .07} style={{ color: colors.mainByColor, marginBottom: -5 }} />} />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                    <DashboardHeader text='Save Tag' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.myTag)} goNext={<AntDesign name='rightcircle' size={spacing.width * 7} style={{ color: colors.mainByColor, marginBottom: -spacing.height }} />} />
+                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: spacing.height * 2}}>
                         {saveTag.tags.map((x, i) => <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                             {x.tag_name}
                         </StyledChip>)}
@@ -211,8 +209,8 @@ const Dashboard = (props) => {
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',
-                    right: width * .05,
-                    bottom: height * .03,
+                    right: spacing.width * 5,
+                    bottom: spacing.height * 3,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"

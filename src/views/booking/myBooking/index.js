@@ -7,9 +7,6 @@ import {
     StyledParagraph,
     StyledScrollView,
     StyledContainer,
-    StyledButtonActive,
-    StyledTouchableOpacity,
-    StyledButtonView,
     StyledViewButton,
     StyledInputView,
     StyledInput,
@@ -33,10 +30,12 @@ import defaultValue from '../../../constants/defaultValue';
 import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat, timeFormat } from '../../../utils';
 import InsideAuthApi from '../../../services/inSideAuth';
+import Tabs from '../../../sharedComponents/tab';
 
 const MyBooking = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const dispatch = useDispatch();
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -47,10 +46,6 @@ const MyBooking = (props) => {
     const [showNotes, setShowNotes] = useState(false);
     const [showStatusMenu, setShowStatusMenu] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-
-    const GlobalButton = (select, text, onPress) => (
-        select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
-    )
 
     const onEdit = (id, status, note) => {
         const requestData = {
@@ -86,8 +81,8 @@ const MyBooking = (props) => {
                 <StyledContainer>
                     {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
                         <StyledViewButton>
-                            {GlobalButton(globalPost === 'booking', 'Booking', () => setGlobalPost('booking'))}
-                            {GlobalButton(globalPost === 'past_booking', 'Past Booking', () => setGlobalPost('past_booking'))}
+                            <Tabs select={globalPost === 'booking'} text='Booking' onPress={() => setGlobalPost('booking')} />
+                            <Tabs select={globalPost === 'past_booking'} text='Past Booking' onPress={() => setGlobalPost('past_booking')} />
                         </StyledViewButton>
                     </BottomShadow> : null}
                     <Booking {...props} userId={props.route.params?.id} bookingType={globalPost === 'past_booking'} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
@@ -99,7 +94,7 @@ const MyBooking = (props) => {
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
                         visible={showMenu}
                         onDismiss={() => setShowMenu(false)}
-                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={25} /></TouchableOpacity>}
+                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={spacing.width * 4} /></TouchableOpacity>}
                     >
                         <Menu.Item onPress={() => {
                             props.navigation.navigate(Routes.editBooking, { data: popupData });
@@ -146,8 +141,8 @@ const MyBooking = (props) => {
                             backgroundColor: colors.mainColor,
                         }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
                     </View>
-                    {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity onPress={() => onEdit(popupData._id, null, addNotes)}>
-                        <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20 }} />
+                    {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onEdit(popupData._id, null, addNotes)}>
+                        <Ionicons name='send' size={spacing.width * 9} style={{ color: colors.mainByColor, marginLeft: spacing.width * 4 }} />
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}

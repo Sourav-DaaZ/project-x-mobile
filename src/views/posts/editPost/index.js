@@ -34,6 +34,7 @@ const EditPost = (props) => {
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const formElementsArray = [];
   const [genderArr, setGenderArr] = useState([
     { label: 'All', value: 'all' },
@@ -67,8 +68,8 @@ const EditPost = (props) => {
         errors: '',
         className: { width: '100%' },
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       description: {
@@ -86,8 +87,8 @@ const EditPost = (props) => {
         errors: '',
         className: { width: '100%' },
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       price: {
@@ -106,7 +107,7 @@ const EditPost = (props) => {
         errors: '',
         className: { width: '100%' },
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
         ],
       },
       minAge: {
@@ -125,8 +126,8 @@ const EditPost = (props) => {
         errors: '',
         className: { width: '48%', marginRight: '1%' },
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       maxAge: {
@@ -145,8 +146,8 @@ const EditPost = (props) => {
         errors: '',
         className: { width: '48%', marginLeft: '1%' },
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       }
     },
@@ -341,7 +342,7 @@ const EditPost = (props) => {
                   borderWidth: 0,
                   borderBottomWidth: 1,
                   borderColor: colors.borderColor,
-                  marginLeft: -5
+                  marginLeft: -spacing.width
                 }}
                 containerStyle={{
                   borderWidth: 1,
@@ -364,7 +365,7 @@ const EditPost = (props) => {
                   borderWidth: 0,
                   borderBottomWidth: 1,
                   borderColor: colors.borderColor,
-                  marginLeft: -5
+                  marginLeft: -spacing.width
                 }}
                 containerStyle={{
                   borderWidth: 1,
@@ -389,7 +390,7 @@ const EditPost = (props) => {
                   borderWidth: 0,
                   borderBottomWidth: 1,
                   borderColor: colors.borderColor,
-                  marginLeft: -5
+                  marginLeft: -spacing.width
                 }}
                 containerStyle={{
                   borderWidth: 1,

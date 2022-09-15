@@ -25,6 +25,7 @@ const NotificationScreen = (props) => {
     const [refreshing, setRefreshing] = useState(false);
     const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
@@ -97,11 +98,11 @@ const NotificationScreen = (props) => {
                 }
             >
                 {data.map((x, i) => (
-                    <TouchableOpacity key={i} style={{ borderBottom: '2px solid blue' }} onPress={() => props.navigation.navigate(Routes[x.data.route], { id: x.data.id })}>
+                    <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes[x.data.route], { id: x.data.id })}>
                         <ListItem
                             title={(x.data.userVisible && x.created_by.userInfo ? x.created_by.userInfo.name.toLowerCase() + ': ' : "") + (x.data.title ? x.data.title : '')}
                             description={timeFormat(x.createdAt)}
-                            image={x.data.userVisible && x.created_by.userInfo ? <Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x?.created_by?.userInfo?.images && x.data.userVisible ? x.created_by.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} /> : null}
+                            image={x.data.userVisible && x.created_by.userInfo ? <Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 15} source={{ uri: x?.created_by?.userInfo?.images && x.data.userVisible ? x.created_by.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} /> : null}
                         />
                     </TouchableOpacity>
                 ))}

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState } from 'react';
 import LoginLayout from '../../sharedComponents/layout/loginLayout';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
@@ -8,8 +8,7 @@ import validation from '../../constants/validationMsg';
 import Modal from '../../sharedComponents/modal';
 import OutsideAuthApi from '../../services/outSideAuth';
 import { useDispatch } from 'react-redux';
-import { snackbarUpdate, tokenUpdate } from '../../store/actions';
-import { debounce } from "lodash";
+import { snackbarUpdate } from '../../store/actions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -22,16 +21,13 @@ import {
   LoginSubmitButton,
   InputView,
   StyledInputOtp,
-  StyledViewButton,
-  StyledTouchableOpacity,
-  StyledButtonActive,
-  StyledButtonView,
   StyledForgot
 } from './style';
 
 const ForgotPassword = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch();
   const [data, setData] = useState({
@@ -51,8 +47,8 @@ const ForgotPassword = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       password: {
@@ -71,8 +67,8 @@ const ForgotPassword = (props) => {
         valid: false,
         className: [],
         icons: [
-          <FontAwesome name="lock" color="#05375a" size={20} />,
-          <Feather name={'eye-off'} color="gray" size={20} />,
+          <FontAwesome name="lock" color="#05375a" size={spacing.width * 5} />,
+          <Feather name={'eye-off'} color="gray" size={spacing.width * 5} />,
         ],
       },
       otp: {
@@ -92,7 +88,7 @@ const ForgotPassword = (props) => {
         success: '',
         className: [],
         icons: [
-          <FontAwesome name="lock" color="#05375a" size={20} />,
+          <FontAwesome name="lock" color="#05375a" size={spacing.width * 5} />,
         ],
       },
     },

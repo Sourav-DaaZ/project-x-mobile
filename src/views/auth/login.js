@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import LoginLayout from '../../sharedComponents/layout/loginLayout';
 import { ThemeContext } from 'styled-components';
 import Input from '../../sharedComponents/input';
@@ -22,17 +22,16 @@ import {
   InputView,
   StyledInputOtp,
   StyledViewButton,
-  StyledTouchableOpacity,
-  StyledButtonActive,
-  StyledButtonView,
   StyledForgot
 } from './style';
 
 import Routes from '../../constants/routeConst';
+import Tabs from '../../sharedComponents/tab';
 
 const Login = (props) => {
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const [modalShow, setModalShow] = useState(false);
   const [isOtpLogin, setIsOtpLogin] = React.useState(false);
   const [data, setData] = useState({
@@ -53,8 +52,8 @@ const Login = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       password: {
@@ -73,8 +72,8 @@ const Login = (props) => {
         valid: false,
         className: [],
         icons: [
-          <FontAwesome name="lock" color="#05375a" size={20} />,
-          <Feather name={'eye-off'} color="gray" size={20} />,
+          <FontAwesome name="lock" color="#05375a" size={spacing.width * 5} />,
+          <Feather name={'eye-off'} color="gray" size={spacing.width * 5} />,
         ],
       },
       otp: {
@@ -94,7 +93,7 @@ const Login = (props) => {
         success: '',
         className: [],
         icons: [
-          <FontAwesome name="lock" color="#05375a" size={20} />,
+          <FontAwesome name="lock" color="#05375a" size={spacing.width * 5} />,
         ],
       },
     },
@@ -273,19 +272,15 @@ const Login = (props) => {
     });
   }
 
-  const GlobalButton = (select, text, onPress) => (
-    select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
-  )
-
   return (
     <LoginLayout {...props}>
       <StyledViewButton>
-        {GlobalButton(true, 'Log In', () => {
+        <Tabs select={true} text='Log In' onPress={() => {
           props.navigation.navigate(Routes.login);
-        })}
-        {GlobalButton(false, 'Register', () => {
+        }} />
+        <Tabs select={false} text='Register' onPress={() => {
           props.navigation.navigate(Routes.register);
-        })}
+        }} />
       </StyledViewButton>
       <LoginOuterView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         <InputView>

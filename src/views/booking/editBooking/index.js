@@ -24,8 +24,8 @@ const EditBooking = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
-  const detailsStore = useSelector((state) => state.details, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
 
   const [loader, setLoader] = useState(false);
   const [open, setOpen] = useState(0);
@@ -81,7 +81,7 @@ const EditBooking = (props) => {
             onSubmit={() => Keyboard.dismiss()}
             value={description}
             icons={[
-              <FontAwesome name="user-o" color="#05375a" size={20} />
+              <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
             ]}
             ele={'input'}
           />
@@ -93,7 +93,7 @@ const EditBooking = (props) => {
                 value={dateFormat(startDate)}
                 editable={false}
                 icons={[
-                  <FontAwesome name="user-o" color="#05375a" size={20} />
+                  <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
                 ]}
                 ele={'input'}
               />
@@ -105,7 +105,7 @@ const EditBooking = (props) => {
                 value={dateFormat(endDate)}
                 editable={false}
                 icons={[
-                  <FontAwesome name="user-o" color="#05375a" size={20} />
+                  <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
                 ]}
                 ele={'input'}
               />
@@ -118,7 +118,7 @@ const EditBooking = (props) => {
               value={timeFormat(time)}
               editable={false}
               icons={[
-                <FontAwesome name="user-o" color="#05375a" size={20} />
+                <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
               ]}
               ele={'input'}
             />

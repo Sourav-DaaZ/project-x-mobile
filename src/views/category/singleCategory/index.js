@@ -1,14 +1,11 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar, FAB } from 'react-native-paper';
-import { TouchableOpacity, RefreshControl, Dimensions } from 'react-native';
+import { TouchableOpacity, RefreshControl } from 'react-native';
 import Share from 'react-native-share';
 import {
     StyledHorizontalScrollView,
     StyledViewButton,
-    StyledButtonView,
-    StyledButtonActive,
-    StyledTouchableOpacity,
     StyledUserWrapper,
     StyledCardIcon,
     StyledButtonLoadMore,
@@ -29,11 +26,10 @@ import defaultValue from '../../../constants/defaultValue';
 import { buildLink } from '../../../services/google/deepLinkingHandler';
 import Tabs from '../../../sharedComponents/tab';
 
-const { width, height } = Dimensions.get('screen');
-
 const SingleCategory = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const dispatch = useDispatch();
@@ -227,7 +223,7 @@ const SingleCategory = (props) => {
                             title={x.user && x.user.userInfo ? x.user.userInfo.name : ''}
                             description={x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : ''}
                             smallDescription={detailsStore.location.lat && detailsStore.location.long && x?.location?.coordinates ? calDistance(x.location.coordinates[0], x.location.coordinates[1], detailsStore.location.lat, detailsStore.location.long).toString() + ' Km' : null}
-                            image={<Avatar.Image style={{ margin: 5 }} size={50} source={{ uri: x.user?.userInfo?.images ? x.user.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
+                            image={<Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 15} source={{ uri: x.user?.userInfo?.images ? x.user.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
                     </StyledUserWrapper>
                 </TouchableOpacity>) : null}
                 {dataLoader ? <StyledButtonLoadMore labelStyle={{ color: colors.mainByColor }} mode='text' onPress={() => setPage(page + 1)}>Load More</StyledButtonLoadMore> : null}
@@ -235,8 +231,8 @@ const SingleCategory = (props) => {
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',
-                    right: width * .05,
-                    bottom: height * .03,
+                    right: spacing.width * 5,
+                    bottom: spacing.height * 3,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"
