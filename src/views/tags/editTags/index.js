@@ -27,10 +27,12 @@ const EditTags = (props) => {
   const dispatch = useDispatch();
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
+  
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
-  const [userVisible, setUserVisible] = useState(true);
+  const [isPublic, setIsPublic] = useState(true);
   const [data, setData] = useState({
     controls: {
       description: {
@@ -48,8 +50,8 @@ const EditTags = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       price: {
@@ -68,7 +70,7 @@ const EditTags = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
         ],
       }
     },
@@ -127,7 +129,7 @@ const EditTags = (props) => {
         post_id: props.route.params.id,
         details: data.controls.description.value,
         expectedPrice: data.controls.price.value,
-        userVisible: userVisible,
+        userVisible: isPublic,
         images: []
       }
       setLoader(true);
@@ -184,20 +186,19 @@ const EditTags = (props) => {
             />
           ))}
         </InputView>
-
         <StyledInlineInputContainer>
           <StyledInlineInput>
-            <StyledText>User Visibility</StyledText>
+            <StyledText>Is Public</StyledText>
             <Input
               ele={'switch'}
               color={colors.mainByColor}
-              value={userVisible}
-              onChange={() => setUserVisible(!userVisible)}
+              value={isPublic}
+              onChange={() => setIsPublic(!isPublic)}
             />
           </StyledInlineInput>
         </StyledInlineInputContainer>
         <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? applicationFnc : null}>
-          Create Application
+          Edit Tags
         </SubmitButton>
       </StyledScrollView>
     </ShadowWrapperContainer>

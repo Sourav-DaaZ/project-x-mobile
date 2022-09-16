@@ -1,7 +1,7 @@
 import React, { useContext, useState, useCallback } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar } from 'react-native-paper';
-import { TouchableOpacity, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { debounce } from "lodash";
 
 import {
@@ -12,7 +12,6 @@ import {
     StyledOptiondWrapper,
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
-import { useDispatch } from 'react-redux';
 import { validate } from '../../utils';
 import Routes from '../../constants/routeConst';
 import Input from '../../sharedComponents/input';
@@ -20,12 +19,11 @@ import ListItem from '../../sharedComponents/listItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ShadowWrapperContainer } from '../../sharedComponents/bottomShadow';
 
-const { width, height } = Dimensions.get('screen');
-
 const SearchScreen = (props) => {
     const themeContext = useContext(ThemeContext);
-    const dispatch = useDispatch();
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
+    const fonts = themeContext.fonts;
     const [searchQuery, setSearchQuery] = useState('');
     const [data, setData] = useState([]);
     const [flag, setFlag] = useState(false);
@@ -81,15 +79,15 @@ const SearchScreen = (props) => {
                                 placeholder: colors.textLight, text: colors.textDeep
                             }
                         }}
-                        icon={() => <Ionicons name="md-search-sharp" color={colors.textLight} size={width * .07} />}
+                        icon={() => <Ionicons name="md-search-sharp" color={colors.textLight} size={spacing.width * 7} />}
                         style={{ backgroundColor: colors.backgroundColor }}
                         focus clear onChange={(x) => onTypeFnc(x, flag)} value={searchQuery} />
                 </StyledWrapper>
                 <StyledOptiondWrapper>
-                    <StyledChip selectedColor={!flag ? colors.backgroundColor : colors.borderDeep} selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
+                    <StyledChip textStyle={{ fontSize: fonts.regular }} selectedColor={!flag ? colors.backgroundColor : colors.borderDeep} selected={!flag} onPress={() => { setFlag(false); onTypeFnc(searchQuery, false) }}>
                         User
                     </StyledChip>
-                    <StyledChip selectedColor={flag ? colors.backgroundColor : colors.borderDeep} selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
+                    <StyledChip textStyle={{ fontSize: fonts.regular }} selectedColor={flag ? colors.backgroundColor : colors.borderDeep} selected={flag} onPress={() => { setFlag(true); onTypeFnc(searchQuery, true) }}>
                         Post
                     </StyledChip>
                 </StyledOptiondWrapper>
@@ -98,13 +96,13 @@ const SearchScreen = (props) => {
                         <ListItem
                             title={x.title ? x.title : ''}
                             description={(x.owner && x.owner.userInfo && x.visible ? x.owner.userInfo.name : 'anonymous')}
-                            image={<Avatar.Image style={{ margin: 5 }} size={60} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg" }} />} />
+                            image={<Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 15} source={{ uri: x.images && x.images[0] && x.visible ? x.images[0] : "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg" }} />} />
                     </TouchableOpacity>)}
                     {!flag && data.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x._id })}>
                         <ListItem
                             title={x.userInfo?.name ? x.userInfo.name : ''}
                             description={(x.userInfo && x.userInfo.category ? x.userInfo.category.category_name : '')}
-                            image={<Avatar.Image style={{ margin: 5 }} size={40} source={{ uri: x.userInfo && x.userInfo.images ? x.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
+                            image={<Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 15} source={{ uri: x.userInfo && x.userInfo.images ? x.userInfo.images : "https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png" }} />} />
                     </TouchableOpacity>)}
                 </StyledScrollView>
             </StyledWrapperBody>

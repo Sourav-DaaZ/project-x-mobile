@@ -46,6 +46,7 @@ export const StyledScrollView = styled(ScrollView)`
 
 export const StyledChip = styled(Chip)`
     margin-right: ${(props) => props.theme.spacing.width * 3}px;
+    padding: ${(props) => props.theme.spacing.width * .3}px;
 `;
 
 export const StyledImage = styled(Image)`

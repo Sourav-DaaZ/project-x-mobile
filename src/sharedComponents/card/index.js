@@ -8,6 +8,7 @@ import {
     StyledCardCover,
     StyledCardButton,
     StyledView,
+    StyledCardContentProfile
 } from './style';
 import { ThemeContext } from 'styled-components';
 import * as Animatable from 'react-native-animatable';
@@ -24,7 +25,9 @@ const CardComponent = (props) => {
         <Animatable.View animation='bounceIn'>
             {props.images ? <TouchableOpacity onPress={() => setShow(true)}><StyledCardCover source={{ uri: props.images }} /></TouchableOpacity> : null}
             <StyledCard style={{ marginTop: !props.images ? spacing.height : -spacing.height }}>
-                {props.profile}
+                {props.profile ? <StyledCardContentProfile>
+                    {props.profile}
+                </StyledCardContentProfile> : null}
                 <StyledCardContent>
                     {props.title ? <StyledCardTitle>{props.title}</StyledCardTitle> : null}
                     {props.message ? <StyledCardParagraph>{props.message}</StyledCardParagraph> : null}

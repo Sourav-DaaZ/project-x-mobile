@@ -30,6 +30,7 @@ import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 const MyReview = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const dispatch = useDispatch();
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -76,7 +77,7 @@ const MyReview = (props) => {
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
                         visible={showMenu}
                         onDismiss={() => setShowMenu(false)}
-                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={25} /></TouchableOpacity>}
+                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={spacing.width * 4} /></TouchableOpacity>}
                     >
                         <Menu.Item onPress={() => {
                             props.navigation.navigate(Routes.editReview, { data: popupData });
@@ -105,8 +106,8 @@ const MyReview = (props) => {
                             backgroundColor: colors.mainColor,
                         }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
                     </View>
-                    {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity onPress={() => onReviewEdit(popupData._id, addNotes)}>
-                        <Ionicons name='send' size={30} style={{ color: colors.mainByColor, marginLeft: 20 }} />
+                    {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onReviewEdit(popupData._id, addNotes)}>
+                    <Ionicons name='send' size={spacing.width * 9} style={{ color: colors.mainByColor, marginLeft: spacing.width * 4 }} />
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}

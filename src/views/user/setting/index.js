@@ -1,5 +1,5 @@
 import React, { useContext, useState, useMemo } from 'react';
-import { View, TouchableOpacity, Dimensions } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import {
   Avatar
 } from 'react-native-paper';
@@ -20,13 +20,12 @@ import Loader from '../../../sharedComponents/loader';
 import { useIsFocused } from '@react-navigation/native';
 import { openUrl } from '../../../utils';
 
-const { width, height } = Dimensions.get('screen');
-
 const Setting = (props) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const themeContext = useContext(ThemeContext);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const detailsStore = useSelector((state) => state.details, shallowEqual);
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const [data, setData] = useState({});
@@ -92,7 +91,7 @@ const Setting = (props) => {
                   uri:
                     data?.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
                 }}
-                size={width * .2}
+                size={spacing.width * 20}
               />
             </StyledProfileView>
           </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(Routes.login)}>
@@ -106,68 +105,68 @@ const Setting = (props) => {
                   uri:
                     data?.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
                 }}
-                size={70}
+                size={spacing.width * 20}
               />
             </StyledProfileView>
           </TouchableOpacity>}
           {authStore.access_token && authStore.access_token !== '' ? <StyledProfileView style={{ justifyContent: 'space-around' }}>
             <TouchableOpacity onPress={() => openUrl(data?.user_socials?.fb_link ? data.user_socials.fb_link : '')}>
               <StyledCenter>
-                <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={30} />
+                <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={spacing.width * 8} />
               </StyledCenter>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => openUrl(data?.user_socials?.insta_link ? data.user_socials.insta_link : '')}>
               <StyledCenter>
-                <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={30} />
+                <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={spacing.width * 8} />
               </StyledCenter>
             </TouchableOpacity>
           </StyledProfileView> : null}
           {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Applications</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myPost)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Posts</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myTag)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Tags</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { data: data })}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>Details Update</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myBooking)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Booking</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myReview)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Review</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             {data.type === 'admin' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.adminCategoryList)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>Admin Category List</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity> : null}
             {data.type === 'admin' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.adminBannerList)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: 10, color: colors.textLight }} name='settings-outline' size={20} />
+                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>Admin Banner List</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity> : null}
@@ -175,7 +174,7 @@ const Setting = (props) => {
           {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
             <TouchableOpacity onPress={onLoginOut}>
               <StyledLeftContainer>
-                <MaterialIcons style={{ marginRight: 10, color: colors.textLight }} name='logout' size={25} />
+                <MaterialIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='logout' size={spacing.width * 6} />
                 <StyledSemiTitle>Logout</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>

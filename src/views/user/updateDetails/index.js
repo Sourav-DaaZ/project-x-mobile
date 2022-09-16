@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
+import Tabs from '../../../sharedComponents/tab';
 import { updateObject, validate } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
@@ -23,9 +24,6 @@ import {
   StyledInput,
   BodyWrapper,
   StyledViewButton,
-  StyledButtonActive,
-  StyledTouchableOpacity,
-  StyledButtonView
 } from './style';
 import { Avatar } from 'react-native-paper';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
@@ -37,6 +35,7 @@ const UpdateDetails = (props) => {
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const detailsStore = useSelector((state) => state.details, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const formElementsArray = [];
   const [genderArr, setGenderArr] = useState([
     { label: 'Male', value: 'male' },
@@ -67,8 +66,8 @@ const UpdateDetails = (props) => {
     errors: '',
     className: [],
     icons: [
-      <FontAwesome name="user-o" color="#05375a" size={20} />,
-      <Feather name="check-circle" color="green" size={20} />,
+      <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+      <Feather name="check-circle" color="green" size={spacing.width * 5} />,
     ],
   })
   const [data, setData] = useState({
@@ -88,8 +87,8 @@ const UpdateDetails = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       contactNumber: {
@@ -108,8 +107,8 @@ const UpdateDetails = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       },
       contactAddress: {
@@ -422,16 +421,12 @@ const UpdateDetails = (props) => {
     });
   }
 
-  const GlobalButton = (select, text, onPress) => (
-    select ? <StyledButtonActive labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={onPress}>{text}</StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
-  )
-
   return (
     <StyledScrollView stickyHeaderIndices={[0]}>
       <BottomShadow small>
         <StyledViewButton>
-          {GlobalButton(globalDetails, 'Details', () => setGlobalDetails(true))}
-          {GlobalButton(!globalDetails, 'Cred', () => setGlobalDetails(false))}
+          <Tabs select={globalDetails} text='Details' onPress={() => setGlobalDetails(true)} />
+          <Tabs select={!globalDetails} text='Cred' onPress={() => setGlobalDetails(false)} />
         </StyledViewButton>
       </BottomShadow>
       <WrapperImage>
@@ -475,7 +470,7 @@ const UpdateDetails = (props) => {
                   borderWidth: 0,
                   borderBottomWidth: 1,
                   borderColor: colors.borderColor,
-                  marginLeft: -5
+                  marginLeft: -spacing.width
                 }}
                 containerStyle={{
                   borderWidth: 1,
@@ -498,7 +493,7 @@ const UpdateDetails = (props) => {
                   borderWidth: 0,
                   borderBottomWidth: 1,
                   borderColor: colors.borderColor,
-                  marginLeft: -5
+                  marginLeft: -spacing.width
                 }}
                 containerStyle={{
                   borderWidth: 1,
@@ -525,7 +520,7 @@ const UpdateDetails = (props) => {
                   borderWidth: 0,
                   borderBottomWidth: 1,
                   borderColor: colors.borderColor,
-                  marginLeft: -5
+                  marginLeft: -spacing.width
                 }}
                 containerStyle={{
                   borderWidth: 1,

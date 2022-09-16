@@ -10,7 +10,8 @@ import {
     LoginDescription,
     ButtonWrapper,
     UpdateButton,
-    CancelText
+    CancelText,
+    WrapperTagView
 } from './style';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import OutsideAuthApi from '../../../services/outSideAuth';
@@ -31,6 +32,8 @@ const TagList = (props) => {
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
+    const fonts = themeContext.fonts;
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [sTag, setStag] = useState([]);
@@ -108,22 +111,22 @@ const TagList = (props) => {
             >
                 {sTag.length > 0 ? <WrapperView animation='zoomIn'>
                     <DashboardHeader text='Verified Tags' />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                    <WrapperTagView>
                         {sTag.map((x, i) =>
                             <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x._id) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>
                         )}
-                    </View>
+                    </WrapperTagView>
                 </WrapperView> : null}
                 <WrapperView animation='zoomIn'>
                     <DashboardHeader text='User Tags' />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                    <WrapperTagView>
                         {nTag.map((x, i) =>
                             <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x._id) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>)}
-                    </View>
+                    </WrapperTagView>
                 </WrapperView>
                 <Modal show={showMenu !== null} onClose={() => setShowMenu(null)}>
                     <SplashTitle>Save Tags!</SplashTitle>
@@ -142,8 +145,8 @@ const TagList = (props) => {
                 authStore.access_token && authStore.access_token !== '' ? <FAB
                     style={{
                         position: 'absolute',
-                        right: width * .05,
-                        bottom: height * .03,
+                        right: spacing.width * 5,
+                        bottom: spacing.height * 3,
                         backgroundColor: colors.mainColor
                     }}
                     icon="plus"

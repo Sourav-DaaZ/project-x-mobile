@@ -31,7 +31,6 @@ const CreateApplication = React.lazy(() => import('../views/application/createAp
 const CreateReview = React.lazy(() => import('../views/review/createReview'));
 const EditReview = React.lazy(() => import('../views/review/editReview'));
 const ApplicationList = React.lazy(() => import('../views/application/applicationList'));
-const EditDetails = React.lazy(() => import('../views/user/editDetails'));
 const Setting = React.lazy(() => import('../views/user/setting'));
 const MyBooking = React.lazy(() => import('../views/booking/myBooking'));
 const MyReview = React.lazy(() => import('../views/review/myReview'));
@@ -303,17 +302,6 @@ const AuthRouters = (props) => {
       {props.islogin ? <Stack.Screen
         name={Routes.myTag}
         component={MyTags}
-        options={({ navigation }) => ({
-          header: () => <BottomShadow>
-            <CustomHeader
-              left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
-            />
-          </BottomShadow>
-        })} /> : null}
-      {props.islogin ? <Stack.Screen
-        name={Routes.editDetails}
-        component={EditDetails}
         options={({ navigation }) => ({
           header: () => <BottomShadow>
             <CustomHeader

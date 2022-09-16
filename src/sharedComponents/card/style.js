@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
 
@@ -23,6 +23,10 @@ export const StyledCardContent = styled(Card.Content)`
     margin: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
     margin-top: 0px;
     border-radius: ${(props) => props.theme.borderRedius.small}px;
+`;
+
+export const StyledCardContentProfile = styled(View)`
+    margin-bottom: -${(props) => props.theme.spacing.height * 2}px;
 `;
 
 export const StyledCardAction = styled(Card.Actions)`

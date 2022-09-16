@@ -31,6 +31,7 @@ const CreateReview = (props) => {
   const authStore = useSelector((state) => state.auth, shallowEqual);
   const detailsStore = useSelector((state) => state.details, shallowEqual);
   const colors = themeContext.colors[themeContext.baseColor];
+  const spacing = themeContext.spacing;
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
@@ -53,8 +54,8 @@ const CreateReview = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
+          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
         ],
       }
     },

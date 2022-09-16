@@ -32,6 +32,7 @@ const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const spacing = themeContext.spacing;
+    const fonts = themeContext.fonts;
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const isFocused = useIsFocused();
@@ -199,8 +200,8 @@ const Dashboard = (props) => {
                 </ShadowWrapperContainer>}
                 {tagLoader ? <Loader /> : saveTag.tags && saveTag.tags.length > 0 ? <ShadowWrapperContainer noSnack>
                     <DashboardHeader text='Save Tag' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.myTag)} goNext={<AntDesign name='rightcircle' size={spacing.width * 7} style={{ color: colors.mainByColor, marginBottom: -spacing.height }} />} />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: spacing.height * 2}}>
-                        {saveTag.tags.map((x, i) => <StyledChip key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: spacing.height * 2 }}>
+                        {saveTag.tags.map((x, i) => <StyledChip textStyle={{ fontSize: fonts.regular }} key={i} accessibilityLabel={x.details} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                             {x.tag_name}
                         </StyledChip>)}
                     </View>

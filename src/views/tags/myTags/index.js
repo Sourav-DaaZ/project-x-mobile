@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
 import { ThemeContext } from 'styled-components';
 
 import {
@@ -10,26 +9,27 @@ import {
     LoginDescription,
     ButtonWrapper,
     UpdateButton,
-    CancelText
+    CancelText,
+    WrapperTagView
 } from './style';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import OutsideAuthApi from '../../../services/outSideAuth';
 import DashboardLayout from '../../../sharedComponents/layout/dashboardLayout';
 import Routes from '../../../constants/routeConst';
 import DashboardHeader from '../../dashboard/header';
-import { FAB, Menu } from 'react-native-paper';
+import { FAB } from 'react-native-paper';
 import Loader from '../../../sharedComponents/loader';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { snackbarUpdate } from '../../../store/actions';
 import Modal from '../../../sharedComponents/modal';
-
-const { width, height } = Dimensions.get('screen');
 
 const MyTags = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const dispatch = useDispatch();
     const authStore = useSelector((state) => state.auth, shallowEqual);
+    const spacing = themeContext.spacing;
+    const fonts = themeContext.fonts;
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [tag, setTag] = useState([]);
     const [saveTag, setSaveTag] = useState([]);
@@ -117,28 +117,28 @@ const MyTags = (props) => {
             <StyledScrollView>
                 {showLoader ? <Loader /> : <WrapperView animation='zoomIn'>
                     <DashboardHeader text='My Tags' />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                    <WrapperTagView>
                         {tag.map((x, i) =>
-                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={() => setShowMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} textStyle={{ fontSize: fonts.regular }} accessibilityLabel={x.details} onLongPress={() => setShowMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>)}
-                    </View>
+                    </WrapperTagView>
                 </WrapperView>}
                 {tagLoader ? <Loader /> : <WrapperView animation='zoomIn'>
                     <DashboardHeader text='Saved Tags' />
-                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10 }}>
+                    <WrapperTagView>
                         {saveTag.tags && saveTag.tags.length > 0 ? saveTag.tags.map((x, i) =>
-                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={() => setShowSavedMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} textStyle={{ fontSize: fonts.regular }} accessibilityLabel={x.details} onLongPress={() => setShowSavedMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>) : null}
-                    </View>
+                    </WrapperTagView>
                 </WrapperView>}
             </StyledScrollView>
             {authStore.access_token && authStore.access_token !== '' ? <FAB
                 style={{
                     position: 'absolute',
-                    right: width * .05,
-                    bottom: height * .03,
+                    right: spacing.width * 5,
+                    bottom: spacing.height * 3,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"

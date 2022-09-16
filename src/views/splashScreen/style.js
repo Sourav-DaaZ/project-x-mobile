@@ -1,10 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions,TouchableOpacity, View, Image, ScrollView } from 'react-native';
-import { Text } from 'react-native-paper';
-import Button from '../../sharedComponents/button'
-
-const { width, height } = Dimensions.get('screen');
-const width_logo = width * .6;
+import { View, Image } from 'react-native';
 
 export const SplashOuterView = styled(View)`
     display: flex;
@@ -17,5 +12,5 @@ export const SplashOuterView = styled(View)`
 `;
 
 export const SplashLogo = styled(Image)`
-    width: ${width * .5}px;
+    width: ${(props) => props.theme.spacing.width * 30}px;
 `;

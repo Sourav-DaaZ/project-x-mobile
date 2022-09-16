@@ -21,7 +21,6 @@ const Routes = {
     editApplication: 'EditApplication',
     applicationList: 'ApplicationList',
     myPost: 'MyPost',
-    editDetails: 'EditDetails',
     createReview: 'CreateReview',
     editReview: 'EditReview',
     singleCategory: 'SingleCategory',

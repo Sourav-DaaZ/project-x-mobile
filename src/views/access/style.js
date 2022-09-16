@@ -16,7 +16,7 @@ export const SplashOuterView = styled(View)`
 
 export const SplashLogo = styled(Image)`
     width: ${(props) => props.theme.spacing.width * 30}px;
-    margin-bottom: ${(props) => props.theme.spacing.height * 8}px;px;
+    margin-bottom: ${(props) => props.theme.spacing.height * 8}px;
 `;
 
 export const SplashTitle = styled(Text)`

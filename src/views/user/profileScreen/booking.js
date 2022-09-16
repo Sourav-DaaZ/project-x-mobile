@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
     StyledButtonLoadMore,
     StyledHorizontalScrollView,
@@ -14,9 +14,8 @@ import OutsideAuthApi from '../../../services/outSideAuth';
 import ListItem from '../../../sharedComponents/listItem';
 import Loader from '../../../sharedComponents/loader';
 import { dateFormat, timeFormat } from '../../../utils';
-import { TouchableOpacity, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
-const { width, height } = Dimensions.get('screen');
 
 const Booking = (props) => {
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -115,7 +114,7 @@ const Booking = (props) => {
                 }}>
                     <Card
                         profile={
-                            <ListItem topStyle={{ marginBottom: -(height * .01), maxWidth: '90%' }} description={dateFormat(x.startDate) + ' (' + timeFormat(x.startDate) + ')' + (x.endDate ? ' - ' + dateFormat(x.endDate) + ' (' + timeFormat(x.endDate) + ')' : '')} />
+                            <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(x.startDate) + ' (' + timeFormat(x.startDate) + ')' + (x.endDate ? ' - ' + dateFormat(x.endDate) + ' (' + timeFormat(x.endDate) + ')' : '')} />
                         }
                         title={x.description ? x.description : ''}
                         extraContent={

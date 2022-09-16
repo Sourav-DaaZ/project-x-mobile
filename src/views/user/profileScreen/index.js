@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import {
     Avatar,
     Divider,
@@ -13,9 +13,6 @@ import {
     StyledReviewProfile,
     StyledImage,
     StyledScrollView,
-    StyledButtonActive,
-    StyledTouchableOpacity,
-    StyledButtonView,
     StyledViewButton,
     StyledInputView,
     StyledInput,
@@ -40,17 +37,17 @@ import Modal from '../../../sharedComponents/modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { RefreshControl, TouchableOpacity, View, Dimensions } from 'react-native';
+import { RefreshControl, TouchableOpacity, View } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
 import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat, openUrl, timeFormat } from '../../../utils';
 import InsideAuthApi from '../../../services/inSideAuth';
-
-const { width, height } = Dimensions.get('screen');
+import Tabs from '../../../sharedComponents/tab';
 
 const ProfileScreen = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
+    const spacing = themeContext.spacing;
     const dispatch = useDispatch();
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const authStore = useSelector((state) => state.auth, shallowEqual);
@@ -83,10 +80,6 @@ const ProfileScreen = (props) => {
                 });
         }
     }, [refreshing])
-
-    const GlobalButton = (select, text, onPress) => (
-        select ? <StyledButtonActive onPress={onPress}><StyledButtonView invert>{text}</StyledButtonView></StyledButtonActive> : <StyledTouchableOpacity onPress={onPress}><StyledButtonView>{text}</StyledButtonView></StyledTouchableOpacity>
-    )
 
     const onEdit = (id, status, note) => {
         const requestData = {
@@ -161,7 +154,7 @@ const ProfileScreen = (props) => {
                                     uri:
                                         data.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png',
                                 }}
-                                size={width * .3}
+                                size={spacing.width * 30}
                             />
                         </StyledImage>
                     </ImageWrapper>
@@ -174,25 +167,25 @@ const ProfileScreen = (props) => {
                     <StyledReviewProfile>
                         <TouchableOpacity onPress={() => openUrl(data?.user_socials?.fb_link ? data.user_socials.fb_link : '')}>
                             <StyledCenter>
-                                <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={width * .08} />
+                                <FontAwesome style={{ color: colors.mainColor }} name='facebook-square' size={spacing.width * 8} />
                             </StyledCenter>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => openUrl(data?.user_socials?.insta_link ? data.user_socials.insta_link : '')}>
                             <StyledCenter>
-                                <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={width * .08} />
+                                <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={spacing.width * 8} />
                             </StyledCenter>
                         </TouchableOpacity>
                         {!(props.route.params?.id === detailsStore.id) ? <StyledCenter>
                             <TouchableOpacity onPress={() => { authStore.access_token !== '' && props.route.params?.id && props.route.params.id !== detailsStore.id ? props.navigation.navigate(Routes.userChat, { id: props.route.params.id }) : props.navigation.navigate(Routes.login) }}>
-                                <Fontisto style={{ color: colors.mainColor }} name='messenger' size={width * .08} />
+                                <Fontisto style={{ color: colors.mainColor }} name='messenger' size={spacing.width * 8} />
                             </TouchableOpacity>
                         </StyledCenter> : null}
                     </StyledReviewProfile>
                 </React.Fragment>
                 <BottomShadow small>
                     <StyledViewButton>
-                        {GlobalButton(globalPost === 'booking', 'Booking', () => setGlobalPost('booking'))}
-                        {GlobalButton(globalPost === 'review', 'Review', () => setGlobalPost('review'))}
+                        <Tabs select={globalPost === 'booking'} text='Booking' onPress={() => setGlobalPost('booking')} />
+                        <Tabs select={globalPost === 'review'} text='Review' onPress={() => setGlobalPost('review')} />
                     </StyledViewButton>
                 </BottomShadow>
                 {globalPost === 'booking' ? <Booking {...props} colors={colors} myUser={authStore.access_token !== '' && data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
@@ -201,8 +194,8 @@ const ProfileScreen = (props) => {
             {props.route.params && props.route.params.id !== detailsStore.id ? <FAB
                 style={{
                     position: 'absolute',
-                    right: width * .05,
-                    bottom: height * .03,
+                    right: spacing.width * 5,
+                    bottom: spacing.height * 3,
                     backgroundColor: colors.mainColor
                 }}
                 icon="plus"
@@ -215,7 +208,7 @@ const ProfileScreen = (props) => {
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
                         visible={showMenu}
                         onDismiss={() => setShowMenu(false)}
-                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={width * .1} /></TouchableOpacity>}
+                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={spacing.width * 10} /></TouchableOpacity>}
                     >
                         <Menu.Item onPress={() => {
                             props.navigation.navigate(Routes.editBooking, { data: popupData });
@@ -262,8 +255,8 @@ const ProfileScreen = (props) => {
                             backgroundColor: colors.mainColor,
                         }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
                     </View>
-                    {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity onPress={() => onEdit(popupData._id, null, addNotes)}>
-                        <Ionicons name='send' size={width * .08} style={{ color: colors.mainByColor, marginLeft: width * .05 }} />
+                    {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onEdit(popupData._id, null, addNotes)}>
+                        <Ionicons name='send' size={spacing.width * 8} style={{ color: colors.mainByColor, marginLeft: spacing.width * 5 }} />
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
@@ -273,7 +266,7 @@ const ProfileScreen = (props) => {
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
                         visible={showMenu}
                         onDismiss={() => setShowMenu(false)}
-                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={width * .1} /></TouchableOpacity>}
+                        anchor={<TouchableOpacity onPress={() => setShowMenu(true)}><StyledDotIcon name='dots-three-vertical' size={spacing.width * 10} /></TouchableOpacity>}
                     >
                         <Menu.Item onPress={() => {
                             props.navigation.navigate(Routes.editReview, { data: popupData });
@@ -302,8 +295,8 @@ const ProfileScreen = (props) => {
                             backgroundColor: colors.mainColor,
                         }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
                     </View>
-                    {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity onPress={() => onReviewEdit(popupData._id, addNotes)}>
-                        <Ionicons name='send' size={width * .08} style={{ color: colors.mainByColor, marginLeft: width * .05 }} />
+                    {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onReviewEdit(popupData._id, addNotes)}>
+                        <Ionicons name='send' size={spacing.width * 8} style={{ color: colors.mainByColor, marginLeft: spacing.width * 5 }} />
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
