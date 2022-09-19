@@ -141,7 +141,7 @@ export const StyledDotIcon = styled(Entypo)`
 
 export const StyledInputView = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    padding: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
+    padding: ${(props) => props.theme.spacing.height * 2}px ${(props) => props.theme.spacing.width * 5}px;
     padding-top: ${(props) => props.theme.spacing.height}px;
     padding-bottom: ${(props) => props.theme.spacing.height * 5}px;
     box-shadow: 0px -5px 5px #00000020;
@@ -152,6 +152,13 @@ export const StyledInputView = styled(View)`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+`;
+
+export const StyledInput = styled(Input)`
+    padding-horizontal: ${(props) => props.theme.spacing.width * 8}px;
+    margin-top: -${(props) => props.theme.spacing.height * 4}px;
+    border-radius: ${(props) => props.theme.borderRedius.semi}px;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledButtonLoadMore = styled(Button)`

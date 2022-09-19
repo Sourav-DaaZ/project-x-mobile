@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Routes from '../constants/routeConst';
 import { CustomTab, CustomHeader } from './custom';
 import { BottomShadow } from '../sharedComponents/bottomShadow';
+import { StyledImage } from './style';
 
 const Dashboard = React.lazy(() => import('../views/dashboard'));
 const SingleCategory = React.lazy(() => import('../views/category/singleCategory'));
@@ -87,7 +88,7 @@ const AuthRouters = (props) => {
             tabBarLabel: 'Category',
             header: () => (<BottomShadow>
               <CustomHeader
-                logo={<Image source={logoImg} />}
+                logo={<StyledImage source={logoImg} />}
               />
             </BottomShadow>),
             tabBarIcon: (color, size) => (
@@ -101,7 +102,7 @@ const AuthRouters = (props) => {
             tabBarLabel: 'Tag List',
             header: () => (
               <CustomHeader
-                logo={<Image source={logoImg} />}
+                logo={<StyledImage source={logoImg} />}
               />),
             tabBarIcon: (color, size) => (
               <Ionicons name="md-pricetags-outline" color={color} size={size} />
@@ -115,7 +116,7 @@ const AuthRouters = (props) => {
             header: () => (
               <BottomShadow>
                 <CustomHeader
-                  logo={<Image source={logoImg} />}
+                  logo={<StyledImage source={logoImg} />}
                 />
               </BottomShadow>),
             tabBarIcon: (color, size) => (
@@ -130,7 +131,7 @@ const AuthRouters = (props) => {
             header: () => (
               <BottomShadow>
                 <CustomHeader
-                  logo={<Image source={logoImg} />}
+                  logo={<StyledImage source={logoImg} />}
                 />
               </BottomShadow>),
             tabBarIcon: (color, size) => (
@@ -164,7 +165,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} />
@@ -192,7 +193,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -201,7 +202,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -210,7 +211,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -219,7 +220,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -229,7 +230,7 @@ const AuthRouters = (props) => {
           header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -238,7 +239,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -247,7 +248,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -256,7 +257,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -265,7 +266,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -274,7 +275,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -284,7 +285,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -295,7 +296,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -306,7 +307,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -317,7 +318,7 @@ const AuthRouters = (props) => {
           header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -327,7 +328,7 @@ const AuthRouters = (props) => {
           header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -337,7 +338,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -348,7 +349,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -359,7 +360,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -370,7 +371,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -381,7 +382,7 @@ const AuthRouters = (props) => {
           header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
         })} /> : null}
       {props.islogin ? <Stack.Screen
@@ -391,7 +392,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -408,7 +409,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} /> : null}
@@ -418,7 +419,7 @@ const AuthRouters = (props) => {
         options={({ navigation }) => ({
           header: () => <CustomHeader
             left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-            logo={<Image source={logoImg} />}
+            logo={<StyledImage source={logoImg} />}
           />
         })} />
       <Stack.Screen
@@ -428,7 +429,7 @@ const AuthRouters = (props) => {
           header: () => <BottomShadow>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
           </BottomShadow>
         })} />
@@ -457,7 +458,7 @@ const AuthRouters = (props) => {
           header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
-              logo={<Image source={logoImg} />}
+              logo={<StyledImage source={logoImg} />}
             />
         })} />
     </Stack.Navigator>

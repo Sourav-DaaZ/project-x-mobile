@@ -51,6 +51,7 @@ export const StyledChip = styled(Chip)`
 
 export const StyledImage = styled(Image)`
     width: ${(props) => props.theme.spacing.width * 25}px;
-    height: ${(props) => props.theme.spacing.height * 5}px;
+    height: ${(props) => props.theme.spacing.height * 4}px;
     margin-horizontal: ${(props) => props.theme.spacing.width * .3}px;
+    resize-mode: contain
 `;

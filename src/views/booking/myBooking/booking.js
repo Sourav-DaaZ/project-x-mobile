@@ -91,7 +91,7 @@ const Booking = (props) => {
                 }}>
                     <Card
                         profile={
-                            <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(x.startDate) + (x.endDate ? ' - ' + dateFormat(x.endDate) : '') + (x.reportTime ? ' (' + timeFormat(x.reportTime) + ')' : '')} />
+                            <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(x.startDate) + ' (' + timeFormat(x.startDate) + ')' + (x.endDate ? ' - ' + dateFormat(x.endDate) + ' (' + timeFormat(x.endDate) + ')' : '')} />
                         }
                         title={x.description ? x.description : ''}
                         extraContent={

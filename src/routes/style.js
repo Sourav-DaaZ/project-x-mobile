@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { View, SafeAreaView } from 'react-native';
+import { View, SafeAreaView, Image } from 'react-native';
 
 export const StyledTabView = styled(View)`
     display: flex;
@@ -41,4 +41,11 @@ export const StyledCercularByBorder = styled(View)`
 
 export const StyledOption = styled(View)`
     padding: ${(props) => props.theme.spacing.width * 4}px;
+`;
+
+export const StyledImage = styled(Image)`
+    width: ${(props) => props.theme.spacing.width * 25}px;
+    height: ${(props) => props.theme.spacing.height * 5}px;
+    margin: ${(props) => props.theme.spacing.width * .3}px;
+    resize-mode: contain
 `;

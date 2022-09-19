@@ -59,12 +59,12 @@ const ApplicationDetails = (props) => {
 
     const deletePost = () => {
         const requestData = {
-            post_id: data._id,
-            delete_post: true
+            application_id: props.route.params?.id ? props.route.params.id : '',
+            delete_application: true
         }
         setLoading(true);
         InsideAuthApi(authStore)
-            .updatePost(requestData)
+            .updateApplicationApi(requestData)
             .then((res) => {
                 setLoading(false);
                 dispatch(snackbarUpdate({

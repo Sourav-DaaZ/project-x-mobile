@@ -108,9 +108,10 @@ export default Banner = (props) => {
 
     const goToNextPage = () => {
         const varData = index === slideData.length - 1 ? 0 : index + 1;
+        console.log(varData)
         if (flatList.current && index !== undefined && index >= 0) {
             flatList.current?.scrollToIndex({
-                index: varData > slideData.length - 1 ? -1 : varData,
+                index: varData > slideData.length - 1 ? 0 : varData,
                 animated: true,
             });
         }

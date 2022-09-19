@@ -90,7 +90,7 @@ const MyBooking = (props) => {
             </StyledScrollView>
             {popupData._id ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
-                    <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.startDate) + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) : '') + (popupData.reportTime ? ' (' + timeFormat(popupData.reportTime) + ')' : '')} />
+                <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(popupData.startDate) + ' (' + timeFormat(popupData.startDate) + ')' + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) + ' (' + timeFormat(popupData.endDate) + ')' : '')} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
                         visible={showMenu}
                         onDismiss={() => setShowMenu(false)}

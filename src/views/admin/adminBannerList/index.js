@@ -32,17 +32,8 @@ const AdminBannerList = (props) => {
         OutsideAuthApi()
             .getBannerApi(paramData)
             .then((res) => {
+                setData(res.data);
                 setShowLoader(false);
-                let varData = [];
-                res.data?.map((x, i) => {
-                    varData.push([{
-                        key: x._id,
-                        img: x.image,
-                        onPress: () => openUrl(x.link),
-                        onLongPress: () => props.navigation.navigate(Routes.adminBannerUpdate, { data: x })
-                    }])
-                })
-                setData(varData);
             })
             .catch((err) => {
                 setShowLoader(false);
@@ -62,10 +53,15 @@ const AdminBannerList = (props) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     flex: 1,
                     flexWrap: 'wrap'
-                }} key={i}><Banner data={x} /></View>)}
+                }} key={i}><Banner data={[{
+                    key: x._id,
+                    img: x.image,
+                    onPress: () => openUrl(x.link),
+                    onLongPress: () => props.navigation.navigate(Routes.adminBannerUpdate, { data: x })
+                }]} /></View>)}
 
             </StyledScrollView>
             <FAB

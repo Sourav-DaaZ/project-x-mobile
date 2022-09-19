@@ -6,7 +6,7 @@ const defaultValue = {
     otpLength: 6,
     paginationLength: 5,
     paginationChatLength: 3,
-    apiEncryption: true,
+    apiEncryption: false,
     apiEncryptionSecret: 'secret',
     channelID: 'secret123',
     bookingStatus: ["requested", "confirmed", "rejected", "cancelled"],

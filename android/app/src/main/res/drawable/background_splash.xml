@@ -5,8 +5,8 @@
         android:drawable="@color/blue"/>
     <item
         android:width="200dp"
-        android:height="100dp"
-        android:drawable="@drawable/launch_screen"
+        android:height="200dp"
+        android:drawable="@drawable/logo"
         android:gravity="center" />
 
 </layer-list>

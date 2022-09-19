@@ -204,7 +204,7 @@ const ProfileScreen = (props) => {
             /> : null}
             {popupData._id && globalPost === 'booking' ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
-                    <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.startDate) + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) : '') + (popupData.reportTime ? ' (' + timeFormat(popupData.reportTime) + ')' : '')} />
+                    <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(popupData.startDate) + ' (' + timeFormat(popupData.startDate) + ')' + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) + ' (' + timeFormat(popupData.endDate) + ')' : '')} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
                         visible={showMenu}
                         onDismiss={() => setShowMenu(false)}
@@ -256,7 +256,7 @@ const ProfileScreen = (props) => {
                         }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
                     </View>
                     {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onEdit(popupData._id, null, addNotes)}>
-                        <Ionicons name='send' size={spacing.width * 8} style={{ color: colors.mainByColor, marginLeft: spacing.width * 5 }} />
+                        <Ionicons name='send' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2 }} />
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
@@ -296,7 +296,7 @@ const ProfileScreen = (props) => {
                         }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
                     </View>
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onReviewEdit(popupData._id, addNotes)}>
-                        <Ionicons name='send' size={spacing.width * 8} style={{ color: colors.mainByColor, marginLeft: spacing.width * 5 }} />
+                        <Ionicons name='send' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2 }} />
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}
