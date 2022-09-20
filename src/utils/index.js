@@ -186,4 +186,12 @@ export const onShare = async (param, title, type, image) => {
     });
 }
 
+export const truncate = (string, elength) => {
+  let length = elength
+  if(!length){
+    length = 15;
+  }
+  return string.substring(0, length) + (string.length > length ? '...' : '');
+}
+
 export { queryStringBulder };

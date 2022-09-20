@@ -22,6 +22,7 @@ import Loader from '../../../sharedComponents/loader';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { snackbarUpdate } from '../../../store/actions';
 import Modal from '../../../sharedComponents/modal';
+import { onShare } from '../../../utils';
 
 const MyTags = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -119,7 +120,7 @@ const MyTags = (props) => {
                     <DashboardHeader text='My Tags' />
                     <WrapperTagView>
                         {tag.map((x, i) =>
-                            <StyledChip key={i} textStyle={{ fontSize: fonts.regular }} accessibilityLabel={x.details} onLongPress={() => setShowMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} textStyle={{ fontSize: fonts.regular }} accessibilityLabel={x.details} onLongPress={() => setShowMenu(x)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: 'Tag: ' + x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>)}
                     </WrapperTagView>
@@ -128,7 +129,7 @@ const MyTags = (props) => {
                     <DashboardHeader text='Saved Tags' />
                     <WrapperTagView>
                         {saveTag.tags && saveTag.tags.length > 0 ? saveTag.tags.map((x, i) =>
-                            <StyledChip key={i} textStyle={{ fontSize: fonts.regular }} accessibilityLabel={x.details} onLongPress={() => setShowSavedMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} textStyle={{ fontSize: fonts.regular }} accessibilityLabel={x.details} onLongPress={() => setShowSavedMenu(x._id)} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: 'Tag: ' + x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>) : null}
                     </WrapperTagView>
@@ -149,10 +150,14 @@ const MyTags = (props) => {
                 <SplashTitle>Delete Tags!</SplashTitle>
                 <LoginDescription>Are You Want to Delete this tag?</LoginDescription>
                 <ButtonWrapper>
-                    <UpdateButton mode="outlined" onPress={() => setShowMenu(null)}>
-                        <CancelText>Cancel</CancelText>
+                    <UpdateButton mode="outlined" onPress={() => onShare({
+                        page: Routes.tagChat,
+                        id: showMenu._id,
+                        name: 'Tag: ' + showMenu.tag_name
+                    }, showMenu.tag_name, 'tag')}>
+                        <CancelText>Shere</CancelText>
                     </UpdateButton>
-                    <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => onDelete(showMenu)}>
+                    <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => onDelete(showMenu._id)}>
                         delete
                     </UpdateButton>
                 </ButtonWrapper>

@@ -24,10 +24,11 @@ export const StyledEachHeaderView = styled(View)`
     display: flex;
     flex-Direction: row;
     align-items: center;
+    justify-content: center;
     padding: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
     margin-right: ${(props) => props.theme.spacing.width}px;
     margin-bottom: ${(props) => props.theme.spacing.height}px;
-    width: ${(props) => 33 - (props.theme.spacing.width * 2)}%
+    width: ${(props) => 23 - (props.theme.spacing.width * 2)}%;
 `;
 
 export const StyledCercularBorder = styled(View)`

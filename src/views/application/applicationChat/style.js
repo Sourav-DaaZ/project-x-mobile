@@ -38,7 +38,8 @@ export const StyledInputView = styled(View)`
 `;
 
 export const StyledInput = styled(Input)`
-    padding-horizontal: ${(props) => props.theme.spacing.width * 8}px;
+    padding-horizontal: ${(props) => props.theme.spacing.width * 5}px;
+    padding-left: ${(props) => props.theme.spacing.width * 5}px;
     margin-top: -${(props) => props.theme.spacing.height * 3}px;
     border-radius: ${(props) => props.theme.borderRedius.semi}px;
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};

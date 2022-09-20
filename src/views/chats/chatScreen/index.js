@@ -8,7 +8,7 @@ import {
 } from './style';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
-import { timeFormat } from '../../../utils'
+import { timeFormat, truncate } from '../../../utils'
 
 import Routes from '../../../constants/routeConst';
 import ListItem from '../../../sharedComponents/listItem';
@@ -78,10 +78,10 @@ const ChatScreen = (props) => {
     return (
         showLoader ? <Loader /> : <StyledScrollView>
             {data?.map((x, i) => (
-                <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.userChat, { id: detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?._id : x.receiver_user_id?._id })}>
+                <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.userChat, { id: detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?._id : x.receiver_user_id?._id, name: truncate(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId, 10) })}>
                     <ListItem
-                        title={(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId)}
-                        description={x?.comments ? x.comments[0]?.msg : ''}
+                        title={truncate(detailsStore.id !== x.sender_user_id._id ? x.sender_user_id?.userId : x.receiver_user_id?.userId)}
+                        description={truncate(x?.comments ? x.comments[0]?.msg : '')}
                         descriptionBold={x?.viewList && x.viewList.length > 0 && !x.viewList.includes(detailsStore.id) ? x?.comments ? x.comments[0]?.msg : '' : null}
                         smallDescription={timeFormat(x?.updatedAt)}
                         image={<Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 15} source={{ uri: detailsStore.id !== x.sender_user_id._id ? (x.sender_user_id?.userInfo?.images ? x.sender_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') : (x.receiver_user_id?.userInfo?.images ? x.receiver_user_id.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png') }} />}

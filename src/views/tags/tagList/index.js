@@ -114,7 +114,7 @@ const TagList = (props) => {
                     <DashboardHeader text='Verified Tags' />
                     <WrapperTagView>
                         {sTag.map((x, i) =>
-                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: 'Tag: ' + x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>
                         )}
@@ -124,7 +124,7 @@ const TagList = (props) => {
                     <DashboardHeader text='User Tags' />
                     <WrapperTagView>
                         {nTag.map((x, i) =>
-                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: 'Tag: ' + x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>)}
                     </WrapperTagView>
@@ -136,7 +136,7 @@ const TagList = (props) => {
                         <UpdateButton mode="outlined" onPress={() => onShare({
                             page: Routes.tagChat,
                             id: showMenu._id,
-                            name: showMenu.tag_name
+                            name: 'Tag: ' + showMenu.tag_name
                         }, showMenu.tag_name, 'tag')}>
                             <CancelText>Share</CancelText>
                         </UpdateButton>
