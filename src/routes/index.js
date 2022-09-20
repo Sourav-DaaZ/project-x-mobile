@@ -39,8 +39,6 @@ function Routs(props) {
       FCMNotificationHandler.requestUserPermission();
       FCMNotificationHandler.backgroundNotification();
       FCMNotificationHandler.createChannel();
-      handleOnloadDynamicLink();
-      dynamicLinks().onLink((link) => handleOnloadDynamicLink(link));
       FCMNotificationHandler.NotifinationListener();
 
     }

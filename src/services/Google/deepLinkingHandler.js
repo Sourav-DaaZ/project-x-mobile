@@ -22,23 +22,27 @@ export const handleDynamicLink = (link, navigation) => {
     if (link?.url) {
         const url = quaryData(link.url);
         if (url.page && url.id) {
-            navigation?.navigate('PostDetails', { id: url.id });
+            navigation?.navigate(url.page, { id: url.id, name: url.name });
         } else if (url.page) {
             navigation?.navigate(url.page);
         }
     }
 };
 
-export const handleOnloadDynamicLink = (navigation) => {
+export const handleOnloadDynamicLink = (link, navigation) => {
     dynamicLinks()
         .getInitialLink()
-        .then(link => {
-            if (link?.url) {
-                const url = quaryData(link.url);
+        .then(links => {
+            let varLink = link;
+            if (links) {
+                varLink = links
+            }
+            if (varLink?.url) {
+                const url = quaryData(varLink.url);
                 if (url.page && url.id) {
-                    navigation.navigate(url.page, { id: url.id });
+                    navigation?.navigate(url.page, { id: url.id, name: url.name });
                 } else if (url.page) {
-                    navigation.navigate(url.page);
+                    navigation?.navigate(url.page);
                 }
             }
         });

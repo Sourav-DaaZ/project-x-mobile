@@ -2,6 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert, Linking } from "react-native";
 import CryptoJS from "crypto-js";
 import defaultValue from '../constants/defaultValue'
+import { buildLink } from "../services/google/deepLinkingHandler";
+import Share from 'react-native-share';
 
 export const updateObject = (oldObject, updatedProperties) => {
   return {
@@ -164,6 +166,24 @@ export const quaryData = (dataUrl) => {
   })
   return params;
 
+}
+
+export const onShare = async (param, title, type, image) => {
+  console.log(param);
+  const url = 'https://projectxmobile.com/?' + queryStringBulder(param)
+  const longUrl = await buildLink(url);
+  const options = {
+    title: type + ': ' + title,
+    message: type + ': ' + title + ', click to see details: ' + longUrl,
+    // ...image && { url: image }
+  }
+  Share.open(options)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      err && console.log(err);
+    });
 }
 
 export { queryStringBulder };

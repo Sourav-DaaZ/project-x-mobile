@@ -12,10 +12,10 @@ const theme = {
     ...defaultColor
   },
   fonts: {
-    small: width * .03,
-    regular: width * .04,
-    medium: width * .05,
-    large: width * .06,
+    small: width * .035,
+    regular: width * .045,
+    medium: width * .055,
+    large: width * .07,
     veryLarge: width * .1
   },
   fontWeight: {

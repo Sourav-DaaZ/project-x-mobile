@@ -45,7 +45,9 @@ const UserChat = (props) => {
     const [newChatloader, setNewChatloader] = useState(false);
     const [show, setShow] = useState('');
     const socket = io(API.baseUrls[API.currentEnv] + API.noAuthUrls.ChatSocket, {
-        reconnectionDelayMax: 10000,
+        transports: ['websocket'],
+        upgrade: false,
+        // forceNew: true,
     });
 
     const onLeave = () => {
@@ -214,9 +216,9 @@ const UserChat = (props) => {
                     />
                 </View>
                 {(inputValue !== '' || image !== '') ? <TouchableOpacity onPress={!loader ? changeInput : null} style={{ width: '15%', opacity: loader ? .5 : 1 }}>
-                    <Ionicons name='send' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2, marginTop: spacing.height }} />
+                    <Ionicons name='send' size={spacing.width * 11} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2, marginTop: spacing.height }} />
                 </TouchableOpacity> : <TouchableOpacity onPress={!loader ? uploadImg : null} style={{ width: '15%', opacity: loader ? .5 : 1 }}>
-                    <Ionicons name='md-add-circle-sharp' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2, marginTop: spacing.height }} />
+                    <Ionicons name='md-add-circle-sharp' size={spacing.width * 11} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2, marginTop: spacing.height }} />
                 </TouchableOpacity>}
             </StyledInputView>
             <ImagePreview show={show !== ''} images={[{ url: show }]} setShowFalse={() => setShow('')} />

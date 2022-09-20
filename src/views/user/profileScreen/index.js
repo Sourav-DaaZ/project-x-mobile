@@ -40,7 +40,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { RefreshControl, TouchableOpacity, View } from 'react-native';
 import defaultValue from '../../../constants/defaultValue';
 import ListItem from '../../../sharedComponents/listItem';
-import { dateFormat, openUrl, timeFormat } from '../../../utils';
+import { dateFormat, onShare, openUrl, timeFormat } from '../../../utils';
 import InsideAuthApi from '../../../services/inSideAuth';
 import Tabs from '../../../sharedComponents/tab';
 
@@ -180,6 +180,14 @@ const ProfileScreen = (props) => {
                                 <Fontisto style={{ color: colors.mainColor }} name='messenger' size={spacing.width * 8} />
                             </TouchableOpacity>
                         </StyledCenter> : null}
+                        <TouchableOpacity onPress={() => onShare({
+                            page: Routes.profile,
+                            id: props.route.params?.id,
+                        }, data?.name, 'Profile')}>
+                            <StyledCenter>
+                                <FontAwesome style={{ color: colors.mainColor }} name='share' size={spacing.width * 8} />
+                            </StyledCenter>
+                        </TouchableOpacity>
                     </StyledReviewProfile>
                 </React.Fragment>
                 <BottomShadow small>

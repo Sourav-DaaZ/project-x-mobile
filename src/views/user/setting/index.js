@@ -18,7 +18,7 @@ import Routes from '../../../constants/routeConst';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Loader from '../../../sharedComponents/loader';
 import { useIsFocused } from '@react-navigation/native';
-import { openUrl } from '../../../utils';
+import { onShare, openUrl } from '../../../utils';
 
 const Setting = (props) => {
   const dispatch = useDispatch();
@@ -118,6 +118,14 @@ const Setting = (props) => {
             <TouchableOpacity onPress={() => openUrl(data?.user_socials?.insta_link ? data.user_socials.insta_link : '')}>
               <StyledCenter>
                 <FontAwesome style={{ color: colors.mainColor }} name='instagram' size={spacing.width * 8} />
+              </StyledCenter>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => onShare({
+              page: Routes.profile,
+              id: data?.id,
+            }, data?.name, 'Profile')}>
+              <StyledCenter>
+                <FontAwesome style={{ color: colors.mainColor }} name='share' size={spacing.width * 8} />
               </StyledCenter>
             </TouchableOpacity>
           </StyledProfileView> : null}

@@ -8,6 +8,8 @@ import { StyledContainer, StyledView } from './style';
 import SnackBar from '../snackbar';
 import { useDispatch } from 'react-redux';
 import { navigationUpdate } from '../../store/actions';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import { handleOnloadDynamicLink } from '../../services/google/deepLinkingHandler';
 
 
 export const BottomShadow = (props) => {
@@ -36,6 +38,8 @@ export const ShadowWrapperContainer = (props) => {
     useEffect(() => {
         if (props.navigation) {
             dispatch(navigationUpdate(props.navigation.navigate));
+            handleOnloadDynamicLink(undefined, props.navigation);
+            dynamicLinks().onLink((link) => handleOnloadDynamicLink(link, props.navigation));
         }
     }, [props.navigation])
     return (

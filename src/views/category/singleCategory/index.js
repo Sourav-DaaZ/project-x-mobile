@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Avatar, FAB } from 'react-native-paper';
 import { TouchableOpacity, RefreshControl } from 'react-native';
-import Share from 'react-native-share';
+
 import {
     StyledHorizontalScrollView,
     StyledViewButton,
@@ -21,7 +21,7 @@ import ListItem from '../../../sharedComponents/listItem';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Loader from '../../../sharedComponents/loader';
 import Banner from '../../../sharedComponents/banner';
-import { calDistance, openUrl, queryStringBulder } from '../../../utils';
+import { calDistance, openUrl, queryStringBulder, onShare } from '../../../utils';
 import defaultValue from '../../../constants/defaultValue';
 import { buildLink } from '../../../services/google/deepLinkingHandler';
 import Tabs from '../../../sharedComponents/tab';
@@ -150,7 +150,7 @@ const SingleCategory = (props) => {
     useEffect(() => {
         bannerData();
     }, [refreshing])
-    
+
     useEffect(() => {
         if (!refreshing) {
             setPostShowLoader(true);
@@ -174,27 +174,6 @@ const SingleCategory = (props) => {
         }, 200);
     }
 
-    const onShare = async (page, id, image, title) => {
-        const varParam = {
-            page: page,
-            id: id
-        }
-        const url = 'https://projectxmobile.com/?' + queryStringBulder(varParam)
-        const longUrl = await buildLink(url);
-        const options = {
-            title: 'post:' + title,
-            subject: 'post:' + title,
-            message: title + ', click this link: ' + longUrl
-        }
-        Share.open(options)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                err && console.log(err);
-            });
-    }
-
     return (
         <ShadowWrapperContainer none {...props}>
             <StyledHorizontalScrollView
@@ -208,14 +187,17 @@ const SingleCategory = (props) => {
                 </StyledBannerWrapper>
                 <BottomShadow small>
                     <StyledViewButton>
-                        <Tabs select={globalPost} text='Post'  onPress={() => setGlobalPost(true)} />
-                        <Tabs select={!globalPost} text='Users'  onPress={() => setGlobalPost(false)} />
-                        <Tabs select={globalPost && !globalPost} text='Global'  onPress={() => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id })} />
+                        <Tabs select={globalPost} text='Post' onPress={() => setGlobalPost(true)} />
+                        <Tabs select={!globalPost} text='Users' onPress={() => setGlobalPost(false)} />
+                        <Tabs select={globalPost && !globalPost} text='Global' onPress={() => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id })} />
                     </StyledViewButton>
                 </BottomShadow>
 
                 {globalPost ? showPostLoader ? <Loader /> : postData.map((x, i) =>
-                    <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => onShare(Routes.postDetails, x._id, x.images && x.images[0] ? x.images[0] : null, x.title)} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
+                    <Card key={i} images={x.images && x.images[0] ? x.images[0] : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'} title={x.title} message={x.message} onIconPress={() => onShare({
+                        page: Routes.postDetails,
+                        id: x._id
+                    }, x.title, 'post', x.images && x.images[0] ? x.images[0] : null)} icon={<StyledCardIcon name='share-outline' />} onViewPress={() => props.navigation.navigate(Routes.postDetails, { id: x._id })} />
                 ) : null}
                 {!globalPost ? showUserLoader ? <Loader /> : userData.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
                     <StyledUserWrapper>

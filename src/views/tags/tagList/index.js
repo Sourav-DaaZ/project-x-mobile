@@ -24,6 +24,7 @@ import { snackbarUpdate } from '../../../store/actions';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useIsFocused } from '@react-navigation/native';
 import Modal from '../../../sharedComponents/modal';
+import { onShare } from '../../../utils';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -113,7 +114,7 @@ const TagList = (props) => {
                     <DashboardHeader text='Verified Tags' />
                     <WrapperTagView>
                         {sTag.map((x, i) =>
-                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x._id) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>
                         )}
@@ -123,7 +124,7 @@ const TagList = (props) => {
                     <DashboardHeader text='User Tags' />
                     <WrapperTagView>
                         {nTag.map((x, i) =>
-                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x._id) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
+                            <StyledChip key={i} accessibilityLabel={x.details} onLongPress={authStore.access_token !== '' ? () => setShowMenu(x) : null} onPress={() => props.navigation.navigate(Routes.tagChat, { id: x._id, name: x.tag_name })}>
                                 {x.tag_name}
                             </StyledChip>)}
                     </WrapperTagView>
@@ -132,10 +133,14 @@ const TagList = (props) => {
                     <SplashTitle>Save Tags!</SplashTitle>
                     <LoginDescription>Are You Want to Save this tag?</LoginDescription>
                     <ButtonWrapper>
-                        <UpdateButton mode="outlined" onPress={() => setShowMenu(null)}>
-                            <CancelText>Cancel</CancelText>
+                        <UpdateButton mode="outlined" onPress={() => onShare({
+                            page: Routes.tagChat,
+                            id: showMenu._id,
+                            name: showMenu.tag_name
+                        }, showMenu.tag_name, 'tag')}>
+                            <CancelText>Share</CancelText>
                         </UpdateButton>
-                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => onSaveTag(showMenu)}>
+                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} mode="contained" onPress={() => onSaveTag(showMenu._id)}>
                             Save
                         </UpdateButton>
                     </ButtonWrapper>

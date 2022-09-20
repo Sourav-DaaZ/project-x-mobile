@@ -76,7 +76,7 @@ export const CustomHeader = (props) => {
             <StyledEachHeaderView style={{ marginTop: -(spacing.height * .6) }}>
                 {props.logo}
             </StyledEachHeaderView>
-            <StyledEachHeaderView>
+            <StyledEachHeaderView style={{justifyContent: 'flex-end'}}>
                 {props.right}
             </StyledEachHeaderView>
         </StyledHeaderView>
