@@ -7,10 +7,8 @@ import { useDispatch } from 'react-redux';
 import { tokenUpdate, detailsUpdate } from '../store/actions';
 import * as FCMNotificationHandler from "../services/google/firebase/FCMNotificationHandler";
 import SplashScreen from '../views/splashScreen';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AuthRouters from './authRouters';
 import Loader from '../sharedComponents/loader';
-import { handleOnloadDynamicLink } from '../services/google/deepLinkingHandler';
 
 function Routs(props) {
   const authStore = useSelector((state) => state.auth, shallowEqual);

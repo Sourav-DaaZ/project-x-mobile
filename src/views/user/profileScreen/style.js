@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Dimensions, View, ScrollView } from 'react-native';
 import { Paragraph, Title, Text } from 'react-native-paper';
 import Button from '../../../sharedComponents/button';
 import Input from '../../../sharedComponents/input';

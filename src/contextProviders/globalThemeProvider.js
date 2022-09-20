@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
 import { ThemeProvider } from "styled-components";
 import { defaultColor } from '../constants/colorCode';
 import { Dimensions } from 'react-native';
