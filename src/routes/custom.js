@@ -70,7 +70,7 @@ export const CustomHeader = (props) => {
     const spacing = themeContext.spacing;
     return (
         <StyledHeaderView dark={props.dark ? true : false}>
-            <StyledEachHeaderView>
+            <StyledEachHeaderView style={{justifyContent: 'flex-start'}}>
                 {props.left}
             </StyledEachHeaderView>
             <StyledEachHeaderView style={{ marginTop: -(spacing.height * .7), width: '53%' }}>

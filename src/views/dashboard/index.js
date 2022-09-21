@@ -150,7 +150,7 @@ const Dashboard = (props) => {
                 }
             >
                 <CustomHeader
-                    left={<StyledImage style={{ marginLeft: spacing.width * 2 }} source={logoImg} />}
+                    left={<StyledImage style={{ marginLeft: spacing.width * 3 }} source={logoImg} />}
                     right={authStore.access_token && authStore.access_token !== '' ? <Ionicons name="md-chatbubble-outline" color={colors.iconColor} size={spacing.width * 8} onPress={() => props.navigation.navigate(Routes.chatList)} /> : null}
                 />
                 <View style={{ marginTop: - spacing.height * 2 }}>

@@ -147,7 +147,7 @@ const MyTags = (props) => {
                 onPress={() => props.navigation.navigate(Routes.addTag)}
             /> : null}
             <Modal show={showMenu !== null} onClose={() => setShowMenu(null)}>
-                <SplashTitle>Delete Tags!</SplashTitle>
+                <SplashTitle>Tag Action!</SplashTitle>
                 <LoginDescription>Are You Want to Delete this tag?</LoginDescription>
                 <ButtonWrapper>
                     <UpdateButton mode="outlined" onPress={() => onShare({

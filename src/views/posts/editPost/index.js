@@ -42,7 +42,7 @@ const EditPost = (props) => {
     { label: 'Female', value: 'female' }
   ]);
   const [categoryArr, setCategoryArr] = useState([]);
-  const [isPublic, setIsPublic] = useState(true);
+  const [isPublic, setIsPublic] = useState(props.route.params.data.isPublic ? props.route.params.data.isPublic : true);
   const [userVisible, setUserVisible] = useState(props.route.params.data.visible ? props.route.params.data.visible : false);
   const [gender, setGender] = useState(props.route.params.data.genderSpecific ? props.route.params.data.genderSpecific : genderArr[0].value);
   const [category, setCategory] = useState('');

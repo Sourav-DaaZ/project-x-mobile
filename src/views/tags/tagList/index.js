@@ -130,7 +130,7 @@ const TagList = (props) => {
                     </WrapperTagView>
                 </WrapperView>
                 <Modal show={showMenu !== null} onClose={() => setShowMenu(null)}>
-                    <SplashTitle>Save Tags!</SplashTitle>
+                    <SplashTitle>Tag Action!</SplashTitle>
                     <LoginDescription>Are You Want to Save this tag?</LoginDescription>
                     <ButtonWrapper>
                         <UpdateButton mode="outlined" onPress={() => onShare({

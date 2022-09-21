@@ -5,7 +5,7 @@ import { StyledHeaderView, StyledHeaderHeadline } from './style';
 const DashboardHeader = (props) => {
     return (
         <TouchableOpacity onPress={props.onPress}>
-            <StyledHeaderView>
+            <StyledHeaderView style={props.style}>
                 <StyledHeaderHeadline>{props.text}</StyledHeaderHeadline>{props.goNext}
             </StyledHeaderView>
         </TouchableOpacity>

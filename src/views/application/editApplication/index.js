@@ -35,7 +35,7 @@ const EditApplication = (props) => {
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
-  const [userVisible, setUserVisible] = useState(props.route.params.data.visible);
+  const [userVisible, setUserVisible] = useState(props.route.params.data?.visible ? props.route.params.data.visible : true);
   const [data, setData] = useState({
     controls: {
       description: {

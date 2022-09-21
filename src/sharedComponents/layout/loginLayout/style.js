@@ -28,12 +28,13 @@ export const LoginLogo = styled(Image)`
   margin-top: -${(props) => props.theme.spacing.height * 7}px;
   width: ${(props) => props.theme.spacing.width * 30}px;
   height: ${(props) => props.theme.spacing.height * 5}px;
+  resize-mode: contain;
 `;
 
 export const LoginBack = styled(TouchableOpacity)`
   position: absolute;
   left: ${(props) => props.theme.spacing.width * 3}px;
-  margin-top: -${(props) => props.theme.spacing.height * 5}px;
+  margin-top: ${(props) => -props.theme.spacing.height * 6}px;
   top: 50%;
   color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;

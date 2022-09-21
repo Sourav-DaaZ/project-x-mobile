@@ -13,7 +13,7 @@ const theme = {
   fonts: {
     small: width * .035,
     regular: width * .045,
-    medium: width * .055,
+    medium: width * .05,
     large: width * .07,
     veryLarge: width * .1
   },

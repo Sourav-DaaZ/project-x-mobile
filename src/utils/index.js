@@ -186,9 +186,10 @@ export const onShare = async (param, title, type, image) => {
     });
 }
 
-export const truncate = (string, elength) => {
+export const truncate = (eString, elength) => {
+  const string = eString ? eString : '--'
   let length = elength
-  if(!length){
+  if (!length) {
     length = 15;
   }
   return string.substring(0, length) + (string.length > length ? '...' : '');

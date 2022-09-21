@@ -301,7 +301,7 @@ const Login = (props) => {
             />
           ))}
           <StyledForgot>
-            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.forgotPassword)}><LoginDescription>Forgot Password?</LoginDescription></TouchableOpacity><TouchableOpacity onPress={() => setIsOtpLogin(!isOtpLogin)}><LoginDescription>Login with {!isOtpLogin ? 'OTP' : 'Password'}?</LoginDescription></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.forgotPassword)}><LoginDescription>Forgot Password?</LoginDescription></TouchableOpacity><TouchableOpacity onPress={() => setIsOtpLogin(!isOtpLogin)}><LoginDescription>{!isOtpLogin ? 'OTP Login' : 'Password Login'}</LoginDescription></TouchableOpacity>
           </StyledForgot>
         </InputView>
         <LoginSubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' onPress={loginFnc}>

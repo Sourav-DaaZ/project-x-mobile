@@ -22,12 +22,16 @@ import {
     StyledImage
 } from './style';
 import { API } from '../../../constants/apiConstant';
-import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData } from '../../../utils';
+import { timeFormat, dateFormat, apiEncryptionData, apiDecryptionData, truncate } from '../../../utils';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { CustomHeader } from '../../../routes/custom';
 import { launchImageLibrary } from 'react-native-image-picker';
 import ImagePreview from '../../../sharedComponents/imagePreview';
+import OutsideAuthApi from '../../../services/outSideAuth';
+import ListItem from '../../../sharedComponents/listItem';
+import { Avatar } from 'react-native-paper';
+import Routes from '../../../constants/routeConst';
 
 const UserChat = (props) => {
     const scrollViewRef = useRef();
@@ -37,6 +41,7 @@ const UserChat = (props) => {
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const [inputValue, setInputValue] = useState('');
     const [chats, setChats] = useState([]);
+    const [data, setData] = useState([]);
     const [newChat, setNewChat] = useState({});
     const [dataLoader, setDataLoader] = useState(true);
     const [page, setPage] = useState(0);
@@ -61,7 +66,6 @@ const UserChat = (props) => {
     }
 
     useEffect(() => {
-        console.log(detailsStore.id, props.route.params.id);
         const varParam = {
             users: [detailsStore.id, (props.route.params?.id ? props.route.params.id : '')]
         }
@@ -75,6 +79,20 @@ const UserChat = (props) => {
             scrollViewRef.current?.scrollToEnd({ animated: true })
         }));
         return () => { onLeave() }
+    }, [])
+
+    useEffect(() => {
+        OutsideAuthApi()
+            .userDetailsApi(`?user_id=${props.route.params?.id}`)
+            .then((res) => {
+                setData(res.data);
+            })
+            .catch((err) => {
+                dispatch(snackbarUpdate({
+                    type: 'error',
+                    msg: err?.message ? err.message : ''
+                }))
+            });
     }, [])
 
     useMemo(() => {
@@ -186,8 +204,17 @@ const UserChat = (props) => {
         <StyledSafeAreaView>
             <BottomShadow>
                 <CustomHeader
-                    left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 10} onPress={() => props.navigation.goBack()} />}
-                    logo={<HeaderText>{props.route.params?.name}</HeaderText>}
+                    left={
+                        <React.Fragment>
+                            <Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 10} onPress={() => props.navigation.goBack()} />
+                            {props.route.params?.id ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.profile, { id: props.route.params.id ? props.route.params.id : '' })}>
+                                <ListItem
+                                    topStyle={{ marginBottom: 0, paddingTop: 0, paddingBottom: 0, marginLeft: spacing.width }}
+                                    title={truncate(data.name)}
+                                    image={<Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 12} source={{ uri: data.images ? data.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />}
+                                />
+                            </TouchableOpacity> : null}
+                        </React.Fragment>}
                 />
             </BottomShadow>
             <StyledScrollView

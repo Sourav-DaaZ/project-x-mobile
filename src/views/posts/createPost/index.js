@@ -323,7 +323,7 @@ const CreatePost = (props) => {
                 />
               ))}
             </InputView>
-            {props.route.params.category ? <StyledText>Categoty Name: {props.route.params.category.name}</StyledText> : <StyledInlineInputContainer style={{ zIndex: 1000 }}>
+            {props.route.params.category ? <StyledText>Category Name: {props.route.params.category.name}</StyledText> : <StyledInlineInputContainer style={{ zIndex: 1000 }}>
               <StyledInput>
                 <Input
                   ele='select'

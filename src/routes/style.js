@@ -25,6 +25,7 @@ export const StyledEachHeaderView = styled(View)`
     flex-Direction: row;
     align-items: center;
     justify-content: center;
+    flex: 1;
     padding: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
     margin-right: ${(props) => props.theme.spacing.width}px;
     margin-bottom: ${(props) => props.theme.spacing.height}px;

@@ -189,7 +189,7 @@ const SingleCategory = (props) => {
                     <StyledViewButton>
                         <Tabs select={globalPost} text='Post' onPress={() => setGlobalPost(true)} />
                         <Tabs select={!globalPost} text='Users' onPress={() => setGlobalPost(false)} />
-                        <Tabs select={globalPost && !globalPost} text='Global' onPress={() => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id, name: 'Global Chat' })} />
+                        <Tabs select={globalPost && !globalPost} text='Global' onPress={() => props.navigation.navigate(Routes.globalChat, { id: props.route.params.data._id, name: 'Global Chat: ' + truncate(props.route.params?.data?.category_name, 8) })} />
                     </StyledViewButton>
                 </BottomShadow>
 
@@ -202,7 +202,7 @@ const SingleCategory = (props) => {
                 {!globalPost ? showUserLoader ? <Loader /> : userData.map((x, i) => <TouchableOpacity key={i} onPress={() => props.navigation.navigate(Routes.profile, { id: x.user?._id })}>
                     <StyledUserWrapper>
                         <ListItem
-                            title={truncate(x.user && x.user.userInfo ? x.user.userInfo.name : '',20)}
+                            title={truncate(x.user && x.user.userInfo ? x.user.userInfo.name : '', 20)}
                             description={truncate(x.user && x.user.userInfo && x.user.userInfo.category ? x.user.userInfo.category.category_name : '', 20)}
                             smallDescription={detailsStore.location.lat && detailsStore.location.long && x?.location?.coordinates ? calDistance(x.location.coordinates[0], x.location.coordinates[1], detailsStore.location.lat, detailsStore.location.long).toString() + ' Km' : null}
                             image={<Avatar.Image style={{ margin: spacing.width }} size={spacing.width * 15} source={{ uri: x.user?.userInfo?.images ? x.user.userInfo.images : 'https://www.caribbeangamezone.com/wp-content/uploads/2018/03/avatar-placeholder.png' }} />} />
