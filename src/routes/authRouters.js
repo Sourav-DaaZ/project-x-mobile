@@ -389,12 +389,11 @@ const AuthRouters = (props) => {
         name={Routes.myReview}
         component={MyReview}
         options={({ navigation }) => ({
-          header: () => <BottomShadow>
+          header: () =>
             <CustomHeader
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
               logo={<StyledImage source={logoImg} />}
             />
-          </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.userChat}

@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { Paragraph } from 'react-native-paper';
 import Button from '../../../sharedComponents/button';
 import Input from '../../../sharedComponents/input';
-import Entypo from 'react-native-vector-icons/Entypo'
+import Entypo from 'react-native-vector-icons/Entypo';
 
 
 export const StyledParagraph = styled(Paragraph)`
@@ -72,4 +72,10 @@ export const StyledInputView = styled(View)`
 export const StyledButtonLoadMore = styled(Button)`
     width: 100%;
     margin-bottom: ${(props) => props.theme.spacing.height}px;
+`;
+
+export const StyledViewButton = styled(View)`
+    display: flex;
+    flex-direction: row;
+    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundDeepColor}; 
 `;

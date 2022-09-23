@@ -113,8 +113,9 @@ const Review = (props) => {
                     <Card
                         images={x.image ? x.image : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg'}
                         profile={
-                            <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(x.createdAt) + ` (${x.isPublic ? 'public' : 'private'})`} />
+                            <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(x.createdAt) + ` (${x.isPublic ? 'public' : 'private'})`} />
                         }
+                        review={x.rating ? x.rating : 0}
                         title={x.description ? x.description : ''}
                     />
                 </TouchableOpacity>

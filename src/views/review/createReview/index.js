@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
@@ -6,7 +6,7 @@ import { updateObject, validate } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { snackbarUpdate, loader } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,14 +16,12 @@ import {
   SubmitButton,
   InputView,
   StyledScrollView,
-  StyledInlineInput,
-  StyledText,
-  StyledInlineInputContainer,
   StyledImageBackground,
   StyledCardCover
 } from './style';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { launchImageLibrary } from 'react-native-image-picker';
+import RatingComponent from '../../../sharedComponents/rating';
 
 const CreateReview = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -35,8 +33,8 @@ const CreateReview = (props) => {
   const formElementsArray = [];
 
   const [loader, setLoader] = useState(false);
-  const [isPublic, setIsPublic] = useState(true);
   const [image, setImage] = useState('');
+  const [rating, setRating] = useState(0);
   const [data, setData] = useState({
     controls: {
       description: {
@@ -111,12 +109,13 @@ const CreateReview = (props) => {
       }))
     } else {
       const requestData = {
-        isPublic: isPublic,
         description: data.controls.description.value,
         user_id: props.route.params?.id ? props.route.params.id : '',
         sender_id: detailsStore.id,
         token: authStore.firebase_token,
-        image: image
+        image: image,
+        ...rating > 0 && { rating: rating },
+        ...props.route.params?.booking_id && { booking_id: props.route.params.booking_id }
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -175,6 +174,7 @@ const CreateReview = (props) => {
         </StyledImageBackground>
       </TouchableOpacity>
       <StyledScrollView>
+        <RatingComponent rating={rating} setRating={setRating} style={{ marginTop: spacing.height * 5 }} />
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input
@@ -195,18 +195,6 @@ const CreateReview = (props) => {
             />
           ))}
         </InputView>
-
-        <StyledInlineInputContainer>
-          <StyledInlineInput>
-            <StyledText>Public Visibility</StyledText>
-            <Input
-              ele={'switch'}
-              color={colors.mainByColor}
-              value={isPublic}
-              onChange={() => setIsPublic(!isPublic)}
-            />
-          </StyledInlineInput>
-        </StyledInlineInputContainer>
         <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? reviewFnc : null}>
           Create Review
         </SubmitButton>

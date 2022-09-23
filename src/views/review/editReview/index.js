@@ -1,13 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import Input from '../../../sharedComponents/input';
-import defaultValue from '../../../constants/defaultValue';
 import { updateObject, validate } from '../../../utils';
 import validation from '../../../constants/validationMsg';
 import InsideAuthApi from '../../../services/inSideAuth';
 import { useDispatch } from 'react-redux';
-import { snackbarUpdate, loader } from '../../../store/actions';
+import { snackbarUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -17,14 +16,12 @@ import {
   SubmitButton,
   InputView,
   StyledScrollView,
-  StyledInlineInput,
-  StyledText,
-  StyledInlineInputContainer,
   StyledImageBackground,
   StyledCardCover
 } from './style';
 import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import { launchImageLibrary } from 'react-native-image-picker';
+import RatingComponent from '../../../sharedComponents/rating';
 
 const EditReview = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -36,7 +33,7 @@ const EditReview = (props) => {
 
   const [loader, setLoader] = useState(false);
   const [image, setImage] = useState(props.route.params.data?.image ? props.route.params.data.image : '');
-  const [isPublic, setIsPublic] = useState(props.route.params.data?.isPublic ? props.route.params.data.isPublic : true);
+  const [rating, setRating] = useState(props.route.params.data?.rating ? props.route.params.data.rating : 0);
   const [data, setData] = useState({
     controls: {
       description: {
@@ -112,9 +109,9 @@ const EditReview = (props) => {
     } else {
       const requestData = {
         id: props.route.params.data?._id,
-        isPublic: isPublic,
         description: data.controls.description.value,
-        image: image
+        image: image,
+        ...rating > 0 && { rating: rating },
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -172,6 +169,7 @@ const EditReview = (props) => {
         </StyledImageBackground>
       </TouchableOpacity>
       <StyledScrollView>
+        <RatingComponent rating={rating} setRating={setRating} style={{ marginTop: spacing.height * 5 }} />
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input
@@ -192,18 +190,6 @@ const EditReview = (props) => {
             />
           ))}
         </InputView>
-
-        <StyledInlineInputContainer>
-          <StyledInlineInput>
-            <StyledText>Public Visibility</StyledText>
-            <Input
-              ele={'switch'}
-              color={colors.mainByColor}
-              value={isPublic}
-              onChange={() => setIsPublic(!isPublic)}
-            />
-          </StyledInlineInput>
-        </StyledInlineInputContainer>
         <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? editFnc : null}>
           Edit Review
         </SubmitButton>

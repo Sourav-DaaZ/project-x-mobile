@@ -12,6 +12,7 @@ import {
     StyledPopupWrapper,
     CardWrapper,
     StyledDotIcon,
+    StyledViewButton
 } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -25,20 +26,24 @@ import { TouchableOpacity, View } from 'react-native';
 import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat } from '../../../utils';
 import InsideAuthApi from '../../../services/inSideAuth';
-import { ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
+import Tabs from '../../../sharedComponents/tab';
+import { useIsFocused } from '@react-navigation/native';
 
 const MyReview = (props) => {
     const themeContext = useContext(ThemeContext);
     const colors = themeContext.colors[themeContext.baseColor];
     const spacing = themeContext.spacing;
     const dispatch = useDispatch();
+    const isFocused = useIsFocused();
     const detailsStore = useSelector((state) => state.details, shallowEqual);
     const authStore = useSelector((state) => state.auth, shallowEqual);
     const [popupData, setPopupData] = useState({});
-    const [modalShow, setModalShow] = useState(true);
+    const [modalShow, setModalShow] = useState(false);
     const [addNotes, setAddNotes] = useState('');
     const [showNotes, setShowNotes] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
+    const [globalPost, setGlobalPost] = useState('public');
 
 
     const onReviewEdit = (id, note) => {
@@ -70,7 +75,14 @@ const MyReview = (props) => {
 
     return (
         <ShadowWrapperContainer none {...props}>
-            <Review {...props} colors={colors} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
+            <BottomShadow>
+                <StyledViewButton>
+                    <Tabs select={globalPost === "public"} text='Public' onPress={() => setGlobalPost('public')} />
+                    <Tabs select={globalPost === "private"} text='Private' onPress={() => setGlobalPost('private')} />
+                    <Tabs select={globalPost === "myReview"} text='My Review' onPress={() => setGlobalPost('myReview')} />
+                </StyledViewButton>
+            </BottomShadow>
+            <Review {...props} colors={colors} userId={props.route.params?.id} isFocused={isFocused} globalPost={globalPost} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
             {popupData._id ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
                     <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.createdAt)} />
@@ -107,7 +119,7 @@ const MyReview = (props) => {
                         }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
                     </View>
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onReviewEdit(popupData._id, addNotes)}>
-                    <Ionicons name='send' size={spacing.width * 9} style={{ color: colors.mainByColor, marginLeft: spacing.width * 4 }} />
+                        <Ionicons name='send' size={spacing.width * 9} style={{ color: colors.mainByColor, marginLeft: spacing.width * 4 }} />
                     </TouchableOpacity> : null}
                 </StyledInputView>
             </Modal> : null}

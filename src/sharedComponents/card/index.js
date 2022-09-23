@@ -8,7 +8,9 @@ import {
     StyledCardCover,
     StyledCardButton,
     StyledView,
-    StyledCardContentProfile
+    StyledCardContentProfile,
+    StyledFontAwesome,
+    StyledRate
 } from './style';
 import { ThemeContext } from 'styled-components';
 import * as Animatable from 'react-native-animatable';
@@ -28,6 +30,10 @@ const CardComponent = (props) => {
                 {props.profile ? <StyledCardContentProfile>
                     {props.profile}
                 </StyledCardContentProfile> : null}
+                {props.review ? <StyledRate>
+                    <StyledFontAwesome name='star' />
+                    <StyledCardParagraph>{props.review}</StyledCardParagraph>
+                </StyledRate> : null}
                 <StyledCardContent>
                     {props.title ? <StyledCardTitle>{props.title}</StyledCardTitle> : null}
                     {props.message ? <StyledCardParagraph>{props.message}</StyledCardParagraph> : null}

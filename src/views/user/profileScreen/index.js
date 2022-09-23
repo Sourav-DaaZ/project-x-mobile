@@ -21,7 +21,9 @@ import {
     StyledPopupWrapper,
     CardWrapper,
     StyledDotIcon,
-    ImageWrapper
+    ImageWrapper,
+    StyledFontAwesome,
+    StyledRate
 } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -159,7 +161,12 @@ const ProfileScreen = (props) => {
                         </StyledImage>
                     </ImageWrapper>
                     <StyledProfileView>
-                        <StyledTitle>{data?.name}</StyledTitle>
+                        <StyledRate>
+                            <StyledTitle>{data?.name}</StyledTitle>
+                            {data?.rating?.totalRating && data?.rating?.numberOfUser ? <StyledParagraph> {' ('}</StyledParagraph> : null}
+                            {data?.rating?.totalRating && data?.rating?.numberOfUser ? <StyledFontAwesome name='star' /> : null}
+                            {data?.rating?.totalRating && data?.rating?.numberOfUser ? <StyledParagraph>{(data.rating.totalRating / data.rating.numberOfUser).toString() + ')'}</StyledParagraph> : null}
+                        </StyledRate>
                         {data?.category?.category_name ? <StyledParagraph>{data?.category?.category_name + (data?.subCategory ? ` (${data?.subCategory})` : '')}</StyledParagraph> : null}
                         {data?.contactAddress ? <StyledParagraph>{data.contactAddress}</StyledParagraph> : null}
                         {data?.contactNumber ? <StyledParagraph>Phone: {data.contactNumber}</StyledParagraph> : null}
@@ -223,6 +230,10 @@ const ProfileScreen = (props) => {
                             onClose();
                         }} title="Edit Booking" />
                         <Divider />
+                        <Menu.Item onPress={() => {
+                            props.navigation.navigate(Routes.createReview, { data: popupData, booking_id: popupData._id, id: popupData.sender_id });
+                            onClose();
+                        }} title="Review" />
                     </Menu> : null}
                 </CardWrapper>
                 <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} title={popupData.description ? popupData.description : ''} />

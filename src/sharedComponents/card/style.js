@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { TouchableOpacity, View } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import Button from '../../sharedComponents/button';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 export const StyledCard = styled(Card)`
     margin-horizontal: ${(props) => props.theme.spacing.width * 6}px;
@@ -23,10 +23,20 @@ export const StyledCardContent = styled(Card.Content)`
     margin: ${(props) => props.theme.spacing.height}px ${(props) => props.theme.spacing.width}px;
     margin-top: 0px;
     border-radius: ${(props) => props.theme.borderRedius.small}px;
+    margin-top: -${(props) => props.theme.spacing.height}px;
 `;
 
 export const StyledCardContentProfile = styled(View)`
-    margin-bottom: -${(props) => props.theme.spacing.height * 2}px;
+    
+`;
+
+export const StyledRate = styled(View)`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: ${(props) => props.theme.spacing.width * 5}px;
+    margin-bottom: ${(props) => props.theme.spacing.height}px;
+    margin-top: 0px;
 `;
 
 export const StyledCardAction = styled(Card.Actions)`
@@ -66,4 +76,10 @@ export const StyledView = styled(TouchableOpacity)`
     justify-content: center;
     align-items: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
+`;
+
+export const StyledFontAwesome = styled(FontAwesome)`
+    font-size: ${(props) => props.theme.fonts.medium}px;
+    margin-right: ${(props) => props.theme.spacing.width}px;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}
 `;

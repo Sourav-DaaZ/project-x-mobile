@@ -24,7 +24,9 @@ const Review = (props) => {
 
     const apiCall = (pageCount) => {
         const varParam = {
-            page: pageCount
+            page: pageCount,
+            isPublic: props.globalPost === 'public' ? true : props.globalPost === 'private' ? false : false,
+            ...props.globalPost === 'myReview' && { myReview: true }
         }
         InsideAuthApi(authStore)
             .getReviewApi(varParam)
@@ -55,10 +57,12 @@ const Review = (props) => {
     }
 
     useEffect(() => {
-        setData([]);
-        setLoading(true);
-        apiCall(0);
-    }, [props.modalShow])
+        if (!props.modalShow) {
+            setData([]);
+            setLoading(true);
+            apiCall(0);
+        }
+    }, [props.modalShow, props.globalPost, props.isFocused])
 
 
     useEffect(() => {
@@ -66,6 +70,7 @@ const Review = (props) => {
             apiCall(page)
         }
     }, [page])
+
     return (
         loading ? <Loader /> : <StyledHorizontalScrollView>
             {data.map((x, i) =>
@@ -77,6 +82,7 @@ const Review = (props) => {
                         profile={
                             <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(x.createdAt) + ` (${x.isPublic ? 'public' : 'private'})`} />
                         }
+                        review={x.rating ? x.rating : 0}
                         title={x.description ? x.description : ''}
                     />
                 </TouchableOpacity>

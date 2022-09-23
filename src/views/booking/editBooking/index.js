@@ -136,7 +136,6 @@ const EditBooking = (props) => {
         minimumDate={open === 1 ? new Date() : open === 2 ? startDate : null}
         onConfirm={(date) => {
           if (open == 1) {
-            console.log(date)
             setStartDate(date);
             setEndDate(date);
           } else if (open == 2) {

@@ -1,11 +1,10 @@
 import styled from 'styled-components/native';
-import { Dimensions, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Paragraph, Title, Text } from 'react-native-paper';
 import Button from '../../../sharedComponents/button';
 import Input from '../../../sharedComponents/input';
-import Entypo from 'react-native-vector-icons/Entypo'
-
-const { width, height } = Dimensions.get('screen');
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 export const StyledScrollView = styled(ScrollView)`
@@ -165,4 +164,20 @@ export const StyledInput = styled(Input)`
 export const StyledButtonLoadMore = styled(Button)`
     width: 100%;
     margin-bottom: ${(props) => props.theme.spacing.height}px;
+`;
+
+export const StyledFontAwesome = styled(FontAwesome)`
+    font-size: ${(props) => props.theme.fonts.medium}px;
+    margin-right: ${(props) => props.theme.spacing.width}px;
+    margin-top: -${(props) => props.theme.spacing.height}px;
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor}
+`;
+
+export const StyledRate = styled(View)`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: ${(props) => props.theme.spacing.width * 5}px;
+    margin-top: 0px;
 `;

@@ -169,7 +169,6 @@ export const quaryData = (dataUrl) => {
 }
 
 export const onShare = async (param, title, type, image) => {
-  console.log(param);
   const url = 'https://projectxmobile.com/?' + queryStringBulder(param)
   const longUrl = await buildLink(url);
   const options = {

@@ -90,7 +90,7 @@ const MyBooking = (props) => {
             </StyledScrollView>
             {popupData._id ? <Modal show={modalShow} onClose={onClose}>
                 <CardWrapper>
-                <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(popupData.startDate) + ' (' + timeFormat(popupData.startDate) + ')' + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) + ' (' + timeFormat(popupData.endDate) + ')' : '')} />
+                    <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(popupData.startDate) + ' (' + timeFormat(popupData.startDate) + ')' + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) + ' (' + timeFormat(popupData.endDate) + ')' : '')} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
                         visible={showMenu}
                         onDismiss={() => setShowMenu(false)}
@@ -101,6 +101,10 @@ const MyBooking = (props) => {
                             onClose();
                         }} title="Edit Booking" />
                         <Divider />
+                        <Menu.Item onPress={() => {
+                            props.navigation.navigate(Routes.createReview, { data: popupData, booking_id: popupData._id, id: popupData.sender_id });
+                            onClose();
+                        }} title="Review" />
                     </Menu> : null}
                 </CardWrapper>
                 <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} title={popupData.description ? popupData.description : ''} />

@@ -26,29 +26,6 @@ export const StyledScrollView = styled(ScrollView)`
     margin-bottom: ${(props) => props.theme.spacing.height }px;
     border-radius: ${(props) => props.theme.borderRedius.small}px;
 `;
-
-export const StyledInlineInput = styled(View)`
-    flex: 1;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-`
-
-export const StyledText = styled(Text)`
-    font-size: ${(props) => props.theme.fonts.regular}px;
-    font-weight: ${(props) => props.theme.fontWeight.trueBold};
-    color: ${(props) => props.theme.colors[props.theme.baseColor].textLight};
-`
-export const StyledInlineInputContainer = styled(View)`
-    flex: 1;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 999;
-    margin-bottom: ${(props) => props.theme.spacing.height}px;
-`
-
 export const StyledImageBackground = styled(ImageBackground)`
     margin-bottom: -${(props) => props.theme.spacing.height * 2}px;
 `;
