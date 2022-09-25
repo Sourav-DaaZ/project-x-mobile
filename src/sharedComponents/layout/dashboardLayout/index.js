@@ -52,8 +52,8 @@ const DashboardLayout = (props) => {
             OutsideAuthApi()
                 .appConfigApi()
                 .then((res) => {
-                    dispatch(configUpdate(res.data))
                     setUpdatePopup(res.data);
+                    dispatch(configUpdate(res.data));
                 }).catch((x) => {
                     console.log(x);
                 })
@@ -61,10 +61,10 @@ const DashboardLayout = (props) => {
     }, [isFocused, props.refreshing]);
 
     useEffect(() => {
-        if (authStore.access_token !== '' && !props.blockDetails && detailsStore.id === '') {
+        if (authStore.access_token !== '' && !props?.blockDetails && detailsStore.id === '') {
             apiCallWithToken();
         }
-    }, [authStore.access_token, props.refreshing]);
+    }, [authStore.access_token, props.refreshing, isFocused]);
 
 
     const apiCallWithToken = () => {
@@ -98,28 +98,32 @@ const DashboardLayout = (props) => {
             <DashboardOuterView>
                 <StatusBar backgroundColor={colors.backgroundColor} barStyle="dark-content" />
                 {props.children}
-                <Modal show={detailsShow} onClose={() => setDetailsShow(false)}>
+                <Modal show={detailsShow} onClose={() => setDetailsShow(false)} btn={[{
+                    text: 'Cancel',
+                    onPress: () => setDetailsShow(false),
+                    disabled: false
+                }, {
+                    text: 'Details',
+                    onPress: () => {
+                        props.navigation.navigate(Routes.updateDetails, { data: detailsData });
+                        setDetailsShow(false);
+                    },
+                    disabled: detailsData === null
+                }]}>
                     <SplashTitle>Details Alert!</SplashTitle>
                     <LoginDescription>Please update your details.</LoginDescription>
-                    <ButtonWrapper>
-                        <UpdateButton mode="outlined" onPress={() => setDetailsShow(false)}>
-                            <CancelText>Cancel</CancelText>
-                        </UpdateButton>
-                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} disabled={detailsData === null} mode="contained" onPress={() => {
-                            props.navigation.navigate(Routes.updateDetails, { data: detailsData });
-                            setDetailsShow(false);
-                        }}>
-                            Details
-                        </UpdateButton>
-                    </ButtonWrapper>
+
                 </Modal>
-                {updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup?.buildVersion[Platform.OS] ? <Modal show={updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup?.buildVersion[Platform.OS]} onClose={!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? () => setUpdatePopup(null) : null}>
+                {updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup?.buildVersion[Platform.OS] ? <Modal show={updatePopup && defaultValue.appVersion[Platform.OS] < updatePopup?.buildVersion[Platform.OS]} onClose={!(defaultValue.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? () => setUpdatePopup(null) : null} btn={[{
+                    text: !(defaultValue?.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? 'Cancel' : null,
+                    onPress: () => setUpdatePopup(null)
+                }, {
+                    text: 'Update',
+                    onPress: () => console.log('hii'),
+                    full: defaultValue.appVersion[Platform.OS] < updatePopup?.minBuildVersion[Platform.OS]
+                }]}>
                     <SplashTitle critical={defaultValue.appVersion[Platform.OS] < updatePopup?.minBuildVersion[Platform.OS]}>Update Alert!</SplashTitle>
                     <LoginDescription mode="contained">{updatePopup.updateDetails[Platform.OS]}</LoginDescription>
-                    <ButtonWrapper>
-                        {!(defaultValue?.appVersion[Platform.OS] < updatePopup.minBuildVersion[Platform.OS]) ? <UpdateButton mode="outlined"><CancelText>cancel</CancelText></UpdateButton> : null}
-                        <UpdateButton labelStyle={{ color: colors.backgroundColor }} full={defaultValue.appVersion[Platform.OS] < updatePopup?.minBuildVersion[Platform.OS]} mode="contained">Update</UpdateButton>
-                    </ButtonWrapper>
                 </Modal> : null}
             </DashboardOuterView>
         </ShadowWrapperContainer>

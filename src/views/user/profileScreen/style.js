@@ -110,13 +110,6 @@ export const CardWrapper = styled(View)`
     align-items: center;
 `;
 
-export const StyledNotesView = styled(ScrollView)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor}; 
-    margin-vertical: ${(props) => props.theme.spacing.width * 5}px;
-    max-height: ${(props) => props.theme.spacing.height * 50}px;
-    margin-horizontal: ${(props) => props.theme.spacing.height * 3}px;
-`;
-
 export const StyledPopupWrapper = styled(View)`
     background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor}; 
     margin-top: 0px;
@@ -136,29 +129,6 @@ export const StyledDotIcon = styled(Entypo)`
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
     font-size: ${(props) => props.theme.fonts.large}px;
     margin-right: ${(props) => props.theme.spacing.width * 5}px;
-`;
-
-export const StyledInputView = styled(View)`
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
-    padding: ${(props) => props.theme.spacing.height * 2}px ${(props) => props.theme.spacing.width * 5}px;
-    padding-top: ${(props) => props.theme.spacing.height}px;
-    padding-bottom: ${(props) => props.theme.spacing.height * 5}px;
-    box-shadow: 0px -5px 5px #00000020;
-    display: flex;
-    border-top-left-radius: ${(props) => props.theme.borderRedius.semi}px;
-    border-top-right-radius: ${(props) => props.theme.borderRedius.semi}px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-`;
-
-export const StyledInput = styled(Input)`
-    padding-horizontal: ${(props) => props.theme.spacing.width * 5}px;
-    padding-left: ${(props) => props.theme.spacing.width * 5}px;
-    margin-top: -${(props) => props.theme.spacing.height * 4}px;
-    border-radius: ${(props) => props.theme.borderRedius.semi}px;
-    background-color: ${(props) => props.theme.colors[props.theme.baseColor].backgroundColor};
 `;
 
 export const StyledButtonLoadMore = styled(Button)`

@@ -41,7 +41,6 @@ const MyReview = (props) => {
     const [popupData, setPopupData] = useState({});
     const [modalShow, setModalShow] = useState(false);
     const [addNotes, setAddNotes] = useState('');
-    const [showNotes, setShowNotes] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [globalPost, setGlobalPost] = useState('public');
 
@@ -70,7 +69,6 @@ const MyReview = (props) => {
     const onClose = () => {
         setModalShow(false);
         setPopupData({});
-        setShowNotes(false);
     }
 
     return (
@@ -83,7 +81,7 @@ const MyReview = (props) => {
                 </StyledViewButton>
             </BottomShadow>
             <Review {...props} colors={colors} userId={props.route.params?.id} isFocused={isFocused} globalPost={globalPost} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
-            {popupData._id ? <Modal show={modalShow} onClose={onClose}>
+            {popupData._id ? <Modal show={modalShow} notes={popupData?.comment} onEdit={() => onReviewEdit(popupData._id, addNotes)} popupData={popupData} onClose={onClose} setAddNotes={setAddNotes} addNotes={addNotes} editable={detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString()}>
                 <CardWrapper>
                     <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.createdAt)} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
@@ -105,23 +103,6 @@ const MyReview = (props) => {
                         <StyledParagraph>{popupData.status?.map((y, i) => y + (i !== popupData.status.length - 1 ? " -> " : ""))}</StyledParagraph>
                     </StyledStatus>
                 </StyledPopupWrapper>
-                <StyledNotesView>
-                    <TouchableOpacity onPress={() => setShowNotes(!showNotes)}>
-                        <StyledParagraph style={{ textAlign: 'center', color: colors.mainByColor }}>{showNotes ? "Hide" : "Show"} Notes</StyledParagraph>
-                    </TouchableOpacity>
-                    {showNotes && popupData.comment?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
-                </StyledNotesView>
-                <StyledInputView>
-                    <View style={{ width: "85%" }}>
-                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                            borderBottomWidth: 0,
-                            backgroundColor: colors.mainColor,
-                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
-                    </View>
-                    {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onReviewEdit(popupData._id, addNotes)}>
-                        <Ionicons name='send' size={spacing.width * 9} style={{ color: colors.mainByColor, marginLeft: spacing.width * 4 }} />
-                    </TouchableOpacity> : null}
-                </StyledInputView>
             </Modal> : null}
         </ShadowWrapperContainer>
     )

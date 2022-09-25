@@ -119,7 +119,7 @@ const Dashboard = (props) => {
                     console.log(e)
                 })
         }
-    }, [authStore.firebase_token, detailsStore.id])
+    }, [authStore.firebase_token, detailsStore.id, isFocused])
 
     useEffect(() => {
         if (isFocused && !refreshing) {

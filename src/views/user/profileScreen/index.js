@@ -14,9 +14,6 @@ import {
     StyledImage,
     StyledScrollView,
     StyledViewButton,
-    StyledInputView,
-    StyledInput,
-    StyledNotesView,
     StyledStatus,
     StyledPopupWrapper,
     CardWrapper,
@@ -59,7 +56,6 @@ const ProfileScreen = (props) => {
     const [globalPost, setGlobalPost] = useState('booking');
     const [modalShow, setModalShow] = useState(true);
     const [addNotes, setAddNotes] = useState('');
-    const [showNotes, setShowNotes] = useState(false);
     const [showStatusMenu, setShowStatusMenu] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
@@ -89,20 +85,22 @@ const ProfileScreen = (props) => {
             ...status && { status: status },
             ...note && { note: note },
         }
-        InsideAuthApi(authStore)
-            .editBookinggApi(requestData)
-            .then((res) => {
-                if (res.data) {
-                    setPopupData(res.data);
-                }
-                setAddNotes('');
-            })
-            .catch((err) => {
-                dispatch(snackbarUpdate({
-                    type: 'error',
-                    msg: err?.message ? err.message : ''
-                }))
-            })
+        if (note.trim() !== '') {
+            InsideAuthApi(authStore)
+                .editBookinggApi(requestData)
+                .then((res) => {
+                    if (res.data) {
+                        setPopupData(res.data);
+                    }
+                    setAddNotes('');
+                })
+                .catch((err) => {
+                    dispatch(snackbarUpdate({
+                        type: 'error',
+                        msg: err?.message ? err.message : ''
+                    }))
+                })
+        }
     }
 
     const onReviewEdit = (id, note) => {
@@ -110,26 +108,27 @@ const ProfileScreen = (props) => {
             id: id,
             comment: note,
         }
-        InsideAuthApi(authStore)
-            .editReviewApi(requestData)
-            .then((res) => {
-                if (res.data) {
-                    setPopupData(res.data);
-                }
-                setAddNotes('');
-            })
-            .catch((err) => {
-                dispatch(snackbarUpdate({
-                    type: 'error',
-                    msg: err?.message ? err.message : ''
-                }))
-            })
+        if (note.trim() !== '') {
+            InsideAuthApi(authStore)
+                .editReviewApi(requestData)
+                .then((res) => {
+                    if (res.data) {
+                        setPopupData(res.data);
+                    }
+                    setAddNotes('');
+                })
+                .catch((err) => {
+                    dispatch(snackbarUpdate({
+                        type: 'error',
+                        msg: err?.message ? err.message : ''
+                    }))
+                })
+        }
     }
 
     const onClose = () => {
         setModalShow(false);
         setPopupData({});
-        setShowNotes(false);
     }
 
     const refreshFnc = () => {
@@ -217,7 +216,7 @@ const ProfileScreen = (props) => {
                 label={globalPost === 'booking' ? 'Book' : globalPost === 'review' ? 'Review' : ''}
                 onPress={() => { globalPost === 'booking' ? props.navigation.navigate(Routes.createBooking, { id: data.user }) : globalPost === 'review' ? props.navigation.navigate(Routes.createReview, { id: data.user }) : null }}
             /> : null}
-            {popupData._id && globalPost === 'booking' ? <Modal show={modalShow} onClose={onClose}>
+            {popupData._id && globalPost === 'booking' ? <Modal show={modalShow} notes={popupData?.notes} onEdit={() => onEdit(popupData._id, null, addNotes)} popupData={popupData} onClose={onClose} setAddNotes={setAddNotes} addNotes={addNotes} editable={detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString()}>
                 <CardWrapper>
                     <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(popupData.startDate) + ' (' + timeFormat(popupData.startDate) + ')' + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) + ' (' + timeFormat(popupData.endDate) + ')' : '')} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
@@ -263,23 +262,8 @@ const ProfileScreen = (props) => {
                         </React.Fragment> : null)}
                     </Menu>
                 </StyledPopupWrapper>
-                <StyledNotesView>
-                    <TouchableOpacity onPress={() => setShowNotes(!showNotes)}><StyledParagraph style={{ textAlign: 'center', color: colors.mainByColor }}>{showNotes ? "Hide" : "Show"} Notes</StyledParagraph></TouchableOpacity>
-                    {showNotes && popupData.notes?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
-                </StyledNotesView>
-                <StyledInputView>
-                    <View style={{ width: "85%" }}>
-                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                            borderBottomWidth: 0,
-                            backgroundColor: colors.mainColor,
-                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
-                    </View>
-                    {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onEdit(popupData._id, null, addNotes)}>
-                        <Ionicons name='send' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2 }} />
-                    </TouchableOpacity> : null}
-                </StyledInputView>
             </Modal> : null}
-            {popupData._id && globalPost === 'review' ? <Modal show={modalShow} onClose={onClose}>
+            {popupData._id && globalPost === 'review' ? <Modal show={modalShow} notes={popupData?.comment} onEdit={() => onReviewEdit(popupData._id, addNotes)} popupData={popupData} onClose={onClose} setAddNotes={setAddNotes} addNotes={addNotes} editable={detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString()}>
                 <CardWrapper>
                     <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.createdAt)} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
@@ -301,23 +285,6 @@ const ProfileScreen = (props) => {
                         <StyledParagraph>{popupData.status?.map((y, i) => y + (i !== popupData.status.length - 1 ? " -> " : ""))}</StyledParagraph>
                     </StyledStatus>
                 </StyledPopupWrapper>
-                <StyledNotesView>
-                    <TouchableOpacity onPress={() => setShowNotes(!showNotes)}>
-                        <StyledParagraph style={{ textAlign: 'center', color: colors.mainByColor }}>{showNotes ? "Hide" : "Show"} Notes</StyledParagraph>
-                    </TouchableOpacity>
-                    {showNotes && popupData.comment?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
-                </StyledNotesView>
-                <StyledInputView>
-                    <View style={{ width: "85%" }}>
-                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                            borderBottomWidth: 0,
-                            backgroundColor: colors.mainColor,
-                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.receiver_id?.toString())} placeholder='Please add a comment' />
-                    </View>
-                    {detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString() ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onReviewEdit(popupData._id, addNotes)}>
-                        <Ionicons name='send' size={spacing.width * 10} style={{ color: colors.mainByColor, marginLeft: spacing.width * 2 }} />
-                    </TouchableOpacity> : null}
-                </StyledInputView>
             </Modal> : null}
         </ShadowWrapperContainer>
     )

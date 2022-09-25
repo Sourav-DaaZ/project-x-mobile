@@ -31,7 +31,7 @@ export const LoginDescription = styled(Text)`
 
 export const SplashTitle = styled(Text)`
     font-size: ${(props) => props.theme.fonts.large}px;
-    font-weight: ${(props) => props.theme.borderRedius.boldText};
+    font-weight: ${(props) => props.theme.fontWeight.boldText};
     text-align: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}
 `;
@@ -55,7 +55,7 @@ export const UpdateButton = styled(Button)`
 
 export const CancelText = styled(Text)`
     font-size: ${(props) => props.theme.fonts.regular}px;
-    font-weight: ${(props) => props.theme.borderRedius.boldText};
+    font-weight: ${(props) => props.theme.fontWeight.boldText};
     text-align: center;
     color: ${(props) => props.theme.colors[props.theme.baseColor].mainColor};
 `;

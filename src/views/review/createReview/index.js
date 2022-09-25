@@ -114,7 +114,7 @@ const CreateReview = (props) => {
         sender_id: detailsStore.id,
         token: authStore.firebase_token,
         image: image,
-        ...rating > 0 && { rating: rating },
+        ...rating > 0 && props.route.params?.booking_id && { rating: rating },
         ...props.route.params?.booking_id && { booking_id: props.route.params.booking_id }
       }
       setLoader(true);
@@ -174,7 +174,7 @@ const CreateReview = (props) => {
         </StyledImageBackground>
       </TouchableOpacity>
       <StyledScrollView>
-        <RatingComponent rating={rating} setRating={setRating} style={{ marginTop: spacing.height * 5 }} />
+        {props.route.params?.booking_id ? <RatingComponent rating={rating} setRating={setRating} style={{ marginTop: spacing.height * 5 }} /> : null}
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input

@@ -8,9 +8,6 @@ import {
     StyledScrollView,
     StyledContainer,
     StyledViewButton,
-    StyledInputView,
-    StyledInput,
-    StyledNotesView,
     StyledStatus,
     StyledPopupWrapper,
     CardWrapper,
@@ -43,7 +40,6 @@ const MyBooking = (props) => {
     const [globalPost, setGlobalPost] = useState('booking');
     const [modalShow, setModalShow] = useState(true);
     const [addNotes, setAddNotes] = useState('');
-    const [showNotes, setShowNotes] = useState(false);
     const [showStatusMenu, setShowStatusMenu] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
 
@@ -72,7 +68,6 @@ const MyBooking = (props) => {
     const onClose = () => {
         setModalShow(false);
         setPopupData({});
-        setShowNotes(false);
     }
 
     return (
@@ -88,7 +83,7 @@ const MyBooking = (props) => {
                     <Booking {...props} userId={props.route.params?.id} bookingType={globalPost === 'past_booking'} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
                 </StyledContainer>
             </StyledScrollView>
-            {popupData._id ? <Modal show={modalShow} onClose={onClose}>
+            {popupData._id ? <Modal show={modalShow} notes={popupData?.notes} onEdit={() => onEdit(popupData._id, null, addNotes)} popupData={popupData} onClose={onClose} setAddNotes={setAddNotes} addNotes={addNotes} editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())}>
                 <CardWrapper>
                     <ListItem topStyle={{ maxWidth: '90%' }} description={dateFormat(popupData.startDate) + ' (' + timeFormat(popupData.startDate) + ')' + (popupData.endDate ? ' - ' + dateFormat(popupData.endDate) + ' (' + timeFormat(popupData.endDate) + ')' : '')} />
                     {detailsStore.id?.toString() === popupData.sender_id?.toString() ? <Menu
@@ -134,21 +129,6 @@ const MyBooking = (props) => {
                         </React.Fragment> : null)}
                     </Menu>
                 </StyledPopupWrapper>
-                <StyledNotesView>
-                    <TouchableOpacity onPress={() => setShowNotes(!showNotes)}><StyledParagraph style={{ textAlign: 'center', color: colors.mainByColor }}>{showNotes ? "Hide" : "Show"} Notes</StyledParagraph></TouchableOpacity>
-                    {showNotes && popupData.notes?.map((y, i) => <StyledParagraph key={i} map={i}>{detailsStore.id === y.user ? 'Me' : 'User'}: {y.msg}</StyledParagraph>)}
-                </StyledNotesView>
-                <StyledInputView>
-                    <View style={{ width: "85%" }}>
-                        <StyledInput onFocus={() => setAddNotes('')} onInputChange={(val) => setAddNotes(val)} value={addNotes} styleView={{
-                            borderBottomWidth: 0,
-                            backgroundColor: colors.mainColor,
-                        }} ele='input' editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())} placeholder='Please add a note' />
-                    </View>
-                    {(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString()) ? <TouchableOpacity style={{ width: '15%' }} onPress={() => onEdit(popupData._id, null, addNotes)}>
-                        <Ionicons name='send' size={spacing.width * 9} style={{ color: colors.mainByColor, marginLeft: spacing.width * 4 }} />
-                    </TouchableOpacity> : null}
-                </StyledInputView>
             </Modal> : null}
         </ShadowWrapperContainer>
     )

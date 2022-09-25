@@ -108,10 +108,10 @@ const EditReview = (props) => {
       }))
     } else {
       const requestData = {
-        id: props.route.params.data?._id,
+        id: props.route.params?.data?._id,
         description: data.controls.description.value,
         image: image,
-        ...rating > 0 && { rating: rating },
+        ...rating > 0 && props.route.params?.data?.booking_id && { rating: rating },
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -169,7 +169,7 @@ const EditReview = (props) => {
         </StyledImageBackground>
       </TouchableOpacity>
       <StyledScrollView>
-        <RatingComponent rating={rating} setRating={setRating} style={{ marginTop: spacing.height * 5 }} />
+        {props.route.params?.data?.booking_id ? <RatingComponent rating={rating} setRating={setRating} style={{ marginTop: spacing.height * 5 }} /> : null}
         <InputView>
           {formElementsArray?.map((x, index) => (
             x.id !== 'otp' && <Input
