@@ -71,6 +71,9 @@ const ApplicationChat = (props) => {
             }
             setPage(data.data?.lastPage ? data.data.lastPage : 0);
             setChats(data.data?.data ? data.data.data : []);
+            if (data.data && data.data.lastPage <= 0) {
+                setDataLoader(false);
+            }
             scrollViewRef.current.scrollToEnd({ animated: true })
         }));
         return () => { onLeave() }

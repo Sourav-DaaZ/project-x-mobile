@@ -7,6 +7,7 @@ import DashboardLayout from '../../../sharedComponents/layout/dashboardLayout';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer, WrapperContainer } from './style';
 import { ThemeContext } from 'styled-components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import InsideAuthApi from '../../../services/inSideAuth';
@@ -132,49 +133,49 @@ const Setting = (props) => {
           {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='application-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Applications</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myPost)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='post-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Posts</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myTag)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='tag-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>My Tags</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.updateDetails, { data: data })}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='account-details' size={spacing.width * 6} />
                 <StyledSemiTitle>Details Update</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myBooking)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='application-import' size={spacing.width * 6} />
                 <StyledSemiTitle>My Booking</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.myReview)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='rate-review' size={spacing.width * 6} />
                 <StyledSemiTitle>My Review</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity>
             {data.type === 'admin' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.adminCategoryList)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='application-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>Admin Category List</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity> : null}
             {data.type === 'admin' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.adminBannerList)}>
               <StyledLeftContainer>
-                <Ionicons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='settings-outline' size={spacing.width * 6} />
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='application-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>Admin Banner List</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity> : null}

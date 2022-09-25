@@ -11,7 +11,7 @@ import {
     StyledBannerWrapper,
     StyledScrollView,
     StyledChip,
-    StyledImage
+    StyledImage,
 } from './style';
 import OutsideAuthApi from '../../services/outSideAuth';
 import SingleCategory from '../category/categoryList/singleCat';
@@ -27,6 +27,7 @@ import logoImg from '../../assets/images/logo.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FAB } from 'react-native-paper';
 import InsideAuthApi from '../../services/inSideAuth';
+import Badge from '../../sharedComponents/badge';
 
 const Dashboard = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -151,7 +152,7 @@ const Dashboard = (props) => {
             >
                 <CustomHeader
                     left={<StyledImage style={{ marginLeft: spacing.width * 3 }} source={logoImg} />}
-                    right={authStore.access_token && authStore.access_token !== '' ? <Ionicons name="md-chatbubble-outline" color={colors.iconColor} size={spacing.width * 8} onPress={() => props.navigation.navigate(Routes.chatList)} /> : null}
+                    right={authStore.access_token && authStore.access_token !== '' ? <Badge show><Ionicons name="md-chatbubble-outline" color={colors.iconColor} size={spacing.width * 8} onPress={() => props.navigation.navigate(Routes.chatList)} /></Badge> : null}
                 />
                 <View style={{ marginTop: - spacing.height * 2 }}>
                     <BottomShadow small>
