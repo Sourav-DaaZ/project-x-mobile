@@ -32,7 +32,7 @@ const AddBooking = (props) => {
   const [open, setOpen] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
+  const [reportingDetails, setReportingDetails] = useState('');
   const [description, setDescription] = useState('');
 
   const createBookFnc = () => {
@@ -47,7 +47,7 @@ const AddBooking = (props) => {
         description: description,
         startDate: startDate,
         endDate: endDate,
-        reportTime: time
+        reportingDetails: reportingDetails
       }
       setLoader(true);
       InsideAuthApi(authStore)
@@ -112,18 +112,17 @@ const AddBooking = (props) => {
               />
             </TouchableOpacity>
           </StyledInlineInput>
-          <TouchableOpacity onPress={() => setOpen(3)}>
-            <Input
-              title={"Reporting Time"}
-              placeholder={'Enter Reporting Time'}
-              value={timeFormat(time)}
-              editable={false}
-              icons={[
-                <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-              ]}
-              ele={'input'}
-            />
-          </TouchableOpacity>
+          <Input
+            title={"Reporting Details"}
+            placeholder={'Enter Reporting Details'}
+            onInputChange={(val) => setReportingDetails(val)}
+            onSubmit={() => Keyboard.dismiss()}
+            value={reportingDetails}
+            icons={[
+              <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
+            ]}
+            ele={'input'}
+          />
         </InputView>
         <SubmitButton labelStyle={{ color: colors.backgroundColor }} mode='contained' loading={loader} onPress={!loader ? createBookFnc : null}>
           Create Booking
@@ -131,7 +130,7 @@ const AddBooking = (props) => {
       </StyledScrollView>
       <DatePicker
         modal
-        mode={open === 3 ? "time" : "datetime"}
+        mode={"datetime"}
         open={open > 0 && open < 4}
         date={new Date()}
         minimumDate={open === 1 ? new Date : open === 2 ? startDate : null}
@@ -141,8 +140,6 @@ const AddBooking = (props) => {
             setEndDate(date);
           } else if (open == 2) {
             setEndDate(date);
-          } else if (open == 3) {
-            setTime(date)
           }
           setOpen(0)
         }}

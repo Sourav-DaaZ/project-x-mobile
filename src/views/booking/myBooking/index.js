@@ -77,10 +77,11 @@ const MyBooking = (props) => {
                     {authStore.access_token && authStore.access_token !== '' ? <BottomShadow>
                         <StyledViewButton>
                             <Tabs select={globalPost === 'booking'} text='Booking' onPress={() => setGlobalPost('booking')} />
-                            <Tabs select={globalPost === 'past_booking'} text='Past Booking' onPress={() => setGlobalPost('past_booking')} />
+                            <Tabs select={globalPost === 'pending'} text='Pending' onPress={() => setGlobalPost('pending')} />
+                            <Tabs select={globalPost === 'past_booking'} text='Past' onPress={() => setGlobalPost('past_booking')} />
                         </StyledViewButton>
                     </BottomShadow> : null}
-                    <Booking {...props} userId={props.route.params?.id} bookingType={globalPost === 'past_booking'} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
+                    <Booking {...props} userId={props.route.params?.id} bookingType={globalPost} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
                 </StyledContainer>
             </StyledScrollView>
             {popupData._id ? <Modal show={modalShow} notes={popupData?.notes} onEdit={() => onEdit(popupData._id, null, addNotes)} popupData={popupData} onClose={onClose} setAddNotes={setAddNotes} addNotes={addNotes} editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())}>

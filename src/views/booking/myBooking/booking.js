@@ -31,15 +31,11 @@ const Booking = (props) => {
     const apiCall = (pageCount) => {
         let varParam = {
             myBooking: true,
+            ...props.bookingType === 'past_booking' && { past: true },
+            ...props.bookingType === 'pending' && { pandingBooking: true },
             page: pageCount
         }
-        if (props.bookingType) {
-            varParam = {
-                myBooking: true,
-                past: true,
-                page: pageCount
-            }
-        }
+
         InsideAuthApi(authStore)
             .bookingListApi(varParam)
             .then((res) => {
