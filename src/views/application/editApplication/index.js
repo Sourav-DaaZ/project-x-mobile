@@ -42,7 +42,7 @@ const EditApplication = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'description',
-          text: 'Description*',
+          text: 'Description',
           placeholder: 'Enter your description',
         },
         value: props.route.params.data.details ? props.route.params.data.details : '',
@@ -52,10 +52,7 @@ const EditApplication = (props) => {
         valid: props.route.params.data.details ? true : false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       },
       price: {
         elementType: 'input',
@@ -73,7 +70,7 @@ const EditApplication = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
+          <FontAwesome name="rupee" color="#05375a" size={spacing.width * 5} />,
         ],
       }
     },

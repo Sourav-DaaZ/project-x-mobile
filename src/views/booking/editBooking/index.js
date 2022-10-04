@@ -80,9 +80,7 @@ const EditBooking = (props) => {
             onInputChange={(val) => setDescription(val)}
             onSubmit={() => Keyboard.dismiss()}
             value={description}
-            icons={[
-              <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-            ]}
+            icons={[]}
             ele={'input'}
           />
           <StyledInlineInput>
@@ -93,7 +91,7 @@ const EditBooking = (props) => {
                 value={dateFormat(startDate)}
                 editable={false}
                 icons={[
-                  <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
+                  <FontAwesome name="calendar" color="#05375a" size={spacing.width * 5} />
                 ]}
                 ele={'input'}
               />
@@ -105,7 +103,7 @@ const EditBooking = (props) => {
                 value={dateFormat(endDate)}
                 editable={false}
                 icons={[
-                  <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
+                  <FontAwesome name="calendar" color="#05375a" size={spacing.width * 5} />
                 ]}
                 ele={'input'}
               />
@@ -118,9 +116,7 @@ const EditBooking = (props) => {
               value={reportingDetails}
               onInputChange={(val) => setReportingDetails(val)}
               onSubmit={() => Keyboard.dismiss()}
-              icons={[
-                <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-              ]}
+              icons={[]}
               ele={'input'}
             />
           </TouchableOpacity>

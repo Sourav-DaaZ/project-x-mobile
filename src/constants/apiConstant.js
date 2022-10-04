@@ -1,7 +1,7 @@
 export const API = {
   currentEnv: 'dev',
   baseUrls: {
-    dev: 'http://192.168.0.104:5000/api',
+    dev: 'http://192.168.0.103:5000/api',
     // dev: 'https://yarifi-backend.herokuapp.com/api',
     qa: '',
     uat: '',
@@ -30,11 +30,11 @@ export const API = {
     appConfig: '/app_config',
     myNotification: '/my_notification',
     getReviewForOther: '/get_review_for_other',
-    bookingListForAll: '/booking_list_for_all',
-    bookingListForAll: '/booking_list_for_all',
     refreshToken: '/refresh_token',
     getBanner: '/get_banner',
     firebaseToken: '/firebase_token',
+    findBookingById: '/find_booking_by_id',
+    findreviewById: '/find_review_by_id',
   },
   authUrls: {
     createCategory: '/create_category',
@@ -54,6 +54,7 @@ export const API = {
     getReview: '/get_review',
     createReview: '/create_review',
     updateLocation: '/update_location',
+    bookingListForAll: '/booking_list_for_all',
     addTag: '/add_tag',
     editTag: '/edit_tag',
     saveTag: '/save_tag',

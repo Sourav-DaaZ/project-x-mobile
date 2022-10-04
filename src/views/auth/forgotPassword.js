@@ -36,7 +36,7 @@ const ForgotPassword = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'userId',
-          text: 'User*',
+          text: 'User',
           placeholder: 'Enter your User ID / Email',
         },
         value: '',
@@ -55,7 +55,7 @@ const ForgotPassword = (props) => {
         elementType: 'password',
         elementConfig: {
           type: 'password',
-          text: 'New Password*',
+          text: 'New Password',
           placeholder: 'Enter your new password',
         },
         value: '',

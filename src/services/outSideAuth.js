@@ -159,14 +159,6 @@ const OutsideAuthApi = () => {
                 headers: { ...defaultHeaders }
             })
         },
-        bookingListForAllApi(param) {
-            let varData = apiEncryptionData(param, true)
-            return axiosObj({
-                url: API.noAuthUrls.bookingListForAll + varData,
-                method: 'GET',
-                headers: { ...defaultHeaders }
-            })
-        },
         getBannerApi(param) {
             let varData = apiEncryptionData(param, true)
             return axiosObj({
@@ -191,6 +183,22 @@ const OutsideAuthApi = () => {
                 method: 'POST',
                 headers: { ...defaultHeaders },
                 data: varData
+            })
+        },
+        findBookingById(data) {
+            const varData = apiEncryptionData(data, true);
+            return axiosObj({
+                url: API.noAuthUrls.findBookingById + varData,
+                method: 'GET',
+                headers: { ...defaultHeaders },
+            })
+        },
+        findreviewById(data) {
+            const varData = apiEncryptionData(data, true);
+            return axiosObj({
+                url: API.noAuthUrls.findreviewById + varData,
+                method: 'GET',
+                headers: { ...defaultHeaders },
             })
         }
     }

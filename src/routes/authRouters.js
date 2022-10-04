@@ -311,7 +311,7 @@ const AuthRouters = (props) => {
             />
           </BottomShadow>
         })} /> : null}
-      {props.islogin ? <Stack.Screen
+      <Stack.Screen
         name={Routes.createReview}
         component={CreateReview}
         options={({ navigation }) => ({
@@ -320,7 +320,7 @@ const AuthRouters = (props) => {
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
               logo={<StyledImage source={logoImg} />}
             />
-        })} /> : null}
+        })} />
       {props.islogin ? <Stack.Screen
         name={Routes.editReview}
         component={EditReview}

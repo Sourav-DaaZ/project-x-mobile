@@ -17,7 +17,7 @@ export const StyledInputElement = styled(TextInput)`
     flex: 1;
     margin-top: ${(props) => Platform.OS === 'ios' ? 0 : - (props.theme.spacing.height * 1.5)}px;
     font-size: ${(props) => props.theme.fonts.regular}px;
-    padding-left: ${(props) => props.theme.spacing.width * 2}px;
+    padding-left: ${(props) => props.icons && props.icons[0] ? props.theme.spacing.width * 2 : 0}px;
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
 `;
 
@@ -35,7 +35,7 @@ export const StyledError = styled(Text)`
 `;
 
 export const StyledPicker = styled(DropDownPicker)`
-    
+
 `;
 
 export const StyledSwitch = styled(Switch)`

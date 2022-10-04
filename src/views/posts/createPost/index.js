@@ -58,7 +58,7 @@ const CreatePost = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'title',
-          text: 'Title*',
+          text: 'Title',
           placeholder: 'Enter your title',
         },
         value: '',
@@ -74,7 +74,7 @@ const CreatePost = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'description',
-          text: 'Description*',
+          text: 'Description',
           placeholder: 'Enter your description',
         },
         value: '',
@@ -102,15 +102,13 @@ const CreatePost = (props) => {
         valid: true,
         errors: '',
         className: { width: '100%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-        ],
+        icons: [<FontAwesome name="rupee" color="#05375a" size={spacing.width * 5} />],
       },
       minAge: {
         elementType: 'input',
         elementConfig: {
           type: 'minAge',
-          text: 'Min Age*',
+          text: 'Min Age',
           placeholder: 'Enter Min Age',
         },
         value: '',
@@ -127,7 +125,7 @@ const CreatePost = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'maxAge',
-          text: 'Max Age*',
+          text: 'Max Age',
           placeholder: 'Enter Max Age',
         },
         value: '',

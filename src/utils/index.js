@@ -1,9 +1,11 @@
+import React from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert, Linking } from "react-native";
+import { Alert, Linking, View } from "react-native";
 import CryptoJS from "crypto-js";
 import defaultValue from '../constants/defaultValue'
 import { buildLink } from "../services/google/deepLinkingHandler";
 import Share from 'react-native-share';
+import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 
 export const updateObject = (oldObject, updatedProperties) => {
   return {
@@ -183,6 +185,21 @@ export const onShare = async (param, title, type, image) => {
     .catch((err) => {
       err && console.log(err);
     });
+}
+
+export const bannerAdd = (id) => {
+  return (
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <BannerAd
+        unitId={id}
+        size={BannerAdSize.BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+          keywords: ['finance', 'education'],
+        }}
+      />
+    </View>
+  );
 }
 
 export const truncate = (eString, elength) => {

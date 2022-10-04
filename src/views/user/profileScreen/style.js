@@ -2,9 +2,9 @@ import styled from 'styled-components/native';
 import { View, ScrollView } from 'react-native';
 import { Paragraph, Title, Text } from 'react-native-paper';
 import Button from '../../../sharedComponents/button';
-import Input from '../../../sharedComponents/input';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 export const StyledScrollView = styled(ScrollView)`
@@ -48,8 +48,6 @@ export const StyledReviewProfile = styled(View)`
 
 export const StyledTitle = styled(Title)`
     font-size: ${(props) => props.theme.fonts.large}px;
-    line-height: ${(props) => props.theme.fonts.large}px;
-    margin-bottom: ${(props) => props.theme.spacing.height}px;
     font-weight: ${(props) => props.theme.fontWeight.semiBold};
     color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep}; 
 `;
@@ -148,6 +146,12 @@ export const StyledRate = styled(View)`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-left: ${(props) => props.theme.spacing.width * 5}px;
     margin-top: 0px;
+    margin-bottom: ${(props) => props.theme.spacing.height}px;
+`;
+
+export const StyledMaterialIcons = styled(MaterialIcons)`
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
+    font-size: ${(props) => props.theme.fonts.large}px;
+    margin-horizontal: ${(props) => props.theme.spacing.width}px;
 `;

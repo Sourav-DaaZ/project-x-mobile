@@ -21,9 +21,9 @@ const Input = (props) => {
           <StyledTitle>{props.title}</StyledTitle>
           <StyledInputView
             style={props.styleView}>
-            {/* <FontAwesome name="user-o" color="#05375a" size={20} /> */}
             {props.icons ? props.icons[0] : null}
             <StyledInputElement
+              icons={props.icons}
               placeholder={props.placeholder}
               style={props.style}
               autoFocus={props.autoFocus}

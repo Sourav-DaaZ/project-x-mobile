@@ -20,7 +20,8 @@ import {
     StyledDotIcon,
     ImageWrapper,
     StyledFontAwesome,
-    StyledRate
+    StyledRate,
+    StyledMaterialIcons
 } from './style';
 import { ThemeContext } from 'styled-components';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -33,7 +34,6 @@ import Loader from '../../../sharedComponents/loader';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Booking from './booking';
 import Modal from '../../../sharedComponents/modal';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { RefreshControl, TouchableOpacity, View } from 'react-native';
@@ -53,7 +53,7 @@ const ProfileScreen = (props) => {
     const [data, setData] = useState([]);
     const [popupData, setPopupData] = useState({});
     const [showLoader, setShowLoader] = useState(false);
-    const [globalPost, setGlobalPost] = useState('booking');
+    const [globalPost, setGlobalPost] = useState('review');
     const [modalShow, setModalShow] = useState(true);
     const [addNotes, setAddNotes] = useState('');
     const [showStatusMenu, setShowStatusMenu] = useState(false);
@@ -162,6 +162,7 @@ const ProfileScreen = (props) => {
                     <StyledProfileView>
                         <StyledRate>
                             <StyledTitle>{data?.name}</StyledTitle>
+                            {data?.isVerified ? <StyledMaterialIcons name='verified' /> : null}
                             {data?.rating?.totalRating && data?.rating?.numberOfUser ? <StyledParagraph> {' ('}</StyledParagraph> : null}
                             {data?.rating?.totalRating && data?.rating?.numberOfUser ? <StyledFontAwesome name='star' /> : null}
                             {data?.rating?.totalRating && data?.rating?.numberOfUser ? <StyledParagraph>{(data.rating.totalRating / data.rating.numberOfUser).toString() + ')'}</StyledParagraph> : null}
@@ -198,12 +199,12 @@ const ProfileScreen = (props) => {
                 </React.Fragment>
                 <BottomShadow small>
                     <StyledViewButton>
-                        <Tabs select={globalPost === 'booking'} text='Booking' onPress={() => setGlobalPost('booking')} />
                         <Tabs select={globalPost === 'review'} text='Review' onPress={() => setGlobalPost('review')} />
+                        {authStore.access_token !== '' ? <Tabs select={globalPost === 'booking'} text='Booking' onPress={() => setGlobalPost('booking')} /> : null}
                     </StyledViewButton>
                 </BottomShadow>
-                {globalPost === 'booking' ? <Booking {...props} colors={colors} myUser={authStore.access_token !== '' && data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
                 {globalPost === 'review' ? <Review {...props} colors={colors} myUser={authStore.access_token !== '' && data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
+                {authStore.access_token !== '' && globalPost === 'booking' ? <Booking {...props} colors={colors} myUser={authStore.access_token !== '' && data.user === detailsStore.id} userId={props.route.params?.id} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} /> : null}
             </StyledScrollView>
             {props.route.params && props.route.params.id !== detailsStore.id ? <FAB
                 style={{
@@ -229,10 +230,10 @@ const ProfileScreen = (props) => {
                             onClose();
                         }} title="Edit Booking" />
                         <Divider />
-                        <Menu.Item onPress={() => {
+                        {popupData.status === defaultValue.bookingStatus[1] ? <Menu.Item onPress={() => {
                             props.navigation.navigate(Routes.createReview, { data: popupData, booking_id: popupData._id, id: popupData.sender_id });
                             onClose();
-                        }} title="Review" />
+                        }} title="Review" /> : null}
                     </Menu> : null}
                 </CardWrapper>
                 <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} title={popupData.description ? popupData.description : ''} />

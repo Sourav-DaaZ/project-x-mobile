@@ -81,9 +81,7 @@ const AddBooking = (props) => {
             onInputChange={(val) => setDescription(val)}
             onSubmit={() => Keyboard.dismiss()}
             value={description}
-            icons={[
-              <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-            ]}
+            icons={[]}
             ele={'input'}
           />
           <StyledInlineInput>
@@ -94,7 +92,7 @@ const AddBooking = (props) => {
                 value={dateFormat(startDate)}
                 editable={false}
                 icons={[
-                  <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
+                  <FontAwesome name="calendar" color="#05375a" size={spacing.width * 5} />
                 ]}
                 ele={'input'}
               />
@@ -106,7 +104,7 @@ const AddBooking = (props) => {
                 value={dateFormat(endDate)}
                 editable={false}
                 icons={[
-                  <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
+                  <FontAwesome name="calendar" color="#05375a" size={spacing.width * 5} />
                 ]}
                 ele={'input'}
               />
@@ -118,9 +116,7 @@ const AddBooking = (props) => {
             onInputChange={(val) => setReportingDetails(val)}
             onSubmit={() => Keyboard.dismiss()}
             value={reportingDetails}
-            icons={[
-              <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-            ]}
+            icons={[]}
             ele={'input'}
           />
         </InputView>

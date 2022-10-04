@@ -366,6 +366,19 @@ const InsideAuthApi = (authStore) => {
                 data: varData
             })
         },
+        async bookingListForAllApi(param) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            let varData = apiEncryptionData(param, true)
+            return axiosObj({
+                url: API.authUrls.bookingListForAll + varData,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
         async logout() {
             const token = await getAccessToken();
             const defaultHeaders = {

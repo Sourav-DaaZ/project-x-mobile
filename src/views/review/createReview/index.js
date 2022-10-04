@@ -41,7 +41,7 @@ const CreateReview = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'description',
-          text: 'Description*',
+          text: 'Description',
           placeholder: 'Enter your description',
         },
         value: '',
@@ -51,10 +51,7 @@ const CreateReview = (props) => {
         valid: false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       }
     },
   });

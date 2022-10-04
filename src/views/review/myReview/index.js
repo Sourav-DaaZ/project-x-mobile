@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Divider,
     Menu
@@ -29,6 +29,7 @@ import InsideAuthApi from '../../../services/inSideAuth';
 import { BottomShadow, ShadowWrapperContainer } from '../../../sharedComponents/bottomShadow';
 import Tabs from '../../../sharedComponents/tab';
 import { useIsFocused } from '@react-navigation/native';
+import OutsideAuthApi from '../../../services/outSideAuth';
 
 const MyReview = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -66,6 +67,29 @@ const MyReview = (props) => {
             })
     }
 
+    useEffect(() => {
+        const requestData = {
+            id: props.route.params?.id,
+        }
+        if (props.route.params?.id) {
+            OutsideAuthApi()
+                .findreviewById(requestData)
+                .then((res) => {
+                    if (res.data) {
+                        setPopupData(res.data);
+                        setModalShow(true);
+                    }
+                    setAddNotes('');
+                })
+                .catch((err) => {
+                    dispatch(snackbarUpdate({
+                        type: 'error',
+                        msg: err?.message ? err.message : ''
+                    }))
+                })
+        }
+    }, [])
+
     const onClose = () => {
         setModalShow(false);
         setPopupData({});
@@ -80,7 +104,7 @@ const MyReview = (props) => {
                     <Tabs select={globalPost === "myReview"} text='My Review' onPress={() => setGlobalPost('myReview')} />
                 </StyledViewButton>
             </BottomShadow>
-            <Review {...props} colors={colors} userId={props.route.params?.id} isFocused={isFocused} globalPost={globalPost} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
+            <Review {...props} colors={colors} isFocused={isFocused} globalPost={globalPost} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
             {popupData._id ? <Modal show={modalShow} notes={popupData?.comment} onEdit={() => onReviewEdit(popupData._id, addNotes)} popupData={popupData} onClose={onClose} setAddNotes={setAddNotes} addNotes={addNotes} editable={detailsStore.id?.toString() === popupData.sender_id?.toString() || detailsStore.id?.toString() === popupData.receiver_id?.toString()}>
                 <CardWrapper>
                     <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} description={dateFormat(popupData.createdAt)} />

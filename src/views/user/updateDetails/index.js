@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { snackbarUpdate } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { launchImageLibrary } from 'react-native-image-picker';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Routes from '../../../constants/routeConst';
 
@@ -55,7 +54,7 @@ const UpdateDetails = (props) => {
     elementType: 'input',
     elementConfig: {
       type: 'name',
-      text: 'Name*',
+      text: 'Name',
       placeholder: 'Enter your title',
     },
     value: props.route.params?.data?.userId ? props.route.params.data.userId : '',
@@ -65,10 +64,7 @@ const UpdateDetails = (props) => {
     valid: detailsStore.name !== '',
     errors: '',
     className: [],
-    icons: [
-      <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-      <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-    ],
+    icons: [],
   })
   const [data, setData] = useState({
     controls: {
@@ -76,7 +72,7 @@ const UpdateDetails = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'name',
-          text: 'Name*',
+          text: 'Name',
           placeholder: 'Enter your title',
         },
         value: props.route.params?.data?.name ? props.route.params.data.name : '',
@@ -86,10 +82,7 @@ const UpdateDetails = (props) => {
         valid: detailsStore.name !== '',
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       },
       contactNumber: {
         elementType: 'input',
@@ -107,8 +100,7 @@ const UpdateDetails = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
+          <Feather name="phone-call" color="#05375a" size={spacing.width * 5} />
         ],
       },
       contactAddress: {
@@ -462,7 +454,7 @@ const UpdateDetails = (props) => {
               <Input
                 ele='select'
                 open={openCategory}
-                title={'My Category*'}
+                title={'My Category'}
                 value={category}
                 items={categoryArr}
                 placeholder={'Select Category'}
@@ -510,7 +502,7 @@ const UpdateDetails = (props) => {
               <Input
                 ele='select'
                 open={openTergetCategory}
-                title={'Interested Category*'}
+                title={'Interested Category'}
                 value={tergetCategory}
                 items={categoryArr}
                 multiple={true}

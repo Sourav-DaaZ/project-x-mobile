@@ -36,7 +36,7 @@ const AdminUpdateCategory = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'category_name',
-          text: 'Category Name*',
+          text: 'Category Name',
           placeholder: 'Enter category name',
         },
         value: props.route.params?.data?.category_name ? props.route.params.data.category_name : '',
@@ -46,16 +46,13 @@ const AdminUpdateCategory = (props) => {
         valid: props.route.params?.data?.category_name ? true : false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       },
       description: {
         elementType: 'input',
         elementConfig: {
           type: 'description',
-          text: 'Description*',
+          text: 'Description',
           placeholder: 'Enter your description',
         },
         value: props.route.params?.data?.description ? props.route.params.data.description : '',
@@ -65,10 +62,7 @@ const AdminUpdateCategory = (props) => {
         valid: props.route.params?.data?.description ? true : false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       }
     },
   });

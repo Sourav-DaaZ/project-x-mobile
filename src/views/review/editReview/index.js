@@ -40,7 +40,7 @@ const EditReview = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'description',
-          text: 'Description*',
+          text: 'Description',
           placeholder: 'Enter your description',
         },
         value: props.route.params.data?.description ? props.route.params.data.description : '',
@@ -50,10 +50,7 @@ const EditReview = (props) => {
         valid: props.route.params.data?.description ? true : false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       }
     },
   });

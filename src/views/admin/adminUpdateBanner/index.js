@@ -48,7 +48,7 @@ const AdminUpdateBanner = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'link',
-          text: 'link*',
+          text: 'link',
           placeholder: 'Enter Link',
         },
         value: props.route.params?.data?.link ? props.route.params.data.link : '',
@@ -58,16 +58,13 @@ const AdminUpdateBanner = (props) => {
         valid: props.route.params?.data?.link ? true : false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       },
       lat: {
         elementType: 'input',
         elementConfig: {
           type: 'lat',
-          text: 'lat*',
+          text: 'lat',
           placeholder: 'Enter lat',
         },
         value: props.route.params?.data?.location?.coordinates ? props.route.params.data.location.coordinates[0].toString() : detailsStore.location.lat.toString(),
@@ -78,16 +75,13 @@ const AdminUpdateBanner = (props) => {
         valid: true,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       },
       long: {
         elementType: 'input',
         elementConfig: {
           type: 'long',
-          text: 'long*',
+          text: 'long',
           placeholder: 'Enter long',
         },
         value: props.route.params?.data?.location?.coordinates ? props.route.params.data.location.coordinates[1].toString() : detailsStore.location.long.toString(),
@@ -98,10 +92,7 @@ const AdminUpdateBanner = (props) => {
         valid: true,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={20} />,
-          <Feather name="check-circle" color="green" size={20} />,
-        ],
+        icons: [],
       },
     },
   });

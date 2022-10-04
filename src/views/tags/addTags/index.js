@@ -38,7 +38,7 @@ const AddTags = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'tagName',
-          text: 'Tag Name*',
+          text: 'Tag Name',
           placeholder: 'Enter Tag Name',
         },
         value: '',
@@ -48,9 +48,7 @@ const AddTags = (props) => {
         valid: false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-        ],
+        icons: [],
       },
       details: {
         elementType: 'input',
@@ -66,9 +64,7 @@ const AddTags = (props) => {
         valid: true,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-        ],
+        icons: [],
       }
     },
   });

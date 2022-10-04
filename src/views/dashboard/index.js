@@ -21,7 +21,7 @@ import Input from '../../sharedComponents/input';
 import Loader from '../../sharedComponents/loader';
 import { useSelector, shallowEqual } from 'react-redux';
 import Banner from '../../sharedComponents/banner';
-import { openUrl } from '../../utils';
+import { bannerAdd, openUrl } from '../../utils';
 import { CustomHeader } from '../../routes/custom';
 import logoImg from '../../assets/images/logo.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -199,6 +199,7 @@ const Dashboard = (props) => {
                         </StyledHorizontalScrollView>
                     </View>
                 </ShadowWrapperContainer>}
+                {bannerAdd('ca-app-pub-3940256099942544/6300978111')}
                 {tagLoader ? <Loader /> : saveTag.tags && saveTag.tags.length > 0 ? <ShadowWrapperContainer noSnack>
                     <DashboardHeader text='Save Tag' outerScrollViewScrollEnabled={outerScrollViewScrollEnabled} onPress={() => props.navigation.navigate(Routes.myTag)} goNext={<AntDesign name='rightcircle' size={spacing.width * 7} style={{ color: colors.mainByColor, marginBottom: -spacing.height }} />} />
                     <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginVertical: spacing.height * 2 }}>

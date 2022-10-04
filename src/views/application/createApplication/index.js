@@ -10,7 +10,6 @@ import { snackbarUpdate, loader } from '../../../store/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
 
 import {
   SubmitButton,
@@ -42,7 +41,7 @@ const CreateApplication = (props) => {
         elementType: 'input',
         elementConfig: {
           type: 'description',
-          text: 'Description*',
+          text: 'Description',
           placeholder: 'Enter your description',
         },
         value: '',
@@ -52,10 +51,7 @@ const CreateApplication = (props) => {
         valid: false,
         errors: '',
         className: [],
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       },
       price: {
         elementType: 'input',
@@ -73,7 +69,7 @@ const CreateApplication = (props) => {
         errors: '',
         className: [],
         icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
+          <FontAwesome name="rupee" color="#05375a" size={spacing.width * 5} />
         ],
       }
     },

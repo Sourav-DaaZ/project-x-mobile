@@ -61,7 +61,7 @@ const Booking = (props) => {
                 id: props.route.params?.id ? props.route.params.id : '',
                 page: pageCount
             }
-            OutsideAuthApi()
+            InsideAuthApi()
                 .bookingListForAllApi(varParam)
                 .then((res) => {
                     if (res.data && pageCount > 0) {

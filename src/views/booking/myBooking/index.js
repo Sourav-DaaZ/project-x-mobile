@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     Divider,
     Menu
@@ -28,6 +28,7 @@ import ListItem from '../../../sharedComponents/listItem';
 import { dateFormat, timeFormat } from '../../../utils';
 import InsideAuthApi from '../../../services/inSideAuth';
 import Tabs from '../../../sharedComponents/tab';
+import OutsideAuthApi from '../../../services/outSideAuth';
 
 const MyBooking = (props) => {
     const themeContext = useContext(ThemeContext);
@@ -54,6 +55,7 @@ const MyBooking = (props) => {
             .then((res) => {
                 if (res.data) {
                     setPopupData(res.data);
+                    setModalShow(true);
                 }
                 setAddNotes('');
             })
@@ -64,6 +66,28 @@ const MyBooking = (props) => {
                 }))
             })
     }
+
+    useEffect(() => {
+        const requestData = {
+            id: props.route.params?.id,
+        }
+        if (props.route.params?.id) {
+            OutsideAuthApi()
+                .findBookingById(requestData)
+                .then((res) => {
+                    if (res.data) {
+                        setPopupData(res.data);
+                    }
+                    setAddNotes('');
+                })
+                .catch((err) => {
+                    dispatch(snackbarUpdate({
+                        type: 'error',
+                        msg: err?.message ? err.message : ''
+                    }))
+                })
+        }
+    }, [])
 
     const onClose = () => {
         setModalShow(false);
@@ -81,7 +105,7 @@ const MyBooking = (props) => {
                             <Tabs select={globalPost === 'past_booking'} text='Past' onPress={() => setGlobalPost('past_booking')} />
                         </StyledViewButton>
                     </BottomShadow> : null}
-                    <Booking {...props} userId={props.route.params?.id} bookingType={globalPost} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
+                    <Booking {...props} bookingType={globalPost} setPopupData={setPopupData} setModalShow={setModalShow} modalShow={modalShow} />
                 </StyledContainer>
             </StyledScrollView>
             {popupData._id ? <Modal show={modalShow} notes={popupData?.notes} onEdit={() => onEdit(popupData._id, null, addNotes)} popupData={popupData} onClose={onClose} setAddNotes={setAddNotes} addNotes={addNotes} editable={(detailsStore.id?.toString() === popupData.sender_id?.toString()) || (detailsStore.id?.toString() === popupData.user_id?.toString())}>
@@ -97,10 +121,10 @@ const MyBooking = (props) => {
                             onClose();
                         }} title="Edit Booking" />
                         <Divider />
-                        <Menu.Item onPress={() => {
+                        {popupData.status === defaultValue.bookingStatus[1] ? <Menu.Item onPress={() => {
                             props.navigation.navigate(Routes.createReview, { data: popupData, booking_id: popupData._id, id: popupData.sender_id });
                             onClose();
-                        }} title="Review" />
+                        }} title="Review" /> : null}
                     </Menu> : null}
                 </CardWrapper>
                 <ListItem topStyle={{ marginBottom: 0, maxWidth: '90%' }} title={popupData.description ? popupData.description : ''} />

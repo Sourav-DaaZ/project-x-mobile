@@ -11,7 +11,6 @@ import { useSelector, shallowEqual } from 'react-redux';
 import OutsideAuthApi from '../../../services/outSideAuth';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
 
 import {
   SubmitButton,
@@ -67,10 +66,7 @@ const EditPost = (props) => {
         valid: props.route.params?.data?.title ? true : false,
         errors: '',
         className: { width: '100%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       },
       description: {
         elementType: 'input',
@@ -86,10 +82,7 @@ const EditPost = (props) => {
         valid: props.route.params?.data?.message ? true : false,
         errors: '',
         className: { width: '100%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       },
       price: {
         elementType: 'input',
@@ -106,9 +99,7 @@ const EditPost = (props) => {
         valid: true,
         errors: '',
         className: { width: '100%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />
-        ],
+        icons: [<FontAwesome name="rupee" color="#05375a" size={spacing.width * 5} />],
       },
       minAge: {
         elementType: 'input',
@@ -125,10 +116,7 @@ const EditPost = (props) => {
         valid: props.route.params?.data?.minAge !== undefined ? true : false,
         errors: '',
         className: { width: '48%', marginRight: '1%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       },
       maxAge: {
         elementType: 'input',
@@ -145,10 +133,7 @@ const EditPost = (props) => {
         valid: props.route.params?.data?.maxAge ? true : false,
         errors: '',
         className: { width: '48%', marginLeft: '1%' },
-        icons: [
-          <FontAwesome name="user-o" color="#05375a" size={spacing.width * 5} />,
-          <Feather name="check-circle" color="green" size={spacing.width * 5} />,
-        ],
+        icons: [],
       }
     },
   });
