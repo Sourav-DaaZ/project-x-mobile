@@ -64,6 +64,9 @@ export const API = {
     editBooking: '/edit_booking',
     editReview: '/edit_review',
     myChatList: '/my_chat_list',
-    changeUserid: 'change_userid'
+    changeUserid: 'change_userid',
+    verifyUserList: 'verify_user_list',
+    requestedForUserVerification: 'requested_for_user_verification',
+    actionUserVerification: 'action_user_verification',
   },
 };

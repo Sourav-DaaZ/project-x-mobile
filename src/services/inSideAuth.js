@@ -379,6 +379,47 @@ const InsideAuthApi = (authStore) => {
                 headers: { ...defaultHeaders }
             })
         },
+        async requestedForUserVerification(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            let varData = apiEncryptionData(data)
+            return axiosObj({
+                url: API.authUrls.requestedForUserVerification,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: varData
+            })
+        },
+        async verifyUserList(param) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            let varData = apiEncryptionData(param, true)
+            return axiosObj({
+                url: API.authUrls.verifyUserList + varData,
+                method: 'GET',
+                headers: { ...defaultHeaders }
+            })
+        },
+        async actionUserVerification(data) {
+            const token = await getAccessToken();
+            const defaultHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token?.access_token
+            };
+            let varData = apiEncryptionData(data)
+            return axiosObj({
+                url: API.authUrls.actionUserVerification,
+                method: 'POST',
+                headers: { ...defaultHeaders },
+                data: varData
+            })
+        },
         async logout() {
             const token = await getAccessToken();
             const defaultHeaders = {

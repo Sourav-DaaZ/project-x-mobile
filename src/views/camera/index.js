@@ -18,24 +18,8 @@ const CameraComponent = () => {
   };
 
   useEffect(() => {
-    
+
   }, []);
-
-  const slide = {
-    0: {
-      marginTop: -(width * .5 - 4),
-    },
-    0.5: {
-      marginTop: (width * .5 - 4),
-    },
-    1: {
-      marginTop: -(width * .5 - 4),
-    },
-  };
-
-  const barcodeRecognized = ({ barcodes }) => {
-    console.log(barcodes);
-  };
 
   return (
     <StyledPreview
@@ -53,16 +37,12 @@ const CameraComponent = () => {
       onGoogleVisionBarcodesDetected={barcodeRecognized}
     >
       <StyledQrBox>
-        <StyledHeadline
-          animation={slide}
-          iterationCount="infinite"
-        />
       </StyledQrBox>
-      {/* <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+      <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
         <StyledTouchableOpacity onPress={takePicture}>
-            <Text style={{ fontSize: 14 }}> snap </Text>
-          </StyledTouchableOpacity>
-      </View> */}
+          <Text style={{ fontSize: 14 }}> snap </Text>
+        </StyledTouchableOpacity>
+      </View>
     </StyledPreview>
   );
 }

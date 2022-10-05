@@ -10,6 +10,7 @@ const defaultValue = {
     apiEncryptionSecret: 'secret',
     channelID: 'secret123',
     bookingStatus: ["requested", "confirmed", "rejected", "cancelled"],
+    verifyUserOption: ["pending", 'rejected', 'accepted'],
     dev: {
         googleClientID: '1009154975780-lqus6fegc5ogv16ddrgk5fharjdkievn.apps.googleusercontent.com'
     },

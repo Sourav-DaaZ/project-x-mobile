@@ -29,7 +29,7 @@ const SnackBar = () => {
             theme={{ colors: { surface: colors.backgroundColor, onSurface: authStore.message?.type === 'error' ? colors.errorColor : colors.textDeep, accent: colors.backgroundColor } }}
             wrapperStyle={{
                 zIndex: 99999,
-                top: 0
+                top: 0,
             }}>
             {authStore.message?.msg ? authStore.message.msg : ''}
         </Snackbar>

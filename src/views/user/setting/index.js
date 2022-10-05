@@ -6,7 +6,6 @@ import {
 import DashboardLayout from '../../../sharedComponents/layout/dashboardLayout';
 import { StyledProfileView, StyledTitle, StyledParagraph, StyledCenter, StyledSemiTitle, StyledProfile, StyledLeftContainer, WrapperContainer } from './style';
 import { ThemeContext } from 'styled-components';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -131,6 +130,12 @@ const Setting = (props) => {
             </TouchableOpacity>
           </StyledProfileView> : null}
           {authStore.access_token && authStore.access_token !== '' ? <StyledProfile>
+            <TouchableOpacity onPress={() => props.navigation.navigate(Routes.userVerification)}>
+              <StyledLeftContainer>
+                <MaterialIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='verified-user' size={spacing.width * 6} />
+                <StyledSemiTitle>Verifiy User</StyledSemiTitle>
+              </StyledLeftContainer>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate(Routes.applicationList)}>
               <StyledLeftContainer>
                 <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='application-outline' size={spacing.width * 6} />
@@ -177,6 +182,12 @@ const Setting = (props) => {
               <StyledLeftContainer>
                 <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='application-outline' size={spacing.width * 6} />
                 <StyledSemiTitle>Admin Banner List</StyledSemiTitle>
+              </StyledLeftContainer>
+            </TouchableOpacity> : null}
+            {data.type === 'admin' ? <TouchableOpacity onPress={() => props.navigation.navigate(Routes.adminVerifyUser)}>
+              <StyledLeftContainer>
+                <MaterialCommunityIcons style={{ marginRight: spacing.width * 2, color: colors.textLight }} name='application-outline' size={spacing.width * 6} />
+                <StyledSemiTitle>Admin Verify User</StyledSemiTitle>
               </StyledLeftContainer>
             </TouchableOpacity> : null}
           </StyledProfile> : null}

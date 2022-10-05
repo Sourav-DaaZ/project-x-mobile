@@ -1,8 +1,5 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import {
-  Image
-} from 'react-native';
 import logoImg from '../assets/images/logo.png';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -33,6 +30,7 @@ const CreateReview = React.lazy(() => import('../views/review/createReview'));
 const EditReview = React.lazy(() => import('../views/review/editReview'));
 const ApplicationList = React.lazy(() => import('../views/application/applicationList'));
 const Setting = React.lazy(() => import('../views/user/setting'));
+const Verification = React.lazy(() => import('../views/user/verification'));
 const MyBooking = React.lazy(() => import('../views/booking/myBooking'));
 const MyReview = React.lazy(() => import('../views/review/myReview'));
 const ChatScreen = React.lazy(() => import('../views/chats/chatScreen'));
@@ -55,6 +53,8 @@ const AdminBannerList = React.lazy(() => import('../views/admin/adminBannerList'
 const AdminUpdateBanner = React.lazy(() => import('../views/admin/adminUpdateBanner'));
 const AdminCategoryList = React.lazy(() => import('../views/admin/adminCategoryList'));
 const AdminUpdateCategory = React.lazy(() => import('../views/admin/adminUpdateCategory'));
+const AdminVerifyUser = React.lazy(() => import('../views/admin/adminVerifyUser'));
+const AdminUserVerifyAction = React.lazy(() => import('../views/admin/adminUserVerifyAction'));
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -224,6 +224,30 @@ const AuthRouters = (props) => {
           />
         })} /> : null}
       {props.islogin ? <Stack.Screen
+        name={Routes.adminVerifyUser}
+        component={AdminVerifyUser}
+        options={({ navigation }) => ({
+          header: () =>
+            <BottomShadow>
+              <CustomHeader
+                left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
+                logo={<StyledImage source={logoImg} />}
+              />
+            </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.adminUserVerifyAction}
+        component={AdminUserVerifyAction}
+        options={({ navigation }) => ({
+          header: () =>
+            <BottomShadow>
+              <CustomHeader
+                left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
+                logo={<StyledImage source={logoImg} />}
+              />
+            </BottomShadow>
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
         name={Routes.updateDetails}
         component={UpdateDetails}
         options={({ navigation }) => ({
@@ -232,6 +256,18 @@ const AuthRouters = (props) => {
               left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
               logo={<StyledImage source={logoImg} />}
             />
+        })} /> : null}
+      {props.islogin ? <Stack.Screen
+        name={Routes.userVerification}
+        component={Verification}
+        options={({ navigation }) => ({
+          header: () =>
+            <BottomShadow>
+              <CustomHeader
+                left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
+                logo={<StyledImage source={logoImg} />}
+              />
+            </BottomShadow>
         })} /> : null}
       {props.islogin ? <Stack.Screen
         name={Routes.createPost}
@@ -453,6 +489,16 @@ const AuthRouters = (props) => {
       <Stack.Screen
         name={Routes.postDetails}
         component={PostDetails}
+        options={({ navigation }) => ({
+          header: () =>
+            <CustomHeader
+              left={<Ionicons name="chevron-back" color={colors.iconColor} size={spacing.width * 8} onPress={() => navigation.goBack()} />}
+              logo={<StyledImage source={logoImg} />}
+            />
+        })} />
+      <Stack.Screen
+        name={Routes.camera}
+        component={Camera}
         options={({ navigation }) => ({
           header: () =>
             <CustomHeader
