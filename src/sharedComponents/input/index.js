@@ -53,6 +53,7 @@ const Input = (props) => {
             style={props.styleView}>
             {props.icons ? props.icons[0] : null}
             <StyledInputElement
+              icons={props.icons}
               placeholder={props.placeholder}
               style={props.inputStyle}
               placeholderTextColor={colors.textLight}
@@ -79,7 +80,6 @@ const Input = (props) => {
         <View style={props.styleContainer}>
           <StyledTitle>{props.title}</StyledTitle>
           <StyledPicker
-            key={props.placeholder}
             value={props.value}
             open={props.open}
             items={props.items}

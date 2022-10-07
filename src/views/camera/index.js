@@ -1,51 +1,60 @@
-'use strict';
-import React, { useRef, useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
-import { RNCamera } from 'react-native-camera';
-
-const { width, height } = Dimensions.get('screen');
-
-import { StyledPreview, StyledTouchableOpacity, StyledHeadline, StyledQrBox } from './style'
+import React, { useCallback, useMemo, useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import { Camera, useCameraDevices, sortFormats } from 'react-native-vision-camera';
+import { StyledContainer, StyledButton, StyledReverse } from './style';
+var RNFS = require('react-native-fs')
 
 const CameraComponent = () => {
-  let cameraRef = useRef(null);
+  const [hasPermission, setHasPermission] = React.useState(false);
+  const [isBack, setIsBack] = React.useState(false);
+  const camera = useRef(null)
+  const devices = useCameraDevices();
+  const device = isBack ? devices.back : devices.front;
+  const takePhotoOptions = {
+    qualityPrioritization: 'balanced',
+    flash: 'off',
+    quality: 25
+  };
 
-  const takePicture = async function () {
-    if (cameraRef) {
-      const options = { quality: 0.5, base64: true };
-      const data = await cameraRef.current.takePictureAsync(options);
+
+  React.useEffect(() => {
+    (async () => {
+      const status = await Camera.requestCameraPermission();
+      setHasPermission(status === 'authorized');
+    })();
+  }, []);
+
+  const takePhoto = async () => {
+    try {
+      //Error Handle better
+      if (camera.current == null) throw new Error('Camera Ref is Null');
+      console.log('Photo taking ....');
+      const photo = await camera.current.takeSnapshot(takePhotoOptions);
+      console.log(photo);
+      const base64image = await RNFS.readFile(photo.path, 'base64');
+      console.log(base64image);
+
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  useEffect(() => {
-
-  }, []);
-
   return (
-    <StyledPreview
-      ref={cameraRef}
-      type={RNCamera.Constants.Type.back}
-      flashMode={RNCamera.Constants.FlashMode.off}
-      captureAudio={false}
-      autoFocus={true}
-      androidCameraPermissionOptions={{
-        title: 'Permission to use camera',
-        message: 'We need your permission to use your camera',
-        buttonPositive: 'Ok',
-        buttonNegative: 'Cancel',
-      }}
-      onGoogleVisionBarcodesDetected={barcodeRecognized}
-    >
-      <StyledQrBox>
-      </StyledQrBox>
-      <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-        <StyledTouchableOpacity onPress={takePicture}>
-          <Text style={{ fontSize: 14 }}> snap </Text>
-        </StyledTouchableOpacity>
-      </View>
-    </StyledPreview>
+    device != null &&
+    hasPermission && (
+      <StyledContainer>
+        <Camera
+          ref={camera}
+          style={StyleSheet.absoluteFill}
+          device={device}
+          isActive={true}
+          photo={true}
+        />
+        <StyledButton onPress={takePhoto}></StyledButton>
+        <StyledReverse onPress={() => setIsBack(!isBack)} name='camera-reverse' />
+      </StyledContainer>
+    )
   );
 }
-
 
 export default CameraComponent;

@@ -1,43 +1,29 @@
 import styled from 'styled-components/native';
 import { Dimensions, View, TouchableOpacity } from 'react-native';
-import { RNCamera } from 'react-native-camera';
-
-import * as Animatable from "react-native-animatable";
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const { width, height } = Dimensions.get('screen');
 
 
-export const StyledPreview = styled(RNCamera)`
+export const StyledContainer = styled(View)`
     flex: 1;
+    display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: black
 `;
 
-export const StyledTouchableOpacity = styled(TouchableOpacity)`
-    background-color: #fff;
-    border-Radius: 5px;
-    padding: 15px;
-    margin: 20px;
-`;
-
-export const StyledHeadline = styled(Animatable.View)`
-    border-bottom-color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
-    border-bottom-width: 2px;
-    width: ${(width * .5) - 2}px;
-    margin-top: ${width * .5}px
-`;
-
-export const StyledQrBox = styled(View)`
-    border-width: 1.5px;
-    border-radius: 5px;
+export const StyledButton = styled(TouchableOpacity)`
+    height: ${(props) => props.theme.spacing.width * 20}px;
+    width: ${(props) => props.theme.spacing.width * 20}px;
+    backgroundColor: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
     position: absolute;
-    background-color: transparent;
-    border-color: ${(props) => props.theme.colors[props.theme.baseColor].textDeep};
-    justify-content: center;
-    height: ${width * .5}px;
-    width: ${width * .5}px;
-    padding: 0px;
-    left: ${width * .25}px;
-    top: ${height * .25}px
+    bottom: ${(props) => props.theme.spacing.height * 4}px;
+    border-radius: 40px;
+`;
+export const StyledReverse = styled(Ionicons)`
+    color: ${(props) => props.theme.colors[props.theme.baseColor].mainByColor};
+    font-size: ${(props) => props.theme.spacing.width * 12}px;
+    margin-right: 2%;
+    position: absolute;
+    bottom: ${(props) => props.theme.spacing.height * 4 + props.theme.spacing.width * 4}px;
+    left: ${(props) => props.theme.spacing.width * 10}px
 `;
